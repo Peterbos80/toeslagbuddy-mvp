@@ -166,3 +166,46 @@ footer.site li { margin: 4px 0; }
 footer.site a { color: var(--zacht); }
 .disclaimer { margin-top: 24px; border-top: 1px solid var(--lijn); padding-top: 16px; }
 [hidden] { display: none !important; }
+
+/* ── Pro en zzp ── */
+.tegels { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 8px 0 16px; }
+.tegel { background: var(--vlak); border: 1px solid var(--lijn); border-radius: var(--radius); padding: 14px 16px; }
+.tegel span { display: block; font-size: 0.85rem; color: var(--zacht); }
+.tegel strong { font-size: 1.6rem; line-height: 1.2; }
+.tegel.groen strong { color: var(--merk-donker); }
+.tegel.rood strong { color: var(--rood); }
+.pro-knoppen { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+.vinkje-inline { display: inline-flex; gap: 8px; align-items: center; font-size: 0.95rem; }
+.vinkje-inline input { width: 20px; height: 20px; min-height: 0; accent-color: var(--merk); }
+.client { background: var(--vlak); border: 1px solid var(--lijn); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px; break-inside: avoid; }
+.client header { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.client h3 { margin: 0 8px 0 0; }
+.rechten { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin: 12px 0; }
+.rechten dt { font-size: 0.8rem; color: var(--zacht); }
+.rechten dd { margin: 0; font-weight: 650; }
+.signalen { list-style: none; padding: 0; margin: 0; font-size: 0.93rem; }
+.signalen li { padding: 6px 0; border-top: 1px solid var(--lijn); }
+.badge { display: inline-block; font-size: 0.75rem; font-weight: 700; border-radius: 99px; padding: 2px 9px; margin-right: 4px; white-space: nowrap; }
+.badge-groen { background: #dcf3ea; color: #075641; }
+.badge-rood { background: #fbe1df; color: #8c1d18; }
+.badge-geel { background: #fff1cc; color: #5c4300; }
+.badge-blauw { background: #e0ecfb; color: #183f73; }
+.badge-grijs { background: #eceeec; color: #3d4540; }
+textarea { font: 0.85rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; width: 100%; min-height: 150px; border: 1.5px solid var(--lijn); border-radius: 10px; padding: 10px; background: var(--vlak); color: var(--tekst); }
+.print-kop { display: none; }
+.prijzen { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 16px 0; }
+.prijs { background: var(--vlak); border: 1px solid var(--lijn); border-radius: var(--radius); padding: 18px; }
+.prijs.uitgelicht { border: 2px solid var(--merk); }
+.prijs h3 { margin: 0 0 4px; }
+.prijs .bedrag { font-size: 1.8rem; font-weight: 800; margin: 4px 0; }
+.prijs ul { padding-left: 18px; font-size: 0.93rem; }
+.aanvraag { background: var(--vlak); border: 1px solid var(--lijn); border-radius: var(--radius); padding: 20px; }
+.aanvraag .veld { margin-bottom: 14px; }
+.aanvraag label { font-weight: 650; display: block; margin-bottom: 4px; }
+@media print {
+  header.site, footer.site, .kruimel, .zij, .rekenkaart, .geen-print, .hero, .faq, .advertentie, .nieuwsbrief { display: none !important; }
+  body { background: #fff; color: #000; font-size: 12px; }
+  .print-kop { display: block; font-weight: 700; }
+  .raster { display: block; }
+  .client, .tegel { border-color: #999; }
+}

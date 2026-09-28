@@ -9,7 +9,8 @@ const NAV = [
   ['/huurtoeslag-berekenen/', 'Huurtoeslag'],
   ['/kindgebonden-budget-berekenen/', 'Kindgebonden budget'],
   ['/kinderopvangtoeslag-berekenen/', 'Kinderopvang'],
-  ['/toeslagen-2027/', '2027'],
+  ['/zzp-toeslagen/', 'Zzp'],
+  ['/pro/', 'Voor professionals'],
 ];
 
 const FOOTER = [
@@ -26,7 +27,9 @@ const FOOTER = [
     ['/toeslagen-student/', 'Studenten'],
     ['/toeslagen-alleenstaande-ouder/', 'Alleenstaande ouders'],
     ['/toeslagen-aow/', 'AOW’ers en gepensioneerden'],
+    ['/zzp-toeslagen/', 'Zzp’ers: toeslagbewaker'],
     ['/regelingen-laag-inkomen/', 'Regelingen bij een laag inkomen'],
+    ['/pro/', 'Bewindvoerders en budgetcoaches'],
   ]],
   ['Uitleg', [
     ['/inkomensgrenzen-toeslagen/', `Inkomensgrenzen ${JAAR}`],
@@ -167,7 +170,7 @@ ${body}
 ${config.instagram.account ? `<p>Volg ons op <a href="https://www.instagram.com/${esc(config.instagram.account)}/" rel="noopener">Instagram @${esc(config.instagram.account)}</a> voor toeslag-tips.</p>` : ''}
 <p class="disclaimer">${config.naam} is een onafhankelijke rekenhulp en hoort <strong>niet</strong> bij de Belastingdienst, Dienst Toeslagen of de SVB. De uitkomsten zijn een indicatie op basis van de officiële rekenregels voor ${JAAR}. Aan de berekening kun je geen rechten ontlenen. Vraag toeslagen altijd aan via <a href="https://www.toeslagen.nl" rel="noopener">toeslagen.nl</a>. Bedragen gecontroleerd op ${new Date(GECONTROLEERD_OP).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })}.</p>
 </div></footer>
-${page.calc ? `<script>window.TB_PARTNERS=${partnersJson()}</script>\n<script type="module" src="/js/app.js?v=${page.versie}"></script>` : ''}
+${page.calc ? `<script>window.TB_PARTNERS=${partnersJson()}</script>\n<script type="module" src="/js/app.js?v=${page.versie}"></script>` : ''}${page.script ? `\n<script type="module" src="/js/${page.script}?v=${page.versie}"></script>` : ''}
 </body>
 </html>
 `;

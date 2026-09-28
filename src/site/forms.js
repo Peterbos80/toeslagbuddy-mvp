@@ -34,10 +34,10 @@ function getal(name, label, { hint = '', min = 0, max = 99, waarde = '' } = {}) 
 </div>`;
 }
 
-function vinkje(name, label, hint = '') {
+function vinkje(name, label, hint = '', aan = false) {
   const i = id(name);
   return `<div class="veld vinkje">
-  <input type="checkbox" id="${i}" name="${name}" value="ja"><label for="${i}">${label}</label>${hint ? `\n  <p class="hint">${hint}</p>` : ''}
+  <input type="checkbox" id="${i}" name="${name}" value="ja"${aan ? ' checked' : ''}><label for="${i}">${label}</label>${hint ? `\n  <p class="hint">${hint}</p>` : ''}
 </div>`;
 }
 
@@ -153,6 +153,36 @@ ${janee('gebruiktOpvang', 'Gebruik je betaalde kinderopvang?', 'nee')}
 </div>`,
       'Bereken al mijn toeslagen',
     ),
+
+  zzp: () => {
+    const m = id('maand');
+    const huidig = new Date().getMonth(); // maanden die helemaal voorbij zijn
+    const opties = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december']
+      .map((n, k) => `<option value="${k + 1}"${k + 1 === Math.max(1, huidig) ? ' selected' : ''}>t/m ${n}</option>`)
+      .join('');
+    return formulier(
+      'zzp',
+      `<div class="stap"><h3><span>1</span> Je winst tot nu toe</h3>
+${bedrag('winstTotNu', 'Winst dit jaar tot nu toe', { hint: 'Omzet min kosten, zoals in je boekhouding (Moneybird, e-Boekhouden, Jortt…).', placeholder: '18.000', required: true })}
+<div class="veld"><label for="${m}">Over welke periode?</label><select id="${m}" name="maand" class="kort" style="max-width:220px">${opties}</select></div>
+${bedrag('verwachteJaarwinst', 'Of: verwachte winst over het hele jaar (optioneel)', { hint: 'Weet je dat je nog grote opdrachten krijgt of juist een rustige periode hebt? Vul dan je eigen schatting in.', placeholder: '' })}
+${vinkje('urencriterium', 'Ik werk minimaal 1.225 uur per jaar aan mijn bedrijf (urencriterium)', '', true)}
+${bedrag('ander', 'Ander inkomen dit jaar (optioneel)', { hint: 'Bijvoorbeeld loon uit een baan naast je bedrijf.', placeholder: '0' })}
+</div>
+<div class="stap"><h3><span>2</span> Wat heb je opgegeven bij Toeslagen?</h3>
+${bedrag('opgegevenInkomen', 'Inkomen dat nu in Mijn toeslagen staat', { hint: 'Staat in Mijn toeslagen of op je laatste beschikking. Met partner: jullie samen.', placeholder: '25.000', required: true })}
+</div>
+<div class="stap"><h3><span>3</span> Je situatie</h3>
+${janee('partner', 'Heb je een toeslagpartner?', 'nee')}
+<div data-toon-bij="partner">${bedrag('partnerInkomen', 'Verwacht inkomen partner dit jaar', { placeholder: '0' })}</div>
+${janee('huurt', 'Huur je een zelfstandige woning?', 'ja')}
+<div data-toon-bij="huurt">${bedrag('kaleHuur', 'Kale huur per maand', { placeholder: '750' })}</div>
+${kinderen()}
+${bedrag('vermogen', 'Vermogen (optioneel)', { hint: vermogenHint, placeholder: '0' })}
+</div>`,
+      'Check mijn toeslagen',
+    );
+  },
 
   toetsingsinkomen: () =>
     formulier(

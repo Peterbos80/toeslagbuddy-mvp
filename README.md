@@ -1,5 +1,11 @@
 # ToeslagBuddy
 
+Drie producten op één rekenmotor (zie [docs/verdienplan.md](docs/verdienplan.md)):
+
+- **Consumentensite:** alle toeslagen berekenen (`/`)
+- **ToeslagBuddy Pro:** cliëntenlijst controleren voor bewindvoerders en budgetcoaches (`/pro/`, `/pro/check/`), met [validatiedraaiboek](docs/validatie-bewindvoerders.md)
+- **Toeslagbewaker zzp:** voorkomt terugbetalen bij schommelende winst (`/zzp-toeslagen/`)
+
 Bereken in één check alle Nederlandse toeslagen: zorgtoeslag, huurtoeslag, kindgebonden budget, kinderopvangtoeslag en kinderbijslag. Daarnaast verwijst de check naar regelingen van de gemeente, het UWV en de SVB.
 
 - **Snel en goedkoop te hosten.** Het is een statische site: gewone HTML-, CSS- en JavaScript-bestanden, zonder database en zonder frameworks. Het draait daarom op elk TransIP-webhostingpakket.
@@ -10,7 +16,7 @@ Bereken in één check alle Nederlandse toeslagen: zorgtoeslag, huurtoeslag, kin
 ## Snel starten
 
 ```bash
-npm test          # rekenregels controleren (13 tests)
+npm test          # rekenregels controleren (21 tests)
 npm run dev       # bouwen en bekijken op http://localhost:8080
 ```
 
@@ -22,6 +28,9 @@ Je hebt alleen Node.js 20 of nieuwer nodig. Er zijn geen npm-pakketten nodig.
 |---|---|
 | `src/calc/params.js` | **Alle bedragen en percentages** met bronnen. Dit pas je elk jaar aan. |
 | `src/calc/toeslagen.js` | Rekenmotor (pure functies) |
+| `src/calc/pro.js` | Cliëntenlijst-check (CSV inlezen, signalen, actielijst) |
+| `src/calc/zzp.js` | Winstprognose, vergelijking met opgegeven inkomen, herinnering in je agenda |
+| `public/js/pro-app.js` | Scherm van ToeslagBuddy Pro |
 | `src/site/pages.js` | Teksten, FAQ en SEO-titels van alle pagina's |
 | `src/site/forms.js` | Formulieren van de rekenhulpen |
 | `public/js/app.js` | Code in de browser (formulier → berekening → resultaat) |

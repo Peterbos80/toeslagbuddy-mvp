@@ -18,6 +18,8 @@ import {
   maxInkomen,
 } from './tabellen.js';
 import { zorgtoeslag, huurtoeslag, kindgebondenBudget, kotPercentage } from '../calc/toeslagen.js';
+import { KOLOMMEN } from '../calc/pro.js';
+import { ZZP } from '../calc/params.js';
 
 const e2 = (n) => euro(n, 2);
 const pct = (n) => `${(n * 100).toLocaleString('nl-NL', { maximumFractionDigits: 3 })}%`;
@@ -620,6 +622,132 @@ ${alleCheckLink}`,
     faq: [
       [`Hoeveel zorgtoeslag krijg ik in ${VOLGEND}?`, `Volgens de ramingen van Prinsjesdag ongeveer € 140 per maand voor alleenstaanden en € 268 met toeslagpartner. De definitieve bedragen volgen in november.`],
       [`Wanneer zijn de toeslagbedragen voor ${VOLGEND} bekend?`, 'De definitieve bedragen worden meestal eind november of begin december gepubliceerd. Rond die tijd krijg je ook een brief met je nieuwe voorschot.'],
+    ],
+  },
+
+  // ───────────────────────────── PRO (B2B) ─────────────────────────────
+  {
+    slug: '/pro/',
+    kort: 'Voor bewindvoerders',
+    title: 'ToeslagBuddy Pro – toeslagencheck voor bewindvoerders en budgetcoaches',
+    description: 'Controleer in één keer voor al je cliënten of ze alle toeslagen en regelingen krijgen, en waar een terugvordering dreigt. Cliëntgegevens blijven op je eigen computer.',
+    h1: 'Alle cliënten in één keer gecontroleerd op toeslagen',
+    intro: 'Voor bewindvoerders, budgetcoaches en schuldhulpverleners. Zet je cliëntenlijst erin en zie binnen een minuut wie geld misloopt, wie een te hoog voorschot heeft en welke regeling van de gemeente nog kan worden aangevraagd.',
+    body: ({ config }) => `
+<p><a class="knop" href="/pro/check/">Probeer het direct met voorbeeldcliënten →</a></p>
+
+<h2>Het probleem</h2>
+<ul>
+<li>Je bent verplicht om ervoor te zorgen dat cliënten alle toeslagen en regelingen krijgen waar ze recht op hebben.</li>
+<li>Inkomens, huren, kinderen en vermogen veranderen, maar voorschotten lopen door. Een terugvordering komt pas een jaar later, en raakt juist deze cliënten hard.</li>
+<li>Per cliënt alles handmatig narekenen kost tijd die je niet hebt.</li>
+</ul>
+
+<h2>Zo werkt ToeslagBuddy Pro</h2>
+<ol>
+<li><strong>Exporteer je cliëntenlijst</strong> uit je administratie naar Excel of CSV, of gebruik ons sjabloon.</li>
+<li><strong>Zet de lijst in ToeslagBuddy Pro.</strong> De controle draait in je eigen browser.</li>
+<li><strong>Werk de actielijst af</strong> of download die als Excel-bestand. Print het rapport als onderbouwing voor je dossier.</li>
+</ol>
+
+<h2>Wat wordt er gecontroleerd?</h2>
+<ul>
+<li><strong>Niet aangevraagd:</strong> zorgtoeslag, huurtoeslag en kindgebonden budget waar waarschijnlijk recht op is.</li>
+<li><strong>Terugbetalingsrisico:</strong> voorschotten die hoger zijn dan het berekende recht, of waar door vermogen geen recht meer is.</li>
+<li><strong>Voorschot te laag:</strong> cliënten die maandelijks te weinig ontvangen.</li>
+<li><strong>Vermogen dicht bij de grens</strong> (peildatum 1 januari).</li>
+<li><strong>Veranderingen volgend jaar:</strong> kind wordt 12, 16 of 18; cliënt wordt 18 of 21.</li>
+<li><strong>Gemeentelijke regelingen:</strong> kwijtschelding, bijzondere bijstand, individuele inkomenstoeslag en kindregelingen.</li>
+</ul>
+
+<h2>Privacy: cliëntgegevens blijven bij jou</h2>
+<p>De berekening draait volledig in je browser. Wij ontvangen, zien en bewaren <strong>geen</strong> cliëntgegevens. Er gaat niets over het internet. Gebruik cliëntnummers in plaats van namen of BSN; meer is niet nodig.</p>
+
+<h2>Prijzen</h2>
+<div class="prijzen">
+<div class="prijs uitgelicht"><h3>Pilot</h3><p class="bedrag">€ 0</p><p>30 dagen, daarna € 99 per maand</p><ul><li>Tot 100 cliënten</li><li>Onbeperkt controleren</li><li>Actielijst en rapport</li><li>Persoonlijke onboarding</li></ul></div>
+<div class="prijs"><h3>Kantoor</h3><p class="bedrag">€ 1</p><p>per cliënt per maand (minimaal € 99)</p><ul><li>Onbeperkt cliënten</li><li>Jaarlijkse update rekenregels</li><li>Rapport voor je dossier en de jaarlijkse controle</li><li>Support per mail en telefoon</li></ul></div>
+<div class="prijs"><h3>Organisatie</h3><p class="bedrag">Op maat</p><p>Schuldhulpverlening, gemeenten, woningcorporaties</p><ul><li>Meerdere teams</li><li>Eigen huisstijl</li><li>Koppeling met je eigen software</li></ul></div>
+</div>
+<p class="hint">Introductieprijzen voor de eerste 10 kantoren. Alle prijzen exclusief btw.</p>
+
+<h2 id="pilot">Pilot aanvragen</h2>
+${config.pro.formAction
+  ? `<form class="aanvraag" action="${config.pro.formAction}" method="post">
+<div class="veld"><label for="p-naam">Naam</label><input id="p-naam" name="naam" required autocomplete="name"></div>
+<div class="veld"><label for="p-org">Kantoor / organisatie</label><input id="p-org" name="organisatie" required autocomplete="organization"></div>
+<div class="veld"><label for="p-mail">E-mail</label><input id="p-mail" type="email" name="email" required autocomplete="email"></div>
+<div class="veld"><label for="p-tel">Telefoon (optioneel)</label><input id="p-tel" type="tel" name="telefoon" autocomplete="tel"></div>
+<div class="veld"><label for="p-aantal">Aantal cliënten</label><input id="p-aantal" name="clienten" inputmode="numeric"></div>
+<button class="knop" type="submit">Pilot aanvragen</button></form>`
+  : `<p class="aanvraag">Mail naar <a href="mailto:${config.contactEmail}?subject=Pilot%20ToeslagBuddy%20Pro&body=Naam%3A%0AKantoor%3A%0AAantal%20cli%C3%ABnten%3A%0ATelefoon%3A">${config.contactEmail}</a> met je naam, kantoor en het aantal cliënten. We nemen binnen één werkdag contact op.</p>`}
+`,
+    faq: [
+      ['Moet ik een verwerkersovereenkomst met jullie sluiten?', 'Wij verwerken geen persoonsgegevens: de controle draait in je eigen browser en er gaat niets naar onze server. Bespreek het met je eigen privacyfunctionaris als je twijfelt; we lichten de werking graag toe.'],
+      ['Welke gegevens heb ik per cliënt nodig?', 'Leeftijd, partner ja/nee, verwacht inkomen, vermogen, huur, huishouden, leeftijden van de kinderen en de huidige voorschotten. Het sjabloon laat precies zien welke kolommen er zijn.'],
+      ['Hoe nauwkeurig is de controle?', 'We gebruiken de officiële rekenregels van het lopende jaar. Het is een signaleringsinstrument: controleer een signaal altijd in Mijn toeslagen voordat je een wijziging doorgeeft.'],
+      ['Werkt het met mijn bewindvoeringssoftware?', 'Ja, via een export naar Excel of CSV. Kolomnamen hoeven niet exact overeen te komen: veelgebruikte namen worden herkend.'],
+    ],
+  },
+  {
+    slug: '/pro/check/',
+    kort: 'Cliëntenlijst controleren',
+    title: 'Cliëntenlijst controleren op toeslagen – ToeslagBuddy Pro',
+    description: 'Laad je cliëntenlijst en zie direct wie toeslagen misloopt en waar een terugvordering dreigt. De controle draait in je eigen browser.',
+    h1: 'Cliëntenlijst controleren',
+    intro: 'Kies een CSV-bestand, plak je lijst of probeer het voorbeeld. Er gaat niets over het internet.',
+    script: 'pro-app.js',
+    body: () => `
+<section class="rekenkaart" aria-label="Cliëntenlijst">
+<div class="pro-knoppen">
+<label class="knop-licht" style="cursor:pointer">📄 CSV-bestand kiezen<input type="file" id="pro-bestand" accept=".csv,text/csv" hidden></label>
+<button type="button" class="knop-licht" id="pro-voorbeeld">Voorbeeld laden</button>
+<button type="button" class="knop-licht" id="pro-sjabloon">Sjabloon downloaden</button>
+</div>
+<label for="pro-invoer" class="label">Of plak hier je lijst (met kopregel):</label>
+<textarea id="pro-invoer" spellcheck="false" placeholder="${KOLOMMEN.map(([k]) => k).join(';')}"></textarea>
+<p><button type="button" class="knop" id="pro-controleer">Controleer lijst</button></p>
+<p class="privacy-noot">🔒 De controle draait lokaal in je browser. Wij ontvangen geen cliëntgegevens.</p>
+</section>
+<div id="pro-uitkomst" aria-live="polite"></div>
+<h2>Kolommen</h2>
+<p>Scheidingsteken puntkomma of komma. Ja/nee-velden mogen ook j/n of 1/0 zijn. Onbekende kolommen worden genegeerd.</p>
+${tabel(['Kolom', 'Betekenis'], KOLOMMEN.map(([k, b]) => [`<code>${k}</code>`, b]))}
+<p>Nog geen account? <a href="/pro/#pilot">Vraag een gratis pilot aan</a>.</p>`,
+  },
+
+  // ───────────────────────────── ZZP ─────────────────────────────
+  {
+    slug: '/zzp-toeslagen/',
+    kort: 'Toeslagen voor zzp’ers',
+    title: `Toeslagen voor zzp'ers ${JAAR} – voorkom terugbetalen met de toeslagbewaker`,
+    description: 'Wisselende winst? Check in 2 minuten of je toeslagvoorschot nog klopt, hoeveel je gaat terugbetalen of bijkrijgen, en welk inkomen je moet opgeven.',
+    h1: 'Toeslagbewaker voor zzp’ers',
+    intro: 'Als zzp’er schommelt je winst, en daarmee je toeslag. Vul je winst tot nu toe in en zie of je voorschot nog klopt, vóórdat je een terugvordering krijgt.',
+    calc: 'zzp',
+    body: ({ config }) => `
+<h2>Waarom zzp’ers vaak terugbetalen</h2>
+<p>Je toeslag is een voorschot op basis van het inkomen dat je aan het begin van het jaar hebt geschat. Loopt je bedrijf beter dan verwacht, dan krijg je te veel en betaal je volgend jaar terug. Loopt het slechter, dan krijg je nu te weinig. Uit onderzoek van het CPB blijkt ook dat zelfstandigen vaker toeslagen laten liggen dan werknemers.</p>
+<h2>Hoe rekent de toeslagbewaker?</h2>
+<ol>
+<li>Je winst tot nu toe wordt doorgetrokken naar een heel jaar (of we gebruiken je eigen schatting).</li>
+<li>Daar gaat de zelfstandigenaftrek af (${euro(ZZP.zelfstandigenaftrek)} in ${JAAR}, als je aan het urencriterium voldoet) en daarna de mkb-winstvrijstelling (${(ZZP.mkbWinstvrijstelling * 100).toLocaleString('nl-NL')}%).</li>
+<li>Samen met je andere inkomen (en dat van je partner) is dat je verwachte toetsingsinkomen.</li>
+<li>We berekenen je toeslagen met dat inkomen én met het inkomen dat nu in Mijn toeslagen staat, en laten het verschil zien.</li>
+</ol>
+<p class="let-op"><strong>Tip:</strong> doe deze check elke maand. Met de knop “herinnering in mijn agenda” krijg je op de 1e van elke maand een seintje.</p>
+<h2 id="wachtlijst">Binnenkort: automatisch vanuit je boekhouding</h2>
+<p>We werken aan een koppeling met boekhoudpakketten zoals Moneybird en e-Boekhouden, zodat je automatisch een seintje krijgt als je voorschot niet meer klopt.</p>
+${config.zzp.wachtlijstAction
+  ? `<form class="aanvraag" action="${config.zzp.wachtlijstAction}" method="post"><div class="veld"><label for="w-mail">E-mail</label><input id="w-mail" type="email" name="email" required autocomplete="email"></div>
+<div class="veld"><label for="w-pakket">Welk boekhoudpakket gebruik je?</label><input id="w-pakket" name="boekhoudpakket" placeholder="Moneybird, e-Boekhouden, Jortt…"></div>
+<button class="knop" type="submit">Zet me op de wachtlijst</button></form>`
+  : `<p class="aanvraag">Mail naar <a href="mailto:${config.contactEmail}?subject=Wachtlijst%20toeslagbewaker&body=Mijn%20boekhoudpakket%3A%20">${config.contactEmail}</a> en noem je boekhoudpakket.</p>`}
+${alleCheckLink}`,
+    faq: [
+      ['Telt mijn omzet of mijn winst voor toeslagen?', 'Je winst, na aftrek van de ondernemersaftrek en de mkb-winstvrijstelling. Niet je omzet.'],
+      ['Wat als mijn inkomen per maand erg wisselt?', 'Voor toeslagen telt alleen je inkomen over het hele jaar. Een drukke of rustige maand maakt dus niet uit, zolang je jaarschatting klopt.'],
+      ['Wanneer moet ik een nieuw inkomen doorgeven?', 'Zodra je verwacht dat je jaarinkomen duidelijk anders uitvalt dan je hebt opgegeven. Hoe eerder, hoe kleiner de terugvordering.'],
     ],
   },
 

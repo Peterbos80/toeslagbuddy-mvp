@@ -246,12 +246,17 @@ export function allesCheck(i) {
   };
 }
 
-// Heuristiek voor aanvullende regelingen. Het drempelinkomen van de
-// zorgtoeslag ligt rond het bruto minimumloon en dient als ijkpunt.
+// Heuristiek voor gemeentelijke regelingen: veel gemeenten hanteren een
+// grens rond 120–130% van het sociaal minimum. Het drempelinkomen van de
+// zorgtoeslag ligt rond het bruto minimumloon; de bijstandsnorm voor een
+// alleenstaande is 70% van die voor gehuwden.
+export function laagInkomen(inkomen, partner) {
+  const sociaalMinimum = ZORGTOESLAG.drempelinkomen * (partner ? 1 : 0.75);
+  return num(inkomen) <= sociaalMinimum * 1.3;
+}
+
 function tips(i) {
-  const inkomen = num(i.inkomen);
-  const minimum = ZORGTOESLAG.drempelinkomen * (i.partner ? 1.4 : 1);
-  const laag = inkomen <= minimum * 1.3;
+  const laag = laagInkomen(i.inkomen, i.partner);
   const t = [];
   if (laag) {
     t.push('kwijtschelding', 'bijzondere-bijstand');

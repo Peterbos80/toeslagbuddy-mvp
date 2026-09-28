@@ -59,6 +59,17 @@ export default {
     },
   },
 
+  // ToeslagBuddy Pro (bewindvoerders). Formulier-URL voor pilotaanvragen,
+  // bijv. van Tally, Formspree of Basin. Leeg = aanvraag per e-mail.
+  pro: {
+    formAction: '',
+  },
+
+  // Zzp-toeslagbewaker: formulier-URL voor de wachtlijst boekhoudkoppeling.
+  zzp: {
+    wachtlijstAction: '',
+  },
+
   // Instagram. De posts worden gemaakt door social/render.js en dagelijks
   // geplaatst door .github/workflows/instagram.yml (zie docs/instagram.md).
   instagram: {

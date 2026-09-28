@@ -8,6 +8,7 @@ import {
   euro,
 } from './toeslagen.js';
 import { JAAR, KINDEROPVANGTOESLAG } from './params.js';
+import { zzpCheck, herinneringIcs } from './zzp.js';
 
 const PARTNERS = window.TB_PARTNERS || {};
 
@@ -54,6 +55,13 @@ function lees(form) {
     dertiendeMaand: ja('dertiendeMaand'),
     overig: getal(d.overig),
     aftrek: getal(d.aftrek),
+    winstTotNu: getal(d.winstTotNu),
+    maand: getal(d.maand),
+    verwachteJaarwinst: getal(d.verwachteJaarwinst),
+    urencriterium: ja('urencriterium'),
+    ander: getal(d.ander),
+    partnerInkomen: getal(d.partnerInkomen),
+    opgegevenInkomen: getal(d.opgegevenInkomen),
     kinderen,
     opvang,
   };
@@ -85,6 +93,7 @@ const PARTNER_BIJ = {
   kinderbijslag: ['belastinghulp'],
   alles: ['zorgverzekering', 'energie'],
   toetsingsinkomen: ['belastinghulp'],
+  zzp: ['belastinghulp'],
 };
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -188,6 +197,26 @@ ${r.totaalPerJaar > 0 ? aanvragen : ''}
 </div>
 ${tips ? `<div class="resultaat tips"><h3>Dit kun je misschien ook krijgen</h3><ul>${tips}</ul></div>` : ''}`;
   },
+  zzp(d) {
+    const r = zzpCheck(d);
+    const NAAM = { zorgtoeslag: 'Zorgtoeslag', huurtoeslag: 'Huurtoeslag', kindgebondenBudget: 'Kindgebonden budget' };
+    const kop = {
+      terugbetalen: ['Let op: je gaat waarschijnlijk terugbetalen', `Ongeveer ${euro(-r.verschilJaar)} over dit jaar, als je niets aanpast.`, 'geen'],
+      bijkrijgen: ['Je krijgt waarschijnlijk te weinig', `Ongeveer ${euro(r.verschilJaar)} extra over dit jaar als je je inkomen verlaagt.`, ''],
+      goed: ['Je voorschot klopt ongeveer', 'Het verschil is kleiner dan € 50 per jaar. Check het volgende maand opnieuw.', ''],
+    }[r.status];
+    const rijen = r.regelingen
+      .map((x) => `<tr><th scope="row">${NAAM[x.regeling]}</th><td>${euro(x.voorschotJaar)}</td><td>${euro(x.verwachtJaar)}</td><td>${x.verschilJaar > 0 ? '+' : ''}${euro(x.verschilJaar)}</td></tr>`)
+      .join('');
+    return `<div class="resultaat ${kop[2]}"><h3>${kop[0]}</h3><p>${kop[1]}</p>
+<ul class="uitleg"><li>Verwachte jaarwinst: ${euro(r.jaarwinst)}</li>
+<li>Na ondernemersaftrek en mkb-winstvrijstelling: ${euro(r.belastbareWinst)}</li>
+<li>Verwacht toetsingsinkomen${d.partner ? ' (met partner)' : ''}: <strong>${euro(r.verwachtInkomen)}</strong> – opgegeven: ${euro(d.opgegevenInkomen)}</li></ul>
+<div class="tabel-scroll"><table class="overzicht"><thead><tr><th></th><th>Voorschot/jaar</th><th>Verwacht recht</th><th>Verschil</th></tr></thead><tbody>${rijen}</tbody></table></div>
+${r.status === 'goed' ? '' : `<p><strong>Advies:</strong> geef in <a href="https://www.toeslagen.nl" target="_blank" rel="noopener">Mijn toeslagen</a> een inkomen van <strong>${euro(r.adviesInkomen)}</strong> op (je schatting plus 5% marge).</p>`}
+<p><button type="button" class="knop-licht" data-ics>📅 Zet een maandelijkse herinnering in mijn agenda</button></p>
+<p class="subtiel">Automatisch vanuit je boekhouding? <a href="/zzp-toeslagen/#wachtlijst">Zet je op de wachtlijst</a>.</p></div>`;
+  },
   toetsingsinkomen(d) {
     const jaarloon = d.brutoMaand * 12 * 1.08 + (d.dertiendeMaand ? d.brutoMaand : 0);
     const totaal = Math.max(0, jaarloon + d.overig - d.aftrek);
@@ -202,8 +231,8 @@ function render(form) {
   const calc = form.dataset.calc;
   const d = lees(form);
   const uit = form.nextElementSibling;
-  const moetInkomen = !['kinderbijslag', 'toetsingsinkomen'].includes(calc);
-  if (moetInkomen && !form.querySelector('[name=inkomen]').value.trim()) {
+  const inkomenVeld = form.querySelector('[name=inkomen]');
+  if (inkomenVeld && !inkomenVeld.value.trim()) {
     uit.innerHTML = '<p class="melding">Vul je inkomen in om te rekenen. Heb je geen inkomen? Vul dan 0 in.</p>';
     return;
   }
@@ -277,6 +306,9 @@ function track(naam, props) {
 
 document.querySelectorAll('form[data-calc]').forEach((form) => {
   form.querySelectorAll('[data-kids]').forEach(kidsWidget);
+  // Zzp: standaard de laatste volledig verstreken maand selecteren
+  const maandKeuze = form.querySelector('select[name=maand]');
+  if (maandKeuze) maandKeuze.value = String(Math.max(1, new Date().getMonth()));
   form.querySelectorAll('[data-opvang]').forEach(opvangWidget);
   toonBij(form);
   // Inkomen meenemen vanuit de toetsingsinkomen-hulp
@@ -302,6 +334,15 @@ document.addEventListener('click', (e) => {
   if (kopieer) {
     navigator.clipboard?.writeText(kopieer.dataset.kopieer);
     kopieer.textContent = 'Link gekopieerd ✓';
+  }
+  if (e.target.closest('[data-ics]')) {
+    const url = location.origin + location.pathname;
+    const blob = new Blob([herinneringIcs(url)], { type: 'text/calendar' });
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'toeslagcheck-zzp.ics' });
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    track('Herinnering', { calc: 'zzp' });
   }
   const naarCheck = e.target.closest('[data-inkomen]');
   if (naarCheck) {

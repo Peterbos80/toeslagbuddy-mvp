@@ -1,6 +1,6 @@
 // Bouwt de complete statische site in dist/. Uploaden naar TransIP kan
 // daarna met `npm run deploy` of via de GitHub Action.
-import { mkdirSync, writeFileSync, readFileSync, rmSync, cpSync, existsSync } from 'node:fs';
+import { mkdirSync, writeFileSync, readFileSync, readdirSync, rmSync, cpSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -22,16 +22,16 @@ if (existsSync(join(ROOT, 'public'))) cpSync(join(ROOT, 'public'), DIST, { recur
 
 // Versie voor cache-busting: hash van alle code en parameters
 const css = readFileSync(join(ROOT, 'src/site/styles.css'), 'utf8');
-const js = {
-  'app.js': readFileSync(join(ROOT, 'public/js/app.js'), 'utf8'),
-  'toeslagen.js': readFileSync(join(ROOT, 'src/calc/toeslagen.js'), 'utf8'),
-  'params.js': readFileSync(join(ROOT, 'src/calc/params.js'), 'utf8'),
-};
+// Alle browser-scripts: rekenmotor (src/calc) en pagina-scripts (public/js)
+const js = {};
+for (const map of ['src/calc', 'public/js']) {
+  for (const f of readdirSync(join(ROOT, map)).filter((f) => f.endsWith('.js'))) js[f] = readFileSync(join(ROOT, map, f), 'utf8');
+}
 const versie = createHash('sha1').update(css + Object.values(js).join('')).digest('hex').slice(0, 8);
 
 writeFileSync(join(DIST, 'css/site.css'), minifyCss(css));
 for (const [naam, code] of Object.entries(js)) {
-  const metVersie = code.replace(/from '\.\/(toeslagen|params)\.js'/g, `from './$1.js?v=${versie}'`);
+  const metVersie = code.replace(/from '\.\/([\w-]+)\.js'/g, `from './$1.js?v=${versie}'`);
   writeFileSync(join(DIST, 'js', naam), metVersie);
 }
 

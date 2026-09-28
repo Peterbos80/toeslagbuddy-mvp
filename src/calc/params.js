@@ -107,3 +107,12 @@ export const KINDERBIJSLAG = {
     ['SVB – Kinderbijslag gaat per 1 juli 2026 omhoog', 'https://www.svb.nl/nl/kinderbijslag/nieuws/kinderbijslag-gaat-per-1-juli-2026-omhoog'],
   ],
 };
+
+export const ZZP = {
+  zelfstandigenaftrek: 1200, // bij urencriterium (1.225 uur)
+  mkbWinstvrijstelling: 0.127,
+  bronnen: [
+    ['Belastingdienst – Mkb-winstvrijstelling 2026', 'https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/winst/inkomstenbelasting/veranderingen-inkomstenbelasting-2026/mkb-winstvrijstelling-2026'],
+    ['Belastingdienst – Zelfstandigenaftrek 2026', 'https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/winst/inkomstenbelasting/veranderingen-inkomstenbelasting-2026/ondernemersaftrek-2026/zelfstandigenaftrek-2026'],
+  ],
+};
