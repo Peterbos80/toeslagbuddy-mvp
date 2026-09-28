@@ -59,6 +59,14 @@ export default {
     },
   },
 
+  // Instagram. De posts worden gemaakt door social/render.js en dagelijks
+  // geplaatst door .github/workflows/instagram.yml (zie docs/instagram.md).
+  instagram: {
+    account: '', // je Instagram-gebruikersnaam zonder @, bijv. 'toeslagbuddy'
+    startDatum: '2026-10-05', // maandag waarop de kalender begint
+    weken: 6, // 3 posts per week; na 6 weken nieuwe feiten/persona's toevoegen in social/
+  },
+
   // Nieuwsbrief (bijv. MailerLite, Brevo of Laposta). Vul de form-action URL in.
   nieuwsbrief: {
     formAction: '',

@@ -623,6 +623,26 @@ ${alleCheckLink}`,
     ],
   },
 
+  {
+    slug: '/instagram/',
+    kort: 'Instagram',
+    noindex: true,
+    title: 'ToeslagBuddy op Instagram – snel naar je berekening',
+    description: 'Vanaf Instagram direct naar de juiste rekenhulp: alle toeslagen, zorgtoeslag, huurtoeslag, kindgebonden budget en kinderopvangtoeslag.',
+    h1: 'Hoi! Wat wil je uitrekenen?',
+    intro: 'Kies hieronder. Gratis, anoniem en zonder DigiD – je gegevens blijven op je telefoon.',
+    body: () => `
+<div class="kaarten">
+<a href="/?utm_source=instagram&utm_medium=bio#check"><strong>Alle toeslagen in één check</strong><span>In 2 minuten je totaalbedrag</span></a>
+<a href="/zorgtoeslag-berekenen/?utm_source=instagram&utm_medium=bio"><strong>Zorgtoeslag</strong><span>Tot ${euro(Math.floor(zorgtoeslag({ inkomen: 0 }).perJaar / 12))} per maand</span></a>
+<a href="/huurtoeslag-berekenen/?utm_source=instagram&utm_medium=bio"><strong>Huurtoeslag</strong><span>Nieuwe regels ${JAAR}</span></a>
+<a href="/kindgebonden-budget-berekenen/?utm_source=instagram&utm_medium=bio"><strong>Kindgebonden budget</strong><span>Ook voor alleenstaande ouders</span></a>
+<a href="/kinderopvangtoeslag-berekenen/?utm_source=instagram&utm_medium=bio"><strong>Kinderopvangtoeslag</strong><span>Wat kost opvang netto?</span></a>
+<a href="/toeslagen-2027/?utm_source=instagram&utm_medium=bio"><strong>Toeslagen ${VOLGEND}</strong><span>Wat verandert er?</span></a>
+<a href="/toeslag-terugbetalen/?utm_source=instagram&utm_medium=bio"><strong>Terugbetalen voorkomen</strong><span>5 tips</span></a>
+</div>`,
+  },
+
   // ───────────────────────────── OVER / JURIDISCH ─────────────────────────────
   {
     slug: '/bronnen/',

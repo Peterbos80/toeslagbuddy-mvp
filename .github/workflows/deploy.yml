@@ -19,10 +19,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+      - run: npm ci
       - run: npm test
       - run: node build.js
+      - name: Instagram-afbeeldingen maken
+        run: |
+          npx playwright install --with-deps chromium
+          node social/render.js
       - name: Upload naar TransIP (alleen op main, als de secrets zijn ingesteld)
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && env.TRANSIP_HOST != ''
         run: |
           sudo apt-get install -y lftp
-          lftp -u "$TRANSIP_USER","$TRANSIP_PASSWORD" "sftp://$TRANSIP_HOST" -e "set sftp:auto-confirm yes; mirror --reverse --delete --parallel=4 dist/ $REMOTE_DIR/; bye"
+          lftp -u "$TRANSIP_USER","$TRANSIP_PASSWORD" "sftp://$TRANSIP_HOST" -e "set sftp:auto-confirm yes; set net:max-retries 3; mirror --reverse --delete --parallel=4 dist/ $REMOTE_DIR/; bye"
+      - name: Controleer of de site bereikbaar is
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && env.TRANSIP_HOST != ''
+        run: |
+          URL=$(node -e "import('./site.config.js').then(c=>console.log(c.default.url))")
+          curl -fsS -o /dev/null -w "%{http_code} $URL\n" "$URL/" || echo "::warning::Site nog niet bereikbaar op $URL (DNS of SSL nog niet actief?)"

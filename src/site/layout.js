@@ -93,6 +93,7 @@ export function layout(page, body) {
       name: config.naam,
       url: config.url + '/',
       inLanguage: 'nl-NL',
+      ...(config.instagram.account ? { sameAs: [`https://www.instagram.com/${config.instagram.account}/`] } : {}),
     },
     ...(kruimel.length
       ? [{
@@ -134,7 +135,7 @@ export function layout(page, body) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(titel)}</title>
 <meta name="description" content="${esc(page.description)}">
-<link rel="canonical" href="${url}">
+<link rel="canonical" href="${url}">${page.noindex ? '\n<meta name="robots" content="noindex">' : ''}
 <meta name="theme-color" content="#0d7a5f">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="nl_NL">
@@ -163,6 +164,7 @@ ${body}
 </main>
 <footer class="site"><div class="wrap">
 <div class="kolommen">${FOOTER.map(([kop, links]) => `<div><h2>${kop}</h2><ul>${links.map(([u, n]) => `<li><a href="${u}">${n}</a></li>`).join('')}</ul></div>`).join('')}</div>
+${config.instagram.account ? `<p>Volg ons op <a href="https://www.instagram.com/${esc(config.instagram.account)}/" rel="noopener">Instagram @${esc(config.instagram.account)}</a> voor toeslag-tips.</p>` : ''}
 <p class="disclaimer">${config.naam} is een onafhankelijke rekenhulp en hoort <strong>niet</strong> bij de Belastingdienst, Dienst Toeslagen of de SVB. De uitkomsten zijn een indicatie op basis van de officiële rekenregels voor ${JAAR}. Aan de berekening kun je geen rechten ontlenen. Vraag toeslagen altijd aan via <a href="https://www.toeslagen.nl" rel="noopener">toeslagen.nl</a>. Bedragen gecontroleerd op ${new Date(GECONTROLEERD_OP).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })}.</p>
 </div></footer>
 ${page.calc ? `<script>window.TB_PARTNERS=${partnersJson()}</script>\n<script type="module" src="/js/app.js?v=${page.versie}"></script>` : ''}

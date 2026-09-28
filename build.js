@@ -102,7 +102,7 @@ ${zijbalk(page.slug)}
   const dir = join(DIST, page.slug);
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, 'index.html'), layout(page, html));
-  sitemap.push(page.slug);
+  if (!page.noindex) sitemap.push(page.slug);
 }
 
 // 404-pagina

@@ -9,9 +9,14 @@
     "test": "node --test test/*.test.js",
     "serve": "node serve.js",
     "dev": "node build.js && node serve.js",
-    "deploy": "bash scripts/deploy.sh"
+    "deploy": "bash scripts/deploy.sh",
+    "social": "node social/render.js",
+    "post": "node social/post.js"
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.1"
   }
 }

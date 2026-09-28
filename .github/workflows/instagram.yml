@@ -1,0 +1,25 @@
+name: Instagram-post van vandaag
+
+on:
+  schedule:
+    - cron: '0 17 * * *' # 19:00 zomertijd / 18:00 wintertijd
+  workflow_dispatch:
+    inputs:
+      datum:
+        description: 'Datum (JJJJ-MM-DD), leeg = vandaag'
+        required: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node social/render.js --kalender
+      - name: Plaatsen via Instagram Graph API
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: node social/post.js ${{ github.event.inputs.datum && format('--datum {0}', github.event.inputs.datum) || '' }}
