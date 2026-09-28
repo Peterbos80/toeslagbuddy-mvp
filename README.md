@@ -29,7 +29,11 @@ Je hebt alleen Node.js 20 of nieuwer nodig. Er zijn geen npm-pakketten nodig.
 | `build.js` | Bouwt `dist/`, inclusief `sitemap.xml`, `robots.txt`, `.htaccess` en `404.html` |
 | `test/` | Tests die de rekenregels controleren tegen officiële voorbeelden |
 
-## Live zetten bij TransIP
+## Live zetten
+
+**Aanbevolen: GitHub Pages met je TransIP-domein.** Dit is gratis en bij elke push naar `main` automatisch live. De stappen staan in [docs/hosting.md](docs/hosting.md).
+
+### Alternatief: TransIP-webhosting
 
 1. **Domein en hosting.** Koop bij TransIP een domein (bijvoorbeeld `toeslagbuddy.nl`) met een webhostingpakket. Zet SSL (Let's Encrypt) aan in het controlepaneel.
 2. **Domein instellen.** Zet je domein in `site.config.js` bij `url`.

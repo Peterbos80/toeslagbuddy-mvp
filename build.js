@@ -132,6 +132,9 @@ if (config.adsense.client) {
   writeFileSync(join(DIST, 'ads.txt'), `google.com, ${config.adsense.client.replace('ca-', '')}, DIRECT, f08c47fec0942fa0\n`);
 }
 
+// CNAME voor GitHub Pages (eigen domein)
+writeFileSync(join(DIST, 'CNAME'), `${new URL(config.url).host}\n`);
+
 // .htaccess voor Apache (TransIP webhosting)
 const host = new URL(config.url).host;
 writeFileSync(
