@@ -1,0 +1,17 @@
+{
+  "name": "toeslagbuddy",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "ToeslagBuddy – bereken al je toeslagen in één keer",
+  "scripts": {
+    "build": "node build.js",
+    "test": "node --test test/*.test.js",
+    "serve": "node serve.js",
+    "dev": "node build.js && node serve.js",
+    "deploy": "bash scripts/deploy.sh"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

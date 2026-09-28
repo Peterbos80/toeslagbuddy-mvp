@@ -1,0 +1,10 @@
+{
+  "name": "ToeslagBuddy – bereken al je toeslagen",
+  "short_name": "ToeslagBuddy",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f8f5",
+  "theme_color": "#0d7a5f",
+  "lang": "nl",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

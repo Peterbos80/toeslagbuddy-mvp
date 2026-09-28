@@ -1,0 +1,28 @@
+name: Test en deploy naar TransIP
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-en-deploy:
+    runs-on: ubuntu-latest
+    env:
+      TRANSIP_HOST: ${{ secrets.TRANSIP_HOST }}
+      TRANSIP_USER: ${{ secrets.TRANSIP_USER }}
+      TRANSIP_PASSWORD: ${{ secrets.TRANSIP_PASSWORD }}
+      REMOTE_DIR: ${{ secrets.TRANSIP_REMOTE_DIR || 'www' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test
+      - run: node build.js
+      - name: Upload naar TransIP (alleen op main, als de secrets zijn ingesteld)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && env.TRANSIP_HOST != ''
+        run: |
+          sudo apt-get install -y lftp
+          lftp -u "$TRANSIP_USER","$TRANSIP_PASSWORD" "sftp://$TRANSIP_HOST" -e "set sftp:auto-confirm yes; mirror --reverse --delete --parallel=4 dist/ $REMOTE_DIR/; bye"
