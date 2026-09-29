@@ -454,3 +454,17 @@ h1, h2, .inhoud p, .inhoud li { overflow-wrap: break-word; }
 
 /* Bedrijfsgegevens in de footer */
 .bedrijf { margin-top: 16px; }
+
+/* Taalschakelaar NL/EN in de kop: altijd zichtbaar, ook op mobiel */
+.taalwissel { font-weight: 700; font-size: 0.95rem; text-decoration: none; color: var(--merk-donker); border: 2px solid var(--lijn); border-radius: 99px; padding: 6px 14px; min-height: 44px; display: inline-flex; align-items: center; }
+.taalwissel:hover { border-color: var(--merk); }
+.taal-kort { display: none; }
+@media (max-width: 760px) {
+  /* Op mobiel alleen 'EN'/'NL' in beeld; de volle naam blijft de toegankelijke naam */
+  .taalwissel { order: 1; margin-left: auto; padding: 6px 12px; }
+  .taal-kort { display: inline; }
+  .taal-lang { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .menu-knop { order: 2; }
+  nav.hoofd { order: 3; }
+}
+.samenvattingen h3 { margin-top: 1.2em; }

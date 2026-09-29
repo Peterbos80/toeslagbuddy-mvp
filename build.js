@@ -6,9 +6,15 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import config from './site.config.js';
 import * as params from './src/calc/params.js';
-import { pages, nieuws } from './src/site/pages.js';
+import { pages as pagesNl, nieuws } from './src/site/pages.js';
+import { pagesEn } from './src/site/pages-en.js';
+import { koppel } from './src/site/talen.js';
 import { forms } from './src/site/forms.js';
-import { layout, advertentie, nieuwsbrief, esc, GEEN_JS } from './src/site/layout.js';
+import { layout, advertentie, nieuwsbrief, esc } from './src/site/layout.js';
+import { teksten } from './src/i18n/i18n.js';
+
+// Alle pagina's, Nederlands en Engels, met hreflang-paren en taalschakelaar
+const pages = koppel([...pagesNl, ...pagesEn]);
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
@@ -22,33 +28,31 @@ if (existsSync(join(ROOT, 'public'))) cpSync(join(ROOT, 'public'), DIST, { recur
 
 // Versie voor cache-busting: hash van alle code en parameters
 const css = readFileSync(join(ROOT, 'src/site/styles.css'), 'utf8');
-// Alle browser-scripts: rekenmotor (src/calc) en pagina-scripts (public/js)
+// Alle browser-scripts: rekenmotor (src/calc), teksten (src/i18n) en
+// pagina-scripts (public/js). Ze komen plat in /js/, dus namen moeten uniek zijn.
 const js = {};
-for (const map of ['src/calc', 'public/js']) {
-  for (const f of readdirSync(join(ROOT, map)).filter((f) => f.endsWith('.js'))) js[f] = readFileSync(join(ROOT, map, f), 'utf8');
+for (const map of ['src/calc', 'src/i18n', 'public/js']) {
+  for (const f of readdirSync(join(ROOT, map)).filter((f) => f.endsWith('.js'))) {
+    if (js[f]) throw new Error(`Dubbele scriptnaam ${f} in ${map}: /js/ is plat`);
+    js[f] = readFileSync(join(ROOT, map, f), 'utf8');
+  }
 }
 const versie = createHash('sha1').update(css + Object.values(js).join('')).digest('hex').slice(0, 8);
 
 writeFileSync(join(DIST, 'css/site.css'), minifyCss(css));
 for (const [naam, code] of Object.entries(js)) {
-  const metVersie = code.replace(/(from |import\()'\.\/([\w-]+)\.js'/g, `$1'./$2.js?v=${versie}'`);
+  // '../i18n/nl.js' en './params.js' worden allebei './naam.js?v=…'
+  const metVersie = code.replace(/(from |import\()'(?:\.\.\/[\w-]+\/|\.\/)([\w-]+)\.js'/g, `$1'./$2.js?v=${versie}'`);
   writeFileSync(join(DIST, 'js', naam), metVersie);
 }
 
-const zijbalk = (slug) => {
-  const links = [
-    ['/', 'Alle toeslagen in één check'],
-    ['/zorgtoeslag-berekenen/', 'Zorgtoeslag berekenen'],
-    ['/huurtoeslag-berekenen/', 'Huurtoeslag berekenen'],
-    ['/kindgebonden-budget-berekenen/', 'Kindgebonden budget berekenen'],
-    ['/kinderopvangtoeslag-berekenen/', 'Kinderopvangtoeslag berekenen'],
-    ['/kinderbijslag-berekenen/', 'Kinderbijslag berekenen'],
-    ['/toetsingsinkomen/', 'Toetsingsinkomen berekenen'],
-  ].filter(([u]) => u !== slug);
+const zijbalk = (slug, S) => {
+  const z = S.zijbalk;
+  const links = z.links.filter(([u]) => u !== slug);
   return `<aside class="zij">
-<div class="blok"><h2>Meer rekenhulpen</h2><ul>${links.map(([u, n]) => `<li><a href="${u}">${n}</a></li>`).join('')}</ul></div>
-<div class="blok"><h2>Bijgewerkt voor ${params.JAAR}</h2><p>Gebaseerd op de officiële bedragen en rekenregels. <a href="/bronnen/">Bekijk bronnen</a></p></div>
-<div class="blok"><h2>Nieuw: toeslagen ${params.JAAR + 1}</h2><p>Wat verandert er volgend jaar? <a href="/toeslagen-2027/">Lees het overzicht</a></p></div>
+<div class="blok"><h2>${z.meer}</h2><ul>${links.map(([u, n]) => `<li><a href="${u}">${n}</a></li>`).join('')}</ul></div>
+<div class="blok"><h2>${z.bijgewerkt(params.JAAR)}</h2><p>${z.bronnen}</p></div>
+<div class="blok"><h2>${z.nieuw(params.JAAR + 1)}</h2><p>${z.nieuwTekst}</p></div>
 </aside>`;
 };
 
@@ -71,9 +75,9 @@ function bronnenHtml() {
   );
 }
 
-function faqHtml(faq) {
+function faqHtml(faq, S) {
   if (!faq || !faq.length) return '';
-  return `<section class="faq"><h2>Veelgestelde vragen</h2>${faq
+  return `<section class="faq"><h2>${S.faqKop}</h2>${faq
     .map(([q, a]) => `<details><summary>${esc(q)}</summary><div><p>${a}</p></div></details>`)
     .join('')}</section>`;
 }
@@ -81,39 +85,41 @@ function faqHtml(faq) {
 const sitemap = [];
 for (const page of pages) {
   page.versie = versie;
+  const S = teksten(page.taal).site;
+  const home = page.slug === teksten(page.taal).home;
   const body = page.body({ config, bronnen: page.bronnen ? bronnenHtml() : '' });
   const html = `
 <div class="hero">
 <div class="hero-deco" aria-hidden="true"><span class="munt"></span><span class="munt"></span><span class="munt"></span><span class="munt"></span></div>
 <div class="hero-grid"><div>
-${page.calc ? `<span class="bijgewerkt">✓ Bijgewerkt voor ${params.JAAR}</span>` : ''}
-<h1>${page.slug === '/' ? esc(page.h1).replace('recht', '<span class="accent">recht</span>') : esc(page.h1)}</h1>
+${page.calc ? `<span class="bijgewerkt">${S.bijgewerkt(params.JAAR)}</span>` : ''}
+<h1>${home ? esc(page.h1).replace(S.accent, `<span class="accent">${S.accent}</span>`) : esc(page.h1)}</h1>
 <p class="intro">${esc(page.intro)}</p>
-${page.calc ? `<ul class="vertrouwen" aria-label="Waarom ToeslagBuddy">
-<li>Gratis</li><li>Anoniem, zonder DigiD</li><li>Gegevens blijven op je telefoon</li><li>Gebaseerd op de officiële regels ${params.JAAR}</li>
+${page.calc ? `<ul class="vertrouwen" aria-label="${S.vertrouwenLabel}">
+${S.vertrouwen(params.JAAR).map((v) => `<li>${v}</li>`).join('')}
 </ul>` : ''}
-${page.slug === '/' ? `<p class="hero-knoppen"><a class="knop groot" href="#check">Start de check – 2 minuten</a></p>
-<nav class="snel" aria-label="Snel naar"><span>Of kies:</span> <a href="/toeslagen-student/">Student</a> <a href="/toeslagen-alleenstaande-ouder/">Alleenstaande ouder</a> <a href="/toeslagen-aow/">AOW</a> <a href="/zzp-toeslagen/">Zzp</a> <a href="/huurtoeslag-berekenen/">Alleen huurtoeslag</a></nav>` : ''}
-<button type="button" class="voorlees" hidden aria-pressed="false">🔊 Lees voor</button>
+${home ? `<p class="hero-knoppen"><a class="knop groot" href="#check">${S.startCheck}</a></p>
+<nav class="snel" aria-label="${S.snelLabel}"><span>${S.snelKies}</span> ${S.snel.map(([u, n]) => `<a href="${u}">${n}</a>`).join(' ')}</nav>` : ''}
+<button type="button" class="voorlees" hidden aria-pressed="false" data-stop="${S.stopLezen}">${S.leesVoor}</button>
 </div>
-${page.slug === '/' ? '<div class="hero-buddy" data-intro></div>' : ''}
+${home ? '<div class="hero-buddy" data-intro></div>' : ''}
 </div>
 </div>
 <div class="raster">
 <div class="inhoud">
-${page.calc ? `<section class="rekenkaart" id="${page.anker || 'rekenhulp'}" aria-label="Rekenhulp">\n<noscript><p class="geen-js">${GEEN_JS}</p></noscript>\n${forms[page.calc]()}\n</section>` : ''}
+${page.calc ? `<section class="rekenkaart" id="${page.anker || 'rekenhulp'}" aria-label="${S.rekenhulp}">\n<noscript><p class="geen-js">${S.geenJs}</p></noscript>\n${forms[page.calc](page.taal)}\n</section>` : ''}
 ${advertentie('slotInhoud', page)}
 ${body}
-${faqHtml(page.faq)}
-${nieuwsbrief(page)}
+${faqHtml(page.faq, S)}
+${page.taal === 'nl' ? nieuwsbrief(page) : ''}
 ${advertentie('slotOnder', page)}
 </div>
-${zijbalk(page.slug)}
+${zijbalk(page.slug, S)}
 </div>`;
   const dir = join(DIST, page.slug);
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, 'index.html'), layout(page, html));
-  if (!page.noindex) sitemap.push(page.slug);
+  if (!page.noindex) sitemap.push(page);
 }
 
 // 404-pagina
@@ -122,7 +128,8 @@ writeFileSync(
   layout(
     { slug: '/404.html', title: 'Pagina niet gevonden', description: 'Deze pagina bestaat niet.', h1: 'Pagina niet gevonden', versie, noindex: true },
     `<div class="hero"><h1>Deze pagina bestaat niet (meer)</h1><p class="intro">Geen zorgen, je toeslagen kun je gewoon berekenen.</p>
-<p><a class="knop" href="/">Naar de toeslagen-check</a></p></div>`,
+<p><a class="knop" href="/">Naar de toeslagen-check</a></p>
+<p lang="en">Page not found. <a href="/en/">Go to the English allowances check</a>.</p></div>`,
   ),
 );
 
@@ -131,8 +138,18 @@ const vandaag = new Date().toISOString().slice(0, 10);
 writeFileSync(
   join(DIST, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${sitemap.map((s) => `<url><loc>${config.url}${s}</loc><lastmod>${vandaag}</lastmod><priority>${s === '/' ? '1.0' : s.includes('berekenen') ? '0.9' : '0.6'}</priority></url>`).join('\n')}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${sitemap
+  .map((p) => {
+    const s = p.slug;
+    const prioriteit = s === '/' || s === '/en/' ? '1.0' : s.includes('berekenen') || (p.taal !== 'nl' && p.calc) ? '0.9' : '0.6';
+    // Bij een vertaling: beide talen plus x-default (Nederlands)
+    const alt = p.hreflang
+      ? [...Object.entries(p.hreflang), ['x-default', p.hreflang.nl]].map(([t, u]) => `<xhtml:link rel="alternate" hreflang="${t}" href="${config.url}${u}"/>`).join('')
+      : '';
+    return `<url><loc>${config.url}${s}</loc>${alt}<lastmod>${vandaag}</lastmod><priority>${prioriteit}</priority></url>`;
+  })
+  .join('\n')}
 </urlset>
 `,
 );

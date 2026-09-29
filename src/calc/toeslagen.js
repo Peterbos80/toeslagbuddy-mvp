@@ -8,6 +8,7 @@ import {
   KINDEROPVANGTOESLAG,
   KINDERBIJSLAG,
 } from './params.js';
+import { teksten } from '../i18n/i18n.js';
 
 const num = (v) => {
   const n = typeof v === 'string' ? Number(v.replace(/\./g, '').replace(',', '.')) : Number(v);
@@ -17,39 +18,43 @@ const num = (v) => {
 // Uitbetaling per maand: Dienst Toeslagen keert hele euro's uit (naar beneden afgerond).
 const perMaand = (jaar) => Math.floor(jaar / 12);
 
-function resultaat(jaar, reden, extra = {}) {
+// `taal` in de invoer ('nl' of 'en') bepaalt de taal van de reden zonder recht.
+const T = (i) => teksten(i && i.taal).calc;
+
+function resultaat(jaar, reden, extra = {}, t = teksten().calc) {
   const heeftRecht = jaar >= MINIMUM_TOESLAG_PER_JAAR;
   const bedragJaar = heeftRecht ? Math.round(jaar * 100) / 100 : 0;
   return {
     recht: heeftRecht,
     perJaar: bedragJaar,
     perMaand: heeftRecht ? perMaand(bedragJaar) : 0,
-    reden: heeftRecht ? null : reden || 'Je inkomen is te hoog voor deze toeslag.',
+    reden: heeftRecht ? null : reden || t.inkomenTeHoog,
     ...extra,
   };
 }
 
 /**
  * Zorgtoeslag.
- * @param {{partner?: boolean, inkomen: number, vermogen?: number, leeftijd?: number}} i
+ * @param {{partner?: boolean, inkomen: number, vermogen?: number, leeftijd?: number, taal?: string}} i
  *   inkomen = (gezamenlijk) toetsingsinkomen per jaar
  */
 export function zorgtoeslag(i) {
   const p = ZORGTOESLAG;
+  const t = T(i);
   const inkomen = num(i.inkomen);
   const vermogen = num(i.vermogen);
   if (i.leeftijd !== undefined && num(i.leeftijd) < 18) {
-    return resultaat(0, 'Je moet 18 jaar of ouder zijn voor zorgtoeslag.');
+    return resultaat(0, t.zorgLeeftijd, {}, t);
   }
   const grens = i.partner ? p.vermogensgrensPartner : p.vermogensgrensAlleen;
   if (vermogen > grens) {
-    return resultaat(0, `Je vermogen is hoger dan de grens van ${euro(grens)}.`);
+    return resultaat(0, t.vermogenGrens(euro(grens, 0, i.taal)), {}, t);
   }
   const personen = i.partner ? 2 : 1;
   const pct = i.partner ? p.normpercentagePartner : p.normpercentageAlleen;
   const normpremie = pct * p.drempelinkomen + p.afbouwpercentage * Math.max(0, inkomen - p.drempelinkomen);
   const jaar = Math.max(0, personen * p.standaardpremie - normpremie);
-  return resultaat(jaar, null, { normpremie: Math.round(normpremie) });
+  return resultaat(jaar, null, { normpremie: Math.round(normpremie) }, t);
 }
 
 /**
@@ -57,11 +62,12 @@ export function zorgtoeslag(i) {
  * @param {{
  *   kaleHuur: number, inkomen: number, vermogen?: number,
  *   personen?: number, volwassenen?: number, leeftijd?: number,
- *   aow?: boolean, aangepasteWoning?: boolean, zelfstandig?: boolean
+ *   aow?: boolean, aangepasteWoning?: boolean, zelfstandig?: boolean, taal?: string
  * }} i
  */
 export function huurtoeslag(i) {
   const p = HUURTOESLAG;
+  const t = T(i);
   const kaleHuur = num(i.kaleHuur);
   const inkomen = num(i.inkomen);
   const vermogen = num(i.vermogen);
@@ -70,16 +76,16 @@ export function huurtoeslag(i) {
   const leeftijd = i.leeftijd === undefined ? 30 : num(i.leeftijd);
 
   if (i.zelfstandig === false) {
-    return resultaat(0, 'Huurtoeslag kan alleen voor een zelfstandige woonruimte (eigen voordeur, keuken en toilet).');
+    return resultaat(0, t.huurZelfstandig, {}, t);
   }
   if (leeftijd < 18) {
-    return resultaat(0, 'Je moet in de regel 18 jaar of ouder zijn voor huurtoeslag.');
+    return resultaat(0, t.huurLeeftijd, {}, t);
   }
   const vermogensgrens = p.vermogensgrensPerPersoon * volwassenen;
   if (vermogen > vermogensgrens) {
-    return resultaat(0, `Het vermogen van je huishouden is hoger dan ${euro(vermogensgrens)}.`);
+    return resultaat(0, t.huurVermogen(euro(vermogensgrens, 0, i.taal)), {}, t);
   }
-  if (kaleHuur <= 0) return resultaat(0, 'Vul je kale huur in.');
+  if (kaleHuur <= 0) return resultaat(0, t.huurLeeg, {}, t);
 
   const een = personen === 1;
   const maxHuur = leeftijd < p.leeftijdVolledig ? p.maximaleHuurgrensJong : p.maximaleHuurgrens;
@@ -98,28 +104,29 @@ export function huurtoeslag(i) {
   const verminderingPerMaand = (afbouw * Math.max(0, inkomen - ijkpunt)) / 12;
   const maand = Math.max(0, maxPerMaand - verminderingPerMaand);
 
-  const reden = maxPerMaand <= 0 ? 'Je huur is lager dan de basishuur die je zelf betaalt.' : null;
+  const reden = maxPerMaand <= 0 ? t.huurBasishuur : null;
   return resultaat(maand * 12, reden, {
     rekenhuur: round2(rekenhuur),
     basishuur,
     maximaalPerMaand: round2(maxPerMaand),
     verminderingPerMaand: round2(verminderingPerMaand),
     huurBovenGrens: kaleHuur > maxHuur,
-  });
+  }, t);
 }
 
 /**
  * Kindgebonden budget.
- * @param {{partner?: boolean, inkomen: number, vermogen?: number, kinderen: number[]}} i
+ * @param {{partner?: boolean, inkomen: number, vermogen?: number, kinderen: number[], taal?: string}} i
  *   kinderen = leeftijden van de kinderen
  */
 export function kindgebondenBudget(i) {
   const p = KINDGEBONDEN_BUDGET;
+  const t = T(i);
   const kinderen = (i.kinderen || []).map(num).filter((l) => l < 18);
-  if (!kinderen.length) return resultaat(0, 'Kindgebonden budget is er alleen voor kinderen jonger dan 18 jaar.');
+  if (!kinderen.length) return resultaat(0, t.kgbKinderen, {}, t);
   const vermogen = num(i.vermogen);
   const grens = i.partner ? p.vermogensgrensPartner : p.vermogensgrensAlleen;
-  if (vermogen > grens) return resultaat(0, `Je vermogen is hoger dan de grens van ${euro(grens)}.`);
+  if (vermogen > grens) return resultaat(0, t.vermogenGrens(euro(grens, 0, i.taal)), {}, t);
 
   let maximum = 0;
   for (const leeftijd of kinderen) {
@@ -132,7 +139,7 @@ export function kindgebondenBudget(i) {
   const drempel = i.partner ? p.drempelinkomenPartner : p.drempelinkomenAlleen;
   const vermindering = p.afbouwpercentage * Math.max(0, num(i.inkomen) - drempel);
   const jaar = Math.max(0, maximum - vermindering);
-  return resultaat(jaar, null, { maximum, vermindering: Math.round(vermindering) });
+  return resultaat(jaar, null, { maximum, vermindering: Math.round(vermindering) }, t);
 }
 
 // Vergoedingspercentage kinderopvangtoeslag (benadering officiële tabel).
@@ -152,11 +159,12 @@ export function kotPercentage(inkomen, eersteKind = true) {
 
 /**
  * Kinderopvangtoeslag.
- * @param {{inkomen: number, kinderen: {soort: 'dagopvang'|'bso'|'gastouder', uren: number, uurprijs: number}[]}} i
+ * @param {{inkomen: number, kinderen: {soort: 'dagopvang'|'bso'|'gastouder', uren: number, uurprijs: number}[], taal?: string}} i
  *   uren = opvanguren per maand
  */
 export function kinderopvangtoeslag(i) {
   const p = KINDEROPVANGTOESLAG;
+  const t = T(i);
   const kinderen = (i.kinderen || [])
     .map((k) => {
       const soort = p.maxUurprijs[k.soort] ? k.soort : 'dagopvang';
@@ -168,7 +176,7 @@ export function kinderopvangtoeslag(i) {
     .filter((k) => k.uren > 0 && k.uurprijs > 0)
     .sort((a, b) => b.kosten - a.kosten); // hoogste kosten = 'eerste kind'
 
-  if (!kinderen.length) return resultaat(0, 'Vul opvanguren en uurprijs in.');
+  if (!kinderen.length) return resultaat(0, t.kotLeeg, {}, t);
 
   let maand = 0;
   let kosten = 0;
@@ -183,7 +191,7 @@ export function kinderopvangtoeslag(i) {
     perKind,
     kostenPerMaand: round2(kosten),
     eigenBijdragePerMaand: round2(kosten - maand),
-  });
+  }, t);
   // Kinderopvangtoeslag wordt niet naar beneden afgerond op hele euro's.
   if (r.recht) r.perMaand = round2(maand);
   return r;
@@ -191,12 +199,12 @@ export function kinderopvangtoeslag(i) {
 
 /**
  * Kinderbijslag (SVB). Geen inkomenstoets.
- * @param {{kinderen: number[]}} i leeftijden
+ * @param {{kinderen: number[], taal?: string}} i leeftijden
  */
 export function kinderbijslag(i) {
   const p = KINDERBIJSLAG.perKwartaal;
   const kinderen = (i.kinderen || []).map(num).filter((l) => l < 18);
-  if (!kinderen.length) return resultaat(0, 'Kinderbijslag is er voor kinderen jonger dan 18 jaar.');
+  if (!kinderen.length) return resultaat(0, T(i).kbKinderen, {}, T(i));
   const kwartaal = kinderen.reduce((s, l) => s + (l < 6 ? p.tot6 : l < 12 ? p.tot12 : p.tot18), 0);
   const jaar = kwartaal * 4;
   return {
@@ -218,9 +226,10 @@ export function allesCheck(i) {
   const personen = 1 + (partner ? 1 : 0) + num(i.medebewoners) + kinderen.length;
   const volwassenen = 1 + (partner ? 1 : 0) + num(i.medebewoners);
   const aow = !!i.aow;
+  const taal = i.taal;
 
   const res = {
-    zorgtoeslag: zorgtoeslag({ partner, inkomen: i.inkomen, vermogen: i.vermogen, leeftijd: i.leeftijd }),
+    zorgtoeslag: zorgtoeslag({ partner, inkomen: i.inkomen, vermogen: i.vermogen, leeftijd: i.leeftijd, taal }),
     huurtoeslag: i.huurt
       ? huurtoeslag({
           kaleHuur: i.kaleHuur,
@@ -230,11 +239,12 @@ export function allesCheck(i) {
           volwassenen,
           leeftijd: i.leeftijd,
           aow,
+          taal,
         })
       : null,
-    kindgebondenBudget: kinderen.length ? kindgebondenBudget({ partner, inkomen: i.inkomen, vermogen: i.vermogen, kinderen }) : null,
-    kinderopvangtoeslag: i.opvang && i.opvang.length ? kinderopvangtoeslag({ inkomen: i.inkomen, kinderen: i.opvang }) : null,
-    kinderbijslag: kinderen.length ? kinderbijslag({ kinderen }) : null,
+    kindgebondenBudget: kinderen.length ? kindgebondenBudget({ partner, inkomen: i.inkomen, vermogen: i.vermogen, kinderen, taal }) : null,
+    kinderopvangtoeslag: i.opvang && i.opvang.length ? kinderopvangtoeslag({ inkomen: i.inkomen, kinderen: i.opvang, taal }) : null,
+    kinderbijslag: kinderen.length ? kinderbijslag({ kinderen, taal }) : null,
   };
 
   const totaalJaar = Object.values(res).reduce((s, r) => s + (r && r.recht ? r.perJaar : 0), 0);
@@ -269,8 +279,9 @@ function tips(i) {
   return t;
 }
 
-export function euro(n, decimalen = 0) {
-  return new Intl.NumberFormat('nl-NL', {
+/** Bedrag in euro's, opgemaakt voor de taal: 'nl' → € 1.532, 'en' → €1,532 */
+export function euro(n, decimalen = 0, taal = 'nl') {
+  return new Intl.NumberFormat(teksten(taal).locale, {
     style: 'currency',
     currency: 'EUR',
     minimumFractionDigits: decimalen,

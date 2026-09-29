@@ -1,6 +1,8 @@
 // Tabellen die rechtstreeks uit de rekenmotor worden gegenereerd, zodat
 // uitleg en rekenhulp nooit uit elkaar lopen.
-import { zorgtoeslag, huurtoeslag, kindgebondenBudget, euro } from '../calc/toeslagen.js';
+// Elke tabel heeft een taal ('nl' of 'en'); de koppen staan in src/i18n (tabellen).
+import { zorgtoeslag, huurtoeslag, kindgebondenBudget, euro as euroNl } from '../calc/toeslagen.js';
+import { teksten } from '../i18n/i18n.js';
 
 function tabel(kop, rijen) {
   return `<div class="tabel-scroll"><table><thead><tr>${kop.map((k) => `<th scope="col">${k}</th>`).join('')}</tr></thead>
@@ -20,29 +22,37 @@ export function maxInkomen(fn, invoer) {
   return lo;
 }
 
-const m = (r) => (r.recht ? euro(r.perMaand) : '€ 0');
+// Opmaak per taal: bedrag, een maandbedrag uit de rekenmotor en de koppen
+const opmaak = (taal) => {
+  const euro = (n, d = 0) => euroNl(n, d, taal);
+  const t = teksten(taal).tabellen;
+  return { euro, t, m: (r) => (r.recht ? euro(r.perMaand) : t.nul) };
+};
 
-export function zorgtoeslagTabel() {
+export function zorgtoeslagTabel(taal = 'nl') {
+  const { euro, t, m } = opmaak(taal);
   const inkomens = [15000, 20000, 25000, 28000, 30000, 32000, 34000, 36000, 38000, 40000, 42000, 44000, 46000, 48000, 50000];
   return tabel(
-    ['Toetsingsinkomen per jaar', 'Alleenstaand', 'Met toeslagpartner'],
+    [t.toetsingsinkomen, t.alleenstaand, t.metPartner],
     inkomens.map((i) => [euro(i), m(zorgtoeslag({ inkomen: i })), m(zorgtoeslag({ inkomen: i, partner: true }))]),
   );
 }
 
-export function huurtoeslagTabel(personen = 1) {
+export function huurtoeslagTabel(personen = 1, taal = 'nl') {
+  const { euro, t, m } = opmaak(taal);
   const huren = [450, 550, 650, 750, 850, 932.93];
   const inkomens = [15000, 20000, 25000, 30000, 35000, 40000];
   return tabel(
-    ['Inkomen \\ kale huur', ...huren.map((h) => euro(h))],
+    [t.inkomenHuur, ...huren.map((h) => euro(h))],
     inkomens.map((i) => [euro(i), ...huren.map((h) => m(huurtoeslag({ kaleHuur: h, inkomen: i, personen, volwassenen: Math.min(personen, 2) })))]),
   );
 }
 
-export function huurtoeslagGrensTabel() {
+export function huurtoeslagGrensTabel(taal = 'nl') {
+  const { euro, t } = opmaak(taal);
   const huren = [500, 600, 700, 800, 932.93];
   return tabel(
-    ['Kale huur per maand', 'Alleenstaand', '2 personen', '3 of meer personen'],
+    [t.kaleHuur, t.alleenstaand, t.tweePersonen, t.drieOfMeer],
     huren.map((h) => [
       euro(h, h % 1 ? 2 : 0),
       euro(maxInkomen(huurtoeslag, { kaleHuur: h, personen: 1 })),
@@ -52,10 +62,11 @@ export function huurtoeslagGrensTabel() {
   );
 }
 
-export function kgbTabel() {
+export function kgbTabel(taal = 'nl') {
+  const { euro, t, m } = opmaak(taal);
   const inkomens = [20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000];
   return tabel(
-    ['Inkomen per jaar', '1 kind (partners)', '2 kinderen (partners)', '1 kind (alleenstaand)', '2 kinderen (alleenstaand)'],
+    [t.inkomenPerJaar, ...t.kgbKoppen],
     inkomens.map((i) => [
       euro(i),
       m(kindgebondenBudget({ inkomen: i, partner: true, kinderen: [5] })),
@@ -66,16 +77,17 @@ export function kgbTabel() {
   );
 }
 
-export function kgbGrensTabel() {
+export function kgbGrensTabel(taal = 'nl') {
+  const { euro, t } = opmaak(taal);
   const rijen = [1, 2, 3, 4].map((n) => {
     const kinderen = Array(n).fill(5);
     return [
-      `${n} kind${n > 1 ? 'eren' : ''} (jonger dan 12)`,
+      t.kinderenJong(n),
       euro(maxInkomen(kindgebondenBudget, { kinderen, partner: true })),
       euro(maxInkomen(kindgebondenBudget, { kinderen })),
     ];
   });
-  return tabel(['Aantal kinderen', 'Met toeslagpartner', 'Alleenstaande ouder'], rijen);
+  return tabel([t.aantalKinderen, t.metPartner, t.alleenstaandeOuder], rijen);
 }
 
 export { tabel };

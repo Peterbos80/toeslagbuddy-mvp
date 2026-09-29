@@ -20,19 +20,23 @@ if (knop && menu) {
 
 // Voorlezen (Web Speech API) – helpt mensen die moeite hebben met lezen.
 // Alleen met een stem op het apparaat zelf; anders blijft de knop verborgen.
+// Taal uit <html lang>; de knopteksten staan in de pagina (data-stop).
 const lees = document.querySelector('.voorlees');
 if (lees) {
+  const spraak = document.documentElement.lang === 'en' ? 'en-GB' : 'nl-NL';
+  const leesTekst = lees.textContent;
+  const stopTekst = lees.dataset.stop || leesTekst;
   bijStemmen(() => {
-    lees.hidden = !lokaleStem('nl-NL');
+    lees.hidden = !lokaleStem(spraak);
   });
   lees.addEventListener('click', () => {
     if (speechSynthesis.speaking) {
       speechSynthesis.cancel();
       lees.setAttribute('aria-pressed', 'false');
-      lees.textContent = '🔊 Lees voor';
+      lees.textContent = leesTekst;
       return;
     }
-    const stem = lokaleStem('nl-NL');
+    const stem = lokaleStem(spraak);
     if (!stem) {
       lees.hidden = true;
       return;
@@ -42,16 +46,16 @@ if (lees) {
       .map((el) => el.innerText.trim())
       .filter(Boolean);
     const u = new SpeechSynthesisUtterance(delen.join('. '));
-    u.lang = 'nl-NL';
+    u.lang = spraak;
     u.rate = 0.95;
     u.voice = stem;
     u.onend = () => {
       lees.setAttribute('aria-pressed', 'false');
-      lees.textContent = '🔊 Lees voor';
+      lees.textContent = leesTekst;
     };
     speechSynthesis.speak(u);
     lees.setAttribute('aria-pressed', 'true');
-    lees.textContent = '⏹ Stop met voorlezen';
+    lees.textContent = stopTekst;
   });
 }
 
