@@ -3,8 +3,11 @@ name: Echte AI-video's maken (open source)
 # Maakt echte video's van fictieve personen zonder account of API-sleutel:
 # gezicht (Stable Diffusion 1.5 / Realistic Vision), Nederlandse stem (Piper)
 # en pratend hoofd met lipsync (SadTalker). Alles open source, op de CPU.
-# Eén job per persona (parallel). Alleen clips die de keuring doorstaan, komen
-# op de site. Tip: eerst een proef met persona 'henk' en fragment 'intro'.
+#
+# 1. gezichten: één job per persona zonder gezicht (daarna in git bewaard)
+# 2. clips: per persona in 'delen' parallelle jobs (CPU is traag)
+# 3. bewaren: alleen gekeurde clips naar git, daarna de site publiceren
+# Tip: eerst een proef met persona 'henk' en fragment 'intro'.
 
 on:
   workflow_dispatch:
@@ -17,6 +20,10 @@ on:
         description: 'Alleen deze fragmenten, met komma''s (leeg = alle), bijv. intro'
         required: false
         default: ''
+      delen:
+        description: 'Parallelle jobs per persona (1-5)'
+        required: false
+        default: '3'
       verbeteren:
         description: 'Gezicht verscherpen met GFPGAN (trager, maar echter)'
         type: boolean
@@ -41,7 +48,9 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     outputs:
-      personas: ${{ steps.p.outputs.lijst }}
+      personas: ${{ steps.p.outputs.personas }}
+      zonder_gezicht: ${{ steps.p.outputs.zonder_gezicht }}
+      delen: ${{ steps.p.outputs.delen }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -50,24 +59,63 @@ jobs:
       - id: p
         env:
           KEUZE: ${{ github.event.inputs.personas }}
+          DELEN: ${{ github.event.inputs.delen }}
         run: |
           node -e '
+            const { existsSync } = require("node:fs");
             import("./src/calc/uitleg.js").then(({ PERSONAS }) => {
               const alle = Object.keys(PERSONAS);
               const keuze = (process.env.KEUZE || "").split(",").map((s) => s.trim()).filter(Boolean);
               const onbekend = keuze.filter((p) => !alle.includes(p));
               if (onbekend.length) { console.error("Onbekende persona: " + onbekend); process.exit(1); }
-              console.log("lijst=" + JSON.stringify(keuze.length ? keuze : alle));
+              const personas = keuze.length ? keuze : alle;
+              const zonder = personas.filter((p) => !existsSync(`public/video/gezichten/${p}.jpg`));
+              const n = Math.min(5, Math.max(1, parseInt(process.env.DELEN || "3", 10) || 3));
+              console.log("personas=" + JSON.stringify(personas));
+              console.log("zonder_gezicht=" + JSON.stringify(zonder.length ? zonder : ["-"]));
+              console.log("delen=" + JSON.stringify(Array.from({ length: n }, (_, i) => `${i + 1}/${n}`)));
             });' >> "$GITHUB_OUTPUT"
+          cat "$GITHUB_OUTPUT"
+
+  gezichten:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        persona: ${{ fromJson(needs.plan.outputs.zonder_gezicht) }}
+    env:
+      HF_HOME: ${{ github.workspace }}/.video-cache/hf
+    steps:
+      - uses: actions/checkout@v4
+        if: matrix.persona != '-'
+      - uses: ./.github/actions/video-omgeving
+        if: matrix.persona != '-'
+        with:
+          sadtalker-commit: ${{ env.SADTALKER_COMMIT }}
+      - name: Gezicht maken voor ${{ matrix.persona }}
+        if: matrix.persona != '-'
+        run: |
+          mkdir -p uit-video/gezichten
+          python scripts/video/gezichten.py --persona "${{ matrix.persona }}" --uit uit-video/gezichten --gewichten .sadtalker/gfpgan/weights
+      - uses: actions/upload-artifact@v4
+        if: matrix.persona != '-'
+        with:
+          name: video-gezicht-${{ matrix.persona }}
+          path: uit-video/
+          retention-days: 14
 
   clips:
-    needs: plan
+    needs: [plan, gezichten]
+    if: always() && needs.plan.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 330
     strategy:
       fail-fast: false
       matrix:
         persona: ${{ fromJson(needs.plan.outputs.personas) }}
+        deel: ${{ fromJson(needs.plan.outputs.delen) }}
     env:
       VIDEO_CACHE: ${{ github.workspace }}/.video-cache
       HF_HOME: ${{ github.workspace }}/.video-cache/hf
@@ -76,48 +124,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - uses: actions/setup-python@v5
+      - uses: ./.github/actions/video-omgeving
         with:
-          python-version: '3.10'
-          cache: pip
-          cache-dependency-path: scripts/video/requirements*.txt
-      - run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
-      - name: Modellen uit de cache
-        uses: actions/cache@v4
+          sadtalker-commit: ${{ env.SADTALKER_COMMIT }}
+      - name: Nieuw gemaakt gezicht ophalen
+        uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
-          path: |
-            .video-cache/hf
-            .video-cache/piper
-            .sadtalker-gewichten
-          key: video-modellen-v1-${{ env.SADTALKER_COMMIT }}
-      - name: SadTalker ophalen (vaste versie)
-        run: |
-          git clone --filter=blob:none https://github.com/OpenTalker/SadTalker.git .sadtalker
-          git -C .sadtalker checkout "$SADTALKER_COMMIT"
-          mkdir -p .sadtalker-gewichten/checkpoints .sadtalker-gewichten/gfpgan/weights
-          haal() { [ -s "$2" ] || curl -fsSL --retry 3 -o "$2" "$1"; }
-          R=https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc
-          haal $R/mapping_00109-model.pth.tar .sadtalker-gewichten/checkpoints/mapping_00109-model.pth.tar
-          haal $R/mapping_00229-model.pth.tar .sadtalker-gewichten/checkpoints/mapping_00229-model.pth.tar
-          haal $R/SadTalker_V0.0.2_256.safetensors .sadtalker-gewichten/checkpoints/SadTalker_V0.0.2_256.safetensors
-          haal https://github.com/xinntao/facexlib/releases/download/v0.1.0/alignment_WFLW_4HG.pth .sadtalker-gewichten/gfpgan/weights/alignment_WFLW_4HG.pth
-          haal https://github.com/xinntao/facexlib/releases/download/v0.1.0/detection_Resnet50_Final.pth .sadtalker-gewichten/gfpgan/weights/detection_Resnet50_Final.pth
-          haal https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth .sadtalker-gewichten/gfpgan/weights/GFPGANv1.4.pth
-          haal https://github.com/xinntao/facexlib/releases/download/v0.2.2/parsing_parsenet.pth .sadtalker-gewichten/gfpgan/weights/parsing_parsenet.pth
-          cp -r .sadtalker-gewichten/checkpoints .sadtalker/
-          cp -r .sadtalker-gewichten/gfpgan .sadtalker/
-      - name: Python-pakketten
-        run: |
-          python -m pip install --upgrade pip wheel "setuptools<70" Cython
-          pip install -r scripts/video/requirements-torch.txt
-          pip install --no-build-isolation -r scripts/video/requirements.txt
-          python -c "import torch, diffusers, piper, gfpgan, facexlib; print('torch', torch.__version__)"
-      - name: Video's maken voor ${{ matrix.persona }}
+          name: video-gezicht-${{ matrix.persona }}
+          path: uit-gezicht
+      - name: Video's maken voor ${{ matrix.persona }} (deel ${{ matrix.deel }})
         env:
           VIDEO_PYTHON: python
           SEGMENTEN: ${{ github.event.inputs.segmenten }}
         run: |
-          node scripts/maak-echte-videos.js --persona "${{ matrix.persona }}" --sadtalker "$PWD/.sadtalker" --uit uit-video \
+          if [ -f "uit-gezicht/gezichten/${{ matrix.persona }}.jpg" ]; then
+            mkdir -p public/video/gezichten && cp uit-gezicht/gezichten/${{ matrix.persona }}.* public/video/gezichten/
+          fi
+          node scripts/maak-echte-videos.js --persona "${{ matrix.persona }}" --deel "${{ matrix.deel }}" --sadtalker "$PWD/.sadtalker" --uit uit-video \
             ${{ github.event.inputs.verbeteren == 'true' && '--verbeteren' || '' }} \
             ${SEGMENTEN:+--segmenten "$SEGMENTEN"}
       - name: Contactblad om te bekijken (1 beeld per seconde)
@@ -128,17 +152,21 @@ jobs:
             [ -e "$f" ] || continue
             ffmpeg -loglevel error -y -i "$f" -vf "fps=1,scale=144:-1,tile=6x1" -frames:v 1 "uit-video/contactblad/$(basename "$f" .mp4).jpg"
           done
+      - name: Naam van het artefact
+        id: naam
+        if: always()
+        run: echo "naam=video-${{ matrix.persona }}-$(echo '${{ matrix.deel }}' | tr '/' 'v')" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: video-${{ matrix.persona }}
+          name: ${{ steps.naam.outputs.naam }}
           path: uit-video/
           if-no-files-found: ignore
           retention-days: 14
 
   bewaren:
     needs: clips
-    if: always() && needs.clips.result != 'cancelled'
+    if: always() && needs.clips.result != 'cancelled' && needs.clips.result != 'skipped'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -161,7 +189,12 @@ jobs:
           git add public/video
           git diff --cached --quiet && { echo "Geen nieuwe clips"; exit 0; }
           git commit -m "Echte AI-video's bijgewerkt $(date +%F)"
-          git push
+          # GitHub geeft soms een tijdelijke fout (500): opnieuw proberen, eerst bijwerken
+          for poging in 1 2 3 4 5; do
+            git pull --rebase -q origin "${{ github.ref_name }}" && git push && exit 0
+            echo "Push mislukt (poging $poging), opnieuw over $((poging * 10)) s"; sleep $((poging * 10))
+          done
+          exit 1
       - name: Site opnieuw publiceren (tests draaien eerst)
         if: github.event.inputs.publiceren == 'true'
         env:

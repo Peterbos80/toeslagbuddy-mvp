@@ -1,0 +1,55 @@
+name: Video-omgeving
+description: Python, ffmpeg, SadTalker (vaste versie) met gewichten en alle Python-pakketten voor de open-source videopijplijn.
+
+inputs:
+  sadtalker-commit:
+    description: Vaste versie van SadTalker
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: pip
+        cache-dependency-path: scripts/video/requirements*.txt
+    - shell: bash
+      run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg fonts-dejavu-core
+    - name: Modellen uit de cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          .video-cache/hf
+          .video-cache/piper
+          .sadtalker-gewichten
+        key: video-modellen-v1-${{ inputs.sadtalker-commit }}
+    - name: SadTalker ophalen
+      shell: bash
+      env:
+        COMMIT: ${{ inputs.sadtalker-commit }}
+      run: |
+        git clone -q --filter=blob:none https://github.com/OpenTalker/SadTalker.git .sadtalker
+        git -C .sadtalker checkout -q "$COMMIT"
+        # Gezichtsverscherper op ware grootte (standaard 2x vergroot; op de CPU veel trager en niet nodig)
+        sed -i 's/upscale=2,/upscale=1,/' .sadtalker/src/utils/face_enhancer.py
+        grep -q 'upscale=1,' .sadtalker/src/utils/face_enhancer.py
+        mkdir -p .sadtalker-gewichten/checkpoints .sadtalker-gewichten/gfpgan/weights
+        haal() { [ -s "$2" ] || curl -fsSL --retry 3 -o "$2" "$1"; }
+        R=https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc
+        haal $R/mapping_00109-model.pth.tar .sadtalker-gewichten/checkpoints/mapping_00109-model.pth.tar
+        haal $R/mapping_00229-model.pth.tar .sadtalker-gewichten/checkpoints/mapping_00229-model.pth.tar
+        haal $R/SadTalker_V0.0.2_256.safetensors .sadtalker-gewichten/checkpoints/SadTalker_V0.0.2_256.safetensors
+        F=https://github.com/xinntao/facexlib/releases/download
+        haal $F/v0.1.0/alignment_WFLW_4HG.pth .sadtalker-gewichten/gfpgan/weights/alignment_WFLW_4HG.pth
+        haal $F/v0.1.0/detection_Resnet50_Final.pth .sadtalker-gewichten/gfpgan/weights/detection_Resnet50_Final.pth
+        haal $F/v0.2.2/parsing_parsenet.pth .sadtalker-gewichten/gfpgan/weights/parsing_parsenet.pth
+        haal https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth .sadtalker-gewichten/gfpgan/weights/GFPGANv1.4.pth
+        cp -r .sadtalker-gewichten/checkpoints .sadtalker-gewichten/gfpgan .sadtalker/
+    - name: Python-pakketten
+      shell: bash
+      run: |
+        python -m pip install -q --upgrade pip wheel "setuptools<70" Cython
+        pip install -q -r scripts/video/requirements-torch.txt
+        pip install -q --no-build-isolation -r scripts/video/requirements.txt
+        python -c "import torch, diffusers, piper, gfpgan, facexlib; print('torch', torch.__version__)"

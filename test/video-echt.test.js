@@ -77,6 +77,24 @@ test('pijplijn: gezicht, stem, render, label, keuring, manifest en samenvoegen',
   assert.deepEqual(opnieuw, { gemaakt: 0, afgekeurd: 0 });
 });
 
+test('parallelle delen: elk deel maakt een eigen stuk, en alleen met een bestaand gezicht', { skip }, async () => {
+  const video = tmp();
+  writeFileSync(join(video, 'manifest.json'), '{}');
+  const opties = { persona: 'mo', segmenten: 'intro,ja,nee', video, python: NEP, ffmpeg: FFMPEG, sadtalker: '/nergens' };
+  await assert.rejects(hoofd({ ...opties, uit: tmp(), cache: tmp(), stuk: '1/2' }), /Gezicht van mo ontbreekt/);
+  // Gezicht vooraf (zoals de job 'gezichten' doet), daarna twee delen
+  mkdirSync(join(video, 'gezichten'));
+  spawnSync(FFMPEG, ['-y', '-loglevel', 'error', '-f', 'lavfi', '-i', 'testsrc2=s=512x768', '-frames:v', '1', join(video, 'gezichten/mo.jpg')]);
+  const delen = [];
+  for (const stuk of ['1/2', '2/2']) {
+    const uit = tmp();
+    await hoofd({ ...opties, uit, cache: tmp(), stuk });
+    delen.push(Object.keys(JSON.parse(readFileSync(join(uit, 'manifest.mo.json'), 'utf8')).mo).sort());
+  }
+  assert.deepEqual(delen, [['intro', 'nee'], ['ja']]);
+  await assert.rejects(hoofd({ ...opties, uit: tmp(), cache: tmp(), stuk: '3/2' }), /Ongeldig --deel/);
+});
+
 test('keuring: bevroren beeld wordt afgekeurd en komt niet in het manifest', { skip }, async () => {
   const uit = tmp();
   const video = tmp();

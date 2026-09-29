@@ -34,8 +34,11 @@ export async function hoofd({
   ffmpeg = process.env.FFMPEG || 'ffmpeg',
   cache = process.env.VIDEO_CACHE || join(process.env.HOME || '/tmp', '.cache', 'toeslagbuddy-video'),
   video = join(ROOT, 'public/video'), // bestaande clips, gezichten en manifest
+  stuk = arg('--deel'), // 'k/n': alleen elke n-de clip vanaf k (parallelle jobs)
 } = {}) {
   if (!persona) throw new Error('Geef --persona op');
+  const [k, n] = stuk ? stuk.split('/').map(Number) : [1, 1];
+  if (!(n >= 1 && k >= 1 && k <= n)) throw new Error(`Ongeldig --deel ${stuk}`);
   const gezichtMap = join(video, 'gezichten');
   const gezicht = join(gezichtMap, `${persona}.jpg`);
   const manifestPad = join(video, 'manifest.json');
@@ -45,6 +48,8 @@ export async function hoofd({
 
   // 1. Gezicht: bestaat het al (in git), dan hergebruiken; anders nieuw maken en meeleveren
   if (!existsSync(gezicht)) {
+    // Parallelle delen moeten hetzelfde gezicht gebruiken: dat wordt vooraf gemaakt
+    if (n > 1) throw new Error(`Gezicht van ${persona} ontbreekt; maak het eerst (job 'gezichten')`);
     run(python, [join(ROOT, 'scripts/video/gezichten.py'), '--persona', persona, '--uit', gezichtMap, '--gewichten', join(sadtalker, 'gfpgan/weights')]);
     mkdirSync(join(uit, 'gezichten'), { recursive: true });
     copyFileSync(gezicht, join(uit, 'gezichten', `${persona}.jpg`));
@@ -60,8 +65,9 @@ export async function hoofd({
   // 3. Welke clips zijn nieuw of veranderd?
   const avatar = echteAvatar(sha(readFileSync(gezicht)), stem);
   const filter = segmenten ? new Set(segmenten.split(',').map((s) => s.trim())) : null;
-  const clips = teMaken(alleClips().filter((c) => c.persona === persona && (!filter || filter.has(c.segment))), manifest, avatar, hashVan);
-  console.log(`${persona}: ${clips.length} clip(s) te maken`);
+  const clips = teMaken(alleClips().filter((c) => c.persona === persona && (!filter || filter.has(c.segment))), manifest, avatar, hashVan)
+    .filter((_, i) => i % n === k - 1);
+  console.log(`${persona}: ${clips.length} clip(s) te maken${n > 1 ? ` (deel ${k}/${n})` : ''}`);
   const deel = { [persona]: {} };
   const rapport = [];
   if (clips.length) {
