@@ -247,3 +247,11 @@ export function actielijstCsv(resultaat) {
   }
   return '﻿' + regels.join('\r\n');
 }
+
+/**
+ * Veilig inlezen (contract; wordt uitgebreid met privacyfilter en grenzen):
+ * @returns {{rijen: object[], verwijderdeKolommen: string[], geweigerd: {regel: number, reden: string}[], fout: string|null}}
+ */
+export function leesCsvVeilig(tekst) {
+  return { rijen: leesCsv(tekst), verwijderdeKolommen: [], geweigerd: [], fout: null };
+}
