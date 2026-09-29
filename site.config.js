@@ -59,15 +59,21 @@ export default {
     },
   },
 
-  // ToeslagBuddy Pro (bewindvoerders). Formulier-URL voor pilotaanvragen,
-  // bijv. van Tally, Formspree of Basin. Leeg = aanvraag per e-mail.
-  pro: {
-    formAction: '',
+  // Formulieren (contact, Pro-aanmelding, zzp-wachtlijst) sturen berichten
+  // naar jouw eigen e-mail via Web3Forms. Je e-mailadres staat NIET op de site:
+  // je koppelt het bij web3forms.com aan een toegangscode (access key) en
+  // alleen die code staat hier. Leeg = formulieren tonen een melding.
+  formulieren: {
+    endpoint: 'https://api.web3forms.com/submit',
+    accessKey: '',
   },
 
-  // Zzp-toeslagbewaker: formulier-URL voor de wachtlijst boekhoudkoppeling.
-  zzp: {
-    wachtlijstAction: '',
+  // ToeslagBuddy Pro: inloggen en proefabonnement via Supabase (zie docs/pro-accounts.md).
+  // De 'anon key' is bedoeld om publiek te zijn; beveiliging zit in de database-regels.
+  pro: {
+    supabaseUrl: '', // bijv. 'https://abcdefgh.supabase.co'
+    supabaseAnonKey: '',
+    proefDagen: 7,
   },
 
   // Instagram. De posts worden gemaakt door social/render.js en dagelijks

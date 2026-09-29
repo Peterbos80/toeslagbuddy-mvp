@@ -18,20 +18,20 @@ function download(naam, inhoud, type) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-$('#pro-bestand').addEventListener('change', async (e) => {
+$('#pro-bestand')?.addEventListener('change', async (e) => {
   const f = e.target.files[0];
   if (!f) return;
   invoer.value = await f.text();
   controleer();
 });
-$('#pro-voorbeeld').addEventListener('click', () => {
+$('#pro-voorbeeld')?.addEventListener('click', () => {
   invoer.value = VOORBEELD_CSV;
   controleer();
 });
-$('#pro-sjabloon').addEventListener('click', () =>
+$('#pro-sjabloon')?.addEventListener('click', () =>
   download('toeslagbuddy-sjabloon.csv', '﻿' + KOLOMMEN.map(([k]) => k).join(';') + '\r\n', 'text/csv;charset=utf-8'),
 );
-$('#pro-controleer').addEventListener('click', controleer);
+$('#pro-controleer')?.addEventListener('click', controleer);
 
 const LABEL = {
   gemist: ['Niet aangevraagd', 'badge-groen'],

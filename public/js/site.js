@@ -71,3 +71,32 @@ if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-mot
 // Welkomstvideo van Buddy op de homepage
 const intro = document.querySelector('[data-intro]');
 if (intro) import('./persona.js').then((m) => m.introSpeler(intro));
+
+// Filter op de pagina met alle regelingen
+const lijst = document.querySelector('[data-filter-lijst]');
+if (lijst) {
+  const zoek = document.querySelector('[data-filter-zoek]');
+  const teller = document.querySelector('[data-filter-teller]');
+  let groep = 'alle';
+  const pas = () => {
+    const q = (zoek.value || '').trim().toLowerCase();
+    let n = 0;
+    lijst.querySelectorAll('.regeling').forEach((el) => {
+      const ok = (groep === 'alle' || el.dataset.doelgroepen.split(' ').includes(groep)) && (!q || el.dataset.zoek.includes(q));
+      el.hidden = !ok;
+      if (ok) n++;
+    });
+    teller.textContent = n;
+  };
+  document.querySelectorAll('[data-filter]').forEach((b) =>
+    b.addEventListener('click', () => {
+      groep = b.dataset.filter;
+      document.querySelectorAll('[data-filter]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      pas();
+    }),
+  );
+  zoek.addEventListener('input', pas);
+}
+
+// Formulieren (contact, pilot, wachtlijst)
+if (document.querySelector('form[data-formulier]')) import('./formulier.js');

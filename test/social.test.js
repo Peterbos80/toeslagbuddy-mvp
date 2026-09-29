@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { vernieuwToken, conceptUploaden } from '../social/tiktok.js';
 import { kalender } from '../social/content.js';
+import { updates, tiktokScripts, VERBODEN } from '../social/updates.js';
 
 test('social: kalender heeft 3 unieke posts per week met geldige teksten', () => {
   const posts = kalender('2026-10-05', 6);
@@ -36,4 +37,13 @@ test('social: TikTok-concept wordt correct aangevraagd', async () => {
 test('social: TikTok-fout wordt doorgegeven', async () => {
   const nep = async () => ({ ok: false, json: async () => ({ error: { code: 'access_token_invalid' } }) });
   await assert.rejects(conceptUploaden('https://x/v.mp4', 't', nep), /access_token_invalid/);
+});
+
+test('social: persona-updates passen op X en volgen de spelregels', () => {
+  assert.ok(updates.length >= 12);
+  for (const u of updates) {
+    assert.ok(u.tekst.length <= 280, `te lang voor X: ${u.tekst.slice(0, 40)}`);
+    for (const v of VERBODEN) assert.ok(!v.test(u.tekst), `spelregel geschonden: ${u.tekst.slice(0, 40)}`);
+  }
+  for (const t of tiktokScripts) assert.ok(t.hook && t.beats.length >= 3 && t.cta);
 });

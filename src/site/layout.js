@@ -8,7 +8,7 @@ const NAV = [
   ['/zorgtoeslag-berekenen/', 'Zorgtoeslag'],
   ['/huurtoeslag-berekenen/', 'Huurtoeslag'],
   ['/kindgebonden-budget-berekenen/', 'Kindgebonden budget'],
-  ['/kinderopvangtoeslag-berekenen/', 'Kinderopvang'],
+  ['/alle-regelingen/', 'Alle regelingen'],
   ['/zzp-toeslagen/', 'Zzp'],
   ['/pro/', 'Voor professionals'],
 ];
@@ -38,12 +38,14 @@ const FOOTER = [
     ['/toeslagen-aanvragen/', 'Toeslagen aanvragen'],
     ['/toeslag-terugbetalen/', 'Terugbetalen voorkomen'],
     ['/toeslagen-2027/', 'Toeslagen 2027'],
+    ['/alle-regelingen/', 'Alle regelingen op een rij'],
     ['/nieuws/', 'Nieuws over toeslagen'],
     ['/zorgverzekering-overstappen/', `Zorgverzekering ${JAAR + 1} overstappen`],
   ]],
   ['ToeslagBuddy', [
     ['/over/', 'Over ons'],
     ['/bronnen/', 'Bronnen en rekenregels'],
+    ['/contact/', 'Contact'],
     ['/privacy/', 'Privacy en cookies'],
     ['/disclaimer/', 'Disclaimer'],
   ]],
@@ -81,6 +83,30 @@ export function nieuwsbrief() {
 <p>Eén mail als er iets verandert aan de toeslagen. Geen spam, altijd afmelden.</p>
 <form action="${esc(n.formAction)}" method="post" target="_blank"><label class="skip" for="nb-email">E-mailadres</label>
 <input id="nb-email" type="email" name="${esc(n.emailVeld)}" placeholder="jouw@email.nl" required autocomplete="email"><button type="submit">Aanmelden</button></form></section>`;
+}
+
+// Formulier dat via de webapplicatie (Web3Forms) naar je privé-e-mail gaat.
+// velden: [naam, label, type, verplicht, autocomplete]
+export function formulier(soort, onderwerp, velden, knop) {
+  const f = config.formulieren;
+  return `<form class="aanvraag" data-formulier="${esc(soort)}" data-onderwerp="${esc(onderwerp)}" novalidate>
+${velden
+  .map(([naam, label, type = 'text', verplicht = false, auto = 'off']) => {
+    const id = `f-${soort}-${naam}`;
+    const veld = type === 'textarea'
+      ? `<textarea id="${id}" name="${naam}"${verplicht ? ' required' : ''} rows="5"></textarea>`
+      : `<input id="${id}" name="${naam}" type="${type}" autocomplete="${auto}"${verplicht ? ' required' : ''}>`;
+    return `<div class="veld"><label for="${id}">${esc(label)}${verplicht ? '' : ' <small>(optioneel)</small>'}</label>${veld}</div>`;
+  })
+  .join('\n')}
+<input type="checkbox" name="botcheck" class="skip" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="knop" type="submit">${esc(knop)}</button>
+<p class="formulier-status" role="status" aria-live="polite"></p>
+</form>`;
+}
+
+export function formulierConfigJson() {
+  return JSON.stringify({ endpoint: config.formulieren.endpoint, accessKey: config.formulieren.accessKey }).replace(/</g, '\\u003c');
 }
 
 // Partnerblok in de pagina zelf (niet alleen na een berekening)
@@ -193,8 +219,9 @@ ${body}
 ${config.instagram.account ? `<p>Volg ons op <a href="https://www.instagram.com/${esc(config.instagram.account)}/" rel="noopener">Instagram @${esc(config.instagram.account)}</a> voor toeslag-tips.</p>` : ''}
 <p class="disclaimer">${config.naam} is een onafhankelijke rekenhulp en hoort <strong>niet</strong> bij de Belastingdienst, Dienst Toeslagen of de SVB. De uitkomsten zijn een indicatie op basis van de officiële rekenregels voor ${JAAR}. Aan de berekening kun je geen rechten ontlenen. Vraag toeslagen altijd aan via <a href="https://www.toeslagen.nl" rel="noopener">toeslagen.nl</a>. Bedragen gecontroleerd op ${new Date(GECONTROLEERD_OP).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })}.</p>
 </div></footer>
+<script>window.TB_FORMULIEREN=${formulierConfigJson()}</script>
 <script type="module" src="/js/site.js?v=${page.versie}"></script>
-${page.calc ? `<script>window.TB_PARTNERS=${partnersJson()}</script>\n<script type="module" src="/js/app.js?v=${page.versie}"></script>` : ''}${page.script ? `\n<script type="module" src="/js/${page.script}?v=${page.versie}"></script>` : ''}
+${page.calc ? `<script>window.TB_PARTNERS=${partnersJson()}</script>\n<script type="module" src="/js/app.js?v=${page.versie}"></script>` : ''}${page.pro ? `\n<script>window.TB_PRO=${JSON.stringify({ supabaseUrl: config.pro.supabaseUrl, supabaseAnonKey: config.pro.supabaseAnonKey, proefDagen: config.pro.proefDagen }).replace(/</g, '\\u003c')}</script>${config.pro.supabaseUrl ? `\n<script src="/js/vendor/supabase.js"></script>` : ''}` : ''}${[].concat(page.script || []).map((sc) => `\n<script type="module" src="/js/${sc}?v=${page.versie}"></script>`).join('')}
 </body>
 </html>
 `;

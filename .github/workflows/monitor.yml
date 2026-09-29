@@ -1,0 +1,29 @@
+name: Wijzigingsmonitor officiële bedragen
+
+on:
+  schedule:
+    - cron: '40 4 * * *' # elke ochtend rond 06:40
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Bronpagina's controleren (maakt een issue bij wijzigingen)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/monitor.js
+      - name: Meting bewaren
+        run: |
+          git config user.name "toeslagbuddy-monitor"
+          git config user.email "monitor@users.noreply.github.com"
+          git add data/monitor.json
+          git diff --cached --quiet || (git commit -m "Monitor: meting $(date +%F)" && git push)

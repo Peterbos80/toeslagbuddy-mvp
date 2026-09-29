@@ -189,6 +189,83 @@ test('persona-uitleg: juiste persona, ondertitels en bediening', async () => {
   await ctx.close();
 });
 
+test('Pro: aanmelden, omgeving, proefstatus, tabs en uitloggen (demo)', async () => {
+  const ctx = await s.browser.newContext({ reducedMotion: 'reduce' });
+  const p = await open(ctx, s.basis + '/pro/aanmelden/?demo=1', fouten);
+  const f = p.locator('form[data-pro-aanmelden]');
+  await f.locator('button[type=submit]').click();
+  assert.match(await tekst(f.locator('.formulier-status')), /akkoord/);
+  await f.locator('[name=naam]').fill('Test Bewindvoerder');
+  await f.locator('[name=organisatie]').fill('Bewind BV');
+  await f.locator('[name=email]').fill('test@bewind.nl');
+  await f.locator('[name=akkoord]').check();
+  await f.locator('button[type=submit]').click();
+  await p.waitForURL('**/pro/app/?demo=1');
+  assert.match(await tekst(p.locator('[data-pro-status]')), /Proef: nog 7 dagen/);
+  assert.match(await tekst(p.locator('.pro-welkom')), /Test Bewindvoerder/);
+  await p.click('#pro-voorbeeld');
+  assert.match(await tekst(p.locator('.tegels').first()), /Cliënten gecontroleerd 6/);
+  await p.click('[data-pro-tab=account]');
+  assert.equal(await p.locator('[data-pro-paneel=account] [name=email]').inputValue(), 'test@bewind.nl');
+  // Verlopen proef: geen toegang tot het hulpmiddel
+  await p.goto(s.basis + '/pro/app/?demo=1&verlopen=1');
+  await p.waitForSelector('[data-pro-scherm=verlopen]:not([hidden])');
+  assert.equal(await p.locator('[data-pro-scherm=actief]').isHidden(), true);
+  await p.locator('[data-pro-scherm=verlopen] [data-pro-uitloggen]').click();
+  await p.waitForURL('**/pro/inloggen/?demo=1');
+  // Na uitloggen: omgeving stuurt terug naar inloggen
+  await p.goto(s.basis + '/pro/app/?demo=1');
+  await p.waitForURL('**/pro/inloggen/?demo=1');
+  await ctx.close();
+});
+
+test('Pro zonder accounts: nette melding in plaats van fouten', async () => {
+  const ctx = await s.browser.newContext();
+  const p = await open(ctx, s.basis + '/pro/app/', fouten);
+  await p.waitForSelector('[data-pro-scherm=niet-actief]:not([hidden])');
+  await ctx.close();
+});
+
+test('formulieren: bericht gaat via de webapplicatie, zonder zichtbaar e-mailadres', async () => {
+  const ctx = await s.browser.newContext();
+  const p = await open(ctx, s.basis + '/contact/', fouten);
+  const html = await p.content();
+  assert.ok(!/mailto:|@gmail\.com/.test(html), 'geen e-mailadres in de pagina');
+  let verzonden = null;
+  await p.route('https://api.web3forms.com/submit', async (r) => {
+    verzonden = JSON.parse(r.request().postData());
+    await r.fulfill({ status: 200, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' }, body: '{"success":true}' });
+  });
+  const f = p.locator('form[data-formulier=contact]');
+  // Zonder toegangscode: nette melding
+  await f.locator('[name=naam]').fill('Jan');
+  await f.locator('[name=email]').fill('jan@example.nl');
+  await f.locator('[name=bericht]').fill('Hallo!');
+  await f.locator('button[type=submit]').click();
+  assert.match(await tekst(f.locator('.formulier-status')), /binnenkort geactiveerd/);
+  // Met toegangscode: verstuurd via Web3Forms
+  await p.evaluate(() => (window.TB_FORMULIEREN.accessKey = 'test-sleutel'));
+  await f.locator('button[type=submit]').click();
+  await p.waitForSelector('.formulier-status[data-soort=ok]');
+  assert.equal(verzonden.access_key, 'test-sleutel');
+  assert.equal(verzonden.bericht, 'Hallo!');
+  assert.match(verzonden.subject, /ToeslagBuddy/);
+  await ctx.close();
+});
+
+test('alle regelingen: filter en zoeken', async () => {
+  const ctx = await s.browser.newContext({ reducedMotion: 'reduce' });
+  const p = await open(ctx, s.basis + '/alle-regelingen/', fouten);
+  const totaal = Number(await tekst(p.locator('[data-filter-teller]')));
+  assert.ok(totaal >= 30);
+  await p.click('[data-filter=student]');
+  const student = Number(await tekst(p.locator('[data-filter-teller]')));
+  assert.ok(student > 0 && student < totaal);
+  await p.fill('[data-filter-zoek]', 'studiefinanciering');
+  assert.equal(await tekst(p.locator('[data-filter-teller]')), '1');
+  await ctx.close();
+});
+
 test('geen JavaScript-fouten tijdens de tests', () => {
   assert.deepEqual(fouten, []);
 });

@@ -20,11 +20,25 @@ Legenda: ✅ klaar en getest · 🔜 volgende · 💡 idee · ⛔ wacht op jou (
 | ✅ 12 | Instagram Reels plaatsen (`IG_FORMAT=reel`) en TikTok-concept in de inbox | `test/social.test.js` |
 | ✅ 13 | **Mijn toeslagbewaker** (zzp): checks bewaren, geschiedenis, exporteren en importeren, zonder account | e2e `zzp-dashboard` |
 
+## Klaar in ronde 3 (29 september 2026, middag)
+
+| # | Feature | Getest met |
+|---|---|---|
+| ✅ 23 | Levendiger ontwerp: Nunito, kleurverlopen, zwevende munten, iconen, glans, oplopende bedragen, geanimeerde balken, onthullen bij scrollen | axe, e2e, schermafbeeldingen |
+| ✅ 24 | **Persoonlijke uitleg-video's**: geanimeerde persona (op leeftijd en situatie gekozen, anders Buddy), met stem, ondertitels en bediening | `test/uitleg.test.js`, e2e |
+| ✅ 25 | **Alle regelingen van Nederland** (34, van Dienst Toeslagen, SVB, UWV, DUO, Belastingdienst, gemeenten en fondsen), met filter en zoeken | e2e |
+| ✅ 26 | **Wijzigingsmonitor**: dagelijkse controle van de officiële bronpagina's, met een GitHub-issue bij gewijzigde bedragen | `test/monitor.test.js` |
+| ✅ 27 | **Pro met inloggen**: aanmelden, inloglink per e-mail, afgeschermde omgeving, proef van 7 dagen, vergrendeld na afloop, abonnement aanvragen | `test/proef.test.js`, e2e (demo) |
+| ✅ 28 | **Formulieren naar je privé-e-mail** via Web3Forms; nergens een e-mailadres op de site; contactpagina | e2e |
+| ✅ 29 | **Grappige persona-updates** voor X en TikTok, met spelregeltest | `test/social.test.js` |
+
 ## Volgende (in volgorde van opbrengst)
 
 | # | Feature | Waarom | Status |
 |---|---|---|---|
-| 14 | Betaallink en licentiecode voor Pro (Mollie) | Pilots omzetten naar € 99 per maand | ⛔ Mollie-account nodig |
+| 14 | Automatisch betalen voor Pro (Mollie → abonnement op 'actief') | Van proef naar abonnement zonder handwerk | ⛔ Mollie-account nodig |
+| 14b | Uitkomst delen als afbeelding (WhatsApp, stories) | Viraal bereik | 🔜 |
+| 14c | Pagina 'Wie zit erachter' en een deskundige die de rekenregels controleert | Vertrouwen (voor Google) | ⛔ jouw naam en foto |
 | 15 | Kolommen van de meestgebruikte exports van bewindvoeringssoftware automatisch herkennen | Minder werk bij het inladen | 🔜 voorbeeldexport nodig uit de pilotgesprekken |
 | 16 | Kinderopvangtoeslag met de volledige officiële tabel (69 inkomensklassen) | Exact in plaats van ±1 procentpunt | 🔜 |
 | 17 | Bedragen 2027 overal bijwerken zodra ze definitief zijn (eind november) | Piek in zoekverkeer in december en januari | 🔜 zodra ze gepubliceerd zijn |
@@ -40,3 +54,5 @@ Legenda: ✅ klaar en getest · 🔜 volgende · 💡 idee · ⛔ wacht op jou (
 - E-mail instellen: [email.md](email.md)
 - Instagram, Meta-app en TikTok-app aanmaken: [instagram.md](instagram.md)
 - In GitHub: standaardbranch op `main` zetten en `main` toestaan in de omgeving github-pages
+- Supabase-project voor Pro-accounts: [pro-accounts.md](pro-accounts.md)
+- Web3Forms-sleutel voor formulieren: [email.md](email.md)

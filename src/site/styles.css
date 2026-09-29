@@ -390,3 +390,39 @@ header.site { position: sticky; top: 0; z-index: 20; background: color-mix(in sr
   .munt:nth-child(1)::after { font-size: 13px; }
   .hero-buddy { display: none; }
 }
+/* Alle regelingen */
+.filter-balk { position: sticky; top: 64px; z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); padding: 10px 0; margin-bottom: 8px; }
+.filter-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 4px; }
+.chip { font: inherit; font-size: .92rem; font-weight: 700; border: 2px solid var(--lijn); background: var(--vlak); color: var(--tekst); border-radius: 99px; padding: 6px 14px; cursor: pointer; transition: all .2s; }
+.chip[aria-pressed='true'] { background: var(--grad); color: #fff; border-color: transparent; box-shadow: 0 6px 16px -6px rgba(13, 122, 95, .6); }
+.regelingen { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.regeling { background: var(--vlak); border-radius: var(--radius); padding: 18px; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 10px 26px -16px rgba(13, 60, 45, .3); display: flex; flex-direction: column; transition: transform .25s; }
+.regeling:hover { transform: translateY(-3px); }
+.regeling h2 { font-size: 1.15rem; margin: 2px 0 6px; }
+.regeling p { margin: 4px 0; font-size: .95rem; }
+.regeling-bron { font-size: .78rem !important; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--merk); }
+.regeling-links { margin-top: auto !important; padding-top: 10px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.formulier-status:empty { display: none; }
+.formulier-status { margin: 10px 0 0; padding: 10px 14px; border-radius: 10px; font-weight: 650; }
+.formulier-status[data-soort='ok'] { background: #dcf3ea; color: #075641; }
+.formulier-status[data-soort='fout'] { background: #fbe1df; color: #8c1d18; }
+.formulier-status[data-soort='bezig'] { background: var(--merk-licht); color: var(--merk-donker); }
+.aanvraag textarea { font: inherit; min-height: 140px; }
+
+/* Pro-omgeving */
+.pro-raster { display: grid; gap: 20px; }
+@media (min-width: 900px) { .pro-raster { grid-template-columns: 1.2fr .8fr; align-items: start; } }
+.pro-voordelen { background: var(--grad); color: #fff; border-radius: var(--radius); padding: 22px; }
+.pro-voordelen h2 { margin-top: 0; font-size: 1.2rem; }
+.pro-voordelen a { color: #fff; }
+.pro-voordelen li { margin: 6px 0; }
+.aanvraag.smal { max-width: 480px; }
+.pro-balk { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; background: var(--vlak); border-radius: var(--radius); padding: 14px 18px; box-shadow: 0 10px 26px -18px rgba(13, 60, 45, .4); margin-bottom: 14px; }
+.pro-welkom { margin: 0; font-size: 1.1rem; }
+.pro-balk .subtiel { margin: 0; }
+.pro-status { font-weight: 800; border-radius: 99px; padding: 6px 14px; background: #fff1cc; color: #5c4300; }
+.pro-status[data-soort='abonnement'] { background: #dcf3ea; color: #075641; }
+.pro-status[data-soort='verlopen'] { background: #fbe1df; color: #8c1d18; }
+.pro-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.pro-tabs button { font: inherit; font-weight: 700; border: 0; background: var(--merk-licht); color: var(--merk-donker); border-radius: 12px; padding: 10px 16px; cursor: pointer; min-height: 44px; }
+.pro-tabs button[aria-selected='true'] { background: var(--grad); color: #fff; }

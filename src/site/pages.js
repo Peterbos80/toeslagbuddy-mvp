@@ -19,7 +19,8 @@ import {
 } from './tabellen.js';
 import { zorgtoeslag, huurtoeslag, kindgebondenBudget, kotPercentage } from '../calc/toeslagen.js';
 import { KOLOMMEN } from '../calc/pro.js';
-import { partnerBlok } from './layout.js';
+import { partnerBlok, formulier } from './layout.js';
+import { regelingen, DOELGROEPEN, GECONTROLEERD as REG_GECONTROLEERD } from './regelingen.js';
 import { readFileSync, existsSync } from 'node:fs';
 
 const NIEUWS_BESTAND = new URL('../../data/nieuws.json', import.meta.url);
@@ -45,6 +46,25 @@ const kaartenAlle = `<div class="kaarten">
 <a href="/kinderbijslag-berekenen/"><strong>Kinderbijslag</strong><span>Voor elk kind, zonder inkomenstoets</span></a>
 <a href="/regelingen-laag-inkomen/"><strong>Gemeente, UWV en SVB</strong><span>Kwijtschelding, bijzondere bijstand en meer</span></a>
 </div>`;
+
+// Het Pro-hulpmiddel: volledig (in de afgeschermde omgeving) of als demo
+function proTool(volledig) {
+  return `<section class="rekenkaart" aria-label="Cliëntenlijst">
+<div class="pro-knoppen">
+${volledig ? '<label class="knop-licht" style="cursor:pointer">📄 CSV-bestand kiezen<input type="file" id="pro-bestand" accept=".csv,text/csv" hidden></label>' : ''}
+<button type="button" class="knop-licht" id="pro-voorbeeld">Voorbeeld laden</button>
+${volledig ? '<button type="button" class="knop-licht" id="pro-sjabloon">Sjabloon downloaden</button>' : ''}
+</div>
+<div${volledig ? '' : ' hidden'}>
+<label for="pro-invoer" class="label">Of plak hier je lijst (met kopregel):</label>
+<textarea id="pro-invoer" spellcheck="false" placeholder="${KOLOMMEN.map(([k]) => k).join(';')}"></textarea>
+<p><button type="button" class="knop" id="pro-controleer">Controleer lijst</button></p>
+</div>
+<p class="privacy-noot">🔒 De controle draait lokaal in je browser. Wij ontvangen geen cliëntgegevens.</p>
+</section>
+<div id="pro-uitkomst" aria-live="polite"></div>
+${volledig ? `<details class="faq"><summary>Welke kolommen kan ik gebruiken?</summary><div><p>Scheidingsteken puntkomma of komma. Ja/nee-velden mogen ook j/n of 1/0 zijn. Onbekende kolommen worden genegeerd.</p>${tabel(['Kolom', 'Betekenis'], KOLOMMEN.map(([k, b]) => [`<code>${k}</code>`, b]))}</div></details>` : ''}`;
+}
 
 const alleCheckLink = `<p class="let-op"><strong>Tip:</strong> reken in één keer uit waar je recht op hebt met de <a href="/#check">complete toeslagen-check</a>. Je ziet dan ook regelingen van je gemeente.</p>`;
 
@@ -646,7 +666,7 @@ ${alleCheckLink}`,
     h1: 'Alle cliënten in één keer gecontroleerd op toeslagen',
     intro: 'Voor bewindvoerders, budgetcoaches en schuldhulpverleners. Zet je cliëntenlijst erin en zie binnen een minuut wie geld misloopt, wie een te hoog voorschot heeft en welke regeling van de gemeente nog kan worden aangevraagd.',
     body: ({ config }) => `
-<p><a class="knop" href="/pro/check/">Probeer het direct met voorbeeldcliënten →</a></p>
+<p class="hero-knoppen"><a class="knop groot" href="/pro/aanmelden/">Start gratis proef – 7 dagen</a> <a class="knop-licht" href="/pro/check/">Bekijk de demo</a> <a class="knop-licht" href="/pro/inloggen/">Inloggen</a></p>
 
 <h2>Het probleem</h2>
 <ul>
@@ -677,22 +697,16 @@ ${alleCheckLink}`,
 
 <h2>Prijzen</h2>
 <div class="prijzen">
-<div class="prijs uitgelicht"><h3>Pilot</h3><p class="bedrag">€ 0</p><p>30 dagen, daarna € 99 per maand</p><ul><li>Tot 100 cliënten</li><li>Onbeperkt controleren</li><li>Actielijst en rapport</li><li>Persoonlijke onboarding</li></ul></div>
+<div class="prijs uitgelicht"><h3>Proef</h3><p class="bedrag">€ 0</p><p>7 dagen, alle functies, stopt vanzelf</p><ul><li>Onbeperkt controleren</li><li>Actielijst en rapport</li><li>Geen betaalgegevens nodig</li><li><a href="/pro/aanmelden/">Direct starten →</a></li></ul></div>
 <div class="prijs"><h3>Kantoor</h3><p class="bedrag">€ 1</p><p>per cliënt per maand (minimaal € 99)</p><ul><li>Onbeperkt cliënten</li><li>Jaarlijkse update rekenregels</li><li>Rapport voor je dossier en de jaarlijkse controle</li><li>Support per mail en telefoon</li></ul></div>
 <div class="prijs"><h3>Organisatie</h3><p class="bedrag">Op maat</p><p>Schuldhulpverlening, gemeenten, woningcorporaties</p><ul><li>Meerdere teams</li><li>Eigen huisstijl</li><li>Koppeling met je eigen software</li></ul></div>
 </div>
 <p class="hint">Introductieprijzen voor de eerste 10 kantoren. Alle prijzen exclusief btw.</p>
 
-<h2 id="pilot">Pilot aanvragen</h2>
-${config.pro.formAction
-  ? `<form class="aanvraag" action="${config.pro.formAction}" method="post">
-<div class="veld"><label for="p-naam">Naam</label><input id="p-naam" name="naam" required autocomplete="name"></div>
-<div class="veld"><label for="p-org">Kantoor / organisatie</label><input id="p-org" name="organisatie" required autocomplete="organization"></div>
-<div class="veld"><label for="p-mail">E-mail</label><input id="p-mail" type="email" name="email" required autocomplete="email"></div>
-<div class="veld"><label for="p-tel">Telefoon (optioneel)</label><input id="p-tel" type="tel" name="telefoon" autocomplete="tel"></div>
-<div class="veld"><label for="p-aantal">Aantal cliënten</label><input id="p-aantal" name="clienten" inputmode="numeric"></div>
-<button class="knop" type="submit">Pilot aanvragen</button></form>`
-  : `<p class="aanvraag">Mail naar <a href="mailto:${config.contactEmail}?subject=Pilot%20ToeslagBuddy%20Pro&body=Naam%3A%0AKantoor%3A%0AAantal%20cli%C3%ABnten%3A%0ATelefoon%3A">${config.contactEmail}</a> met je naam, kantoor en het aantal cliënten. We nemen binnen één werkdag contact op.</p>`}
+<h2 id="pilot">Liever eerst kennismaken?</h2>
+<p>Laat je gegevens achter voor een demo of begeleide pilot. We nemen binnen één werkdag contact op.</p>
+${formulier('pro-pilot', 'Pilot ToeslagBuddy Pro', [['naam', 'Naam', 'text', true, 'name'], ['organisatie', 'Kantoor of organisatie', 'text', true, 'organization'], ['email', 'E-mail', 'email', true, 'email'], ['telefoon', 'Telefoon', 'tel', false, 'tel'], ['clienten', 'Aantal cliënten', 'text']], 'Pilot aanvragen')}
+<p>Liever meteen zelf proberen? <a href="/pro/aanmelden/">Start je gratis proef van 7 dagen →</a></p>
 `,
     faq: [
       ['Moet ik een verwerkersovereenkomst met jullie sluiten?', 'Wij verwerken geen persoonsgegevens: de controle draait in je eigen browser en er gaat niets naar onze server. Bespreek het met je eigen privacyfunctionaris als je twijfelt; we lichten de werking graag toe.'],
@@ -703,29 +717,127 @@ ${config.pro.formAction
   },
   {
     slug: '/pro/check/',
-    kort: 'Cliëntenlijst controleren',
-    title: 'Cliëntenlijst controleren op toeslagen – ToeslagBuddy Pro',
-    description: 'Laad je cliëntenlijst en zie direct wie toeslagen misloopt en waar een terugvordering dreigt. De controle draait in je eigen browser.',
-    h1: 'Cliëntenlijst controleren',
-    intro: 'Kies een CSV-bestand, plak je lijst of probeer het voorbeeld. Er gaat niets over het internet.',
+    kort: 'Demo',
+    title: 'Demo: cliëntenlijst controleren – ToeslagBuddy Pro',
+    description: 'Bekijk met zes voorbeeldcliënten hoe ToeslagBuddy Pro gemiste toeslagen en terugvorderingen opspoort.',
+    h1: 'Demo met voorbeeldcliënten',
+    intro: 'Zo ziet ToeslagBuddy Pro eruit. Met een gratis proefabonnement controleer je je eigen cliëntenlijst.',
     script: 'pro-app.js',
     body: () => `
-<section class="rekenkaart" aria-label="Cliëntenlijst">
-<div class="pro-knoppen">
-<label class="knop-licht" style="cursor:pointer">📄 CSV-bestand kiezen<input type="file" id="pro-bestand" accept=".csv,text/csv" hidden></label>
-<button type="button" class="knop-licht" id="pro-voorbeeld">Voorbeeld laden</button>
-<button type="button" class="knop-licht" id="pro-sjabloon">Sjabloon downloaden</button>
+${proTool(false)}
+<p class="hero-knoppen"><a class="knop groot" href="/pro/aanmelden/">Start je gratis proef van 7 dagen →</a></p>`,
+  },
+  {
+    slug: '/pro/aanmelden/',
+    kort: 'Proef starten',
+    noindex: true,
+    pro: true,
+    title: 'Gratis proefabonnement ToeslagBuddy Pro (7 dagen)',
+    description: 'Start een gratis proefabonnement van 7 dagen op ToeslagBuddy Pro, met alle functies.',
+    h1: 'Start je gratis proef van 7 dagen',
+    intro: 'Alle functies van ToeslagBuddy Pro, 7 dagen gratis. Geen betaalgegevens nodig; de proef stopt vanzelf.',
+    script: ['pro-account.js'],
+    body: ({ config }) => `
+<div class="pro-raster">
+<form class="aanvraag" data-formulier="pro-aanmelding" data-onderwerp="Proefabonnement ToeslagBuddy Pro" data-eigen-afhandeling data-pro-aanmelden novalidate>
+<div class="veld"><label for="pa-naam">Je naam</label><input id="pa-naam" name="naam" required autocomplete="name"></div>
+<div class="veld"><label for="pa-org">Kantoor of organisatie</label><input id="pa-org" name="organisatie" required autocomplete="organization"></div>
+<div class="veld"><label for="pa-mail">Zakelijk e-mailadres</label><input id="pa-mail" name="email" type="email" required autocomplete="email"></div>
+<div class="veld"><label for="pa-cl">Aantal cliënten <small>(optioneel)</small></label><input id="pa-cl" name="clienten" inputmode="numeric"></div>
+<div class="veld vinkje"><input type="checkbox" id="pa-akkoord" name="akkoord" value="ja" required><label for="pa-akkoord">Ik ga akkoord met de <a href="/pro/voorwaarden/">voorwaarden</a> en de <a href="/privacy/">privacyverklaring</a></label></div>
+<input type="checkbox" name="botcheck" class="skip" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="knop" type="submit">Start gratis proef</button>
+<p class="formulier-status" role="status" aria-live="polite"></p>
+</form>
+<aside class="pro-voordelen"><h2>Dit krijg je ${config.pro.proefDagen} dagen gratis</h2><ul>
+<li>Onbeperkt cliëntenlijsten controleren</li><li>Gemiste toeslagen en terugbetalingsrisico’s per cliënt</li><li>Actielijst voor Excel en een rapport voor je dossier</li><li>Signalen voor volgend jaar en gemeentelijke regelingen</li><li>Cliëntgegevens blijven op je eigen computer</li></ul>
+<p>Al een account? <a href="/pro/inloggen/">Inloggen</a></p></aside>
+</div>`,
+  },
+  {
+    slug: '/pro/inloggen/',
+    kort: 'Inloggen',
+    noindex: true,
+    pro: true,
+    title: 'Inloggen – ToeslagBuddy Pro',
+    description: 'Log in op ToeslagBuddy Pro met een inloglink per e-mail.',
+    h1: 'Inloggen op ToeslagBuddy Pro',
+    intro: 'Vul je e-mailadres in. Je krijgt een inloglink, dus je hoeft geen wachtwoord te onthouden.',
+    script: ['pro-account.js'],
+    body: () => `
+<form class="aanvraag smal" data-pro-inloggen novalidate>
+<div class="veld"><label for="pi-mail">E-mailadres</label><input id="pi-mail" name="email" type="email" required autocomplete="email"></div>
+<button class="knop" type="submit">Stuur inloglink</button>
+<p class="formulier-status" role="status" aria-live="polite"></p>
+</form>
+<p>Nog geen account? <a href="/pro/aanmelden/">Start je gratis proef van 7 dagen</a>.</p>`,
+  },
+  {
+    slug: '/pro/app/',
+    kort: 'Mijn omgeving',
+    noindex: true,
+    pro: true,
+    title: 'Mijn omgeving – ToeslagBuddy Pro',
+    description: 'Je afgeschermde omgeving van ToeslagBuddy Pro.',
+    h1: 'ToeslagBuddy Pro',
+    intro: 'Je afgeschermde werkomgeving. Cliëntgegevens blijven op deze computer.',
+    script: ['pro-account.js'],
+    body: () => `
+<div data-pro-omgeving>
+<p data-pro-laden class="subtiel">Omgeving laden…</p>
+<div class="let-op" data-pro-demo hidden><strong>Demo-modus:</strong> dit account bestaat alleen in deze browser.</div>
+
+<section data-pro-scherm="actief" hidden>
+<div class="pro-balk">
+<div><p class="pro-welkom">Welkom, <strong data-pro-naam></strong></p><p class="subtiel" data-pro-organisatie></p></div>
+<span class="pro-status" data-pro-status></span>
+<button type="button" class="knop-licht" data-pro-uitloggen>Uitloggen</button>
 </div>
-<label for="pro-invoer" class="label">Of plak hier je lijst (met kopregel):</label>
-<textarea id="pro-invoer" spellcheck="false" placeholder="${KOLOMMEN.map(([k]) => k).join(';')}"></textarea>
-<p><button type="button" class="knop" id="pro-controleer">Controleer lijst</button></p>
-<p class="privacy-noot">🔒 De controle draait lokaal in je browser. Wij ontvangen geen cliëntgegevens.</p>
+<div class="pro-tabs" role="tablist">
+<button type="button" role="tab" data-pro-tab="check" aria-selected="true">Cliëntencheck</button>
+<button type="button" role="tab" data-pro-tab="account" aria-selected="false">Account en abonnement</button>
+<button type="button" role="tab" data-pro-tab="hulp" aria-selected="false">Hulp</button>
+</div>
+<div data-pro-paneel="check">${proTool(true)}</div>
+<div data-pro-paneel="account" hidden>
+<div class="tegels"><div class="tegel"><span>E-mail</span><strong data-pro-email style="font-size:1rem"></strong></div><div class="tegel"><span>Proef geldig tot</span><strong data-pro-eind style="font-size:1rem"></strong></div></div>
+<h2>Abonnement aanvragen</h2>
+<p>€ 1 per cliënt per maand (minimaal € 99), maandelijks opzegbaar. Na je aanvraag sturen we een betaallink en loopt je toegang zonder onderbreking door.</p>
+${formulier('pro-abonnement', 'Abonnement ToeslagBuddy Pro aangevraagd', [['organisatie', 'Organisatie', 'text', true, 'organization'], ['email', 'E-mail', 'email', true, 'email'], ['clienten', 'Aantal cliënten', 'text', true], ['factuur', 'Factuurgegevens of opmerkingen', 'textarea']], 'Abonnement aanvragen')}
+</div>
+<div data-pro-paneel="hulp" hidden>
+<ol><li>Exporteer je cliëntenlijst uit je administratie naar Excel of CSV (of gebruik het sjabloon).</li><li>Gebruik cliëntnummers, geen namen of BSN.</li><li>Klik op ‘CSV-bestand kiezen’ of plak de lijst, en klik op ‘Controleer lijst’.</li><li>Download de actielijst of print het rapport voor je dossier.</li></ol>
+<p>Vragen? Gebruik het <a href="/contact/">contactformulier</a>, we helpen je graag.</p>
+</div>
 </section>
-<div id="pro-uitkomst" aria-live="polite"></div>
-<h2>Kolommen</h2>
-<p>Scheidingsteken puntkomma of komma. Ja/nee-velden mogen ook j/n of 1/0 zijn. Onbekende kolommen worden genegeerd.</p>
-${tabel(['Kolom', 'Betekenis'], KOLOMMEN.map(([k, b]) => [`<code>${k}</code>`, b]))}
-<p>Nog geen account? <a href="/pro/#pilot">Vraag een gratis pilot aan</a>.</p>`,
+
+<section data-pro-scherm="verlopen" hidden>
+<div class="resultaat geen"><h2>Je proefperiode is verlopen</h2><p>Bedankt voor het proberen van ToeslagBuddy Pro. Vraag hieronder een abonnement aan om verder te gaan; we sturen je dan een betaallink.</p></div>
+${formulier('pro-abonnement-na-proef', 'Abonnement ToeslagBuddy Pro aangevraagd (na proef)', [['organisatie', 'Organisatie', 'text', true, 'organization'], ['email', 'E-mail', 'email', true, 'email'], ['clienten', 'Aantal cliënten', 'text', true]], 'Abonnement aanvragen')}
+<p><button type="button" class="knop-licht" data-pro-uitloggen>Uitloggen</button></p>
+</section>
+
+<section data-pro-scherm="niet-actief" hidden>
+<p class="let-op">Accounts worden binnenkort geactiveerd. <a href="/pro/aanmelden/">Vraag alvast je proefabonnement aan</a>, dan sturen we je een inloglink.</p>
+</section>
+</div>`,
+  },
+  {
+    slug: '/pro/voorwaarden/',
+    kort: 'Voorwaarden',
+    noindex: true,
+    title: 'Voorwaarden ToeslagBuddy Pro',
+    description: 'Gebruiksvoorwaarden van ToeslagBuddy Pro.',
+    h1: 'Voorwaarden ToeslagBuddy Pro',
+    intro: 'Kort en duidelijk.',
+    body: () => `
+<ol>
+<li><strong>Proef:</strong> 7 dagen gratis met alle functies. De proef stopt vanzelf; je betaalt niets en hoeft niets op te zeggen.</li>
+<li><strong>Abonnement:</strong> € 1 per cliënt per maand, minimaal € 99 per maand, exclusief btw. Maandelijks opzegbaar.</li>
+<li><strong>Gegevens:</strong> de controle draait op je eigen computer. Wij bewaren alleen je naam, organisatie, e-mailadres en abonnementsgegevens.</li>
+<li><strong>Uitkomsten:</strong> ToeslagBuddy Pro is een signaleringsinstrument op basis van de officiële rekenregels. Controleer een signaal altijd in Mijn toeslagen voordat je een wijziging doorgeeft. Aan de uitkomsten kunnen geen rechten worden ontleend.</li>
+<li><strong>Aansprakelijkheid:</strong> beperkt tot het bedrag dat je in de laatste 12 maanden hebt betaald.</li>
+</ol>`,
   },
 
   // ───────────────────────────── ZZP ─────────────────────────────
@@ -759,11 +871,7 @@ ${tabel(['Kolom', 'Betekenis'], KOLOMMEN.map(([k, b]) => [`<code>${k}</code>`, b
 <p class="let-op"><strong>Tip:</strong> doe deze check elke maand. Met de knop “herinnering in mijn agenda” krijg je op de 1e van elke maand een seintje.</p>
 <h2 id="wachtlijst">Binnenkort: automatisch vanuit je boekhouding</h2>
 <p>We werken aan een koppeling met boekhoudpakketten zoals Moneybird en e-Boekhouden, zodat je automatisch een seintje krijgt als je voorschot niet meer klopt.</p>
-${config.zzp.wachtlijstAction
-  ? `<form class="aanvraag" action="${config.zzp.wachtlijstAction}" method="post"><div class="veld"><label for="w-mail">E-mail</label><input id="w-mail" type="email" name="email" required autocomplete="email"></div>
-<div class="veld"><label for="w-pakket">Welk boekhoudpakket gebruik je?</label><input id="w-pakket" name="boekhoudpakket" placeholder="Moneybird, e-Boekhouden, Jortt…"></div>
-<button class="knop" type="submit">Zet me op de wachtlijst</button></form>`
-  : `<p class="aanvraag">Mail naar <a href="mailto:${config.contactEmail}?subject=Wachtlijst%20toeslagbewaker&body=Mijn%20boekhoudpakket%3A%20">${config.contactEmail}</a> en noem je boekhoudpakket.</p>`}
+${formulier('zzp-wachtlijst', 'Wachtlijst toeslagbewaker zzp', [['email', 'E-mail', 'email', true, 'email'], ['boekhoudpakket', 'Welk boekhoudpakket gebruik je?', 'text']], 'Zet me op de wachtlijst')}
 ${alleCheckLink}`,
     faq: [
       ['Telt mijn omzet of mijn winst voor toeslagen?', 'Je winst, na aftrek van de ondernemersaftrek en de mkb-winstvrijstelling. Niet je omzet.'],
@@ -833,6 +941,42 @@ ${alleCheckLink}`,
   },
 
   {
+    slug: '/alle-regelingen/',
+    kort: 'Alle regelingen',
+    title: `Alle toeslagen en regelingen in Nederland (${JAAR}) – compleet overzicht`,
+    description: `Overzicht van ${regelingen.length} toeslagen, uitkeringen, belastingkortingen en regelingen van Dienst Toeslagen, SVB, UWV, DUO, Belastingdienst en gemeenten. Filter op jouw situatie.`,
+    h1: 'Alle toeslagen en regelingen in Nederland',
+    intro: 'Van zorgtoeslag tot kwijtschelding: hier staat alles waar je in Nederland recht op kunt hebben. Kies je situatie om te filteren.',
+    body: () => `
+<div class="filter-balk" data-filter-balk>
+<label class="skip" for="reg-zoek">Zoek een regeling</label>
+<input id="reg-zoek" type="search" placeholder="Zoek, bijvoorbeeld ‘huur’ of ‘studie’" data-filter-zoek>
+<div class="filter-chips" role="group" aria-label="Filter op situatie">${DOELGROEPEN.map(([k, n], i) => `<button type="button" class="chip" data-filter="${k}" aria-pressed="${i === 0}">${n}</button>`).join('')}</div>
+<p class="subtiel" aria-live="polite"><span data-filter-teller>${regelingen.length}</span> regelingen · laatst gecontroleerd ${datumNl(REG_GECONTROLEERD)}</p>
+</div>
+<div class="regelingen" data-filter-lijst>
+${regelingen
+  .map(
+    (r) => `<article class="regeling" data-doelgroepen="${r.doelgroepen.join(' ')}" data-zoek="${escN((r.naam + ' ' + r.wat + ' ' + r.uitvoerder + ' ' + r.categorie).toLowerCase())}">
+<p class="regeling-bron">${escN(r.uitvoerder)} · ${escN(r.categorie)}</p>
+<h2>${escN(r.naam)}</h2>
+<p>${escN(r.wat)}</p>
+<p class="subtiel"><strong>Voor wie:</strong> ${escN(r.voorWie)}</p>
+<p class="subtiel"><strong>Aanvragen:</strong> ${escN(r.aanvragen)}</p>
+<p class="regeling-links">${r.rekenhulp ? `<a class="knop-licht" href="${r.rekenhulp}">Bereken →</a>` : ''}${r.meer ? `<a href="${r.meer}">Meer uitleg</a>` : ''}<a href="${r.link}" rel="noopener" target="_blank">Officiële website</a></p>
+</article>`,
+  )
+  .join('')}
+</div>
+<p class="let-op">Staat een regeling er niet bij, of is iets veranderd? <a href="/contact/">Laat het ons weten</a>. We controleren de bronnen dagelijks automatisch op wijzigingen.</p>
+${alleCheckLink}`,
+    faq: [
+      ['Welke toeslagen zijn er in Nederland?', 'Dienst Toeslagen keert vier toeslagen uit: zorgtoeslag, huurtoeslag, kindgebonden budget en kinderopvangtoeslag. Daarnaast zijn er kinderbijslag (SVB), uitkeringen en aanvullingen (UWV, SVB, gemeente) en belastingkortingen.'],
+      ['Waar vind ik de regelingen van mijn gemeente?', 'Op de website van je gemeente, meestal onder ‘inkomen’, ‘minima’ of ‘geldzaken’. Bijna elke gemeente heeft bijzondere bijstand, kwijtschelding, een individuele inkomenstoeslag en een meedoenregeling.'],
+    ],
+  },
+
+  {
     slug: '/nieuws/',
     kort: 'Nieuws',
     title: 'Nieuws over toeslagen – dagelijks bijgewerkt',
@@ -873,7 +1017,18 @@ ${bronnen}
 <h2>Onafhankelijk</h2>
 <p>We zijn geen onderdeel van de overheid, de Belastingdienst of Dienst Toeslagen. De site wordt betaald met advertenties en partnerlinks. Die zijn altijd duidelijk herkenbaar en hebben geen invloed op de berekening.</p>
 <h2>Contact</h2>
-<p>Vragen, tips of een fout gevonden? Mail naar <a href="mailto:${config.contactEmail}">${config.contactEmail}</a>. Let op: wij kunnen niet in je persoonlijke toeslagdossier kijken. Daarvoor bel je de BelastingTelefoon Toeslagen.</p>`,
+<p>Vragen, tips of een fout gevonden? Gebruik ons <a href="/contact/">contactformulier</a>. Let op: wij kunnen niet in je persoonlijke toeslagdossier kijken. Daarvoor bel je de BelastingTelefoon Toeslagen.</p>`,
+  },
+  {
+    slug: '/contact/',
+    kort: 'Contact',
+    title: 'Contact',
+    description: 'Stel een vraag, geef een tip of meld een fout aan ToeslagBuddy.',
+    h1: 'Contact',
+    intro: 'Vraag, tip of een fout gevonden? Laat een bericht achter. We reageren meestal binnen één werkdag.',
+    body: () => `
+${formulier('contact', 'Bericht via ToeslagBuddy', [['naam', 'Naam', 'text', true, 'name'], ['email', 'E-mail (om je te kunnen antwoorden)', 'email', true, 'email'], ['bericht', 'Je bericht', 'textarea', true]], 'Verstuur bericht')}
+<p class="let-op"><strong>Let op:</strong> wij kunnen niet in je persoonlijke toeslagdossier kijken. Voor vragen over je eigen toeslag bel je gratis de BelastingTelefoon: <a href="tel:08000543">0800 0543</a>. Stuur ons nooit je BSN of DigiD-gegevens.</p>`,
   },
   {
     slug: '/privacy/',
@@ -894,7 +1049,7 @@ ${bronnen}
 <h2>Nieuwsbrief</h2>
 <p>Meld je je aan voor onze nieuwsbrief, dan bewaren we alleen je e-mailadres om je die mail te sturen. Afmelden kan altijd via de link onderaan elke mail.</p>
 <h2>Contact</h2>
-<p>Vragen over privacy? Mail naar <a href="mailto:${config.contactEmail}">${config.contactEmail}</a>.</p>`,
+<p>Vragen over privacy? Gebruik ons <a href="/contact/">contactformulier</a>.</p>`,
   },
   {
     slug: '/disclaimer/',
