@@ -108,7 +108,7 @@ jobs:
           cp -r .sadtalker-gewichten/gfpgan .sadtalker/
       - name: Python-pakketten
         run: |
-          python -m pip install --upgrade pip wheel "setuptools<70"
+          python -m pip install --upgrade pip wheel "setuptools<70" Cython
           pip install -r scripts/video/requirements-torch.txt
           pip install --no-build-isolation -r scripts/video/requirements.txt
           python -c "import torch, diffusers, piper, gfpgan, facexlib; print('torch', torch.__version__)"
