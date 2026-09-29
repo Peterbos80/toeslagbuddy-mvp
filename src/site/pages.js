@@ -61,11 +61,26 @@ ${volledig ? '<button type="button" class="knop-licht" id="pro-sjabloon">Sjabloo
 <textarea id="pro-invoer" spellcheck="false" placeholder="${KOLOMMEN.map(([k]) => k).join(';')}"></textarea>
 <p><button type="button" class="knop" id="pro-controleer">Controleer lijst</button></p>
 </div>
-<p class="privacy-noot">🔒 De controle draait lokaal in je browser. Wij ontvangen geen cliëntgegevens.</p>
+<p class="privacy-noot">🔒 De controle draait lokaal in je browser. Wij ontvangen geen cliëntgegevens.${volledig ? ' Na een controle bewaren we alleen geaggregeerde tellingen voor de trend van je organisatie.' : ''}</p>
 </section>
 <div id="pro-uitkomst" aria-live="polite"></div>
 ${volledig ? `<details class="faq"><summary>Welke kolommen kan ik gebruiken?</summary><div><p>Scheidingsteken puntkomma of komma. Ja/nee-velden mogen ook j/n of 1/0 zijn. Onbekende kolommen worden genegeerd.</p>${tabel(['Kolom', 'Betekenis'], KOLOMMEN.map(([k, b]) => [`<code>${k}</code>`, b]))}</div></details>` : ''}`;
 }
+
+// Tweede stap bij aanmelden en inloggen: de code van 6 cijfers uit de mail
+const codeStap = (id) => `<form class="aanvraag smal" data-pro-code hidden novalidate>
+<p data-pro-code-uitleg></p>
+<div class="veld"><label for="${id}-code">Code uit de e-mail (6 cijfers)</label><input id="${id}-code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></div>
+<button class="knop" type="submit">Inloggen met code</button>
+<p class="formulier-status" role="status" aria-live="polite"></p>
+<p class="hint">Geen mail gekregen? Kijk ook in je spamfolder. <button type="button" class="knop-licht" data-pro-opnieuw>Andere e-mail of nieuwe code</button></p>
+</form>`;
+
+// Rechten van betrokkenen: gegevens downloaden en account verwijderen
+const privacyKnoppen = `<h2>Je gegevens en privacy</h2>
+<p>Download alles wat we over jou bewaren, of verwijder je account. Ben je de enige in je organisatie, dan verdwijnt de organisatie ook.</p>
+<p class="pro-knoppen"><button type="button" class="knop-licht" data-pro-export>Mijn gegevens downloaden (JSON)</button> <button type="button" class="knop-licht" data-pro-verwijderen>Account verwijderen</button> <button type="button" class="knop-licht" data-pro-org-verwijderen hidden>Organisatie verwijderen</button></p>
+<p class="formulier-status" data-pro-privacy-status role="status" aria-live="polite"></p>`;
 
 const alleCheckLink = `<p class="let-op"><strong>Tip:</strong> reken in één keer uit waar je recht op hebt met de <a href="/#check">complete toeslagen-check</a>. Je ziet dan ook regelingen van je gemeente.</p>`;
 
@@ -740,6 +755,7 @@ ${proTool(false)}
     script: ['pro-account.js'],
     body: ({ config }) => `
 <div class="pro-raster">
+<div>
 <form class="aanvraag" data-formulier="pro-aanmelding" data-onderwerp="Proefabonnement ToeslagBuddy Pro" data-eigen-afhandeling data-pro-aanmelden novalidate>
 <div class="veld"><label for="pa-naam">Je naam</label><input id="pa-naam" name="naam" required autocomplete="name"></div>
 <div class="veld"><label for="pa-org">Kantoor of organisatie</label><input id="pa-org" name="organisatie" required autocomplete="organization"></div>
@@ -750,8 +766,10 @@ ${proTool(false)}
 <button class="knop" type="submit">Start gratis proef</button>
 <p class="formulier-status" role="status" aria-live="polite"></p>
 </form>
+${codeStap('pa')}
+</div>
 <aside class="pro-voordelen"><h2>Dit krijg je ${config.pro.proefDagen} dagen gratis</h2><ul>
-<li>Onbeperkt cliëntenlijsten controleren</li><li>Gemiste toeslagen en terugbetalingsrisico’s per cliënt</li><li>Actielijst voor Excel en een rapport voor je dossier</li><li>Signalen voor volgend jaar en gemeentelijke regelingen</li><li>Cliëntgegevens blijven op je eigen computer</li></ul>
+<li>Onbeperkt cliëntenlijsten controleren</li><li>Gemiste toeslagen en terugbetalingsrisico’s per cliënt</li><li>Actielijst voor Excel en een rapport voor je dossier</li><li>Je team uitnodigen (tot 5 personen)</li><li>Cliëntgegevens blijven op je eigen computer</li></ul>
 <p>Al een account? <a href="/pro/inloggen/">Inloggen</a></p></aside>
 </div>`,
   },
@@ -761,16 +779,18 @@ ${proTool(false)}
     noindex: true,
     pro: true,
     title: 'Inloggen – ToeslagBuddy Pro',
-    description: 'Log in op ToeslagBuddy Pro met een inloglink per e-mail.',
+    description: 'Log in op ToeslagBuddy Pro met een code per e-mail.',
     h1: 'Inloggen op ToeslagBuddy Pro',
-    intro: 'Vul je e-mailadres in. Je krijgt een inloglink, dus je hoeft geen wachtwoord te onthouden.',
+    intro: 'Vul je e-mailadres in. Je krijgt een mail met een code van 6 cijfers, dus je hoeft geen wachtwoord te onthouden.',
     script: ['pro-account.js'],
     body: () => `
+<p class="let-op" data-pro-reden role="status" hidden></p>
 <form class="aanvraag smal" data-pro-inloggen novalidate>
 <div class="veld"><label for="pi-mail">E-mailadres</label><input id="pi-mail" name="email" type="email" required autocomplete="email"></div>
-<button class="knop" type="submit">Stuur inloglink</button>
+<button class="knop" type="submit">Stuur code</button>
 <p class="formulier-status" role="status" aria-live="polite"></p>
 </form>
+${codeStap('pi')}
 <p>Nog geen account? <a href="/pro/aanmelden/">Start je gratis proef van 7 dagen</a>.</p>`,
   },
   {
@@ -786,7 +806,8 @@ ${proTool(false)}
     body: () => `
 <div data-pro-omgeving>
 <p data-pro-laden class="subtiel">Omgeving laden…</p>
-<div class="let-op" data-pro-demo hidden><strong>Demo-modus:</strong> dit account bestaat alleen in deze browser.</div>
+<div class="let-op" data-pro-demo hidden><strong>Demo-modus:</strong> dit account bestaat alleen in deze browser. De code is altijd 123456.</div>
+<p class="let-op" data-pro-bericht role="status" hidden></p>
 
 <section data-pro-scherm="actief" hidden>
 <div class="pro-balk">
@@ -794,32 +815,168 @@ ${proTool(false)}
 <span class="pro-status" data-pro-status></span>
 <button type="button" class="knop-licht" data-pro-uitloggen>Uitloggen</button>
 </div>
-<div class="pro-tabs" role="tablist">
-<button type="button" role="tab" data-pro-tab="check" aria-selected="true">Cliëntencheck</button>
-<button type="button" role="tab" data-pro-tab="account" aria-selected="false">Account en abonnement</button>
-<button type="button" role="tab" data-pro-tab="hulp" aria-selected="false">Hulp</button>
+<div class="pro-tabs" role="tablist" aria-label="Onderdelen">
+${[['check', 'Controle'], ['rapportage', 'Rapportage'], ['team', 'Team'], ['account', 'Account en abonnement'], ['hulp', 'Hulp']]
+  .map(([k, n], i) => `<button type="button" role="tab" id="tab-${k}" aria-controls="paneel-${k}" data-pro-tab="${k}" aria-selected="${i === 0}">${n}</button>`)
+  .join('\n')}
 </div>
-<div data-pro-paneel="check">${proTool(true)}</div>
-<div data-pro-paneel="account" hidden>
-<div class="tegels"><div class="tegel"><span>E-mail</span><strong data-pro-email style="font-size:1rem"></strong></div><div class="tegel"><span>Proef geldig tot</span><strong data-pro-eind style="font-size:1rem"></strong></div></div>
+<div data-pro-paneel="check" id="paneel-check" role="tabpanel" aria-labelledby="tab-check">${proTool(true)}
+<p class="subtiel" data-pro-outbox role="status" aria-live="polite"></p>
+</div>
+<div data-pro-paneel="rapportage" id="paneel-rapportage" role="tabpanel" aria-labelledby="tab-rapportage" hidden>
+<p class="print-kop">ToeslagBuddy Pro – rapport <span data-pro-rapport-org></span> – <span data-pro-rapport-datum></span></p>
+<h2>Jouw controles</h2>
+<p class="subtiel">Exacte cijfers van de controles die jij in deze browser hebt gedaan. Ze staan alleen op deze computer en worden gewist als je uitlogt. Print het rapport als je het wilt bewaren.</p>
+<div data-pro-historie></div>
+<h2>Trend van je organisatie</h2>
+<p class="subtiel">Geaggregeerde tellingen van alle controles in je team: het aantal cliënten als bandbreedte, aantallen onder de 5 als “&lt;5” en bedragen afgerond op € 500 (alleen bij 10 of meer cliënten). Nooit cliëntgegevens.</p>
+<div data-pro-trend></div>
+<p class="pro-knoppen geen-print"><button type="button" class="knop-licht" data-pro-rapport-print>Rapport printen / PDF</button></p>
+</div>
+<div data-pro-paneel="team" id="paneel-team" role="tabpanel" aria-labelledby="tab-team" hidden>
+<h2>Je team</h2>
+<p>Iedereen in je team werkt met hetzelfde abonnement. Cliëntgegevens deel je niet via ToeslagBuddy: die blijven op ieders eigen computer.</p>
+<div data-pro-leden></div>
+<p class="formulier-status" data-pro-team-status role="status" aria-live="polite"></p>
+<div data-pro-team-eigenaar hidden>
+<h3>Collega uitnodigen</h3>
+<p>Je maakt een persoonlijke link en stuurt die zelf naar je collega, bijvoorbeeld via je eigen mail. De link werkt 7 dagen, één keer, en alleen voor dit e-mailadres. Tijdens de proef kan je team uit maximaal 5 personen bestaan.</p>
+<form class="aanvraag smal" data-pro-uitnodigen novalidate>
+<div class="veld"><label for="pt-mail">E-mailadres van je collega</label><input id="pt-mail" name="email" type="email" required autocomplete="off"></div>
+<button class="knop" type="submit">Uitnodigingslink maken</button>
+<p class="formulier-status" role="status" aria-live="polite"></p>
+</form>
+<div class="pro-link" data-pro-link hidden>
+<label for="pt-link">Uitnodigingslink (alleen nu zichtbaar)</label>
+<input id="pt-link" readonly data-pro-link-veld>
+<button type="button" class="knop-licht" data-pro-kopieer>Kopieer link</button>
+</div>
+<div data-pro-open-uitnodigingen></div>
+</div>
+<p class="subtiel" data-pro-team-lid hidden>Alleen de eigenaar kan collega’s uitnodigen of verwijderen.</p>
+</div>
+<div data-pro-paneel="account" id="paneel-account" role="tabpanel" aria-labelledby="tab-account" hidden>
+<div class="tegels"><div class="tegel"><span>E-mail</span><strong data-pro-email style="font-size:1rem"></strong></div><div class="tegel"><span>Proef of pilot geldig tot</span><strong data-pro-eind style="font-size:1rem"></strong></div></div>
+<h2>Je gegevens</h2>
+<form class="aanvraag smal" data-pro-profiel novalidate>
+<div class="veld"><label for="pp-naam">Je naam</label><input id="pp-naam" name="naam" required autocomplete="name"></div>
+<div data-pro-alleen-eigenaar hidden>
+<div class="veld"><label for="pp-org">Naam van de organisatie</label><input id="pp-org" name="organisatie" autocomplete="organization"></div>
+<div class="veld"><label for="pp-kvk">KvK-nummer <small>(nodig voor een betaald abonnement)</small></label><input id="pp-kvk" name="kvk" inputmode="numeric" maxlength="10" autocomplete="off"></div>
+</div>
+<button class="knop" type="submit">Opslaan</button>
+<p class="formulier-status" role="status" aria-live="polite"></p>
+</form>
 <h2>Abonnement aanvragen</h2>
-<p>€ 1 per cliënt per maand (minimaal € 99), maandelijks opzegbaar. Na je aanvraag sturen we een betaallink en loopt je toegang zonder onderbreking door.</p>
+<p>€ 1 per cliënt per maand (minimaal € 99), exclusief btw, maandelijks opzegbaar. Na je aanvraag sturen we een betaallink en loopt je toegang zonder onderbreking door.</p>
 ${formulier('pro-abonnement', 'Abonnement ToeslagBuddy Pro aangevraagd', [['organisatie', 'Organisatie', 'text', true, 'organization'], ['email', 'E-mail', 'email', true, 'email'], ['clienten', 'Aantal cliënten', 'text', true], ['factuur', 'Factuurgegevens of opmerkingen', 'textarea']], 'Abonnement aanvragen')}
+${privacyKnoppen}
 </div>
-<div data-pro-paneel="hulp" hidden>
-<ol><li>Exporteer je cliëntenlijst uit je administratie naar Excel of CSV (of gebruik het sjabloon).</li><li>Gebruik cliëntnummers, geen namen of BSN.</li><li>Klik op ‘CSV-bestand kiezen’ of plak de lijst, en klik op ‘Controleer lijst’.</li><li>Download de actielijst of print het rapport voor je dossier.</li></ol>
+<div data-pro-paneel="hulp" id="paneel-hulp" role="tabpanel" aria-labelledby="tab-hulp" hidden>
+<ol><li>Exporteer je cliëntenlijst uit je administratie naar Excel of CSV (of gebruik het sjabloon).</li><li>Gebruik cliëntnummers, geen namen of BSN. Kolommen met namen, BSN of adressen gooien we direct weg.</li><li>Klik op ‘CSV-bestand kiezen’ of plak de lijst, en klik op ‘Controleer lijst’.</li><li>Download de actielijst of print het rapport voor je dossier.</li><li>Na elke controle bewaren we alleen geaggregeerde tellingen voor de trend van je organisatie.</li></ol>
 <p>Vragen? Gebruik het <a href="/contact/">contactformulier</a>, we helpen je graag.</p>
 </div>
 </section>
 
 <section data-pro-scherm="verlopen" hidden>
-<div class="resultaat geen"><h2>Je proefperiode is verlopen</h2><p>Bedankt voor het proberen van ToeslagBuddy Pro. Vraag hieronder een abonnement aan om verder te gaan; we sturen je dan een betaallink.</p></div>
+<div class="resultaat geen"><h2>Je proefperiode is verlopen</h2><p>Bedankt voor het proberen van ToeslagBuddy Pro. Controles opslaan, de trend en je team staan nu op slot. Vraag hieronder een abonnement aan om verder te gaan; we sturen je dan een betaallink.</p></div>
 ${formulier('pro-abonnement-na-proef', 'Abonnement ToeslagBuddy Pro aangevraagd (na proef)', [['organisatie', 'Organisatie', 'text', true, 'organization'], ['email', 'E-mail', 'email', true, 'email'], ['clienten', 'Aantal cliënten', 'text', true]], 'Abonnement aanvragen')}
+${privacyKnoppen}
+<p><button type="button" class="knop-licht" data-pro-uitloggen>Uitloggen</button></p>
+</section>
+
+<section data-pro-scherm="geen-organisatie" hidden>
+<h2>Nog geen organisatie</h2>
+<p>Je account hoort nog niet bij een organisatie. Ben je uitgenodigd door een collega? Open dan de uitnodigingslink uit het bericht van je collega. Of start een eigen proef.</p>
+<p class="pro-knoppen"><button type="button" class="knop" data-pro-org-starten>Start een eigen proef van 7 dagen</button> <button type="button" class="knop-licht" data-pro-uitloggen>Uitloggen</button></p>
+</section>
+
+<section data-pro-scherm="onbereikbaar" hidden>
+<h2>Tijdelijk niet beschikbaar</h2>
+<p>We kunnen de server nu niet bereiken. Je gegevens zijn veilig. Probeer het over een paar minuten opnieuw.</p>
+<p class="pro-knoppen"><button type="button" class="knop" data-pro-opnieuw-laden>Opnieuw proberen</button> <a class="knop-licht" href="/pro/check/">Voorbeeldcontrole bekijken</a></p>
+</section>
+
+<section data-pro-scherm="beheerder" hidden>
+<p class="let-op">Dit is een beheerdersaccount. Beheerders krijgen geen eigen proef. Ga naar <a href="/beheer/">het beheer</a>.</p>
 <p><button type="button" class="knop-licht" data-pro-uitloggen>Uitloggen</button></p>
 </section>
 
 <section data-pro-scherm="niet-actief" hidden>
-<p class="let-op">Accounts worden binnenkort geactiveerd. <a href="/pro/aanmelden/">Vraag alvast je proefabonnement aan</a>, dan sturen we je een inloglink.</p>
+<p class="let-op">Accounts worden binnenkort geactiveerd. <a href="/pro/aanmelden/">Vraag alvast je proefabonnement aan</a>, dan sturen we je een inlogcode.</p>
+</section>
+</div>`,
+  },
+  {
+    slug: '/beheer/',
+    kort: 'Beheer',
+    noindex: true,
+    pro: true,
+    beheer: true,
+    title: 'Beheer – ToeslagBuddy',
+    description: 'Beheeromgeving van ToeslagBuddy: proeven, abonnementen en berichten.',
+    h1: 'Beheer',
+    intro: 'Alleen voor beheerders. Inloggen gaat met een code per e-mail én een code uit je authenticator-app.',
+    script: ['beheer.js'],
+    body: () => `
+<div data-beheer>
+<p data-beheer-laden class="subtiel">Laden…</p>
+<div class="let-op" data-beheer-demo hidden><strong>Demo-modus:</strong> voorbeeldgegevens in deze browser. De code is altijd 123456.</div>
+<p class="formulier-status" data-beheer-status role="status" aria-live="polite"></p>
+
+<section data-beheer-scherm="niet-actief" hidden>
+<p class="let-op">Supabase is nog niet ingesteld. Volg het stappenplan in <code>docs/pro-accounts.md</code>. Bekijk intussen de <a href="/beheer/?demo=1">demo</a>.</p>
+</section>
+
+<section data-beheer-scherm="inloggen" hidden>
+<h2>Stap 1: inloggen met een code per e-mail</h2>
+<form class="aanvraag smal" data-beheer-email novalidate>
+<div class="veld"><label for="bh-mail">E-mailadres</label><input id="bh-mail" name="email" type="email" required autocomplete="email"></div>
+<button class="knop" type="submit">Stuur code</button>
+</form>
+<form class="aanvraag smal" data-beheer-code hidden novalidate>
+<div class="veld"><label for="bh-code">Code uit de e-mail (6 cijfers)</label><input id="bh-code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></div>
+<button class="knop" type="submit">Inloggen</button>
+</form>
+</section>
+
+<section data-beheer-scherm="mfa-inschrijven" hidden>
+<h2>Stap 2: authenticator-app koppelen</h2>
+<p>Scan de QR-code met je authenticator-app (bijvoorbeeld die van je wachtwoordkluis) of typ de sleutel over. Bewaar de sleutel ook in je wachtwoordkluis: raak je je telefoon kwijt, dan heb je hem nodig (zie docs/pro-accounts.md).</p>
+<p><img data-beheer-qr alt="QR-code om je authenticator-app te koppelen" width="200" height="200" hidden></p>
+<p>Sleutel: <code data-beheer-geheim></code></p>
+<form class="aanvraag smal" data-beheer-mfa-inschrijven novalidate>
+<div class="veld"><label for="bh-mfa1">Code uit je authenticator-app</label><input id="bh-mfa1" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></div>
+<button class="knop" type="submit">Koppelen</button>
+</form>
+</section>
+
+<section data-beheer-scherm="mfa" hidden>
+<h2>Stap 2: code uit je authenticator-app</h2>
+<form class="aanvraag smal" data-beheer-mfa novalidate>
+<div class="veld"><label for="bh-mfa2">Code uit je authenticator-app</label><input id="bh-mfa2" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required></div>
+<button class="knop" type="submit">Controleren</button>
+</form>
+</section>
+
+<section data-beheer-scherm="geen-toegang" hidden>
+<p class="let-op">Dit account heeft geen beheerdersrechten.</p>
+<p><button type="button" class="knop-licht" data-beheer-uitloggen>Uitloggen</button></p>
+</section>
+
+<section data-beheer-scherm="dashboard" hidden>
+<div class="pro-balk"><p class="pro-welkom">Ingelogd als <strong data-beheer-wie></strong></p>
+<p class="pro-knoppen"><button type="button" class="knop-licht" data-beheer-vernieuwen>Vernieuwen</button> <button type="button" class="knop-licht" data-beheer-uitloggen>Uitloggen</button></p></div>
+<h2>Cijfers</h2>
+<div class="tegels" data-beheer-tegels></div>
+<h2>Controles per week</h2>
+<div data-beheer-weken></div>
+<h2>Organisaties</h2>
+<p class="subtiel">Verleng een proef tot een pilot van 30 dagen, of zet het abonnement op actief (vergt een KvK-nummer) of opgezegd. Elke actie komt in het auditlog.</p>
+<div data-beheer-organisaties></div>
+<h2>Berichten</h2>
+<p class="subtiel">Berichten van de formulieren, de laatste 200. Na 90 dagen worden ze gewist. “Niet doorgestuurd” betekent dat de mail nog niet is verstuurd; de server probeert het elk kwartier opnieuw.</p>
+<div data-beheer-berichten></div>
 </section>
 </div>`,
   },

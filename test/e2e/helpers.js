@@ -49,6 +49,6 @@ export const axeBron = await readFile(require.resolve('axe-core/axe.min.js'), 'u
 
 export async function paginas() {
   const xml = await readFile(join(DIST, 'sitemap.xml'), 'utf8');
-  const extra = ['/instagram/', '/404.html', '/pro/aanmelden/', '/pro/inloggen/', '/pro/app/', '/pro/voorwaarden/'];
+  const extra = ['/instagram/', '/404.html', '/pro/aanmelden/', '/pro/inloggen/', '/pro/app/', '/pro/voorwaarden/', '/beheer/'];
   return [...xml.matchAll(/<loc>https?:\/\/[^/]+(\/[^<]*)<\/loc>/g)].map((m) => m[1]).concat(extra);
 }

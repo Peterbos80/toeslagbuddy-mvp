@@ -71,7 +71,8 @@ test('alleen info@, privacy@ en security@toeslagbuddy.nl staan in de site', { sk
   const gevonden = [];
   for (const f of tekst) {
     for (const [adres] of lees(f).matchAll(/[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g)) {
-      if (!toegestaan.has(adres.toLowerCase())) gevonden.push(`${pad(f)}: ${adres}`);
+      // Voorbeeldadressen in de demo (voorbeeld.nl, example.*) zijn geen echte adressen
+      if (!toegestaan.has(adres.toLowerCase()) && !/@(voorbeeld\.nl|example\.(nl|com|org))$/i.test(adres)) gevonden.push(`${pad(f)}: ${adres}`);
     }
   }
   assert.deepEqual(gevonden, []);

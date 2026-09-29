@@ -1,13 +1,17 @@
 // ToeslagBuddy Pro – cliëntenlijst controleren. Alles gebeurt lokaal in de browser.
-import { leesCsv, checkLijst, actielijstCsv, VOORBEELD_CSV, KOLOMMEN } from './pro.js';
+// Na een controle gaat een event 'tb:controle' uit met de uitkomst en het
+// geaggregeerde overzicht (§9 B5); pro-account.js bewaart dat in de outbox.
+import { leesCsvVeilig, importMeldingen as meldingenVan, checkLijst, actielijstCsv, VOORBEELD_CSV, KOLOMMEN } from './pro.js';
 import { euro } from './toeslagen.js';
 import { JAAR } from './params.js';
+import { maakAggregaat } from './aggregaat.js';
 
 const $ = (s) => document.querySelector(s);
 const invoer = $('#pro-invoer');
 const uit = $('#pro-uitkomst');
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 let laatste = null;
+let meldingen = '';
 
 function download(naam, inhoud, type) {
   const url = URL.createObjectURL(new Blob([inhoud], { type }));
@@ -43,14 +47,32 @@ const LABEL = {
   info: ['Controleren', 'badge-grijs'],
 };
 
+// Meldingen van het privacyfilter en de invoercontrole (leesCsvVeilig), als tekst
+function importMeldingen(r) {
+  const regels = meldingenVan(r);
+  return regels.length ? `<div class="melding" data-pro-import role="status"><ul>${regels.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>` : '';
+}
+
 function controleer() {
-  const rijen = leesCsv(invoer.value);
-  if (!rijen.length) {
-    uit.innerHTML = '<p class="melding">Plak een lijst, kies een CSV-bestand of laad het voorbeeld.</p>';
+  const r = leesCsvVeilig(invoer.value);
+  if (r.fout) {
+    uit.innerHTML = `<p class="melding" data-pro-import role="alert">${esc(r.fout)}</p>`;
     return;
   }
-  laatste = checkLijst(rijen);
+  if (!r.rijen.length) {
+    uit.innerHTML = `${importMeldingen(r)}<p class="melding">Plak een lijst, kies een CSV-bestand of laad het voorbeeld.</p>`;
+    return;
+  }
+  laatste = checkLijst(r.rijen);
+  meldingen = importMeldingen(r);
   render();
+  let aggregaat = null;
+  try {
+    aggregaat = maakAggregaat(laatste);
+  } catch {
+    aggregaat = null; // 0 of meer dan 10.000 cliënten: niets naar de server
+  }
+  document.dispatchEvent(new CustomEvent('tb:controle', { detail: { resultaat: laatste, aggregaat } }));
   uit.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -63,7 +85,7 @@ function render() {
     const recht = r.recht ? r.perMaand : 0;
     return `${euro(recht)} <small class="subtiel">(voorschot ${euro(v)})</small>`;
   };
-  uit.innerHTML = `
+  uit.innerHTML = `${meldingen}
 <div class="tegels">
   <div class="tegel"><span>Cliënten gecontroleerd</span><strong>${totaal.aantal}</strong></div>
   <div class="tegel"><span>Met actiepunt</span><strong>${totaal.metActie}</strong></div>
@@ -92,7 +114,7 @@ ${lijst
 </article>`,
   )
   .join('') || '<p>Geen cliënten met actiepunten. 🎉</p>'}
-<p class="hint">Indicatie op basis van de officiële rekenregels ${JAAR}. Controleer altijd in Mijn toeslagen voordat je een wijziging doorgeeft.</p>`;
+<p class="hint">Indicatie, gebaseerd op de officiële rekenregels ${JAAR}. Controleer altijd in Mijn toeslagen voordat je een wijziging doorgeeft.</p>`;
   $('#pro-filter').addEventListener('change', render);
   $('#pro-export').addEventListener('click', () => download(`actielijst-toeslagen-${new Date().toISOString().slice(0, 10)}.csv`, actielijstCsv(laatste), 'text/csv;charset=utf-8'));
   $('#pro-print').addEventListener('click', () => window.print());

@@ -33,7 +33,8 @@ async function open(ctx, url, { verwacht = null } = {}) {
 }
 
 test('R1: geen internet bij versturen: melding, invoer blijft staan, opnieuw proberen kan', async () => {
-  const ctx = await s.browser.newContext();
+  // bypassCSP: het nep-Supabase-adres staat niet in de CSP van de build
+  const ctx = await s.browser.newContext({ bypassCSP: true });
   // Alles buiten deze server en elke POST mislukt, alsof de verbinding wegvalt
   await ctx.route('**/*', (r) => {
     const req = r.request();
@@ -47,7 +48,7 @@ test('R1: geen internet bij versturen: melding, invoer blijft staan, opnieuw pro
     const res = await r.fetch();
     const html = (await res.text()).replace(/(<script type="application\/json" id="tb-config">)(.*?)(<\/script>)/, (_, a, json, b) => {
       const c = JSON.parse(json);
-      if (c.formulieren) c.formulieren = { ...c.formulieren, accessKey: 'test-sleutel' };
+      Object.assign(c, { supabaseUrl: 'https://test.supabase.co', supabaseAnonKey: 'anon-test' });
       return a + JSON.stringify(c) + b;
     });
     await r.fulfill({ response: res, body: html });

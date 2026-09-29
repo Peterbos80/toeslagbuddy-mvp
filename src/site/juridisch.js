@@ -51,7 +51,6 @@ const TELLINGEN =
 function privacyBody({ config }) {
   const a = config.analytics;
   const stats = a.plausibleDomain ? 'Plausible Insights (Estland; servers in Duitsland)' : a.goatcounterCode ? 'GoatCounter (EU)' : '';
-  const web3forms = !!config.formulieren?.accessKey;
   const hosting =
     config.hosting === 'transip'
       ? ['TransIP (Nederland)', 'Gegevens blijven in Nederland.']
@@ -62,16 +61,14 @@ function privacyBody({ config }) {
     ['Toeslagbewaker voor zzp’ers', 'Je bewaarde checks (winst, inkomen, datum)', 'Je eigen overzicht, alleen als je op ‘Bewaar’ klikt', 'Niemand. Het staat alleen in de opslag van je eigen browser', 'Tot je het zelf wist'],
     ['Cliëntenlijst in ToeslagBuddy Pro', 'De cliëntgegevens die een kantoor inleest', 'De controle voor het kantoor', 'Niemand. De controle draait in de browser van het kantoor. Het kantoor is zelf verantwoordelijk voor deze gegevens', 'Niet bij ons'],
     ['Tellingen per Pro-controle', `Per organisatie: ${TELLINGEN}. Ook welk account de controle deed`, 'Rapportage en trend voor je organisatie. Grondslag: overeenkomst (art. 6 lid 1 b AVG)', 'Supabase (database in Frankfurt, Duitsland)', 'Zolang de organisatie bestaat. Na opzegging nog 12 maanden, daarna gewist'],
-    ['Pro-account', 'Naam, zakelijk e-mailadres, organisatie, KvK-nummer (optioneel), aantal cliënten (optioneel), rol, proef- of abonnementsstatus, inlogmomenten', 'Je account en abonnement leveren. Grondslag: overeenkomst (b)', 'Supabase (Frankfurt)', 'Zolang je account bestaat. Een verlopen proef zonder abonnement: 90 dagen. Een account zonder organisatie: 30 dagen na het einde van de proef. Facturen: 7 jaar (wettelijke bewaarplicht)'],
+    ['Pro-account', 'Naam, zakelijk e-mailadres, organisatie, KvK-nummer (optioneel), aantal cliënten (optioneel), rol, proef- of abonnementsstatus, inlogmomenten', 'Je account en abonnement leveren. Grondslag: overeenkomst (b)', 'Supabase (Frankfurt)', 'Zolang je account bestaat. Een verlopen proef zonder abonnement: 90 dagen. Een account zonder organisatie: 90 dagen na het aanmaken. Facturen: 7 jaar (wettelijke bewaarplicht)'],
     ['Inlogcode per e-mail', 'E-mailadres en tijdstip', 'Veilig inloggen zonder wachtwoord. Grondslag: overeenkomst (b)', 'Supabase en Brevo (Sendinblue SAS, Frankrijk) voor het versturen', 'Verzendlogboek maximaal 90 dagen'],
     ['Auditlog', 'Welk account wat deed (uitnodigen, rol wijzigen, verlengen, verwijderen) en wanneer', 'Beveiliging en verantwoording aan je organisatie. Grondslag: gerechtvaardigd belang (f)', 'Supabase (Frankfurt)', '365 dagen'],
     [
       'Berichten via onze formulieren (contact, pilot, abonnement, wachtlijst)',
       'Naam, e-mailadres, organisatie, telefoon (optioneel) en je bericht',
       'Je vraag beantwoorden of een pilot of abonnement regelen. Grondslag: overeenkomst of de voorbereiding daarvan (b), anders gerechtvaardigd belang (f)',
-      web3forms
-        ? 'Web3Forms (Web3Creative, India). Let op: India heeft geen passend beschermingsniveau volgens de EU. Daarom maken we gebruik van standaardcontractbepalingen. We stappen over op een dienst in de EU'
-        : 'Supabase (Frankfurt) en Brevo (Frankrijk), die het bericht doorstuurt naar onze mailbox',
+      'Supabase (Frankfurt) en Brevo (Frankrijk), die het bericht doorstuurt naar onze mailbox',
       'In de database 90 dagen. In onze mailbox zolang nodig om je vraag af te handelen, maximaal 12 maanden, tenzij er een klantrelatie uit voortkomt',
     ],
     ['E-mail aan info@, privacy@ of security@', 'Je e-mailadres en je bericht', 'Je vraag beantwoorden. Grondslag: gerechtvaardigd belang (f)', 'Onze e-mailprovider (doorsturen naar onze mailbox)', 'Maximaal 12 maanden, tenzij er een klantrelatie uit voortkomt'],

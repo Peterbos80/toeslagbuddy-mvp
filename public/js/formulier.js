@@ -1,56 +1,110 @@
-// Verstuurt formulieren via de webapplicatie (Web3Forms) naar het privé-
-// e-mailadres van de beheerder. Dat adres staat nergens op de site.
+// Verstuurt formulieren naar de database (Supabase, EU) via de functie
+// bericht_plaatsen. Een Edge Function stuurt elk bericht door naar de
+// beheerder; diens privé-adres staat nergens op de site. Geen Supabase
+// ingesteld? Dan tonen we een link om te mailen naar info@toeslagbuddy.nl.
+import { CONFIG } from './config.js';
 
-import { CONFIG as ALLE } from './config.js';
+const INFO = 'info@toeslagbuddy.nl';
+export const MIN_INVULTIJD = 3000; // ms; de database controleert dit ook
+const APART = new Set(['email', 'naam', 'bericht', 'botcheck', 'akkoord']);
+
+const FOUTEN = {
+  te_veel: 'Je hebt net al een paar berichten gestuurd. Probeer het over een uur opnieuw.',
+  te_snel: 'Dat ging erg snel. Wacht een paar seconden en verstuur het opnieuw.',
+  ongeldig: 'Controleer je invoer. Is je bericht niet te lang, en klopt je e-mailadres?',
+};
+
+function zet(form, tekst, soort, mailLink = false) {
+  const status = form.querySelector('.formulier-status');
+  if (!status) return;
+  status.replaceChildren(tekst);
+  if (mailLink) {
+    const a = document.createElement('a');
+    a.href = `mailto:${INFO}`;
+    a.textContent = INFO;
+    status.append(a, '.');
+  }
+  status.dataset.soort = soort;
+}
+
+// De invultijd telt vanaf het eerste veld dat je aanraakt
+export function volgInvultijd(form) {
+  const start = () => {
+    if (!form.dataset.gestart) form.dataset.gestart = String(Date.now());
+  };
+  form.addEventListener('focusin', start);
+  form.addEventListener('input', start);
+}
+
+// Alle overige velden (organisatie, telefoon, …) gaan als regels in de tekst mee
+function tekstVan(form) {
+  const regels = [];
+  for (const [naam, waarde] of new FormData(form).entries()) {
+    if (APART.has(naam) || !String(waarde).trim()) continue;
+    const veld = form.querySelector(`[name="${naam}"]`);
+    const label = veld?.id ? form.querySelector(`label[for="${veld.id}"]`) : null;
+    const kop = (label?.childNodes[0]?.textContent || naam).trim();
+    regels.push(`${kop}: ${String(waarde).trim()}`);
+  }
+  const bericht = form.querySelector('[name=bericht]')?.value.trim() || '';
+  return [regels.join('\n'), bericht].filter(Boolean).join('\n\n').slice(0, 5000);
+}
 
 export async function verstuur(form, extra = {}) {
-  const CONFIG = ALLE.formulieren || {};
-  const status = form.querySelector('.formulier-status');
-  const zet = (t, soort) => {
-    if (!status) return;
-    status.textContent = t;
-    status.dataset.soort = soort;
-  };
-  if (form.botcheck && form.botcheck.checked) return false; // spam-robot
-  const leeg = [...form.querySelectorAll('[required]')].find((el) => !el.value.trim());
+  // Spam-robot: doe alsof het gelukt is
+  if (form.botcheck && form.botcheck.checked) {
+    zet(form, 'Bedankt! Je bericht is verstuurd.', 'ok');
+    return false;
+  }
+  const leeg = [...form.querySelectorAll('[required]')].find((el) => (el.type === 'checkbox' ? !el.checked : !el.value.trim()));
   if (leeg) {
-    zet('Vul alle verplichte velden in.', 'fout');
+    zet(form, 'Vul alle verplichte velden in.', 'fout');
     leeg.focus();
     return false;
   }
   const email = form.querySelector('[type=email]');
-  if (email && email.value && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)) {
-    zet('Controleer je e-mailadres.', 'fout');
+  if (email && email.value && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value.trim())) {
+    zet(form, 'Controleer je e-mailadres.', 'fout');
     email.focus();
     return false;
   }
-  if (!CONFIG.accessKey) {
-    zet('Dit formulier wordt binnenkort geactiveerd. Probeer het later nog eens.', 'fout');
+  if (!CONFIG.supabaseUrl || !CONFIG.supabaseAnonKey) {
+    zet(form, 'Dit formulier werkt nog niet. Mail je bericht naar ', 'fout', true);
     return false;
   }
-  const data = Object.fromEntries(new FormData(form).entries());
-  delete data.botcheck;
   const knop = form.querySelector('button[type=submit]');
-  knop.disabled = true;
-  zet('Bezig met versturen…', 'bezig');
+  if (knop) knop.disabled = true;
+  zet(form, 'Bezig met versturen…', 'bezig');
+  if (!form.dataset.gestart) form.dataset.gestart = String(Date.now());
+  // Heel snel ingevuld (of automatisch)? Dan wachten we even; bots haken hier af
+  const wacht = Number(form.dataset.gestart) + MIN_INVULTIJD + 200 - Date.now();
+  if (wacht > 0) await new Promise((r) => setTimeout(r, wacht));
+  const onderwerp = [form.dataset.onderwerp || 'Bericht', extra.onderwerp].filter(Boolean).join(' – ');
   try {
-    const res = await fetch(CONFIG.endpoint, {
+    const res = await fetch(`${CONFIG.supabaseUrl.replace(/\/$/, '')}/rest/v1/rpc/bericht_plaatsen`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: { apikey: CONFIG.supabaseAnonKey, Authorization: `Bearer ${CONFIG.supabaseAnonKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        access_key: CONFIG.accessKey,
-        subject: `[ToeslagBuddy] ${form.dataset.onderwerp || 'Bericht'}`,
-        from_name: 'ToeslagBuddy website',
-        formulier: form.dataset.formulier,
-        pagina: location.pathname,
-        ...data,
-        ...extra,
+        soort: form.dataset.formulier || 'contact',
+        onderwerp: onderwerp.slice(0, 200),
+        email: email ? email.value.trim() : '',
+        naam: form.querySelector('[name=naam]')?.value.trim() || null,
+        tekst: tekstVan(form),
+        taal: (document.documentElement.lang || 'nl').startsWith('en') ? 'en' : 'nl',
+        gestart_op: new Date(Number(form.dataset.gestart)).toISOString(),
+        honeypot: null,
       }),
     });
-    const r = await res.json().catch(() => ({}));
-    if (!res.ok || r.success === false) throw new Error(r.message || `HTTP ${res.status}`);
-    zet('Bedankt! Je bericht is verstuurd. We reageren meestal binnen één werkdag.', 'ok');
+    if (!res.ok) {
+      const r = await res.json().catch(() => ({}));
+      const code = Object.keys(FOUTEN).find((k) => String(r.message || '') === k);
+      if (code) zet(form, FOUTEN[code], 'fout');
+      else zet(form, 'Versturen is niet gelukt. Je tekst staat er nog. Probeer het over een paar minuten opnieuw, of mail naar ', 'fout', true);
+      return false;
+    }
+    zet(form, 'Bedankt! Je bericht is verstuurd. We reageren meestal binnen één werkdag.', 'ok');
     form.reset();
+    delete form.dataset.gestart;
     try {
       window.plausible && window.plausible('Formulier', { props: { soort: form.dataset.formulier } });
     } catch {
@@ -58,13 +112,15 @@ export async function verstuur(form, extra = {}) {
     }
     return true;
   } catch {
-    zet('Versturen is niet gelukt. Probeer het over een paar minuten opnieuw.', 'fout');
+    // Geen internet (R1): de invoer blijft staan, opnieuw proberen kan
+    zet(form, 'Versturen is niet gelukt: er is geen verbinding. Je tekst staat er nog. Controleer je internet en klik opnieuw op de knop.', 'fout');
     return false;
   } finally {
-    knop.disabled = false;
+    if (knop) knop.disabled = false;
   }
 }
 
+document.querySelectorAll('form[data-formulier]').forEach(volgInvultijd);
 document.querySelectorAll('form[data-formulier]:not([data-eigen-afhandeling])').forEach((form) => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
