@@ -5,6 +5,7 @@ Drie producten op één rekenmotor (zie [docs/verdienplan.md](docs/verdienplan.m
 - **Consumentensite:** alle toeslagen berekenen (`/`)
 - **ToeslagBuddy Pro:** cliëntenlijst controleren voor bewindvoerders en budgetcoaches (`/pro/`, `/pro/check/`), met [validatiedraaiboek](docs/validatie-bewindvoerders.md)
 - **Toeslagbewaker zzp:** voorkomt terugbetalen bij schommelende winst (`/zzp-toeslagen/`)
+- **English (`/en/`):** de complete check, de rekenhulpen en de kernuitleg in het Engels, voor expats, internationale studenten en arbeidsmigranten. Zie [docs/i18n.md](docs/i18n.md) (tekst toevoegen, pagina vertalen, nieuwe taal; het Engels moet nog door een moedertaalspreker worden nagekeken).
 
 Documentatie: [conceptreview](docs/concept-review.md) · [backlog](docs/backlog.md) · [Pro-accounts](docs/pro-accounts.md) · [€ 300 in 2 maanden](docs/plan-300-euro.md) · [AdSense en affiliate](docs/geld-verdienen-instellen.md) · [e-mail](docs/email.md) · [accounts voor zzp'ers](docs/accounts-zzp.md) · [Instagram en TikTok](docs/instagram.md) · [hosting](docs/hosting.md)
 
@@ -39,6 +40,8 @@ Je hebt alleen Node.js 20 of nieuwer nodig. Er zijn geen npm-pakketten nodig.
 | `public/js/pro-app.js` | Scherm van ToeslagBuddy Pro |
 | `src/site/pages.js` | Teksten, FAQ en SEO-titels van alle pagina's |
 | `src/site/forms.js` | Formulieren van de rekenhulpen |
+| `src/i18n/nl.js`, `src/i18n/en.js` | Alle interfaceteksten per taal (menu, formulieren, uitkomsten, meldingen, persona’s) |
+| `src/site/pages-en.js`, `src/site/talen.js` | Engelse pagina's en de koppeling NL ↔ EN (hreflang, taalschakelaar) |
 | `public/js/app.js` | Code in de browser (formulier → berekening → resultaat) |
 | `site.config.js` | **Domein, AdSense, partnerlinks, statistieken en nieuwsbrief** |
 | `build.js` | Bouwt `dist/`, inclusief `sitemap.xml`, `robots.txt`, `.htaccess` en `404.html` |

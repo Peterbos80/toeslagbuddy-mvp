@@ -17,6 +17,8 @@ function zoek(map) {
 if (existsSync(DIST)) zoek(DIST);
 
 test('alle interne links verwijzen naar een bestaande pagina', { skip: !html.length && 'eerst npm run build' }, () => {
+  // Ook de Engelse pagina's (/en/) worden gecontroleerd
+  assert.ok(html.some((f) => /[/\\]en[/\\]index\.html$/.test(f)), 'Engelse pagina’s gevonden');
   const kapot = [];
   for (const bestand of html) {
     const inhoud = readFileSync(bestand, 'utf8');
