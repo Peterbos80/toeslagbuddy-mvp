@@ -32,11 +32,13 @@ export function leesFeed(xml, bron) {
     const datum = new Date(datumTekst);
     const samenvatting = zonderHtml(veld(b, 'description') || veld(b, 'summary'));
     if (!titel || !/^https?:\/\//.test(link)) continue;
+    // Google Nieuws noemt de echte uitgever in <source>; die tonen we als bron
+    const uitgever = zonderHtml(veld(b, 'source'));
     items.push({
-      titel,
+      titel: uitgever && titel.endsWith(` - ${uitgever}`) ? titel.slice(0, -(uitgever.length + 3)) : titel,
       link,
       datum: isNaN(datum) ? null : datum.toISOString(),
-      bron,
+      bron: uitgever || bron,
       samenvatting: samenvatting.length > 220 ? samenvatting.slice(0, 217).replace(/\s+\S*$/, '') + '…' : samenvatting,
     });
   }

@@ -9,15 +9,12 @@ import { leesFeed, filter, samenvoegen, TREFWOORDEN, STRENG } from './rss.js';
 // wordt overgeslagen en in het logboek gemeld.
 // [bron, url, filter] – filter: false (alles), true (trefwoorden) of 'streng'.
 // Een feed die niet (meer) werkt, wordt overgeslagen en in het logboek gemeld.
+// Let op: feeds.rijksoverheid.nl bestaat sinds de vernieuwing van Rijksoverheid.nl niet meer.
 export const FEEDS = [
   ['Google Nieuws', 'https://news.google.com/rss/search?q=toeslagen+OR+zorgtoeslag+OR+huurtoeslag+OR+kinderopvangtoeslag+OR+%22kindgebonden+budget%22&hl=nl&gl=NL&ceid=NL:nl', 'streng'],
   ['NOS', 'https://feeds.nos.nl/nosnieuwsbinnenland', 'streng'],
   ['NOS', 'https://feeds.nos.nl/nosnieuwseconomie', 'streng'],
   ['NU.nl', 'https://www.nu.nl/rss/Economie', 'streng'],
-  ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/huurtoeslag/nieuws.rss', false],
-  ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/zorgtoeslag/nieuws.rss', false],
-  ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/kinderopvang/nieuws.rss', true],
-  ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/nieuws.rss', true],
 ];
 
 const BESTAND = join(import.meta.dirname, '../data/nieuws.json');
