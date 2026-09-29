@@ -244,7 +244,7 @@ test('formulieren: bericht gaat via de webapplicatie, zonder zichtbaar e-mailadr
   await f.locator('button[type=submit]').click();
   assert.match(await tekst(f.locator('.formulier-status')), /binnenkort geactiveerd/);
   // Met toegangscode: verstuurd via Web3Forms
-  await p.evaluate(() => (window.TB_FORMULIEREN.accessKey = 'test-sleutel'));
+  await p.evaluate(async () => { const v = document.querySelector('script[src*="site.js"]').src.split('?')[1]; const m = await import('/js/config.js?' + v); m.CONFIG.formulieren = { ...m.CONFIG.formulieren, accessKey: 'test-sleutel' }; });
   await f.locator('button[type=submit]').click();
   await p.waitForSelector('.formulier-status[data-soort=ok]');
   assert.equal(verzonden.access_key, 'test-sleutel');

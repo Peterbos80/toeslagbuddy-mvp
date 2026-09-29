@@ -1,8 +1,10 @@
 // Verstuurt formulieren via de webapplicatie (Web3Forms) naar het privé-
 // e-mailadres van de beheerder. Dat adres staat nergens op de site.
 
+import { CONFIG as ALLE } from './config.js';
+
 export async function verstuur(form, extra = {}) {
-  const CONFIG = window.TB_FORMULIEREN || {};
+  const CONFIG = ALLE.formulieren || {};
   const status = form.querySelector('.formulier-status');
   const zet = (t, soort) => {
     if (!status) return;

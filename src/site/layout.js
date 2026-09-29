@@ -55,7 +55,7 @@ function analytics() {
   const a = config.analytics;
   let s = '';
   if (a.plausibleDomain) {
-    s += `<script defer data-domain="${esc(a.plausibleDomain)}" src="https://plausible.io/js/script.js"></script>\n<script>window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}</script>\n`;
+    s += `<script defer data-domain="${esc(a.plausibleDomain)}" src="https://plausible.io/js/script.js"></script>\n`;
   }
   if (a.goatcounterCode) {
     s += `<script data-goatcounter="https://${esc(a.goatcounterCode)}.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>\n`;
@@ -73,7 +73,7 @@ function adsenseHead() {
 export function advertentie(slot) {
   const id = config.adsense[slot];
   if (!config.adsense.client || !id) return '';
-  return `<div class="advertentie"><ins class="adsbygoogle" style="display:block" data-ad-client="${esc(config.adsense.client)}" data-ad-slot="${esc(id)}" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>`;
+  return `<div class="advertentie"><ins class="adsbygoogle" style="display:block" data-ad-client="${esc(config.adsense.client)}" data-ad-slot="${esc(id)}" data-ad-format="auto" data-full-width-responsive="true"></ins></div>`;
 }
 
 export function nieuwsbrief() {
@@ -115,6 +115,15 @@ export function partnerBlok(sleutel) {
   if (!p || !p.url) return '';
   return `<aside class="partner"><p class="partner-label">Partnerlink</p><h4>${esc(p.titel)}</h4><p>${esc(p.tekst)}</p>
 <a class="knop-licht" href="${esc(p.url)}" rel="sponsored nofollow noopener" target="_blank">${esc(p.knop)} →</a></aside>`;
+}
+
+// Instellingen voor de browser als JSON (geen inline script: werkt met een strikte CSP).
+// Lees ze in de browser met: import { CONFIG } from './config.js'
+export function configJson(page) {
+  const c = { formulieren: { endpoint: config.formulieren.endpoint, accessKey: config.formulieren.accessKey } };
+  if (page.calc) c.partners = JSON.parse(partnersJson());
+  if (page.pro) c.pro = { supabaseUrl: config.pro.supabaseUrl, supabaseAnonKey: config.pro.supabaseAnonKey, proefDagen: config.pro.proefDagen };
+  return JSON.stringify(c).replace(/</g, '\\u003c');
 }
 
 export function partnersJson() {
@@ -219,9 +228,9 @@ ${body}
 ${config.instagram.account ? `<p>Volg ons op <a href="https://www.instagram.com/${esc(config.instagram.account)}/" rel="noopener">Instagram @${esc(config.instagram.account)}</a> voor toeslag-tips.</p>` : ''}
 <p class="disclaimer">${config.naam} is een onafhankelijke rekenhulp en hoort <strong>niet</strong> bij de Belastingdienst, Dienst Toeslagen of de SVB. De uitkomsten zijn een indicatie op basis van de officiële rekenregels voor ${JAAR}. Aan de berekening kun je geen rechten ontlenen. Vraag toeslagen altijd aan via <a href="https://www.toeslagen.nl" rel="noopener">toeslagen.nl</a>. Bedragen gecontroleerd op ${new Date(GECONTROLEERD_OP).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })}.</p>
 </div></footer>
-<script>window.TB_FORMULIEREN=${formulierConfigJson()}</script>
+<script type="application/json" id="tb-config">${configJson(page)}</script>
 <script type="module" src="/js/site.js?v=${page.versie}"></script>
-${page.calc ? `<script>window.TB_PARTNERS=${partnersJson()}</script>\n<script type="module" src="/js/app.js?v=${page.versie}"></script>` : ''}${page.pro ? `\n<script>window.TB_PRO=${JSON.stringify({ supabaseUrl: config.pro.supabaseUrl, supabaseAnonKey: config.pro.supabaseAnonKey, proefDagen: config.pro.proefDagen }).replace(/</g, '\\u003c')}</script>${config.pro.supabaseUrl ? `\n<script src="/js/vendor/supabase.js"></script>` : ''}` : ''}${[].concat(page.script || []).map((sc) => `\n<script type="module" src="/js/${sc}?v=${page.versie}"></script>`).join('')}
+${page.calc ? `<script type="module" src="/js/app.js?v=${page.versie}"></script>` : ''}${page.pro && config.pro.supabaseUrl ? `\n<script src="/js/vendor/supabase.js"></script>` : ''}${[].concat(page.script || []).map((sc) => `\n<script type="module" src="/js/${sc}?v=${page.versie}"></script>`).join('')}
 </body>
 </html>
 `;

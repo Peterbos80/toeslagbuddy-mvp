@@ -1,5 +1,11 @@
 // Scripts voor elke pagina: mobiel menu, voorlezen en meten van partnerklikken.
 
+// Wachtrij voor Plausible-events tot het script geladen is (voorheen inline)
+window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+
+// Advertentieblokken vullen (voorheen een inline script per blok)
+document.querySelectorAll('ins.adsbygoogle').forEach(() => (window.adsbygoogle = window.adsbygoogle || []).push({}));
+
 // Mobiel menu
 const knop = document.querySelector('.menu-knop');
 const menu = document.getElementById('hoofdmenu');

@@ -4,8 +4,9 @@
 // verkoopdemo's bij kantoren); dan wordt niets opgeslagen op een server.
 import { proefStatus, proefEind } from './proef.js';
 import { verstuur } from './formulier.js';
+import { CONFIG } from './config.js';
 
-const CFG = window.TB_PRO || {};
+const CFG = CONFIG.pro || {};
 const params = new URLSearchParams(location.search);
 const DEMO = params.has('demo');
 const metDemo = (pad) => (DEMO ? `${pad}?demo=1` : pad);

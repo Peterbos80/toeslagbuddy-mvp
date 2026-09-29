@@ -10,8 +10,9 @@ import {
 import { JAAR, KINDEROPVANGTOESLAG } from './params.js';
 import { zzpCheck, herinneringIcs } from './zzp.js';
 import { uitlegBijResultaat } from './persona.js';
+import { CONFIG } from './config.js';
 
-const PARTNERS = window.TB_PARTNERS || {};
+const PARTNERS = CONFIG.partners || {};
 
 const getal = (v) => {
   if (v === null || v === undefined) return 0;
