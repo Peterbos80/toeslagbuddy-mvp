@@ -1,42 +1,55 @@
-"""Maakt een fotorealistisch, fictief gezicht per persona (Stable Diffusion 1.5,
-Realistic Vision; licentie CreativeML OpenRAIL-M) en houdt alleen een foto
-waarop precies één gezicht recht in de camera kijkt. Draait op de CPU.
+"""Maakt een fotorealistisch, fictief gezicht per persona en houdt alleen een
+foto waarop precies één gezicht recht in de camera kijkt. Draait op de CPU.
+
+Modellen (in volgorde; licenties laten commercieel gebruik toe, niet om te misleiden):
+- RealVisXL V5.0 / V4.0 (SDXL, CreativeML OpenRAIL++-M): het echtst;
+- Realistic Vision V5.1 (SD 1.5, CreativeML OpenRAIL-M);
+- Stable Diffusion 1.5 (CreativeML OpenRAIL-M) als laatste terugval.
 
     python scripts/video/gezichten.py --persona henk --uit public/video/gezichten \
-        --gewichten .sadtalker/gfpgan/weights
+        --gewichten .sadtalker/gfpgan/weights [--model sdxl|sd15]
 
-Schrijft <persona>.jpg (512x768) en <persona>.json (model, seed, prompt).
+Schrijft <persona>.jpg (576x864) en <persona>.json (model, seed, prompt).
 """
 import argparse
 import json
 import os
 import sys
+import traceback
 
 HIER = os.path.dirname(os.path.abspath(__file__))
-# Eerst het fotorealistische model; lukt dat niet, dan het basismodel (beide OpenRAIL-M)
+BREEDTE, HOOGTE = 576, 864
 MODELLEN = [
-    ('SG161222/Realistic_Vision_V5.1_noVAE', 'stabilityai/sd-vae-ft-mse'),
-    ('stable-diffusion-v1-5/stable-diffusion-v1-5', None),
+    ('sdxl', 'SG161222/RealVisXL_V5.0', None, 'CreativeML OpenRAIL++-M'),
+    ('sdxl', 'SG161222/RealVisXL_V4.0', None, 'CreativeML OpenRAIL++-M'),
+    ('sd15', 'SG161222/Realistic_Vision_V5.1_noVAE', 'stabilityai/sd-vae-ft-mse', 'CreativeML OpenRAIL-M'),
+    ('sd15', 'stable-diffusion-v1-5/stable-diffusion-v1-5', None, 'CreativeML OpenRAIL-M'),
 ]
 
 
-def laad_pipeline():
+def laad_pipeline(voorkeur=None):
     import torch
-    from diffusers import AutoencoderKL, DPMSolverMultistepScheduler, StableDiffusionPipeline
+    from diffusers import AutoencoderKL, DPMSolverMultistepScheduler, StableDiffusionPipeline, StableDiffusionXLPipeline
 
-    fouten = []
-    for model, vae_id in MODELLEN:
+    for soort, model, vae_id, licentie in MODELLEN:
+        if voorkeur and soort != voorkeur:
+            continue
         try:
             extra = {'vae': AutoencoderKL.from_pretrained(vae_id, torch_dtype=torch.float32)} if vae_id else {}
-            pipe = StableDiffusionPipeline.from_pretrained(
-                model, torch_dtype=torch.float32, safety_checker=None, requires_safety_checker=False, **extra
-            )
+            if soort == 'sdxl':
+                pipe = StableDiffusionXLPipeline.from_pretrained(model, torch_dtype=torch.float32, **extra)
+            else:
+                pipe = StableDiffusionPipeline.from_pretrained(
+                    model, torch_dtype=torch.float32, safety_checker=None, requires_safety_checker=False, **extra
+                )
             pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config, use_karras_sigmas=True)
             pipe.set_progress_bar_config(disable=True)
-            return pipe, model
-        except Exception as e:  # volgende model proberen
-            fouten.append(f'{model}: {e}')
-    sys.exit('Geen beeldmodel te laden:\n' + '\n'.join(fouten))
+            print(f'Beeldmodel: {model}', flush=True)
+            return pipe, soort, model, licentie
+        except Exception:  # zichtbaar loggen, dan het volgende model
+            print(f'Model {model} niet te laden:', file=sys.stderr)
+            traceback.print_exc()
+    sys.exit('Geen beeldmodel te laden')
 
 
 def recht_gezicht(detector, beeld):
@@ -54,9 +67,10 @@ def recht_gezicht(detector, beeld):
     lm = vakken[0][5:15].reshape(5, 2)  # ogen, neus, mondhoeken
     breedte, hoogte = beeld.size
     b = (x2 - x1) / breedte
-    if not 0.22 <= b <= 0.6:
+    if not 0.22 <= b <= 0.55:
         return False, f'gezicht {b:.0%} van de breedte'
-    if abs((x1 + x2) / 2 - breedte / 2) > 0.12 * breedte or y1 < 0.05 * hoogte or y2 > 0.8 * hoogte:
+    # Ruimte boven het hoofd (anders valt de kruin weg bij 9:16) en gecentreerd
+    if abs((x1 + x2) / 2 - breedte / 2) > 0.12 * breedte or y1 < 0.12 * hoogte or y2 > 0.75 * hoogte:
         return False, 'gezicht niet goed in beeld'
     ogen = abs(lm[1][0] - lm[0][0])
     if ogen < 0.1 * (x2 - x1) or abs(lm[2][0] - (lm[0][0] + lm[1][0]) / 2) > 0.12 * ogen:
@@ -69,18 +83,23 @@ def main():
     ap.add_argument('--persona', required=True)
     ap.add_argument('--uit', required=True)
     ap.add_argument('--gewichten', required=True, help='map met detection_Resnet50_Final.pth (facexlib)')
-    ap.add_argument('--pogingen', type=int, default=4)
-    ap.add_argument('--stappen', type=int, default=30)
+    ap.add_argument('--model', choices=['sdxl', 'sd15'], default=None)
+    ap.add_argument('--pogingen', type=int, default=5)
+    ap.add_argument('--stappen', type=int, default=28)
+    ap.add_argument('--pogingen-map', default=None, help='bewaar ook de afgekeurde pogingen (om te beoordelen)')
     a = ap.parse_args()
 
     import torch
+    from PIL import Image
     from facexlib.detection import init_detection_model
 
     cfg = json.load(open(os.path.join(HIER, 'personas.json'), encoding='utf-8'))
     p = cfg['personas'][a.persona]
     prompt = f"{p['beschrijving']}, {cfg['algemeen']['prompt']}"
     torch.set_num_threads(os.cpu_count() or 4)
-    pipe, model = laad_pipeline()
+    pipe, soort, model, licentie = laad_pipeline(a.model)
+    # SDXL werkt het best rond 1 megapixel; daarna verkleinen (verkleinen maakt ook scherper)
+    w, h = (832, 1248) if soort == 'sdxl' else (512, 768)
     detector = init_detection_model('retinaface_resnet50', half=False, device='cpu', model_rootpath=a.gewichten)
     os.makedirs(a.uit, exist_ok=True)
     for i in range(a.pogingen):
@@ -88,17 +107,21 @@ def main():
         beeld = pipe(
             prompt,
             negative_prompt=cfg['algemeen']['negatief'],
-            width=512,
-            height=768,
+            width=w,
+            height=h,
             num_inference_steps=a.stappen,
-            guidance_scale=6.0,
+            guidance_scale=5.0 if soort == 'sdxl' else 6.0,
             generator=torch.Generator('cpu').manual_seed(seed),
         ).images[0]
+        beeld = beeld.resize((BREEDTE, HOOGTE), Image.LANCZOS)
         ok, reden = recht_gezicht(detector, beeld)
         print(json.dumps({'persona': a.persona, 'seed': seed, 'ok': ok, 'reden': reden}), flush=True)
+        if a.pogingen_map:
+            os.makedirs(a.pogingen_map, exist_ok=True)
+            beeld.save(os.path.join(a.pogingen_map, f'{a.persona}-{i + 1}-{"ok" if ok else "afgekeurd"}.jpg'), quality=90)
         if ok:
-            beeld.save(os.path.join(a.uit, f'{a.persona}.jpg'), quality=92)
-            meta = {'persona': a.persona, 'model': model, 'seed': seed, 'prompt': prompt, 'licentie': 'CreativeML OpenRAIL-M', 'fictief': True}
+            beeld.save(os.path.join(a.uit, f'{a.persona}.jpg'), quality=93)
+            meta = {'persona': a.persona, 'model': model, 'seed': seed, 'prompt': prompt, 'licentie': licentie, 'fictief': True}
             json.dump(meta, open(os.path.join(a.uit, f'{a.persona}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
             return
     sys.exit(f'Geen bruikbaar gezicht voor {a.persona} na {a.pogingen} pogingen')

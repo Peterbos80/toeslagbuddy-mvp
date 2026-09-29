@@ -1,8 +1,8 @@
 {
   "_uitleg": "Uiterlijk en stem per persona voor de open-source video's. Alle personen zijn fictief en worden door AI gemaakt. Pas 'seed' aan voor een ander gezicht; het gekozen gezicht wordt in public/video/gezichten/ bewaard en daarna hergebruikt.",
   "algemeen": {
-    "prompt": "professional portrait photograph, head and shoulders, facing the camera, looking straight into the lens, calm friendly expression, lips closed, soft natural window light, plain light grey background, sharp focus, 85mm lens, realistic skin texture, natural colors",
-    "negatief": "cartoon, anime, illustration, painting, drawing, 3d render, cgi, doll, plastic skin, deformed, disfigured, extra limbs, blurry, out of focus, glasses, sunglasses, hat, hands, text, watermark, logo, open mouth, teeth, side view, profile, looking away, multiple people, nsfw"
+    "prompt": "candid video still, shot on a smartphone front camera at eye level, head and shoulders with some space above the head, facing the camera and looking straight into the lens, relaxed natural expression, lips closed, soft daylight from a window, cozy Dutch living room softly out of focus in the background, natural skin texture with pores and fine lines, slight film grain, true-to-life colors, photorealistic",
+    "negatief": "cartoon, anime, illustration, painting, drawing, 3d render, cgi, doll, plastic skin, airbrushed, smooth skin, beauty filter, heavy makeup, studio backdrop, deformed, disfigured, asymmetrical eyes, extra limbs, blurry, out of focus face, glasses, sunglasses, hat, hands, text, watermark, logo, open mouth, teeth, side view, profile, looking away, tilted head, multiple people, cropped head, nsfw"
   },
   "personas": {
     "buddy": { "beschrijving": "friendly Dutch woman in her early forties, TV presenter, shoulder-length auburn hair, light blue blouse", "seed": 4101, "stem": { "geslacht": "v", "toon": 0.5 } },

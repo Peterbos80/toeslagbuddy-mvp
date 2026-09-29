@@ -1,0 +1,162 @@
+name: Video-proef (echtheid vergelijken)
+
+# Maakt één fragment van één persona in meerdere varianten naast elkaar,
+# met metingen (natuurlijkheid van de stem, scherpte, lipsync) en
+# contactbladen. Het resultaat komt in docs/video-proef/ om te beoordelen.
+# Pas als een variant echt genoeg is, gaat die naar de productiepijplijn.
+
+on:
+  workflow_dispatch:
+    inputs:
+      persona:
+        description: Persona
+        default: henk
+      segment:
+        description: Fragment
+        default: intro
+
+permissions:
+  contents: write
+
+concurrency:
+  group: video-proef
+  cancel-in-progress: false
+
+env:
+  SADTALKER_COMMIT: cd4c0465ae0b54a6f85af57f5c65fec9fe23e7f8
+  PERSONA: ${{ github.event.inputs.persona }}
+  SEGMENT: ${{ github.event.inputs.segment }}
+
+jobs:
+  gezicht:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      HF_HOME: ${{ github.workspace }}/.video-cache/hf
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/video-omgeving
+        with:
+          sadtalker-commit: ${{ env.SADTALKER_COMMIT }}
+      - name: Gezicht (RealVisXL)
+        run: python scripts/video/gezichten.py --persona "$PERSONA" --uit proef/gezicht --gewichten .sadtalker/gfpgan/weights --pogingen-map proef/gezicht/pogingen
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: proef-gezicht
+          path: proef/
+
+  stem:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      HF_HOME: ${{ github.workspace }}/.tts-cache/hf
+      TORCH_HOME: ${{ github.workspace }}/.tts-cache/torch
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - uses: actions/cache@v4
+        with:
+          path: .tts-cache
+          key: tts-modellen-v1
+      - name: Stem-omgeving (Chatterbox, Piper, UTMOS)
+        run: |
+          python -m venv .tts
+          .tts/bin/pip install -q --upgrade pip wheel
+          .tts/bin/pip install -q --index-url https://download.pytorch.org/whl/cpu torch==2.6.0 torchaudio==2.6.0
+          .tts/bin/pip install -q chatterbox-tts piper-tts==1.8.0
+          .tts/bin/pip show chatterbox-tts | head -2
+      - name: Stemmen maken
+        run: |
+          TEKST=$(node -e 'import("./src/calc/videoplan.js").then(async ({ alleClips }) => { const c = alleClips().find((c) => c.persona === process.env.PERSONA && c.segment === process.env.SEGMENT); if (!c) process.exit(1); console.log(c.tekst); })')
+          echo "Tekst: $TEKST"
+          .tts/bin/python scripts/video/stem_referentie.py --persona "$PERSONA" --tekst "$TEKST" --map .tts-cache/piper --keuze .tts-cache/stemkeuze.json --uit proef/stem
+          jq -n --arg t "$TEKST" '[{tekst: $t, referentie: "proef/stem/referentie.wav", uit: "proef/stem/chatterbox.wav"}]' > proef/stem/opdracht.json
+          # Chatterbox-stem; de score van de referentie (Piper) staat er ter vergelijking bij
+          .tts/bin/python scripts/video/stem_natuurlijk.py --opdracht proef/stem/opdracht.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: proef-stem
+          path: proef/
+
+  varianten:
+    needs: [gezicht, stem]
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { naam: A-piper-256, stem: piper, grootte: 256, verbeteren: true, camera: false }
+          - { naam: B-chatterbox-256, stem: chatterbox, grootte: 256, verbeteren: true, camera: true }
+          - { naam: C-chatterbox-512, stem: chatterbox, grootte: 512, verbeteren: false, camera: true }
+          - { naam: D-chatterbox-512-gfpgan, stem: chatterbox, grootte: 512, verbeteren: true, camera: true }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: ./.github/actions/video-omgeving
+        with:
+          sadtalker-commit: ${{ env.SADTALKER_COMMIT }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: proef-*
+          path: invoer
+          merge-multiple: true
+      - name: Variant ${{ matrix.naam }}
+        run: |
+          mkdir -p uit/${{ matrix.naam }}
+          TEKST=$(node -e 'import("./src/calc/videoplan.js").then(({ alleClips }) => console.log(alleClips().find((c) => c.persona === process.env.PERSONA && c.segment === process.env.SEGMENT).tekst))')
+          jq -n --arg t "$TEKST" --arg wav "invoer/stem/${{ matrix.stem }}.wav" --arg g "invoer/gezicht/$PERSONA.jpg" \
+            --argjson grootte ${{ matrix.grootte }} --argjson verbeteren ${{ matrix.verbeteren }} \
+            '{gezicht: $g, uit: "uit/ruw", grootte: $grootte, verbeteren: $verbeteren, expressie: 1.1, clips: [{segment: env.SEGMENT, tekst: $t, wav: $wav}]}' > opdracht.json
+          START=$(date +%s)
+          python scripts/video/render.py --opdracht opdracht.json --sadtalker "$PWD/.sadtalker"
+          node scripts/video-nabewerking.js "uit/ruw/$SEGMENT.ruw.mp4" "uit/${{ matrix.naam }}/video.mp4" ${{ matrix.camera && '--camera' || '' }} > uit/${{ matrix.naam }}/keuring.json || true
+          python scripts/video/metingen.py "uit/${{ matrix.naam }}/video.mp4" --gewichten .sadtalker/gfpgan/weights > uit/${{ matrix.naam }}/metingen.json
+          echo "{\"seconden\": $(( $(date +%s) - START ))}" > uit/${{ matrix.naam }}/tijd.json
+          ffmpeg -loglevel error -y -i "uit/${{ matrix.naam }}/video.mp4" -vf "fps=1.5,scale=216:-1,tile=6x2" -frames:v 1 "uit/${{ matrix.naam }}/contactblad.jpg"
+          ffmpeg -loglevel error -y -ss 2 -i "uit/${{ matrix.naam }}/video.mp4" -frames:v 1 "uit/${{ matrix.naam }}/beeld.jpg"
+          rm -rf uit/ruw
+          cat uit/${{ matrix.naam }}/*.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: variant-${{ matrix.naam }}
+          path: uit/
+
+  rapport:
+    needs: [gezicht, stem, varianten]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+      - uses: actions/download-artifact@v4
+        with:
+          path: art
+          merge-multiple: true
+      - name: In docs/video-proef bewaren
+        run: |
+          DOEL="docs/video-proef/$(date -u +%Y%m%d-%H%M)-$PERSONA-$SEGMENT"
+          mkdir -p "$DOEL"
+          cp -r art/* "$DOEL/" 2>/dev/null || true
+          rm -rf "$DOEL/ruw"
+          find "$DOEL" -name '*.wav' -exec sh -c 'ffmpeg -loglevel error -y -i "$1" -c:a aac -b:a 64k "${1%.wav}.m4a" && rm "$1"' _ {} \;
+          find "$DOEL" -type f | sort
+          git config user.name "toeslagbuddy-video"
+          git config user.email "video@users.noreply.github.com"
+          git add docs/video-proef
+          git commit -m "Video-proef $PERSONA/$SEGMENT $(date -u +%F)"
+          for poging in 1 2 3 4 5; do
+            git pull --rebase -q origin "${{ github.ref_name }}" && git push && exit 0
+            sleep $((poging * 10))
+          done
+          exit 1

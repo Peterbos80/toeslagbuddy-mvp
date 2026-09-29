@@ -38,6 +38,11 @@ test('echte video: ffmpeg maakt 9:16 met ingebrand AI-label en AI-metadata', () 
   assert.ok(vf.includes(`text='${LABEL}'`));
   assert.ok(args.includes('comment=AI-gegenereerde video (synthetische, fictieve persoon) - ToeslagBuddy'));
   assert.ok(args.includes('+faststart'));
+  // Telefooncamera-look: wiegend beeld, korrel en kamerakoestiek; zonder: niets daarvan
+  const cam = ffmpegArgs('in.mp4', 'uit.mp4', { font: null, camera: true });
+  assert.match(cam[cam.indexOf('-vf') + 1], /sin\(t\*0\.83\).*noise=/);
+  assert.match(cam[cam.indexOf('-af') + 1], /aecho=.*loudnorm/);
+  assert.ok(!args.includes('-af'));
   // Zonder lettertype: geen drawtext (en geen fout)
   assert.ok(!ffmpegArgs('a', 'b', { font: null }).join(' ').includes('drawtext'));
 });

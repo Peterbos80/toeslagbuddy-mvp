@@ -25,13 +25,18 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--opdracht', required=True)
     ap.add_argument('--sadtalker', required=True)
-    ap.add_argument('--grootte', type=int, default=256)
+    ap.add_argument('--grootte', type=int, default=None, help='256 of 512 (scherper, trager)')
     a = ap.parse_args()
     o = json.load(open(a.opdracht, encoding='utf-8'))
+    a.grootte = a.grootte or o.get('grootte', 256)
+    expressie = o.get('expressie', 1.0)  # >1 = duidelijkere mondbewegingen
     gezicht = os.path.abspath(o['gezicht'])
     uit = os.path.abspath(o['uit'])
     werk = os.path.join(uit, '_werk')
     os.makedirs(werk, exist_ok=True)
+    for clip in o['clips']:  # vóór de chdir naar SadTalker absoluut maken
+        if clip.get('wav'):
+            clip['wav'] = os.path.abspath(clip['wav'])
 
     # SadTalker verwacht te draaien vanuit zijn eigen map (gewichten in ./checkpoints en ./gfpgan)
     os.chdir(a.sadtalker)
@@ -61,10 +66,14 @@ def main():
         t0 = time.time()
         map_ = os.path.join(werk, clip['segment'])
         os.makedirs(map_, exist_ok=True)
-        wav = spreek(o['stem']['model'], o['stem']['spreker'], clip['tekst'], os.path.join(map_, 'stem.wav'), tempo=o['stem'].get('tempo', 1.0))
+        # Kant-en-klare stem (bijv. Chatterbox) of ter plekke met Piper
+        if clip.get('wav'):
+            wav = shutil.copy(clip['wav'], os.path.join(map_, 'stem.wav'))
+        else:
+            wav = spreek(o['stem']['model'], o['stem']['spreker'], clip['tekst'], os.path.join(map_, 'stem.wav'), tempo=o['stem'].get('tempo', 1.0))
         batch = get_data(coeff, wav, apparaat, None, still=True)
         coeff_pad = audio_naar_coeff.generate(batch, map_, 0, None)
-        data = get_facerender_data(coeff_pad, crop_pic, coeff, wav, 2, None, None, None, expression_scale=1.0, still_mode=True, preprocess='full', size=a.grootte)
+        data = get_facerender_data(coeff_pad, crop_pic, coeff, wav, 2, None, None, None, expression_scale=expressie, still_mode=True, preprocess='full', size=a.grootte)
         resultaat = animatie.generate(
             data, map_, gezicht, crop_info,
             enhancer='gfpgan' if o.get('verbeteren') else None,

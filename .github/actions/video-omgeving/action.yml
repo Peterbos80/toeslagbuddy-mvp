@@ -23,7 +23,8 @@ runs:
           .video-cache/hf
           .video-cache/piper
           .sadtalker-gewichten
-        key: video-modellen-v1-${{ inputs.sadtalker-commit }}
+        key: video-modellen-v2-${{ inputs.sadtalker-commit }}
+        restore-keys: video-modellen-
     - name: SadTalker ophalen
       shell: bash
       env:
@@ -40,6 +41,7 @@ runs:
         haal $R/mapping_00109-model.pth.tar .sadtalker-gewichten/checkpoints/mapping_00109-model.pth.tar
         haal $R/mapping_00229-model.pth.tar .sadtalker-gewichten/checkpoints/mapping_00229-model.pth.tar
         haal $R/SadTalker_V0.0.2_256.safetensors .sadtalker-gewichten/checkpoints/SadTalker_V0.0.2_256.safetensors
+        haal $R/SadTalker_V0.0.2_512.safetensors .sadtalker-gewichten/checkpoints/SadTalker_V0.0.2_512.safetensors
         F=https://github.com/xinntao/facexlib/releases/download
         haal $F/v0.1.0/alignment_WFLW_4HG.pth .sadtalker-gewichten/gfpgan/weights/alignment_WFLW_4HG.pth
         haal $F/v0.1.0/detection_Resnet50_Final.pth .sadtalker-gewichten/gfpgan/weights/detection_Resnet50_Final.pth

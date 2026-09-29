@@ -33,14 +33,26 @@ export function heeftFilter(naam, ffmpeg = process.env.FFMPEG || 'ffmpeg') {
 export const standaardFont = (ffmpeg) => (heeftFilter('drawtext', ffmpeg) ? FONTS.find((f) => existsSync(f)) || null : null);
 
 /** ffmpeg: vullen tot 9:16, AI-label in beeld (ook bij doorplaatsen), klein en snel startend */
-export function ffmpegArgs(bron, doel, { font = standaardFont() } = {}) {
-  const vf = [`scale=${BREEDTE}:${HOOGTE}:force_original_aspect_ratio=increase`, `crop=${BREEDTE}:${HOOGTE}`, 'setsar=1'];
+export function ffmpegArgs(bron, doel, { font = standaardFont(), camera = false } = {}) {
+  // camera: als met een telefoon gefilmd (licht wiegend beeld, korrel, vignet,
+  // een beetje kamerakoestiek). Een doodstil, steriel beeld verraadt AI.
+  const rand = camera ? 1.07 : 1;
+  const vf = [
+    `scale=${Math.round(BREEDTE * rand)}:${Math.round(HOOGTE * rand)}:force_original_aspect_ratio=increase`,
+    camera
+      ? `crop=${BREEDTE}:${HOOGTE}:(iw-ow)/2+(iw-ow)*0.35*sin(t*0.83):(ih-oh)/2+(ih-oh)*0.3*sin(t*0.61+1.3)`
+      : `crop=${BREEDTE}:${HOOGTE}`,
+    'setsar=1',
+  ];
+  if (camera) vf.push('eq=contrast=1.03:saturation=0.95', 'vignette=angle=PI/6', 'noise=c0s=6:c0f=t+u');
+  const af = camera ? ['-af', 'highpass=f=70,lowpass=f=10000,aecho=0.9:0.5:19|41:0.12|0.07,loudnorm=I=-18:TP=-2:LRA=9'] : [];
   if (font) {
     vf.push(`drawtext=fontfile=${font}:text='${LABEL}':x=w-tw-12:y=12:fontsize=15:fontcolor=white:box=1:boxcolor=black@0.55:boxborderw=6`);
   }
   return [
     '-y', '-loglevel', 'error', '-i', bron,
     '-vf', vf.join(','),
+    ...af,
     '-c:v', 'libx264', '-profile:v', 'main', '-pix_fmt', 'yuv420p', '-preset', 'slow', '-crf', '30', '-r', '25',
     '-c:a', 'aac', '-b:a', '64k', '-ac', '1',
     '-movflags', '+faststart',
