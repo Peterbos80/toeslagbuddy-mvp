@@ -59,21 +59,18 @@ export default {
     },
   },
 
-  // Formulieren (contact, Pro-aanmelding, zzp-wachtlijst) sturen berichten
-  // naar jouw eigen e-mail via Web3Forms. Je e-mailadres staat NIET op de site:
-  // je koppelt het bij web3forms.com aan een toegangscode (access key) en
-  // alleen die code staat hier. Leeg = formulieren tonen een melding.
-  formulieren: {
-    endpoint: 'https://api.web3forms.com/submit',
-    accessKey: '',
-  },
-
-  // ToeslagBuddy Pro: inloggen en proefabonnement via Supabase (zie docs/pro-accounts.md).
-  // De 'anon key' is bedoeld om publiek te zijn; beveiliging zit in de database-regels.
+  // Supabase (EU, Frankfurt): Pro-accounts, /beheer/ én de formulieren op de
+  // site (contact, pilot, abonnement, wachtlijst). Formulieren schrijven naar de
+  // tabel berichten; een Edge Function stuurt ze door naar je privé-adres, dat
+  // alleen als geheim in Supabase staat. Zie docs/pro-accounts.md en docs/email.md.
+  // Leeg = formulieren tonen "mail naar info@toeslagbuddy.nl" en Pro draait
+  // alleen als demo (?demo=1). De 'anon key' is bedoeld om publiek te zijn; de
+  // beveiliging zit in de databaseregels. Zet hier NOOIT de service_role key.
   pro: {
     supabaseUrl: '', // bijv. 'https://abcdefgh.supabase.co'
     supabaseAnonKey: '',
     proefDagen: 7,
+    prijsPerMaand: 99, // minimumprijs per kantoor excl. btw (voor de MRR-schatting in /beheer/)
   },
 
   // Realistische AI-presentatoren (HeyGen). Kies per persona een stock-avatar

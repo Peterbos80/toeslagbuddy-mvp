@@ -85,10 +85,9 @@ export function nieuwsbrief() {
 <input id="nb-email" type="email" name="${esc(n.emailVeld)}" placeholder="jouw@email.nl" required autocomplete="email"><button type="submit">Aanmelden</button></form></section>`;
 }
 
-// Formulier dat via de webapplicatie (Web3Forms) naar je privé-e-mail gaat.
-// velden: [naam, label, type, verplicht, autocomplete]
+// Formulier dat via de database (Supabase, functie bericht_plaatsen) naar de
+// beheerder gaat; zie public/js/formulier.js. velden: [naam, label, type, verplicht, autocomplete]
 export function formulier(soort, onderwerp, velden, knop) {
-  const f = config.formulieren;
   return `<form class="aanvraag" data-formulier="${esc(soort)}" data-onderwerp="${esc(onderwerp)}" novalidate>
 ${velden
   .map(([naam, label, type = 'text', verplicht = false, auto = 'off']) => {
@@ -105,10 +104,6 @@ ${velden
 </form>`;
 }
 
-export function formulierConfigJson() {
-  return JSON.stringify({ endpoint: config.formulieren.endpoint, accessKey: config.formulieren.accessKey }).replace(/</g, '\\u003c');
-}
-
 // Partnerblok in de pagina zelf (niet alleen na een berekening)
 export function partnerBlok(sleutel) {
   const p = config.partners[sleutel];
@@ -120,9 +115,10 @@ export function partnerBlok(sleutel) {
 // Instellingen voor de browser als JSON (geen inline script: werkt met een strikte CSP).
 // Lees ze in de browser met: import { CONFIG } from './config.js'
 export function configJson(page) {
-  const c = { formulieren: { endpoint: config.formulieren.endpoint, accessKey: config.formulieren.accessKey } };
+  // Supabase-adres en anon key op elke pagina: de formulieren gebruiken ze ook
+  const c = { supabaseUrl: config.pro.supabaseUrl, supabaseAnonKey: config.pro.supabaseAnonKey };
   if (page.calc) c.partners = JSON.parse(partnersJson());
-  if (page.pro) c.pro = { supabaseUrl: config.pro.supabaseUrl, supabaseAnonKey: config.pro.supabaseAnonKey, proefDagen: config.pro.proefDagen };
+  if (page.pro) c.pro = { proefDagen: config.pro.proefDagen, prijsPerMaand: config.pro.prijsPerMaand };
   return JSON.stringify(c).replace(/</g, '\\u003c');
 }
 

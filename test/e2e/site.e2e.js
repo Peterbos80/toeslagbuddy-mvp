@@ -200,6 +200,10 @@ test('Pro: aanmelden, omgeving, proefstatus, tabs en uitloggen (demo)', async ()
   await f.locator('[name=email]').fill('test@bewind.nl');
   await f.locator('[name=akkoord]').check();
   await f.locator('button[type=submit]').click();
+  // Tweede stap: de code van 6 cijfers uit de mail (in de demo altijd 123456)
+  const code = p.locator('form[data-pro-code]');
+  await code.locator('[name=code]').fill('123456');
+  await code.locator('button[type=submit]').click();
   await p.waitForURL('**/pro/app/?demo=1');
   assert.match(await tekst(p.locator('[data-pro-status]')), /Proef: nog 7 dagen/);
   assert.match(await tekst(p.locator('.pro-welkom')), /Test Bewindvoerder/);
@@ -226,30 +230,60 @@ test('Pro zonder accounts: nette melding in plaats van fouten', async () => {
   await ctx.close();
 });
 
-test('formulieren: bericht gaat via de webapplicatie, zonder zichtbaar e-mailadres', async () => {
-  const ctx = await s.browser.newContext();
-  const p = await open(ctx, s.basis + '/contact/', fouten);
+test('formulieren: bericht gaat naar de database, zonder privé-e-mailadres', async () => {
+  // bypassCSP: de test gebruikt een nep-Supabase-adres dat niet in de CSP staat
+  const ctx = await s.browser.newContext({ bypassCSP: true });
+  // Alleen echte scriptfouten tellen: mislukte verzoeken zijn hier de bedoeling
+  const p = await ctx.newPage();
+  p.on('pageerror', (e) => fouten.push(`/contact/: ${e.message}`));
+  await p.goto(s.basis + '/contact/');
   const html = await p.content();
-  assert.ok(!/mailto:|@gmail\.com/.test(html), 'geen e-mailadres in de pagina');
-  let verzonden = null;
-  await p.route('https://api.web3forms.com/submit', async (r) => {
-    verzonden = JSON.parse(r.request().postData());
-    await r.fulfill({ status: 200, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' }, body: '{"success":true}' });
-  });
+  const adressen = html.match(/[\w.+-]+@[\w-]+\.[\w.-]+/g) || [];
+  assert.ok(adressen.every((a) => /^(info|privacy|security)@toeslagbuddy\.nl$/.test(a)), `alleen info@/privacy@/security@: ${adressen}`);
   const f = p.locator('form[data-formulier=contact]');
-  // Zonder toegangscode: nette melding
   await f.locator('[name=naam]').fill('Jan');
   await f.locator('[name=email]').fill('jan@example.nl');
   await f.locator('[name=bericht]').fill('Hallo!');
+  // Zonder Supabase: mail naar info@ (als link)
   await f.locator('button[type=submit]').click();
-  assert.match(await tekst(f.locator('.formulier-status')), /binnenkort geactiveerd/);
-  // Met toegangscode: verstuurd via Web3Forms
-  await p.evaluate(async () => { const v = document.querySelector('script[src*="site.js"]').src.split('?')[1]; const m = await import('/js/config.js?' + v); m.CONFIG.formulieren = { ...m.CONFIG.formulieren, accessKey: 'test-sleutel' }; });
+  assert.match(await tekst(f.locator('.formulier-status')), /werkt nog niet/);
+  assert.equal(await f.locator('.formulier-status a').getAttribute('href'), 'mailto:info@toeslagbuddy.nl');
+  // Met Supabase: naar de functie bericht_plaatsen
+  await p.evaluate(async () => {
+    const v = document.querySelector('script[src*="site.js"]').src.split('?')[1];
+    const m = await import('/js/config.js?' + v);
+    Object.assign(m.CONFIG, { supabaseUrl: 'https://test.supabase.co', supabaseAnonKey: 'anon-test' });
+  });
+  const rpc = 'https://test.supabase.co/rest/v1/rpc/bericht_plaatsen';
+  // R1: geen internet → melding, invoer blijft staan
+  await p.route(rpc, (r) => r.abort('internetdisconnected'));
+  await f.locator('button[type=submit]').click();
+  await p.waitForSelector('.formulier-status[data-soort=fout]');
+  assert.match(await tekst(f.locator('.formulier-status')), /geen verbinding/);
+  assert.equal(await f.locator('[name=bericht]').inputValue(), 'Hallo!');
+  await p.unroute(rpc);
+  // Te veel berichten: nette melding van de server
+  await p.route(rpc, (r) => r.fulfill({ status: 400, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' }, body: '{"message":"te_veel","code":"54000"}' }));
+  await f.locator('button[type=submit]').click();
+  await p.waitForFunction(() => /over een uur/.test(document.querySelector('form[data-formulier=contact] .formulier-status').textContent));
+  await p.unroute(rpc);
+  let verzonden = null;
+  let kop = null;
+  await p.route(rpc, async (r) => {
+    verzonden = JSON.parse(r.request().postData());
+    kop = r.request().headers();
+    await r.fulfill({ status: 200, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' }, body: '{"ok":true}' });
+  });
   await f.locator('button[type=submit]').click();
   await p.waitForSelector('.formulier-status[data-soort=ok]');
-  assert.equal(verzonden.access_key, 'test-sleutel');
-  assert.equal(verzonden.bericht, 'Hallo!');
-  assert.match(verzonden.subject, /ToeslagBuddy/);
+  assert.equal(kop.apikey, 'anon-test');
+  assert.equal(verzonden.soort, 'contact');
+  assert.equal(verzonden.email, 'jan@example.nl');
+  assert.equal(verzonden.naam, 'Jan');
+  assert.equal(verzonden.tekst, 'Hallo!');
+  assert.equal(verzonden.honeypot, null);
+  assert.ok(Date.now() - new Date(verzonden.gestart_op) >= 3000, 'minimale invultijd');
+  assert.equal(await f.locator('[name=bericht]').inputValue(), '', 'formulier leeg na versturen');
   await ctx.close();
 });
 

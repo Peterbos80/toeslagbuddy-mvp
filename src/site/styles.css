@@ -436,3 +436,11 @@ header.site { position: sticky; top: 0; z-index: 20; background: color-mix(in sr
 .speler-video .speler-start { left: 50%; transform: translate(-50%, -50%); }
 @keyframes puls3 { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.05); } }
 .speler-video .speler-start { animation-name: puls3; }
+/* Pro: team, rapportage en beheer */
+.pro-link { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; }
+.pro-link label { flex-basis: 100%; font-weight: 650; }
+.pro-link input { flex: 1 1 240px; min-width: 0; }
+.let-op[data-soort='fout'] { border-left-color: var(--rood); }
+.bericht-tekst { white-space: pre-wrap; }
+.client h3, .bericht-tekst, [data-beheer-organisaties] strong { overflow-wrap: anywhere; }
+[data-pro-omgeving] .tabel-scroll td, [data-beheer] .tabel-scroll td { vertical-align: top; }
