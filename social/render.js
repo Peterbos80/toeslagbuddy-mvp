@@ -8,6 +8,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import config from '../site.config.js';
+import { csp, bedrijfsgegevens } from '../src/site/layout.js';
 import { kalender } from './content.js';
 import { updates, tiktokScripts } from './updates.js';
 
@@ -29,7 +30,7 @@ writeFileSync(join(UIT, 'updates.json'), JSON.stringify({ updates, tiktokScripts
 const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
 writeFileSync(
   join(UIT, 'index.html'),
-  `<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Contentkalender</title>
+  `<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${csp({ slug: '/social/' })}"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Contentkalender</title>
 <style>body{font:15px/1.5 system-ui;margin:0 auto;max-width:1000px;padding:16px;background:#f7f8f5;color:#1d2521}article{background:#fff;border-radius:12px;padding:16px;margin:16px 0}.s{display:flex;gap:8px;overflow-x:auto}.s img{width:180px;border-radius:8px}pre{white-space:pre-wrap;font:inherit;background:#f2f4f1;padding:12px;border-radius:8px}</style></head><body>
 <h1>Instagram-contentkalender</h1>
 <h2>Grappige persona-updates (X, Threads, Bluesky)</h2>
@@ -38,6 +39,7 @@ ${updates.map((u) => `<article><p><strong>${esc(u.persona)}</strong> · ${u.teks
 ${tiktokScripts.map((t) => `<article><h3>${esc(t.titel)} (${esc(t.persona)})</h3><p><strong>Hook:</strong> ${esc(t.hook)}</p><ol>${t.beats.map((b) => `<li>${esc(b)}</li>`).join('')}</ol><p><strong>CTA:</strong> ${esc(t.cta)}</p></article>`).join('')}
 <h2>Instagram-kalender</h2>
 ${posts.map((p) => `<article><h2>${p.datum} ${p.tijd} · ${esc(p.id)}</h2><div class="s">${p.slides.map((_, i) => `<img src="${p.id}/${i + 1}.jpg" alt="">`).join('')}</div><p><a href="${p.id}/video.mp4" download>Video downloaden (Reels/TikTok)</a></p><pre>${esc(p.caption)}</pre></article>`).join('')}
+<footer>${bedrijfsgegevens()}</footer>
 </body></html>`,
 );
 
