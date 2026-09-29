@@ -57,3 +57,8 @@ Legenda: ✅ klaar en getest · 🔜 volgende · 💡 idee · ⛔ wacht op jou (
 - In GitHub: standaardbranch op `main` zetten en `main` toestaan in de omgeving github-pages
 - Supabase (Pro, formulieren en beheer), Brevo en DNS: [pro-accounts.md](pro-accounts.md) en [email.md](email.md)
 - HeyGen-sleutel en avatars voor de realistische video's: [ai-video.md](ai-video.md)
+- Bedrijfsgegevens invullen in `site.config.js → bedrijf` (naam, vestigingsplaats, KvK, btw-id); verplicht (art. 3:15d BW)
+- Doorsturen instellen voor info@, privacy@ en security@; altijd antwoorden **als info@**
+- MFA op alle accounts, verwerkersovereenkomsten vastleggen: [compliance-checklist.md](compliance-checklist.md)
+- Vóór de eerste betalende klant: jurist (voorwaarden, privacy), beroepsaansprakelijkheidsverzekering, Supabase Pro + hersteltest
+- Engelse teksten laten nalezen door een moedertaalspreker: [i18n.md](i18n.md)
