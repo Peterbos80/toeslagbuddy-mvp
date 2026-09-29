@@ -41,7 +41,7 @@ async function api(pad, params) {
 }
 
 async function wachtTotKlaar(id) {
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 60; i++) { // video's (Reels) hebben soms een paar minuten nodig
     const res = await fetch(`${API}/${id}?fields=status_code&access_token=${IG_ACCESS_TOKEN}`);
     const { status_code } = await res.json();
     if (status_code === 'FINISHED') return;
@@ -64,7 +64,12 @@ for (const post of posts) {
     if (!r.ok) throw new Error(`Afbeelding niet bereikbaar (${r.status}): ${url}. Is de site gedeployed?`);
   }
   let container;
-  if (post.afbeeldingen.length === 1) {
+  const alsReel = (process.env.IG_FORMAT || 'carrousel') === 'reel' && post.video;
+  if (alsReel) {
+    const r = await fetch(post.video, { method: 'HEAD' });
+    if (!r.ok) throw new Error(`Video niet bereikbaar (${r.status}): ${post.video}`);
+    container = await api(`${IG_USER_ID}/media`, { media_type: 'REELS', video_url: post.video, caption: post.caption, share_to_feed: 'true' });
+  } else if (post.afbeeldingen.length === 1) {
     container = await api(`${IG_USER_ID}/media`, { image_url: post.afbeeldingen[0], caption: post.caption });
   } else {
     const kinderen = [];

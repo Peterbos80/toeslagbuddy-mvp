@@ -11,12 +11,15 @@
     "dev": "node build.js && node serve.js",
     "deploy": "bash scripts/deploy.sh",
     "social": "node social/render.js",
-    "post": "node social/post.js"
+    "post": "node social/post.js",
+    "test:e2e": "node --test --test-concurrency=1 test/e2e/*.e2e.js",
+    "check": "node build.js && node --test test/*.test.js && node --test --test-concurrency=1 test/e2e/*.e2e.js"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
+    "axe-core": "^4.13.0",
     "playwright": "^1.56.1"
   }
 }

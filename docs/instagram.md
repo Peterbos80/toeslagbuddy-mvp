@@ -85,3 +85,16 @@ Zonder `IG_USER_ID` en `IG_ACCESS_TOKEN` draait alles in proefmodus: er wordt ni
 - **Nieuw feit:** voeg een item toe aan `feiten()` in `social/content.js`.
 
 Draai daarna `npm run social` en open `dist/social/index.html` om alles te controleren voordat je pusht.
+
+## Reels en TikTok (video)
+
+Bij elke publicatie maakt de site van elke carrousel automatisch een verticale video (1080×1920, 15 seconden, MP4). Die video's staan op `/social/` met een downloadknop.
+
+- **Instagram Reels automatisch.** Zet in GitHub bij *Settings → Secrets and variables → Actions → Variables* de variabele `IG_FORMAT` op `reel`. Staat hij op `carrousel` (de standaard), dan worden carrousels geplaatst.
+- **TikTok.** Via de officiële Content Posting API kan een nog niet goedgekeurde app de video alleen als **concept in je TikTok-inbox** zetten. Openbaar plaatsen vanuit de app kan pas na een controle (audit) door TikTok. Werkwijze:
+  1. Maak op developers.tiktok.com een app aan en voeg het product *Content Posting API* toe (scope `video.upload`).
+  2. Verifieer bij *URL properties* het domein `www.toeslagbuddy.nl`. TikTok haalt de video daar zelf op.
+  3. Log eenmalig in met je TikTok-account om een refresh token te krijgen.
+  4. Zet in GitHub de secrets `TIKTOK_CLIENT_KEY`, `TIKTOK_CLIENT_SECRET` en `TIKTOK_REFRESH_TOKEN`.
+  5. Elke dag staat de video van die dag in je TikTok-inbox. Open de app, tik op de melding, plak de tekst en plaats. Dat kost ongeveer 1 minuut.
+- **Zonder API.** Download de video en tekst op `toeslagbuddy.nl/social/` en upload ze met de hand. Dat werkt meteen.

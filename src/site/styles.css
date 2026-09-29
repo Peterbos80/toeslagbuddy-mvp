@@ -33,7 +33,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--tekst);
-  font: 17px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font: 18px/1.65 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 a { color: var(--merk); text-underline-offset: 2px; }
 a:hover { color: var(--merk-donker); }
@@ -74,7 +74,7 @@ aside.zij ul { margin: 0; padding-left: 18px; }
 .rekenhulp .veld { margin: 0 0 18px; border: 0; padding: 0; }
 .rekenhulp legend, .rekenhulp label, .rekenhulp .label { font-weight: 650; display: block; margin-bottom: 4px; }
 .hint { font-size: 0.88rem; color: var(--zacht); margin: 0 0 6px; }
-input, select { font: inherit; color: var(--tekst); background: var(--vlak); border: 1.5px solid var(--lijn); border-radius: 10px; padding: 10px 12px; width: 100%; min-height: 46px; }
+input, select { font: inherit; color: var(--tekst); background: var(--vlak); border: 2px solid #c9d1cb; border-radius: 10px; padding: 10px 12px; width: 100%; min-height: 52px; }
 input:focus, select:focus { outline: 3px solid color-mix(in srgb, var(--merk) 35%, transparent); border-color: var(--merk); }
 input.kort { max-width: 140px; }
 .euro { position: relative; max-width: 260px; }
@@ -209,3 +209,41 @@ textarea { font: 0.85rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; wid
   .raster { display: block; }
   .client, .tegel { border-color: #999; }
 }
+
+/* ── Ontwerp voor de doelgroep: groot, rustig, vertrouwd ── */
+.intro, .inhoud > p, .inhoud li { max-width: 68ch; }
+.vertrouwen { list-style: none; padding: 0; margin: 0 0 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+.vertrouwen li { background: var(--vlak); border: 1px solid var(--lijn); border-radius: 99px; padding: 5px 14px 5px 10px; font-size: 0.9rem; font-weight: 600; }
+.vertrouwen li::before { content: '✓'; color: var(--merk); font-weight: 800; margin-right: 6px; }
+.knop.groot { font-size: 1.2rem; padding: 16px 28px; }
+.hero-knoppen { margin: 8px 0 14px; }
+.snel { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 0.95rem; margin-bottom: 10px; }
+.snel span { color: var(--zacht); }
+.snel a { background: var(--merk-licht); color: var(--merk-donker); border-radius: 99px; padding: 6px 14px; text-decoration: none; font-weight: 600; }
+.voorlees { font: inherit; font-size: 0.95rem; font-weight: 600; background: none; border: 2px solid var(--lijn); border-radius: 99px; padding: 6px 16px; cursor: pointer; color: var(--tekst); margin-top: 4px; }
+.voorlees[aria-pressed='true'] { border-color: var(--merk); color: var(--merk-donker); }
+.menu-knop { display: none; font: inherit; font-weight: 700; background: var(--merk-licht); color: var(--merk-donker); border: 0; border-radius: 10px; padding: 8px 16px; min-height: 44px; cursor: pointer; }
+@media (max-width: 760px) {
+  .menu-knop { display: inline-block; }
+  nav.hoofd { display: none; flex-basis: 100%; flex-direction: column; gap: 0; padding-bottom: 8px; }
+  nav.hoofd.open { display: flex; }
+  nav.hoofd a { padding: 12px 4px; border-top: 1px solid var(--lijn); font-size: 1.05rem; }
+}
+.voortgang { margin-bottom: 8px; }
+.voortgang-tekst { font-weight: 700; margin: 0 0 6px; color: var(--merk-donker); }
+.voortgang .balk { height: 8px; background: var(--merk-licht); border-radius: 99px; overflow: hidden; }
+.voortgang .balk i { display: block; height: 100%; background: var(--merk); border-radius: 99px; transition: width .25s; }
+.stap-knoppen { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 8px; }
+.stap-knoppen .knop, .stap-knoppen .knop-licht { width: auto; min-height: 50px; }
+.stap h3:focus { outline: none; }
+.hulp { margin: 40px 0 0; background: var(--vlak); border: 1px solid var(--lijn); border-left: 5px solid var(--merk); border-radius: var(--radius); padding: 16px 20px; }
+.hulp h2 { margin: 0 0 6px; font-size: 1.15rem; }
+.hulp ul { margin: 0; padding-left: 20px; }
+.nieuws-lijst { list-style: none; padding: 0; margin: 0; }
+.nieuws-lijst li { background: var(--vlak); border: 1px solid var(--lijn); border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; }
+.nieuws-lijst a { font-weight: 650; }
+.nieuws-lijst .meta { display: block; font-size: 0.85rem; color: var(--zacht); }
+
+.vinkje { flex-wrap: nowrap; align-items: flex-start; }
+.vinkje input { width: 26px; height: 26px; flex: 0 0 26px; margin-top: 2px; }
+.vinkje label { flex: 1 1 auto; min-width: 0; }

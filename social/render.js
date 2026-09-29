@@ -17,6 +17,7 @@ const alleenKalender = process.argv.includes('--kalender');
 const posts = kalender(config.instagram.startDatum, config.instagram.weken).map((p) => ({
   ...p,
   afbeeldingen: p.slides.map((_, i) => `${config.url}/social/${p.id}/${i + 1}.jpg`),
+  video: `${config.url}/social/${p.id}/video.mp4`, // gemaakt door social/video.js
 }));
 
 mkdirSync(UIT, { recursive: true });
@@ -29,7 +30,7 @@ writeFileSync(
   `<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Contentkalender</title>
 <style>body{font:15px/1.5 system-ui;margin:0 auto;max-width:1000px;padding:16px;background:#f7f8f5;color:#1d2521}article{background:#fff;border-radius:12px;padding:16px;margin:16px 0}.s{display:flex;gap:8px;overflow-x:auto}.s img{width:180px;border-radius:8px}pre{white-space:pre-wrap;font:inherit;background:#f2f4f1;padding:12px;border-radius:8px}</style></head><body>
 <h1>Instagram-contentkalender</h1>
-${posts.map((p) => `<article><h2>${p.datum} ${p.tijd} · ${esc(p.id)}</h2><div class="s">${p.slides.map((_, i) => `<img src="${p.id}/${i + 1}.jpg" alt="">`).join('')}</div><pre>${esc(p.caption)}</pre></article>`).join('')}
+${posts.map((p) => `<article><h2>${p.datum} ${p.tijd} · ${esc(p.id)}</h2><div class="s">${p.slides.map((_, i) => `<img src="${p.id}/${i + 1}.jpg" alt="">`).join('')}</div><p><a href="${p.id}/video.mp4" download>Video downloaden (Reels/TikTok)</a></p><pre>${esc(p.caption)}</pre></article>`).join('')}
 </body></html>`,
 );
 

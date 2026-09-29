@@ -19,6 +19,17 @@ import {
 } from './tabellen.js';
 import { zorgtoeslag, huurtoeslag, kindgebondenBudget, kotPercentage } from '../calc/toeslagen.js';
 import { KOLOMMEN } from '../calc/pro.js';
+import { partnerBlok } from './layout.js';
+import { readFileSync, existsSync } from 'node:fs';
+
+const NIEUWS_BESTAND = new URL('../../data/nieuws.json', import.meta.url);
+export const nieuws = existsSync(NIEUWS_BESTAND) ? JSON.parse(readFileSync(NIEUWS_BESTAND, 'utf8')) : { bijgewerkt: null, items: [] };
+const datumNl = (iso) => (iso ? new Date(iso).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }) : '');
+const escN = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const nieuwsLijst = (items) =>
+  `<ul class="nieuws-lijst">${items
+    .map((i) => `<li><a href="${escN(i.link)}" rel="noopener" target="_blank">${escN(i.titel)}</a><span class="meta">${escN(i.bron)}${i.datum ? ' · ' + datumNl(i.datum) : ''}</span>${i.samenvatting ? `<p>${escN(i.samenvatting)}</p>` : ''}</li>`)
+    .join('')}</ul>`;
 import { ZZP } from '../calc/params.js';
 
 const e2 = (n) => euro(n, 2);
@@ -44,13 +55,14 @@ export const pages = [
     title: `Toeslagen berekenen ${JAAR} – check al je toeslagen in 2 minuten | ToeslagBuddy`,
     description: `Bereken gratis en anoniem al je toeslagen voor ${JAAR}: zorgtoeslag, huurtoeslag, kindgebonden budget, kinderopvangtoeslag en kinderbijslag. Met de nieuwste bedragen en regels.`,
     h1: `Op welke toeslagen heb jij recht in ${JAAR}?`,
-    intro: 'Beantwoord een paar vragen en zie meteen hoeveel zorgtoeslag, huurtoeslag, kindgebonden budget, kinderopvangtoeslag en kinderbijslag je kunt krijgen. Gratis, anoniem en zonder DigiD.',
+    intro: 'Beantwoord een paar eenvoudige vragen. Je ziet meteen hoeveel zorgtoeslag, huurtoeslag en geld voor je kinderen je kunt krijgen.',
     calc: 'alles',
     anker: 'check',
     body: () => `
 <h2>Alle toeslagen en regelingen op een rij</h2>
 <p>Duizenden huishoudens laten elk jaar geld liggen, simpelweg omdat ze niet weten dat ze recht hebben op een toeslag. Met ToeslagBuddy check je alles in één keer.</p>
 ${kaartenAlle}
+${nieuws.items.length ? `<h2>Laatste nieuws over toeslagen</h2>${nieuwsLijst(nieuws.items.slice(0, 3))}<p><a href="/nieuws/">Meer nieuws →</a></p>` : ''}
 <h2>Wat is er veranderd in ${JAAR}?</h2>
 <ul>
 <li><strong>Huurtoeslag is eenvoudiger en voor meer mensen.</strong> Je huur mag hoger zijn dan ${e2(H.maximaleHuurgrens)}: er wordt dan tot die grens gerekend. Servicekosten tellen niet meer mee. Jongeren krijgen vanaf 21 jaar (was 23) de volledige huurtoeslag.</li>
@@ -111,7 +123,7 @@ ${zorgtoeslagTabel()}
 <li>Normpremie met toeslagpartner: ${pct(Z.normpercentagePartner)} van het drempelinkomen, plus ${pct(Z.afbouwpercentage)} van jullie gezamenlijke inkomen daarboven. De standaardpremie telt dan twee keer.</li>
 </ul>
 <p>Voorbeeld: een alleenstaande met een inkomen van ${euro(32000)} betaalt een normpremie van ${euro(zorgtoeslag({ inkomen: 32000 }).normpremie)}. De zorgtoeslag is ${euro(Z.standaardpremie)} − ${euro(zorgtoeslag({ inkomen: 32000 }).normpremie)} = ${euro(zorgtoeslag({ inkomen: 32000 }).perJaar)} per jaar, ofwel ${euro(zorgtoeslag({ inkomen: 32000 }).perMaand)} per maand.</p>
-<p class="let-op"><strong>Besparen:</strong> zorgtoeslag dekt maar een deel van je premie. Tussen 12 november en 31 december kun je overstappen naar een goedkopere zorgverzekering. Een vergelijking loont bijna altijd.</p>
+<p class="let-op"><strong>Besparen:</strong> zorgtoeslag dekt maar een deel van je premie. Tussen 12 november en 31 december kun je overstappen naar een goedkopere zorgverzekering. <a href="/zorgverzekering-overstappen/">Zo stap je over</a>.</p>
 ${alleCheckLink}`,
     faq: [
       [`Hoeveel zorgtoeslag krijg ik in ${JAAR}?`, `Maximaal ${euro(Math.floor(zorgtoeslag({ inkomen: 0 }).perJaar / 12))} per maand als alleenstaande en ${euro(Math.floor(zorgtoeslag({ inkomen: 0, partner: true }).perJaar / 12))} met een toeslagpartner. Hoe hoger je inkomen boven ${euro(Z.drempelinkomen)}, hoe minder je krijgt.`],
@@ -725,7 +737,16 @@ ${tabel(['Kolom', 'Betekenis'], KOLOMMEN.map(([k, b]) => [`<code>${k}</code>`, b
     h1: 'Toeslagbewaker voor zzp’ers',
     intro: 'Als zzp’er schommelt je winst, en daarmee je toeslag. Vul je winst tot nu toe in en zie of je voorschot nog klopt, vóórdat je een terugvordering krijgt.',
     calc: 'zzp',
+    script: 'zzp-dashboard.js',
     body: ({ config }) => `
+<section id="mijn-overzicht" class="aanvraag" hidden>
+<h2>Mijn toeslagbewaker</h2>
+<p class="subtiel">Je bewaarde checks staan alleen op dit apparaat. Wij kunnen ze niet zien.</p>
+<div data-overzicht></div>
+<p class="pro-knoppen"><button type="button" class="knop-licht" data-export>Exporteren</button>
+<label class="knop-licht" style="cursor:pointer">Importeren<input type="file" accept="application/json" data-import hidden></label>
+<button type="button" class="knop-licht" data-wis>Alles wissen</button></p>
+</section>
 <h2>Waarom zzp’ers vaak terugbetalen</h2>
 <p>Je toeslag is een voorschot op basis van het inkomen dat je aan het begin van het jaar hebt geschat. Loopt je bedrijf beter dan verwacht, dan krijg je te veel en betaal je volgend jaar terug. Loopt het slechter, dan krijg je nu te weinig. Uit onderzoek van het CPB blijkt ook dat zelfstandigen vaker toeslagen laten liggen dan werknemers.</p>
 <h2>Hoe rekent de toeslagbewaker?</h2>
@@ -769,6 +790,60 @@ ${alleCheckLink}`,
 <a href="/toeslagen-2027/?utm_source=instagram&utm_medium=bio"><strong>Toeslagen ${VOLGEND}</strong><span>Wat verandert er?</span></a>
 <a href="/toeslag-terugbetalen/?utm_source=instagram&utm_medium=bio"><strong>Terugbetalen voorkomen</strong><span>5 tips</span></a>
 </div>`,
+  },
+
+  {
+    slug: '/zorgverzekering-overstappen/',
+    kort: `Zorgverzekering ${VOLGEND}`,
+    title: `Zorgverzekering ${VOLGEND} overstappen – zo bespaar je (en houd je je zorgtoeslag)`,
+    description: `Overstappen van zorgverzekering voor ${VOLGEND}: wanneer, hoe opzeggen, wat er met je zorgtoeslag gebeurt en hoe je honderden euro's bespaart. Stappenplan in gewone taal.`,
+    h1: `Zorgverzekering ${VOLGEND}: overstappen en besparen`,
+    intro: `Elk jaar kun je tot en met 31 december overstappen naar een andere zorgverzekering. Je zorgtoeslag verandert daar niet door, maar je premie wel.`,
+    body: ({ config }) => `
+${partnerBlok('zorgverzekering')}
+<h2>In het kort</h2>
+<ul>
+<li><strong>Wanneer?</strong> Zorgverzekeraars maken hun premies voor ${VOLGEND} uiterlijk 12 november bekend. Overstappen kan tot en met 31 december ${JAAR}.</li>
+<li><strong>Opzeggen?</strong> Hoeft meestal niet. Sluit je vóór 1 januari een nieuwe verzekering af, dan zegt je nieuwe verzekeraar je oude verzekering voor je op (de overstapservice).</li>
+<li><strong>Zorgtoeslag?</strong> Blijft gewoon doorlopen. Je zorgtoeslag hangt af van je inkomen, niet van je verzekeraar. Geef alleen een nieuw inkomen door als dat verandert.</li>
+<li><strong>Kinderen</strong> tot 18 jaar zijn gratis verzekerd. Zet ze bij je nieuwe verzekeraar op je polis.</li>
+</ul>
+
+<h2>Zo bespaar je op je zorgverzekering</h2>
+<ol>
+<li><strong>Kijk wat je echt gebruikt.</strong> Betaal je voor een aanvullende verzekering (tandarts, fysio, bril) die je bijna niet gebruikt? Dat kan vaak tientallen euro’s per maand schelen.</li>
+<li><strong>Vergelijk de basisverzekering.</strong> De basisverzekering dekt bij iedere verzekeraar hetzelfde, maar de prijs verschilt. Let wel op de vergoeding bij zorgverleners zonder contract (naturapolis of restitutiepolis).</li>
+<li><strong>Laag inkomen?</strong> Vraag bij je gemeente naar de <a href="/regelingen-laag-inkomen/#gemeentepolis">gemeentepolis</a>: vaak goedkoop, met een goede aanvullende dekking en soms hulp bij het eigen risico.</li>
+<li><strong>Eigen risico:</strong> je kunt het eigen risico vaak in termijnen betalen. Kies alleen een hoger vrijwillig eigen risico als je dat bedrag in één keer kunt missen.</li>
+</ol>
+
+<h2>Wat gaat de zorgpremie kosten in ${VOLGEND}?</h2>
+<p>Volgens de ramingen van Prinsjesdag stijgt de gemiddelde premie in ${VOLGEND}. Daarom gaat ook de zorgtoeslag omhoog: naar verwachting tot ongeveer € 140 per maand voor alleenstaanden. De echte premies zie je vanaf 12 november bij de verzekeraars. <a href="/toeslagen-2027/">Alles over toeslagen ${VOLGEND}</a>.</p>
+
+<h2>Check ook je zorgtoeslag</h2>
+<p>Veel mensen die hun zorgverzekering vergelijken, blijken ook recht te hebben op zorgtoeslag – en krijgen het nog niet. <a href="/zorgtoeslag-berekenen/">Bereken je zorgtoeslag</a> in 1 minuut.</p>
+${partnerBlok('zorgverzekering')}
+${alleCheckLink}`,
+    faq: [
+      [`Tot wanneer kan ik overstappen van zorgverzekering?`, `Tot en met 31 december ${JAAR}. Je nieuwe verzekering gaat dan in op 1 januari ${VOLGEND}.`],
+      ['Moet ik mijn oude zorgverzekering zelf opzeggen?', 'Meestal niet. Als je vóór 1 januari overstapt, zegt je nieuwe verzekeraar je oude basisverzekering voor je op.'],
+      ['Verandert mijn zorgtoeslag als ik overstap?', 'Nee. Je zorgtoeslag hangt af van je inkomen en vermogen, niet van je verzekeraar of je premie.'],
+      ['Kan ik overstappen als ik een betalingsachterstand heb?', 'Niet altijd: bij een betalingsachterstand kan je verzekeraar het opzeggen weigeren. Vraag je gemeente om hulp; schuldhulp is gratis.'],
+    ],
+  },
+
+  {
+    slug: '/nieuws/',
+    kort: 'Nieuws',
+    title: 'Nieuws over toeslagen – dagelijks bijgewerkt',
+    description: 'Het laatste nieuws over zorgtoeslag, huurtoeslag, kinderopvangtoeslag, kindgebonden budget, kinderbijslag en inkomen. Elke dag bijgewerkt uit officiële bronnen.',
+    h1: 'Nieuws over toeslagen',
+    intro: 'Elke dag verzamelen we het nieuws van de Rijksoverheid en andere officiële bronnen over toeslagen en inkomen.',
+    body: () => `
+${nieuws.bijgewerkt ? `<p class="subtiel">Laatst bijgewerkt: ${datumNl(nieuws.bijgewerkt)}. Abonneer je via <a href="/nieuws/feed.xml">RSS</a>.</p>` : ''}
+${nieuws.items.length ? nieuwsLijst(nieuws.items) : '<p>Nog geen nieuws. Kom morgen terug.</p>'}
+<p class="hint">Titels en samenvattingen komen van de genoemde bron. Klik door voor het volledige bericht.</p>
+${alleCheckLink}`,
   },
 
   // ───────────────────────────── OVER / JURIDISCH ─────────────────────────────

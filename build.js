@@ -6,7 +6,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import config from './site.config.js';
 import * as params from './src/calc/params.js';
-import { pages } from './src/site/pages.js';
+import { pages, nieuws } from './src/site/pages.js';
 import { forms } from './src/site/forms.js';
 import { layout, advertentie, nieuwsbrief, esc } from './src/site/layout.js';
 
@@ -87,6 +87,12 @@ for (const page of pages) {
 ${page.calc ? `<span class="bijgewerkt">✓ Bijgewerkt voor ${params.JAAR}</span>` : ''}
 <h1>${esc(page.h1)}</h1>
 <p class="intro">${esc(page.intro)}</p>
+${page.calc ? `<ul class="vertrouwen" aria-label="Waarom ToeslagBuddy">
+<li>Gratis</li><li>Anoniem, zonder DigiD</li><li>Gegevens blijven op je telefoon</li><li>Officiële regels ${params.JAAR}</li>
+</ul>` : ''}
+${page.slug === '/' ? `<p class="hero-knoppen"><a class="knop groot" href="#check">Start de check – 2 minuten</a></p>
+<nav class="snel" aria-label="Snel naar"><span>Of kies:</span> <a href="/toeslagen-student/">Student</a> <a href="/toeslagen-alleenstaande-ouder/">Alleenstaande ouder</a> <a href="/toeslagen-aow/">AOW</a> <a href="/zzp-toeslagen/">Zzp</a> <a href="/huurtoeslag-berekenen/">Alleen huurtoeslag</a></nav>` : ''}
+<button type="button" class="voorlees" hidden aria-pressed="false">🔊 Lees voor</button>
 </div>
 <div class="raster">
 <div class="inhoud">
@@ -126,6 +132,19 @@ ${sitemap.map((s) => `<url><loc>${config.url}${s}</loc><lastmod>${vandaag}</last
 `,
 );
 writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${config.url}/sitemap.xml\n`);
+
+// Eigen RSS-feed met het nieuws
+{
+  const x = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  writeFileSync(
+    join(DIST, 'nieuws/feed.xml'),
+    `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>ToeslagBuddy – nieuws over toeslagen</title><link>${config.url}/nieuws/</link><description>Dagelijks nieuws over toeslagen en inkomen</description><language>nl</language>
+${nieuws.items.map((i) => `<item><title>${x(i.titel)}</title><link>${x(i.link)}</link>${i.datum ? `<pubDate>${new Date(i.datum).toUTCString()}</pubDate>` : ''}<description>${x(i.samenvatting || '')}</description><guid>${x(i.link)}</guid></item>`).join('\n')}
+</channel></rss>
+`,
+  );
+}
 
 // ads.txt (verplicht voor AdSense-inkomsten)
 if (config.adsense.client) {

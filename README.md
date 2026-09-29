@@ -6,6 +6,8 @@ Drie producten op één rekenmotor (zie [docs/verdienplan.md](docs/verdienplan.m
 - **ToeslagBuddy Pro:** cliëntenlijst controleren voor bewindvoerders en budgetcoaches (`/pro/`, `/pro/check/`), met [validatiedraaiboek](docs/validatie-bewindvoerders.md)
 - **Toeslagbewaker zzp:** voorkomt terugbetalen bij schommelende winst (`/zzp-toeslagen/`)
 
+Documentatie: [backlog](docs/backlog.md) · [€ 300 in 2 maanden](docs/plan-300-euro.md) · [AdSense en affiliate](docs/geld-verdienen-instellen.md) · [e-mail](docs/email.md) · [accounts voor zzp'ers](docs/accounts-zzp.md) · [Instagram en TikTok](docs/instagram.md) · [hosting](docs/hosting.md)
+
 Bereken in één check alle Nederlandse toeslagen: zorgtoeslag, huurtoeslag, kindgebonden budget, kinderopvangtoeslag en kinderbijslag. Daarnaast verwijst de check naar regelingen van de gemeente, het UWV en de SVB.
 
 - **Snel en goedkoop te hosten.** Het is een statische site: gewone HTML-, CSS- en JavaScript-bestanden, zonder database en zonder frameworks. Het draait daarom op elk TransIP-webhostingpakket.
@@ -16,7 +18,9 @@ Bereken in één check alle Nederlandse toeslagen: zorgtoeslag, huurtoeslag, kin
 ## Snel starten
 
 ```bash
-npm test          # rekenregels controleren (21 tests)
+npm test          # rekenregels, nieuws, social, links en advertenties (31 tests)
+npm run test:e2e  # browsertests + toegankelijkheid (na npm run build)
+npm run check     # alles: bouwen + alle tests (dit draait ook in GitHub Actions)
 npm run dev       # bouwen en bekijken op http://localhost:8080
 ```
 

@@ -3,6 +3,8 @@ name: Publiceer op GitHub Pages
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '15 5 * * *' # elke ochtend rond 07:15: nieuws ophalen en opnieuw publiceren
   workflow_dispatch:
 
 permissions:
@@ -24,12 +26,20 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm test
+      - run: npx playwright install --with-deps chromium
+      - name: Nieuws ophalen (mag mislukken; dan blijft het vorige nieuws staan)
+        run: node scripts/nieuws.js
+        continue-on-error: true
       - run: node build.js
-      - name: Instagram-afbeeldingen maken
+      - name: Instagram-afbeeldingen en video's maken
         run: |
-          npx playwright install --with-deps chromium
+          sudo apt-get install -y ffmpeg
           node social/render.js
+          node social/video.js
+      - name: Tests (rekenregels, links, gestructureerde gegevens)
+        run: npm test
+      - name: Browsertests en toegankelijkheid – publiceren gebeurt alleen als alles slaagt
+        run: npm run test:e2e
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

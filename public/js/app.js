@@ -199,6 +199,8 @@ ${tips ? `<div class="resultaat tips"><h3>Dit kun je misschien ook krijgen</h3><
   },
   zzp(d) {
     const r = zzpCheck(d);
+    // Het dashboard (zzp-dashboard.js) luistert mee om deze maand te kunnen bewaren
+    setTimeout(() => document.dispatchEvent(new CustomEvent('tb:zzp-resultaat', { detail: { invoer: d, uitkomst: r } })), 0);
     const NAAM = { zorgtoeslag: 'Zorgtoeslag', huurtoeslag: 'Huurtoeslag', kindgebondenBudget: 'Kindgebonden budget' };
     const kop = {
       terugbetalen: ['Let op: je gaat waarschijnlijk terugbetalen', `Ongeveer ${euro(-r.verschilJaar)} over dit jaar, als je niets aanpast.`, 'geen'],
@@ -304,8 +306,57 @@ function track(naam, props) {
   }
 }
 
+// Stappenplan: toon één stap tegelijk (eenvoudiger voor wie moeite heeft met lange formulieren)
+function stappenplan(form) {
+  const stappen = [...form.querySelectorAll('.stap')];
+  if (stappen.length < 2) return;
+  const verzend = form.querySelector('button[type=submit]');
+  const voortgang = document.createElement('div');
+  voortgang.className = 'voortgang';
+  voortgang.innerHTML = '<p class="voortgang-tekst" aria-live="polite"></p><div class="balk" aria-hidden="true"><i></i></div>';
+  form.prepend(voortgang);
+  const knoppen = document.createElement('div');
+  knoppen.className = 'stap-knoppen';
+  knoppen.innerHTML = '<button type="button" class="knop-licht" data-vorige>← Vorige</button><button type="button" class="knop" data-volgende>Volgende →</button>';
+  verzend.before(knoppen);
+  knoppen.appendChild(verzend);
+  let huidig = 0;
+  const toon = (i, focus) => {
+    huidig = i;
+    stappen.forEach((st, k) => (st.hidden = k !== i));
+    const laatste = i === stappen.length - 1;
+    knoppen.querySelector('[data-vorige]').hidden = i === 0;
+    knoppen.querySelector('[data-volgende]').hidden = laatste;
+    verzend.hidden = !laatste;
+    voortgang.querySelector('.voortgang-tekst').textContent = `Stap ${i + 1} van ${stappen.length}`;
+    voortgang.querySelector('i').style.width = `${((i + 1) / stappen.length) * 100}%`;
+    if (focus) {
+      const kop = stappen[i].querySelector('h3');
+      kop.tabIndex = -1;
+      kop.focus();
+    }
+  };
+  knoppen.querySelector('[data-vorige]').addEventListener('click', () => toon(Math.max(0, huidig - 1), true));
+  knoppen.querySelector('[data-volgende]').addEventListener('click', () => {
+    const leeg = [...stappen[huidig].querySelectorAll('input[required]')].find((el) => !el.value.trim());
+    const oud = stappen[huidig].querySelector('.melding');
+    if (oud) oud.remove();
+    if (leeg) {
+      const m = document.createElement('p');
+      m.className = 'melding';
+      m.textContent = 'Vul dit veld in om verder te gaan. Geen inkomen? Vul dan 0 in.';
+      leeg.closest('.veld').after(m);
+      leeg.focus();
+      return;
+    }
+    toon(Math.min(stappen.length - 1, huidig + 1), true);
+  });
+  toon(0, false);
+}
+
 document.querySelectorAll('form[data-calc]').forEach((form) => {
   form.querySelectorAll('[data-kids]').forEach(kidsWidget);
+  stappenplan(form);
   // Zzp: standaard de laatste volledig verstreken maand selecteren
   const maandKeuze = form.querySelector('select[name=maand]');
   if (maandKeuze) maandKeuze.value = String(Math.max(1, new Date().getMonth()));
