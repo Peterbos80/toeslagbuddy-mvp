@@ -1,0 +1,6 @@
+{
+  "sleutel": "nl_NL-mls-medium",
+  "model": ".tts-cache/piper/nl_NL-mls-medium.onnx",
+  "spreker": 21,
+  "f0": 113.3
+}
