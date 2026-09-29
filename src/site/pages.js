@@ -20,6 +20,7 @@ import {
 import { zorgtoeslag, huurtoeslag, kindgebondenBudget, kotPercentage } from '../calc/toeslagen.js';
 import { KOLOMMEN } from '../calc/pro.js';
 import { partnerBlok, formulier } from './layout.js';
+import { privacyBody, voorwaardenBody, juridischePaginas } from './juridisch.js';
 import { regelingen, DOELGROEPEN, GECONTROLEERD as REG_GECONTROLEERD } from './regelingen.js';
 import { readFileSync, existsSync } from 'node:fs';
 
@@ -94,12 +95,12 @@ ${nieuws.items.length ? `<h2>Laatste nieuws over toeslagen</h2>${nieuwsLijst(nie
 <ul>
 <li><strong>Alles in één check</strong> – niet vijf losse rekenhulpen, maar één overzicht met het totaalbedrag.</li>
 <li><strong>Privé</strong> – de berekening gebeurt op je eigen telefoon of computer. We slaan niets op.</li>
-<li><strong>Actueel</strong> – met de officiële rekenregels en bedragen van ${JAAR}. <a href="/bronnen/">Bekijk onze bronnen</a>.</li>
+<li><strong>Actueel</strong> – gebaseerd op de officiële rekenregels en bedragen van ${JAAR}. <a href="/bronnen/">Bekijk onze bronnen</a>.</li>
 <li><strong>In gewone taal</strong> – geen ambtelijke termen, wel uitleg bij elke vraag.</li>
 </ul>`,
     faq: [
       ['Hoeveel toeslag krijg ik?', 'Dat hangt af van je inkomen, vermogen, huur, gezinssituatie en kinderen. Met de toeslagen-check bovenaan deze pagina zie je in 2 minuten een indicatie van alle toeslagen samen.'],
-      ['Is deze berekening officieel?', 'Nee. ToeslagBuddy is een onafhankelijke rekenhulp. We gebruiken de officiële rekenregels, maar alleen Dienst Toeslagen stelt vast hoeveel je echt krijgt. Vraag je toeslag altijd aan via toeslagen.nl.'],
+      ['Is deze berekening officieel?', 'Nee. ToeslagBuddy is een onafhankelijke rekenhulp. De berekening is gebaseerd op de officiële rekenregels, maar alleen Dienst Toeslagen stelt vast hoeveel je echt krijgt. Vraag je toeslag altijd aan via toeslagen.nl.'],
       ['Moet ik inloggen met DigiD?', 'Niet voor deze berekening. Voor het aanvragen van een toeslag bij Dienst Toeslagen heb je wel DigiD nodig.'],
       ['Wat gebeurt er met mijn gegevens?', 'Niets. De berekening draait volledig in je browser. Je antwoorden worden niet naar ons of iemand anders verstuurd.'],
       [`Tot wanneer kan ik toeslag aanvragen over ${JAAR}?`, `Zorgtoeslag, huurtoeslag en kindgebonden budget over ${JAAR} kun je aanvragen tot 1 september ${VOLGEND}. Kinderopvangtoeslag moet je binnen 3 maanden na de eerste opvangdag aanvragen.`],
@@ -486,7 +487,7 @@ ${alleCheckLink}`,
     title: `Inkomensgrenzen toeslagen ${JAAR} – overzicht per toeslag`,
     description: `Alle inkomensgrenzen voor toeslagen in ${JAAR}: zorgtoeslag ${euro(Z.maxInkomenAlleen)} / ${euro(Z.maxInkomenPartner)}, huurtoeslag per huur, kindgebonden budget per aantal kinderen en kinderopvangtoeslag.`,
     h1: `Inkomensgrenzen toeslagen ${JAAR}`,
-    intro: 'Tot welk inkomen krijg je nog toeslag? Hieronder staan alle grenzen op een rij, berekend met de officiële rekenregels.',
+    intro: 'Tot welk inkomen krijg je nog toeslag? Hieronder staan alle grenzen op een rij, berekend op basis van de officiële rekenregels.',
     body: () => `
 <h2>Zorgtoeslag</h2>
 ${tabel(['', 'Maximaal toetsingsinkomen'], [['Alleenstaand', euro(Z.maxInkomenAlleen)], ['Met toeslagpartner', euro(Z.maxInkomenPartner)]])}
@@ -693,7 +694,7 @@ ${alleCheckLink}`,
 </ul>
 
 <h2>Privacy: cliëntgegevens blijven bij jou</h2>
-<p>De berekening draait volledig in je browser. Wij ontvangen, zien en bewaren <strong>geen</strong> cliëntgegevens. Er gaat niets over het internet. Gebruik cliëntnummers in plaats van namen of BSN; meer is niet nodig.</p>
+<p>De berekening draait volledig in je browser. Cliëntgegevens komen <strong>niet</strong> op onze server: wij ontvangen alleen geaggregeerde tellingen per organisatie, zonder cliëntnummers, namen of bedragen per cliënt. Gebruik cliëntnummers in plaats van namen of BSN; kolommen met namen of een BSN laten we automatisch weg. Lees meer in de <a href="/pro/beveiliging/">beveiligingsfactsheet</a>.</p>
 
 <h2>Prijzen</h2>
 <div class="prijzen">
@@ -709,9 +710,9 @@ ${formulier('pro-pilot', 'Pilot ToeslagBuddy Pro', [['naam', 'Naam', 'text', tru
 <p>Liever meteen zelf proberen? <a href="/pro/aanmelden/">Start je gratis proef van 7 dagen →</a></p>
 `,
     faq: [
-      ['Moet ik een verwerkersovereenkomst met jullie sluiten?', 'Wij verwerken geen persoonsgegevens: de controle draait in je eigen browser en er gaat niets naar onze server. Bespreek het met je eigen privacyfunctionaris als je twijfelt; we lichten de werking graag toe.'],
+      ['Moet ik een verwerkersovereenkomst met jullie sluiten?', 'Voor cliëntgegevens niet. De controle draait in je eigen browser: cliëntnummers, bedragen en andere cliëntgegevens komen niet op onze server. Wij ontvangen alleen geaggregeerde tellingen per organisatie, zoals ‘10–49 cliënten, 12 signalen’. Wél verwerken wij de gegevens van je account (naam, zakelijk e-mailadres en organisatie). Daarvoor zijn wij zelf verantwoordelijk; zie de <a href="/privacy/">privacyverklaring</a>. Op verzoek bevestigen we dit schriftelijk, met de <a href="/pro/beveiliging/">beveiligingsfactsheet</a> als onderbouwing.'],
       ['Welke gegevens heb ik per cliënt nodig?', 'Leeftijd, partner ja/nee, verwacht inkomen, vermogen, huur, huishouden, leeftijden van de kinderen en de huidige voorschotten. Het sjabloon laat precies zien welke kolommen er zijn.'],
-      ['Hoe nauwkeurig is de controle?', 'We gebruiken de officiële rekenregels van het lopende jaar. Het is een signaleringsinstrument: controleer een signaal altijd in Mijn toeslagen voordat je een wijziging doorgeeft.'],
+      ['Hoe nauwkeurig is de controle?', 'De controle is gebaseerd op de officiële rekenregels van het lopende jaar. Het is een signaleringsinstrument: controleer een signaal altijd in Mijn toeslagen voordat je een wijziging doorgeeft.'],
       ['Werkt het met mijn bewindvoeringssoftware?', 'Ja, via een export naar Excel of CSV. Kolomnamen hoeven niet exact overeen te komen: veelgebruikte namen worden herkend.'],
     ],
   },
@@ -827,17 +828,10 @@ ${formulier('pro-abonnement-na-proef', 'Abonnement ToeslagBuddy Pro aangevraagd 
     kort: 'Voorwaarden',
     noindex: true,
     title: 'Voorwaarden ToeslagBuddy Pro',
-    description: 'Gebruiksvoorwaarden van ToeslagBuddy Pro.',
+    description: 'Voorwaarden van ToeslagBuddy Pro: proef, abonnement, betaling, opzeggen, gegevens, geheimhouding, aansprakelijkheid en toepasselijk recht.',
     h1: 'Voorwaarden ToeslagBuddy Pro',
-    intro: 'Kort en duidelijk.',
-    body: () => `
-<ol>
-<li><strong>Proef:</strong> 7 dagen gratis met alle functies. De proef stopt vanzelf; je betaalt niets en hoeft niets op te zeggen.</li>
-<li><strong>Abonnement:</strong> € 1 per cliënt per maand, minimaal € 99 per maand, exclusief btw. Maandelijks opzegbaar.</li>
-<li><strong>Gegevens:</strong> de controle draait op je eigen computer. Wij bewaren alleen je naam, organisatie, e-mailadres en abonnementsgegevens.</li>
-<li><strong>Uitkomsten:</strong> ToeslagBuddy Pro is een signaleringsinstrument op basis van de officiële rekenregels. Controleer een signaal altijd in Mijn toeslagen voordat je een wijziging doorgeeft. Aan de uitkomsten kunnen geen rechten worden ontleend.</li>
-<li><strong>Aansprakelijkheid:</strong> beperkt tot het bedrag dat je in de laatste 12 maanden hebt betaald.</li>
-</ol>`,
+    intro: 'De afspraken tussen jouw organisatie en ToeslagBuddy. ToeslagBuddy Pro is alleen voor organisaties; alle prijzen zijn exclusief btw.',
+    body: voorwaardenBody,
   },
 
   // ───────────────────────────── ZZP ─────────────────────────────
@@ -997,7 +991,7 @@ ${alleCheckLink}`,
     title: 'Bronnen en rekenregels',
     description: `Welke bronnen en bedragen gebruikt ToeslagBuddy? Alle rekenregels voor ${JAAR} met links naar Dienst Toeslagen, Rijksoverheid en SVB.`,
     h1: 'Bronnen en rekenregels',
-    intro: 'We rekenen met de officiële regels en bedragen. Hieronder zie je welke bronnen we gebruiken en wanneer we ze voor het laatst hebben gecontroleerd.',
+    intro: 'Onze berekeningen zijn gebaseerd op de officiële regels en bedragen. Hieronder zie je welke bronnen we gebruiken en wanneer we ze voor het laatst hebben gecontroleerd.',
     bronnen: true,
     body: ({ bronnen }) => `
 ${bronnen}
@@ -1033,23 +1027,11 @@ ${formulier('contact', 'Bericht via ToeslagBuddy', [['naam', 'Naam', 'text', tru
   {
     slug: '/privacy/',
     kort: 'Privacy',
-    title: 'Privacy en cookies',
-    description: 'Hoe ToeslagBuddy omgaat met je privacy: berekeningen blijven op je apparaat, geen tracking-cookies zonder toestemming.',
-    h1: 'Privacy en cookies',
-    intro: 'Kort gezegd: wat je invult in de rekenhulpen blijft op je eigen apparaat.',
-    body: ({ config }) => `
-<h2>Je berekeningen</h2>
-<p>Alle berekeningen gebeuren in je browser. Je inkomen, huur, vermogen en andere antwoorden worden niet naar onze server of naar anderen verstuurd en niet opgeslagen.</p>
-<h2>Bezoekersstatistieken</h2>
-<p>${config.analytics.plausibleDomain || config.analytics.goatcounterCode ? 'We meten anoniem hoeveel mensen de site bezoeken, zonder cookies en zonder persoonsgegevens op te slaan.' : 'We gebruiken op dit moment geen bezoekersstatistieken.'}</p>
-<h2>Advertenties</h2>
-<p>${config.adsense.client ? 'Op deze site staan advertenties van Google AdSense. Google gebruikt alleen cookies voor gepersonaliseerde advertenties als je daar toestemming voor geeft via de toestemmingsmelding. Je kunt je keuze altijd wijzigen.' : 'Op dit moment tonen we geen advertenties van derden.'}</p>
-<h2>Partnerlinks</h2>
-<p>Sommige links naar vergelijkingssites zijn partnerlinks. Klik je erop en sluit je iets af, dan krijgen wij mogelijk een vergoeding. Jij betaalt daar niets extra voor. Na het klikken gelden de privacyregels van die website.</p>
-<h2>Nieuwsbrief</h2>
-<p>Meld je je aan voor onze nieuwsbrief, dan bewaren we alleen je e-mailadres om je die mail te sturen. Afmelden kan altijd via de link onderaan elke mail.</p>
-<h2>Contact</h2>
-<p>Vragen over privacy? Gebruik ons <a href="/contact/">contactformulier</a>.</p>`,
+    title: 'Privacyverklaring en cookies',
+    description: 'Privacyverklaring van ToeslagBuddy: berekeningen blijven op je apparaat, geen trackingcookies. Welke gegevens we wel verwerken, waarom, hoe lang en wat je rechten zijn.',
+    h1: 'Privacyverklaring',
+    intro: 'Wat je invult in de rekenhulpen, blijft op je eigen apparaat. Hieronder staat precies welke gegevens we wél verwerken, waarom en hoe lang.',
+    body: privacyBody,
   },
   {
     slug: '/disclaimer/',
@@ -1061,6 +1043,9 @@ ${formulier('contact', 'Bericht via ToeslagBuddy', [['naam', 'Naam', 'text', tru
     body: () => `
 <p>ToeslagBuddy is een onafhankelijke rekenhulp en is <strong>geen</strong> onderdeel van de Belastingdienst, Dienst Toeslagen, de SVB, het UWV of een gemeente.</p>
 <p>De berekeningen zijn een indicatie op basis van de rekenregels en bedragen voor ${JAAR}, en op basis van de gegevens die je zelf invult. Je kunt er geen rechten aan ontlenen. Alleen Dienst Toeslagen stelt vast of en hoeveel toeslag je krijgt.</p>
-<p>We zijn niet aansprakelijk voor schade die ontstaat door het gebruik van deze website of de berekeningen. Neem bij twijfel contact op met de BelastingTelefoon Toeslagen of een onafhankelijke adviseur, zoals het Juridisch Loket of een sociaal raadslieden.</p>`,
+<p>We zijn niet aansprakelijk voor schade die ontstaat door het gebruik van deze website of de berekeningen, tenzij de wet dat wel vereist, bijvoorbeeld bij opzet of grove schuld. Neem bij twijfel contact op met de BelastingTelefoon Toeslagen of een onafhankelijke adviseur, zoals het Juridisch Loket of een sociaal raadslieden.</p>`,
   },
+
+  // ───────────────────────────── JURIDISCH (nieuw) ─────────────────────────────
+  ...juridischePaginas,
 ];

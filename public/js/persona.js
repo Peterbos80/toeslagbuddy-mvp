@@ -3,9 +3,19 @@
 // browser; er gaan geen gegevens naar buiten.
 import { kiesPersona, maakScript, voorSpraak, PERSONAS } from './uitleg.js';
 import { videoPlan, planCompleet, SEGMENTEN } from './videoplan.js';
+import { lokaleStem } from './stem.js';
 
 const minderBeweging = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const kanSpreken = () => 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+const spraakApi = () => 'speechSynthesis' in window;
+// Alleen spreken met een stem op het apparaat zelf; anders alleen ondertitels
+const kanSpreken = () => !!lokaleStem('nl-NL');
+const stopSpraak = () => {
+  try {
+    if (spraakApi()) speechSynthesis.cancel();
+  } catch {
+    /* geen spraak: niets te stoppen */
+  }
+};
 
 // ── Avatars (SVG) ────────────────────────────────────────────────────
 function haar(stijl, kleur) {
@@ -62,7 +72,7 @@ ${u.bril ? '<g fill="none" stroke="#1d2521" stroke-width="3"><circle cx="82" cy=
 
 // ── Speler ───────────────────────────────────────────────────────────
 function maakSpeler(root, persona, regels, { titel = 'Jouw persoonlijke uitleg' } = {}) {
-  if (kanSpreken()) speechSynthesis.cancel();
+  stopSpraak();
   const duur = Math.round(regels.join(' ').length / 14);
   root.innerHTML = `<div class="speler" data-persona="${persona.id}">
   <div class="speler-scherm">
@@ -97,7 +107,7 @@ function maakSpeler(root, persona, regels, { titel = 'Jouw persoonlijke uitleg' 
   const stopAlles = () => {
     clearTimeout(timer);
     clearInterval(typTimer);
-    if (kanSpreken()) speechSynthesis.cancel();
+    stopSpraak();
     svg.classList.remove('praat');
   };
 
@@ -136,13 +146,13 @@ function maakSpeler(root, persona, regels, { titel = 'Jouw persoonlijke uitleg' 
       svg.classList.remove('praat');
       if (speelt) timer = setTimeout(() => toon(i + 1), 450);
     };
-    if (geluid && kanSpreken()) {
+    const stem = geluid ? lokaleStem('nl-NL') : null;
+    if (stem) {
       const u = new SpeechSynthesisUtterance(voorSpraak(zin));
       u.lang = 'nl-NL';
       u.rate = 1;
       u.pitch = persona.id === 'henk' ? 0.85 : persona.id === 'sanne' || persona.id === 'ilse' ? 1.15 : 1;
-      const stem = speechSynthesis.getVoices().find((v) => v.lang && v.lang.toLowerCase().startsWith('nl'));
-      if (stem) u.voice = stem;
+      u.voice = stem;
       u.onend = volgende;
       u.onerror = () => {
         timer = setTimeout(volgende, Math.max(2200, zin.length * 55));
@@ -198,15 +208,17 @@ function maakSpeler(root, persona, regels, { titel = 'Jouw persoonlijke uitleg' 
 let manifestBelofte = null;
 function laadManifest() {
   if (!manifestBelofte) {
+    // 404, ongeldige JSON of een raar formaat: terug naar de getekende persona
     manifestBelofte = fetch('/video/manifest.json', { cache: 'no-cache' })
       .then((r) => (r.ok ? r.json() : {}))
+      .then((m) => (m && typeof m === 'object' && !Array.isArray(m) ? m : {}))
       .catch(() => ({}));
   }
   return manifestBelofte;
 }
 
 function videoSpeler(root, persona, plan, manifest, regels) {
-  if (kanSpreken()) speechSynthesis.cancel();
+  stopSpraak();
   const clips = manifest[persona.id];
   root.innerHTML = `<div class="speler speler-video" data-persona="${persona.id}">
   <div class="video-scherm">

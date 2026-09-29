@@ -8,6 +8,8 @@ Drie producten op één rekenmotor (zie [docs/verdienplan.md](docs/verdienplan.m
 
 Documentatie: [conceptreview](docs/concept-review.md) · [backlog](docs/backlog.md) · [Pro-accounts](docs/pro-accounts.md) · [€ 300 in 2 maanden](docs/plan-300-euro.md) · [AdSense en affiliate](docs/geld-verdienen-instellen.md) · [e-mail](docs/email.md) · [accounts voor zzp'ers](docs/accounts-zzp.md) · [Instagram en TikTok](docs/instagram.md) · [hosting](docs/hosting.md)
 
+Compliance: [checklist (begin hier)](docs/compliance-checklist.md) · [verwerkingsregister](docs/verwerkingsregister.md) · [datalekprocedure](docs/datalekprocedure.md) · [beveiligingsbeleid](docs/beveiligingsbeleid.md) · [pre-DPIA voor kantoren](docs/dpia-model.md) · [verwerkersrol en model-overeenkomst](docs/verwerkersovereenkomst-model.md)
+
 Bereken in één check alle Nederlandse toeslagen: zorgtoeslag, huurtoeslag, kindgebonden budget, kinderopvangtoeslag en kinderbijslag. Daarnaast verwijst de check naar regelingen van de gemeente, het UWV en de SVB.
 
 - **Snel en goedkoop te hosten.** Het is een statische site: gewone HTML-, CSS- en JavaScript-bestanden, zonder database en zonder frameworks. Het draait daarom op elk TransIP-webhostingpakket.

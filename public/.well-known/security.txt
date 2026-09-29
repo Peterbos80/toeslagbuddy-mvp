@@ -1,0 +1,8 @@
+# Een beveiligingsprobleem gevonden in ToeslagBuddy? Meld het ons, dan lossen we het op.
+# Found a security issue in ToeslagBuddy? Please let us know.
+# Verleng 'Expires' elk jaar (build.js waarschuwt 30 dagen van tevoren).
+Contact: mailto:security@toeslagbuddy.nl
+Expires: 2027-09-28T22:00:00.000Z
+Preferred-Languages: nl, en
+Canonical: https://www.toeslagbuddy.nl/.well-known/security.txt
+Policy: https://www.toeslagbuddy.nl/pro/beveiliging/#melden

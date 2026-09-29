@@ -126,8 +126,9 @@ test('mobiel: menu werkt en geen horizontaal scrollen op alle pagina’s', async
 });
 
 test('toegankelijkheid (axe): geen ernstige problemen op alle pagina’s', async () => {
-  // Meet het eindbeeld (zonder in-vliegende animaties)
-  const ctx = await s.browser.newContext({ reducedMotion: 'reduce' });
+  // Meet het eindbeeld (zonder in-vliegende animaties). bypassCSP: de strikte
+  // CSP blokkeert anders het inladen van axe zelf.
+  const ctx = await s.browser.newContext({ reducedMotion: 'reduce', bypassCSP: true });
   const p = await ctx.newPage();
   const problemen = [];
   for (const pad of await paginas()) {
@@ -230,7 +231,9 @@ test('formulieren: bericht gaat via de webapplicatie, zonder zichtbaar e-mailadr
   const ctx = await s.browser.newContext();
   const p = await open(ctx, s.basis + '/contact/', fouten);
   const html = await p.content();
-  assert.ok(!/mailto:|@gmail\.com/.test(html), 'geen e-mailadres in de pagina');
+  // Alleen de doorgestuurde adressen (art. 3:15d BW), nooit een privé-adres
+  const adressen = [...html.matchAll(/[\w.%+-]+@[\w-]+(\.[\w-]+)*\.[a-z]{2,}/gi)].map((m) => m[0].toLowerCase());
+  assert.ok(adressen.every((a) => /^(info|privacy|security)@toeslagbuddy\.nl$/.test(a)), `alleen info@/privacy@/security@: ${adressen}`);
   let verzonden = null;
   await p.route('https://api.web3forms.com/submit', async (r) => {
     verzonden = JSON.parse(r.request().postData());
