@@ -219,3 +219,15 @@ test('organisatie verwijderen door de eigenaar', async () => {
   assert.equal(omg.organisatie, null);
   assert.equal((await db.rpc(lid, 'mijn_omgeving')).organisatie, null);
 });
+
+test('contract: elk aggregaat uit src/calc/aggregaat.js wordt door de database geaccepteerd', async () => {
+  const { maakAggregaat } = await import('../../src/calc/aggregaat.js');
+  const db = await nieuweDb();
+  const a = await db.eigenaar('a@kantoor.nl');
+  const soorten = ['gemist', 'te-laag', 'terugbetaling', 'vermogen', 'leeftijd', 'gemeente', 'info'];
+  for (const n of [1, 4, 9, 10, 37, 199, 200, 10000]) {
+    const clienten = Array.from({ length: n }, (_, i) => ({ signalen: [{ soort: soorten[i % 7] }] }));
+    const res = { clienten, totaal: { aantal: n, metActie: Math.floor(n / 2), gemistPerJaar: n * 777, risicoPerJaar: n * 1234 } };
+    assert.equal((await db.rpc(a, 'controle_opslaan', { gegevens: maakAggregaat(res) })).nieuw, true, String(n));
+  }
+});
