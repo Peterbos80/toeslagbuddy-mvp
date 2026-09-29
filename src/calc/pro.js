@@ -37,32 +37,63 @@ export const VOORBEELD_CSV = [
 ].join('\n');
 
 // ── CSV ──────────────────────────────────────────────────────────────
+// Oude aanroep: geeft alleen de rijen, maar wel door het privacyfilter.
 export function leesCsv(tekst) {
-  const regels = String(tekst).replace(/^﻿/, '').split(/\r?\n/).filter((r) => r.trim());
-  if (!regels.length) return [];
-  const scheiding = (regels[0].match(/;/g) || []).length >= (regels[0].match(/,/g) || []).length ? ';' : ',';
-  const kop = splits(regels[0], scheiding).map(normaliseerKop);
-  return regels.slice(1).map((regel) => {
-    const cellen = splits(regel, scheiding);
-    const rij = {};
-    kop.forEach((k, i) => (rij[k] = (cellen[i] ?? '').trim()));
-    return rij;
-  });
+  return leesCsvVeilig(tekst).rijen;
 }
 
-function splits(regel, scheiding) {
+// Leest de hele tekst in één keer, zodat velden tussen aanhalingstekens ook
+// een puntkomma, komma of regeleinde mogen bevatten ("" = één aanhalingsteken).
+// Geeft [{regel, cellen}] terug; regel = regelnummer in het bestand (1 = kop).
+function records(tekst, scheiding) {
   const uit = [];
+  let cellen = [];
   let cel = '';
   let quote = false;
-  for (const c of regel) {
-    if (c === '"') quote = !quote;
-    else if (c === scheiding && !quote) {
-      uit.push(cel);
+  let regel = 1;
+  let start = 1;
+  const klaar = () => {
+    cellen.push(cel);
+    if (cellen.some((c) => c.trim())) uit.push({ regel: start, cellen });
+    cellen = [];
+    cel = '';
+  };
+  for (let i = 0; i < tekst.length; i++) {
+    const c = tekst[i];
+    if (quote) {
+      if (c === '"' && tekst[i + 1] === '"') {
+        cel += '"';
+        i++;
+      } else if (c === '"') quote = false;
+      else {
+        if (c === '\n') regel++;
+        cel += c;
+      }
+    } else if (c === '"') quote = true;
+    else if (c === scheiding) {
+      cellen.push(cel);
       cel = '';
+    } else if (c === '\n' || c === '\r') {
+      if (c === '\r' && tekst[i + 1] === '\n') i++;
+      klaar();
+      regel++;
+      start = regel;
     } else cel += c;
   }
-  uit.push(cel);
+  if (cel || cellen.length) klaar();
   return uit;
+}
+
+// Scheidingsteken kiezen op basis van de kopregel (buiten aanhalingstekens)
+function kiesScheiding(tekst) {
+  const kop = tekst.split(/\r?\n|\r/).find((r) => r.trim()) || '';
+  const tel = { ';': 0, ',': 0, '\t': 0 };
+  let quote = false;
+  for (const c of kop) {
+    if (c === '"') quote = !quote;
+    else if (!quote && c in tel) tel[c]++;
+  }
+  return Object.entries(tel).reduce((a, b) => (b[1] > a[1] ? b : a), [';', 0])[0];
 }
 
 const ALIASSEN = {
@@ -74,8 +105,10 @@ const ALIASSEN = {
   kgb: 'voorschot_kgb', kindgebonden_budget: 'voorschot_kgb', voorschot_kindgebonden_budget: 'voorschot_kgb',
 };
 
+// Kleine letters, zonder accenten (ë → e), spaties en streepjes als _
+const zonderAccent = (k) => String(k).normalize('NFD').replace(/[̀-ͯ]/g, '');
 function normaliseerKop(k) {
-  const s = k.trim().toLowerCase().replace(/[ë]/g, 'e').replace(/[\s-]+/g, '_').replace(/[^a-z0-9_]/g, '');
+  const s = zonderAccent(k).trim().toLowerCase().replace(/[\s-]+/g, '_').replace(/[^a-z0-9_]/g, '');
   return ALIASSEN[s] || s;
 }
 
@@ -242,16 +275,115 @@ export function actielijstCsv(resultaat) {
   const regels = [['clientnr', 'prioriteit', 'soort', 'regeling', 'bedrag_per_jaar', 'actie'].join(';')];
   for (const c of resultaat.clienten) {
     for (const s of c.signalen) {
-      regels.push([c.clientnr, s.prioriteit, s.soort, s.toeslag, Math.round(s.bedragJaar), `"${s.tekst.replace(/"/g, "'")}"`].join(';'));
+      regels.push([c.clientnr, s.prioriteit, s.soort, s.toeslag, Math.round(s.bedragJaar), s.tekst].map(celCsv).join(';'));
     }
   }
   return '﻿' + regels.join('\r\n');
 }
 
+// Eén cel voor de export. Tegen formule-injectie: een cel die begint met
+// = + - @ (ook de brede varianten), tab of regeleinde krijgt een ' ervoor,
+// zodat Excel of LibreOffice het als tekst toont en niet uitvoert.
+export function celCsv(waarde) {
+  let v = String(waarde ?? '');
+  if (/^[=+\-@\t\r\n＝＋－＠]/.test(v)) v = "'" + v;
+  return /[;"\r\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
+}
+
+// ── Privacyfilter en grenzen bij het inlezen ────────────────────────
+export const MAX_BYTES = 5 * 1024 * 1024;
+export const MAX_RIJEN = 10000;
+
+// Kolommen met persoonsgegevens die niet nodig zijn. Ook als deel van een
+// kolomnaam ('Naam cliënt', 'BSN_partner', 'E-mailadres'), zonder accenten.
+const VERBODEN = [
+  'bsn', 'burgerservicenummer', 'sofinummer', 'naam', 'voornaam', 'achternaam', 'tussenvoegsel', 'initialen',
+  'geboortedatum', 'geboren', 'adres', 'straat', 'huisnummer', 'postcode', 'woonplaats', 'iban', 'rekeningnummer',
+  'email', 'telefoon', 'mobiel',
+];
+const kaleKop = (k) => zonderAccent(k).toLowerCase().replace(/[^a-z0-9]/g, '');
+export function isVerbodenKolom(kop) {
+  const k = kaleKop(kop);
+  return VERBODEN.some((v) => k.includes(v));
+}
+
+/** Elfproef voor een BSN: 9 cijfers (spaties, punten en streepjes mogen). */
+export function elfproef(waarde) {
+  const s = String(waarde ?? '').trim();
+  if (!/^[\d\s.-]+$/.test(s)) return false;
+  const cijfers = s.replace(/\D/g, '');
+  if (!/^\d{9}$/.test(cijfers) || /^0+$/.test(cijfers)) return false;
+  let som = 0;
+  for (let i = 0; i < 8; i++) som += Number(cijfers[i]) * (9 - i);
+  som -= Number(cijfers[8]);
+  return som % 11 === 0;
+}
+
+// Binair bestand? Een .xlsx is een zip (begint met PK), .xls heeft veel NUL-tekens.
+function lijktBinair(tekst) {
+  if (tekst.startsWith('PK\u0003\u0004')) return true;
+  const begin = tekst.slice(0, 8192);
+  const nul = (begin.match(/\u0000/g) || []).length;
+  const kapot = (begin.match(/�/g) || []).length;
+  return nul > 8 || (begin.length > 200 && kapot > begin.length / 10);
+}
+
+function bytes(tekst) {
+  if (tekst.length > MAX_BYTES) return tekst.length; // minstens zoveel bytes
+  if (tekst.length * 3 <= MAX_BYTES) return tekst.length; // kan niet te groot zijn
+  return new TextEncoder().encode(tekst).length;
+}
+
+const nl = (n) => n.toLocaleString('nl-NL');
+
 /**
- * Veilig inlezen (contract; wordt uitgebreid met privacyfilter en grenzen):
+ * Veilig inlezen: laat kolommen met persoonsgegevens weg, weigert een BSN als
+ * cliëntnummer en weigert te grote of binaire bestanden (xlsx).
  * @returns {{rijen: object[], verwijderdeKolommen: string[], geweigerd: {regel: number, reden: string}[], fout: string|null}}
  */
 export function leesCsvVeilig(tekst) {
-  return { rijen: leesCsv(tekst), verwijderdeKolommen: [], geweigerd: [], fout: null };
+  const leeg = (fout = null) => ({ rijen: [], verwijderdeKolommen: [], geweigerd: [], fout });
+  const t = String(tekst ?? '');
+  if (bytes(t) > MAX_BYTES) {
+    return leeg(`Dit bestand is groter dan 5 MB. Splits de lijst in kleinere bestanden van maximaal ${nl(MAX_RIJEN)} cliënten.`);
+  }
+  if (lijktBinair(t)) {
+    return leeg('Dit lijkt een Excel-bestand (.xlsx) en geen CSV. Open het in Excel en kies ‘Opslaan als’ → ‘CSV (gescheiden door lijstscheidingsteken)’. Sla op als CSV en probeer het opnieuw.');
+  }
+  const schoon = t.replace(/^﻿/, '');
+  if (!schoon.trim()) return leeg();
+  const alle = records(schoon, kiesScheiding(schoon));
+  if (alle.length - 1 > MAX_RIJEN) {
+    return leeg(`Deze lijst heeft ${nl(alle.length - 1)} regels. Het maximum is ${nl(MAX_RIJEN)}. Splits de lijst in kleinere bestanden.`);
+  }
+  const [kopRecord, ...data] = alle;
+  const koppen = kopRecord.cellen.map((k) => k.trim());
+  const verwijderdeKolommen = koppen.filter((k) => k && isVerbodenKolom(k));
+  const houden = koppen.map((k, i) => [normaliseerKop(k), i]).filter(([, i]) => koppen[i] && !isVerbodenKolom(koppen[i]));
+  const geweigerd = [];
+  const rijen = [];
+  for (const { regel, cellen } of data) {
+    const rij = {};
+    for (const [k, i] of houden) rij[k] = (cellen[i] ?? '').trim();
+    if (elfproef(rij.clientnr)) {
+      geweigerd.push({ regel, reden: 'Het cliëntnummer lijkt op een BSN. Gebruik een eigen cliëntnummer, bijvoorbeeld C-001.' });
+      continue;
+    }
+    rijen.push(rij);
+  }
+  return { rijen, verwijderdeKolommen, geweigerd, fout: null };
+}
+
+/** Meldingen in gewone taal bij de uitkomst van leesCsvVeilig (om te tonen in de app). */
+export function importMeldingen({ verwijderdeKolommen = [], geweigerd = [], fout = null } = {}) {
+  if (fout) return [fout];
+  const m = [];
+  if (verwijderdeKolommen.length) {
+    m.push(`We hebben ${verwijderdeKolommen.length === 1 ? 'deze kolom' : 'deze kolommen'} weggelaten, omdat er persoonsgegevens in staan die niet nodig zijn: ${verwijderdeKolommen.join(', ')}. Laat ze de volgende keer weg uit je export.`);
+  }
+  if (geweigerd.length) {
+    const regels = geweigerd.slice(0, 10).map((g) => g.regel).join(', ') + (geweigerd.length > 10 ? ' en meer' : '');
+    m.push(`${geweigerd.length === 1 ? '1 cliënt is' : `${geweigerd.length} cliënten zijn`} niet gecontroleerd, omdat het cliëntnummer op een BSN lijkt (regel ${regels}). Gebruik een eigen cliëntnummer, geen BSN.`);
+  }
+  return m;
 }

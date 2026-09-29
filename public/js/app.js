@@ -11,6 +11,7 @@ import { JAAR, KINDEROPVANGTOESLAG } from './params.js';
 import { zzpCheck, herinneringIcs } from './zzp.js';
 import { uitlegBijResultaat } from './persona.js';
 import { CONFIG } from './config.js';
+import { valideer } from './validatie.js';
 
 const PARTNERS = CONFIG.partners || {};
 
@@ -274,14 +275,61 @@ ${r.status === 'goed' ? '' : `<p><strong>Advies:</strong> geef in <a href="https
   },
 };
 
-function render(form) {
+// ── Invoercontrole (R7) ──────────────────────────────────────────────
+// Velden die meedoen: getallen die zichtbaar zijn (een verborgen stap telt wel,
+// een blok dat bij 'nee' verborgen is niet).
+let foutTeller = 0;
+function controleerVelden(root) {
+  const velden = [...root.querySelectorAll('input[name]:not([type=radio]):not([type=checkbox])')].filter(
+    (el) => !el.closest('[data-toon-bij][hidden], [data-toon-bij-kinderen][hidden]'),
+  );
+  return valideer(velden.map((el) => [el.name, el.value])).map((f) => ({ ...f, el: velden[f.index] }));
+}
+
+function wisFouten(root) {
+  root.querySelectorAll('.veld-fout').forEach((p) => p.remove());
+  root.querySelectorAll('[aria-invalid="true"]').forEach((el) => {
+    el.removeAttribute('aria-invalid');
+    const rest = (el.getAttribute('aria-describedby') || '').split(' ').filter((x) => x && !x.endsWith('-fout'));
+    if (rest.length) el.setAttribute('aria-describedby', rest.join(' '));
+    else el.removeAttribute('aria-describedby');
+  });
+}
+
+function toonFouten(fouten) {
+  for (const { el, melding } of fouten) {
+    if (!el.id) el.id = `veld-${++foutTeller}`;
+    const p = document.createElement('p');
+    p.className = 'veld-fout';
+    p.id = `${el.id}-fout`;
+    p.textContent = melding;
+    (el.closest('.opvang-rij') || el.closest('.veld') || el.parentElement).append(p);
+    el.setAttribute('aria-invalid', 'true');
+    el.setAttribute('aria-describedby', [el.getAttribute('aria-describedby'), p.id].filter(Boolean).join(' '));
+  }
+}
+
+// Geeft false als de invoer niet klopt (dan staat er een melding in plaats van een uitkomst)
+function render(form, { focus = false } = {}) {
   const calc = form.dataset.calc;
-  const d = lees(form);
   const uit = form.nextElementSibling;
+  wisFouten(form);
+  const fouten = controleerVelden(form);
+  if (fouten.length) {
+    toonFouten(fouten);
+    uit.innerHTML = `<div class="melding invoerfout"><p><strong>Controleer je invoer.</strong> We rekenen pas als alles klopt.</p><ul>${fouten.map((f) => `<li>${esc(f.melding)}</li>`).join('')}</ul></div>`;
+    if (focus) {
+      const stap = fouten[0].el.closest('.stap');
+      if (stap && stap.hidden && form.tbToonStap) form.tbToonStap(stap);
+      fouten[0].el.focus();
+    }
+    return false;
+  }
+  const d = lees(form);
   const inkomenVeld = form.querySelector('[name=inkomen]');
   if (inkomenVeld && !inkomenVeld.value.trim()) {
     uit.innerHTML = '<p class="melding">Vul je inkomen in om te rekenen. Heb je geen inkomen? Vul dan 0 in.</p>';
-    return;
+    return false;
   }
   uit.innerHTML = reken[calc](d) + partnerBlokken(calc) + (calc === 'toetsingsinkomen' ? '' : deelBlok());
   // Persoonlijke uitleg door een persona, direct onder de eerste uitkomst
@@ -295,6 +343,7 @@ function render(form) {
   }
   telOp(uit);
   track('Berekening', { calc });
+  return true;
 }
 
 function kidsWidget(root) {
@@ -404,8 +453,17 @@ function stappenplan(form) {
       leeg.focus();
       return;
     }
+    wisFouten(stappen[huidig]);
+    const fouten = controleerVelden(stappen[huidig]);
+    if (fouten.length) {
+      toonFouten(fouten);
+      fouten[0].el.focus();
+      return;
+    }
     toon(Math.min(stappen.length - 1, huidig + 1), true);
   });
+  // Voor de invoercontrole: spring naar de stap met de eerste fout
+  form.tbToonStap = (stap) => toon(stappen.indexOf(stap), false);
   toon(0, false);
 }
 
@@ -424,8 +482,7 @@ document.querySelectorAll('form[data-calc]').forEach((form) => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    render(form);
-    form.nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (render(form, { focus: true })) form.nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
   let t;
   form.addEventListener('input', () => {

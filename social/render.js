@@ -90,6 +90,6 @@ ${s.sub ? `<p>${esc(s.sub)}</p>` : ''}
 ${lijst ? `<div style="margin-top:30px">${lijst}</div>` : ''}
 ${s.knop ? `<div class="knop">${esc(s.knop)}</div>` : ''}
 </main>
-<footer><span>Indicatie · officiële rekenregels</span><span>${nr}/${totaal}</span></footer>
+<footer><span>Indicatie · gebaseerd op officiële regels</span><span>${nr}/${totaal}</span></footer>
 </body></html>`;
 }

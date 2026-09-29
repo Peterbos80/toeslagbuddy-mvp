@@ -1,4 +1,5 @@
 // Scripts voor elke pagina: mobiel menu, voorlezen en meten van partnerklikken.
+import { lokaleStem, bijStemmen } from './stem.js';
 
 // Wachtrij voor Plausible-events tot het script geladen is (voorheen inline)
 window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
@@ -17,15 +18,23 @@ if (knop && menu) {
   });
 }
 
-// Voorlezen (Web Speech API) – helpt mensen die moeite hebben met lezen
+// Voorlezen (Web Speech API) – helpt mensen die moeite hebben met lezen.
+// Alleen met een stem op het apparaat zelf; anders blijft de knop verborgen.
 const lees = document.querySelector('.voorlees');
-if (lees && 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window) {
-  lees.hidden = false;
+if (lees) {
+  bijStemmen(() => {
+    lees.hidden = !lokaleStem('nl-NL');
+  });
   lees.addEventListener('click', () => {
     if (speechSynthesis.speaking) {
       speechSynthesis.cancel();
       lees.setAttribute('aria-pressed', 'false');
       lees.textContent = '🔊 Lees voor';
+      return;
+    }
+    const stem = lokaleStem('nl-NL');
+    if (!stem) {
+      lees.hidden = true;
       return;
     }
     const delen = [...document.querySelectorAll('main h1, main .intro, main .uitkomst, main .inhoud > h2, main .inhoud > p, main .inhoud > ul li')]
@@ -35,8 +44,7 @@ if (lees && 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window)
     const u = new SpeechSynthesisUtterance(delen.join('. '));
     u.lang = 'nl-NL';
     u.rate = 0.95;
-    const stem = speechSynthesis.getVoices().find((v) => v.lang && v.lang.toLowerCase().startsWith('nl'));
-    if (stem) u.voice = stem;
+    u.voice = stem;
     u.onend = () => {
       lees.setAttribute('aria-pressed', 'false');
       lees.textContent = '🔊 Lees voor';

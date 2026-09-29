@@ -8,7 +8,7 @@ import config from './site.config.js';
 import * as params from './src/calc/params.js';
 import { pages, nieuws } from './src/site/pages.js';
 import { forms } from './src/site/forms.js';
-import { layout, advertentie, nieuwsbrief, esc } from './src/site/layout.js';
+import { layout, advertentie, nieuwsbrief, esc, GEEN_JS } from './src/site/layout.js';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
@@ -47,7 +47,7 @@ const zijbalk = (slug) => {
   ].filter(([u]) => u !== slug);
   return `<aside class="zij">
 <div class="blok"><h2>Meer rekenhulpen</h2><ul>${links.map(([u, n]) => `<li><a href="${u}">${n}</a></li>`).join('')}</ul></div>
-<div class="blok"><h2>Bijgewerkt voor ${params.JAAR}</h2><p>Met de officiële bedragen en rekenregels. <a href="/bronnen/">Bekijk bronnen</a></p></div>
+<div class="blok"><h2>Bijgewerkt voor ${params.JAAR}</h2><p>Gebaseerd op de officiële bedragen en rekenregels. <a href="/bronnen/">Bekijk bronnen</a></p></div>
 <div class="blok"><h2>Nieuw: toeslagen ${params.JAAR + 1}</h2><p>Wat verandert er volgend jaar? <a href="/toeslagen-2027/">Lees het overzicht</a></p></div>
 </aside>`;
 };
@@ -90,7 +90,7 @@ ${page.calc ? `<span class="bijgewerkt">✓ Bijgewerkt voor ${params.JAAR}</span
 <h1>${page.slug === '/' ? esc(page.h1).replace('recht', '<span class="accent">recht</span>') : esc(page.h1)}</h1>
 <p class="intro">${esc(page.intro)}</p>
 ${page.calc ? `<ul class="vertrouwen" aria-label="Waarom ToeslagBuddy">
-<li>Gratis</li><li>Anoniem, zonder DigiD</li><li>Gegevens blijven op je telefoon</li><li>Officiële regels ${params.JAAR}</li>
+<li>Gratis</li><li>Anoniem, zonder DigiD</li><li>Gegevens blijven op je telefoon</li><li>Gebaseerd op de officiële regels ${params.JAAR}</li>
 </ul>` : ''}
 ${page.slug === '/' ? `<p class="hero-knoppen"><a class="knop groot" href="#check">Start de check – 2 minuten</a></p>
 <nav class="snel" aria-label="Snel naar"><span>Of kies:</span> <a href="/toeslagen-student/">Student</a> <a href="/toeslagen-alleenstaande-ouder/">Alleenstaande ouder</a> <a href="/toeslagen-aow/">AOW</a> <a href="/zzp-toeslagen/">Zzp</a> <a href="/huurtoeslag-berekenen/">Alleen huurtoeslag</a></nav>` : ''}
@@ -101,12 +101,12 @@ ${page.slug === '/' ? '<div class="hero-buddy" data-intro></div>' : ''}
 </div>
 <div class="raster">
 <div class="inhoud">
-${page.calc ? `<section class="rekenkaart" id="${page.anker || 'rekenhulp'}" aria-label="Rekenhulp">\n${forms[page.calc]()}\n</section>` : ''}
-${advertentie('slotInhoud')}
+${page.calc ? `<section class="rekenkaart" id="${page.anker || 'rekenhulp'}" aria-label="Rekenhulp">\n<noscript><p class="geen-js">${GEEN_JS}</p></noscript>\n${forms[page.calc]()}\n</section>` : ''}
+${advertentie('slotInhoud', page)}
 ${body}
 ${faqHtml(page.faq)}
-${nieuwsbrief()}
-${advertentie('slotOnder')}
+${nieuwsbrief(page)}
+${advertentie('slotOnder', page)}
 </div>
 ${zijbalk(page.slug)}
 </div>`;
@@ -120,10 +120,10 @@ ${zijbalk(page.slug)}
 writeFileSync(
   join(DIST, '404.html'),
   layout(
-    { slug: '/404.html', title: 'Pagina niet gevonden', description: 'Deze pagina bestaat niet.', h1: 'Pagina niet gevonden', versie },
+    { slug: '/404.html', title: 'Pagina niet gevonden', description: 'Deze pagina bestaat niet.', h1: 'Pagina niet gevonden', versie, noindex: true },
     `<div class="hero"><h1>Deze pagina bestaat niet (meer)</h1><p class="intro">Geen zorgen, je toeslagen kun je gewoon berekenen.</p>
 <p><a class="knop" href="/">Naar de toeslagen-check</a></p></div>`,
-  ).replace('<head>', '<head>\n<meta name="robots" content="noindex">'),
+  ),
 );
 
 // Sitemap en robots
@@ -208,6 +208,22 @@ AddType text/javascript .js
 );
 
 console.log(`✓ ${pages.length} pagina's gebouwd in dist/ (versie ${versie})`);
+
+// security.txt (RFC 9116) moet een geldige 'Expires' hebben
+{
+  const bestand = join(DIST, '.well-known/security.txt');
+  const verloopt = existsSync(bestand) && readFileSync(bestand, 'utf8').match(/^Expires:\s*(\S+)/m);
+  if (!verloopt) console.warn('⚠ WAARSCHUWING: dist/.well-known/security.txt ontbreekt of heeft geen Expires.');
+  else if (new Date(verloopt[1]) - Date.now() < 30 * 864e5) console.warn(`⚠ WAARSCHUWING: security.txt verloopt op ${verloopt[1]}. Zet 'Expires' in public/.well-known/security.txt een jaar vooruit.`);
+}
+
+// Bedrijfsgegevens zijn wettelijk verplicht op de site (art. 3:15d BW)
+{
+  const b = config.bedrijf || {};
+  const mist = [['kvk', 'KvK-nummer'], ['btwId', 'btw-id'], ['vestigingsplaats', 'vestigingsplaats'], ['naam', 'naam']].filter(([k]) => !b[k]).map(([, n]) => n);
+  if (!b.kvk) console.warn(`⚠ WAARSCHUWING: bedrijfsgegevens niet compleet in site.config.js → bedrijf (ontbreekt: ${mist.join(', ')}). Verplicht vóór livegang (art. 3:15d BW).`);
+  else if (mist.length) console.warn(`⚠ WAARSCHUWING: in site.config.js → bedrijf ontbreekt nog: ${mist.join(', ')}.`);
+}
 
 function minifyCss(s) {
   return s

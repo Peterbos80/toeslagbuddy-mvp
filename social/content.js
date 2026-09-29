@@ -53,7 +53,7 @@ function rekenvoorbeeld(persona, ronde = 0) {
       '',
       'Jouw situatie is anders? Reken het zelf uit via de link in onze bio. Gratis, anoniem, geen DigiD nodig.',
       '',
-      'ℹ️ Indicatie op basis van de officiële rekenregels ' + JAAR + '. ToeslagBuddy is onafhankelijk en geen onderdeel van de Belastingdienst.',
+      'ℹ️ Indicatie, gebaseerd op de officiële rekenregels ' + JAAR + '. ToeslagBuddy is onafhankelijk en geen onderdeel van de Belastingdienst.',
       '',
       [...p.hashtags, '#toeslagen', '#toeslagbuddy', '#geldbesparen'].join(' '),
     ].join('\n'),

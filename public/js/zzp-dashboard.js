@@ -23,10 +23,28 @@ function schrijf(lijst) {
   }
 }
 
+// Privévenster of geblokkeerde opslag (Safari): rekenen werkt, bewaren niet (R2)
+function opslagWerkt() {
+  try {
+    const k = `${SLEUTEL}-test`;
+    localStorage.setItem(k, '1');
+    localStorage.removeItem(k);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function toon() {
-  const lijst = lees();
   if (!sectie) return;
   sectie.hidden = false;
+  if (!opslagWerkt()) {
+    sectie.querySelector('[data-overzicht]').innerHTML =
+      '<p class="melding" data-opslag-uit>Opslaan is niet mogelijk in deze browser, bijvoorbeeld in een privévenster. De check hierboven werkt wel. Wil je je checks bewaren? Open de pagina in een gewoon venster.</p>';
+    sectie.querySelectorAll('[data-export], [data-wis], [data-import]').forEach((el) => (el.closest('label') || el).setAttribute('hidden', ''));
+    return;
+  }
+  const lijst = lees();
   const rijen = lijst
     .slice()
     .reverse()
@@ -42,7 +60,7 @@ function toon() {
 document.addEventListener('tb:zzp-resultaat', (e) => {
   laatste = e.detail;
   const uitkomst = document.querySelector('form[data-calc=zzp] + [data-result] .resultaat');
-  if (uitkomst && !uitkomst.querySelector('[data-bewaar]')) {
+  if (uitkomst && !uitkomst.querySelector('[data-bewaar]') && opslagWerkt()) {
     const knop = document.createElement('button');
     knop.type = 'button';
     knop.className = 'knop-licht';

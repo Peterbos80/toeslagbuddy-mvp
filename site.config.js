@@ -6,6 +6,23 @@ export default {
   // Je eigen domein bij TransIP, zonder slash aan het eind.
   url: 'https://www.toeslagbuddy.nl',
   contactEmail: 'info@toeslagbuddy.nl',
+  // Waar de site draait: 'github-pages' of 'transip'. Staat in de privacyverklaring.
+  hosting: 'github-pages',
+
+  // Bedrijfsgegevens. Wettelijk verplicht op de site (art. 3:15d BW) en
+  // gebruikt in de footer, de colofon, de privacyverklaring en de Pro-voorwaarden.
+  // Een leeg KvK-nummer geeft een waarschuwing bij het bouwen.
+  bedrijf: {
+    naam: '', // naam zoals ingeschreven bij de KvK (bijv. je eenmanszaak)
+    handelsnaam: 'ToeslagBuddy',
+    vestigingsplaats: '', // bijv. 'Utrecht'
+    adres: '', // optioneel: volledig vestigingsadres (straat, postcode, plaats); zie docs/compliance-checklist.md
+    kvk: '', // KvK-nummer (8 cijfers)
+    btwId: '', // btw-identificatienummer (NL…B..), NIET je omzetbelastingnummer
+    // Doorgestuurd adres; NOOIT je privé-adres. Alleen info@, privacy@ en security@
+    // op toeslagbuddy.nl mogen op de site staan (dat controleert een test).
+    email: 'info@toeslagbuddy.nl',
+  },
 
   // Statistieken zonder cookies (geen cookiebanner nodig).
   // Vul bijvoorbeeld je Plausible-domein in, of je GoatCounter-code.
