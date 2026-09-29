@@ -1,0 +1,4 @@
+# CPU-versie van PyTorch (GitHub Actions heeft geen GPU)
+--index-url https://download.pytorch.org/whl/cpu
+torch==2.0.1
+torchvision==0.15.2

@@ -1,0 +1,169 @@
+name: Echte AI-video's maken (open source)
+
+# Maakt echte video's van fictieve personen zonder account of API-sleutel:
+# gezicht (Stable Diffusion 1.5 / Realistic Vision), Nederlandse stem (Piper)
+# en pratend hoofd met lipsync (SadTalker). Alles open source, op de CPU.
+# Eén job per persona (parallel). Alleen clips die de keuring doorstaan, komen
+# op de site. Tip: eerst een proef met persona 'henk' en fragment 'intro'.
+
+on:
+  workflow_dispatch:
+    inputs:
+      personas:
+        description: "Persona's, met komma's (leeg = alle)"
+        required: false
+        default: ''
+      segmenten:
+        description: 'Alleen deze fragmenten, met komma''s (leeg = alle), bijv. intro'
+        required: false
+        default: ''
+      verbeteren:
+        description: 'Gezicht verscherpen met GFPGAN (trager, maar echter)'
+        type: boolean
+        default: true
+      publiceren:
+        description: 'Daarna de site opnieuw publiceren (met alle tests)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: videos-echt
+  cancel-in-progress: false
+
+env:
+  SADTALKER_COMMIT: cd4c0465ae0b54a6f85af57f5c65fec9fe23e7f8
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      personas: ${{ steps.p.outputs.lijst }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - id: p
+        env:
+          KEUZE: ${{ github.event.inputs.personas }}
+        run: |
+          node -e '
+            import("./src/calc/uitleg.js").then(({ PERSONAS }) => {
+              const alle = Object.keys(PERSONAS);
+              const keuze = (process.env.KEUZE || "").split(",").map((s) => s.trim()).filter(Boolean);
+              const onbekend = keuze.filter((p) => !alle.includes(p));
+              if (onbekend.length) { console.error("Onbekende persona: " + onbekend); process.exit(1); }
+              console.log("lijst=" + JSON.stringify(keuze.length ? keuze : alle));
+            });' >> "$GITHUB_OUTPUT"
+
+  clips:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    strategy:
+      fail-fast: false
+      matrix:
+        persona: ${{ fromJson(needs.plan.outputs.personas) }}
+    env:
+      VIDEO_CACHE: ${{ github.workspace }}/.video-cache
+      HF_HOME: ${{ github.workspace }}/.video-cache/hf
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: pip
+          cache-dependency-path: scripts/video/requirements*.txt
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+      - name: Modellen uit de cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .video-cache/hf
+            .video-cache/piper
+            .sadtalker-gewichten
+          key: video-modellen-v1-${{ env.SADTALKER_COMMIT }}
+      - name: SadTalker ophalen (vaste versie)
+        run: |
+          git clone --filter=blob:none https://github.com/OpenTalker/SadTalker.git .sadtalker
+          git -C .sadtalker checkout "$SADTALKER_COMMIT"
+          mkdir -p .sadtalker-gewichten/checkpoints .sadtalker-gewichten/gfpgan/weights
+          haal() { [ -s "$2" ] || curl -fsSL --retry 3 -o "$2" "$1"; }
+          R=https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc
+          haal $R/mapping_00109-model.pth.tar .sadtalker-gewichten/checkpoints/mapping_00109-model.pth.tar
+          haal $R/mapping_00229-model.pth.tar .sadtalker-gewichten/checkpoints/mapping_00229-model.pth.tar
+          haal $R/SadTalker_V0.0.2_256.safetensors .sadtalker-gewichten/checkpoints/SadTalker_V0.0.2_256.safetensors
+          haal https://github.com/xinntao/facexlib/releases/download/v0.1.0/alignment_WFLW_4HG.pth .sadtalker-gewichten/gfpgan/weights/alignment_WFLW_4HG.pth
+          haal https://github.com/xinntao/facexlib/releases/download/v0.1.0/detection_Resnet50_Final.pth .sadtalker-gewichten/gfpgan/weights/detection_Resnet50_Final.pth
+          haal https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth .sadtalker-gewichten/gfpgan/weights/GFPGANv1.4.pth
+          haal https://github.com/xinntao/facexlib/releases/download/v0.2.2/parsing_parsenet.pth .sadtalker-gewichten/gfpgan/weights/parsing_parsenet.pth
+          cp -r .sadtalker-gewichten/checkpoints .sadtalker/
+          cp -r .sadtalker-gewichten/gfpgan .sadtalker/
+      - name: Python-pakketten
+        run: |
+          python -m pip install --upgrade pip wheel "setuptools<70"
+          pip install -r scripts/video/requirements-torch.txt
+          pip install --no-build-isolation -r scripts/video/requirements.txt
+          python -c "import torch, diffusers, piper, gfpgan, facexlib; print('torch', torch.__version__)"
+      - name: Video's maken voor ${{ matrix.persona }}
+        env:
+          VIDEO_PYTHON: python
+          SEGMENTEN: ${{ github.event.inputs.segmenten }}
+        run: |
+          node scripts/maak-echte-videos.js --persona "${{ matrix.persona }}" --sadtalker "$PWD/.sadtalker" --uit uit-video \
+            ${{ github.event.inputs.verbeteren == 'true' && '--verbeteren' || '' }} \
+            ${SEGMENTEN:+--segmenten "$SEGMENTEN"}
+      - name: Contactblad om te bekijken (1 beeld per seconde)
+        if: always()
+        run: |
+          mkdir -p uit-video/contactblad
+          for f in uit-video/${{ matrix.persona }}/*.mp4; do
+            [ -e "$f" ] || continue
+            ffmpeg -loglevel error -y -i "$f" -vf "fps=1,scale=144:-1,tile=6x1" -frames:v 1 "uit-video/contactblad/$(basename "$f" .mp4).jpg"
+          done
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: video-${{ matrix.persona }}
+          path: uit-video/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  bewaren:
+    needs: clips
+    if: always() && needs.clips.result != 'cancelled'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: video-*
+          path: artefacten
+      - name: Samenvoegen (alleen gekeurde clips)
+        run: |
+          [ -d artefacten ] || { echo "Geen video's gemaakt"; exit 1; }
+          find artefacten -name 'keuring.*.json' -exec sh -c 'echo "── $1"; cat "$1"' _ {} \;
+          node scripts/video-samenvoegen.js artefacten
+      - name: Bewaren in git
+        run: |
+          git config user.name "toeslagbuddy-video"
+          git config user.email "video@users.noreply.github.com"
+          git add public/video
+          git diff --cached --quiet && { echo "Geen nieuwe clips"; exit 0; }
+          git commit -m "Echte AI-video's bijgewerkt $(date +%F)"
+          git push
+      - name: Site opnieuw publiceren (tests draaien eerst)
+        if: github.event.inputs.publiceren == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pages.yml --ref "${{ github.ref_name }}"

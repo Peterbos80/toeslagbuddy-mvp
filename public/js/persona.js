@@ -264,6 +264,7 @@ function videoSpeler(root, persona, plan, manifest, regels) {
     }
     const stap = plan[i];
     video.src = clips[stap.segment].src;
+    if (clips[stap.segment].poster) video.poster = clips[stap.segment].poster;
     ondertitel.textContent = stap.ondertitel;
     teller.textContent = `${i + 1}/${plan.length}`;
     balk.style.width = `${((i + 1) / plan.length) * 100}%`;

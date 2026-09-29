@@ -1,0 +1,16 @@
+{
+  "_uitleg": "Uiterlijk en stem per persona voor de open-source video's. Alle personen zijn fictief en worden door AI gemaakt. Pas 'seed' aan voor een ander gezicht; het gekozen gezicht wordt in public/video/gezichten/ bewaard en daarna hergebruikt.",
+  "algemeen": {
+    "prompt": "professional portrait photograph, head and shoulders, facing the camera, looking straight into the lens, calm friendly expression, lips closed, soft natural window light, plain light grey background, sharp focus, 85mm lens, realistic skin texture, natural colors",
+    "negatief": "cartoon, anime, illustration, painting, drawing, 3d render, cgi, doll, plastic skin, deformed, disfigured, extra limbs, blurry, out of focus, glasses, sunglasses, hat, hands, text, watermark, logo, open mouth, teeth, side view, profile, looking away, multiple people, nsfw"
+  },
+  "personas": {
+    "buddy": { "beschrijving": "friendly Dutch woman in her early forties, TV presenter, shoulder-length auburn hair, light blue blouse", "seed": 4101, "stem": { "geslacht": "v", "toon": 0.5 } },
+    "sanne": { "beschrijving": "21 year old Dutch woman, university student, long straight blond hair in a loose ponytail, light makeup, grey hoodie", "seed": 2101, "stem": { "geslacht": "v", "toon": 0.9 } },
+    "dani": { "beschrijving": "29 year old Dutch freelancer, short dark brown hair, light stubble, dark green casual shirt", "seed": 2901, "stem": { "geslacht": "m", "toon": 0.8 } },
+    "mo": { "beschrijving": "34 year old Dutch man of Moroccan descent, father, short black hair, neatly trimmed beard, navy sweater", "seed": 3401, "stem": { "geslacht": "m", "toon": 0.5 } },
+    "ilse": { "beschrijving": "36 year old Dutch woman, mother, shoulder-length brown hair, beige cardigan over white t-shirt", "seed": 3601, "stem": { "geslacht": "v", "toon": 0.65 } },
+    "karin": { "beschrijving": "54 year old Dutch woman, short ash blond hair with some grey, small earrings, dark red blouse", "seed": 5401, "stem": { "geslacht": "v", "toon": 0.2 } },
+    "henk": { "beschrijving": "71 year old Dutch man, retired, short grey hair, friendly wrinkles, checked flannel shirt", "seed": 7101, "stem": { "geslacht": "m", "toon": 0.1 } }
+  }
+}
