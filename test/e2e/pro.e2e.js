@@ -12,7 +12,8 @@ const tekst = async (loc) => (await loc.innerText()).replace(/\s+/g, ' ').trim()
 before(async () => (s = await start()));
 after(async () => s.stop());
 
-const nieuweContext = () => s.browser.newContext({ reducedMotion: 'reduce', acceptDownloads: true });
+// bypassCSP: axe wordt als inline script toegevoegd; de strikte CSP zou dat blokkeren
+const nieuweContext = () => s.browser.newContext({ reducedMotion: 'reduce', acceptDownloads: true, bypassCSP: true });
 const demoDb = (p) => p.evaluate(() => JSON.parse(localStorage.getItem('toeslagbuddy-demo-db')));
 
 async function code(p) {

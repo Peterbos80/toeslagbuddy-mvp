@@ -57,7 +57,7 @@ Review vanuit vier rollen: toeslagenexpert, UI-ontwerper, marktonderzoeker en pr
 | # | Wat | Waarom | Moeite |
 |---|---|---|---|
 | 1 | Pro: 10 gesprekken met kantoren, 3 betalende klanten | Snelste route naar omzet | Jouw tijd |
-| 2 | Google Search Console, Web3Forms, Supabase en statistieken instellen | Zonder deze stap geen metingen en geen accounts | 1 uur |
+| 2 | Google Search Console, Supabase (ook voor formulieren) en statistieken instellen | Zonder deze stap geen metingen en geen accounts | 1 uur |
 | 3 | Bedragen 2027 zodra ze bekend zijn (eind november) | Grootste zoekpiek van het jaar | 1 dag |
 | 4 | Pagina's per gemeente voor de grootste 30 gemeenten | Veel lokale zoekvragen; ook bruikbaar voor Pro | Middel |
 | 5 | Uitkomst delen als afbeelding | Viraal bereik | Klein |

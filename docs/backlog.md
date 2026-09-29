@@ -29,7 +29,7 @@ Legenda: ✅ klaar en getest · 🔜 volgende · 💡 idee · ⛔ wacht op jou (
 | ✅ 25 | **Alle regelingen van Nederland** (34, van Dienst Toeslagen, SVB, UWV, DUO, Belastingdienst, gemeenten en fondsen), met filter en zoeken | e2e |
 | ✅ 26 | **Wijzigingsmonitor**: dagelijkse controle van de officiële bronpagina's, met een GitHub-issue bij gewijzigde bedragen | `test/monitor.test.js` |
 | ✅ 27 | **Pro met inloggen**: aanmelden, inloglink per e-mail, afgeschermde omgeving, proef van 7 dagen, vergrendeld na afloop, abonnement aanvragen | `test/proef.test.js`, e2e (demo) |
-| ✅ 28 | **Formulieren naar je privé-e-mail** via Web3Forms; nergens een e-mailadres op de site; contactpagina | e2e |
+| ✅ 28 | **Formulieren naar je privé-e-mail** via Supabase (tabel berichten) en Brevo (EU); Web3Forms vervalt; alleen info@ op de site | e2e, `test/db/` |
 | ✅ 29 | **Grappige persona-updates** voor X en TikTok, met spelregeltest | `test/social.test.js` |
 | ✅ 30 | **Realistische AI-presentatoren** (HeyGen): pijplijn, speler met echte clips, persoonlijke ondertitels, AI-label (AI-verordening), terugval op de getekende persona | `test/videoplan.test.js`, e2e |
 
@@ -55,6 +55,5 @@ Legenda: ✅ klaar en getest · 🔜 volgende · 💡 idee · ⛔ wacht op jou (
 - E-mail instellen: [email.md](email.md)
 - Instagram, Meta-app en TikTok-app aanmaken: [instagram.md](instagram.md)
 - In GitHub: standaardbranch op `main` zetten en `main` toestaan in de omgeving github-pages
-- Supabase-project voor Pro-accounts: [pro-accounts.md](pro-accounts.md)
-- Web3Forms-sleutel voor formulieren: [email.md](email.md)
+- Supabase (Pro, formulieren en beheer), Brevo en DNS: [pro-accounts.md](pro-accounts.md) en [email.md](email.md)
 - HeyGen-sleutel en avatars voor de realistische video's: [ai-video.md](ai-video.md)
