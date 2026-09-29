@@ -1,0 +1,8 @@
+{
+  "persona": "sanne",
+  "model": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+  "seed": 2101,
+  "prompt": "21 year old Dutch woman, university student, long straight blond hair in a loose ponytail, light makeup, grey hoodie, professional portrait photograph, head and shoulders, facing the camera, looking straight into the lens, calm friendly expression, lips closed, soft natural window light, plain light grey background, sharp focus, 85mm lens, realistic skin texture, natural colors",
+  "licentie": "CreativeML OpenRAIL-M",
+  "fictief": true
+}

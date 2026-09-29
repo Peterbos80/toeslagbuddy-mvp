@@ -3,9 +3,211 @@
     "intro": {
       "src": "/video/henk/intro.mp4",
       "poster": "/video/gezichten/henk.jpg",
-      "hash": "895df357b52c",
+      "hash": "41214c699820",
       "tekst": "Goedendag, ik ben Henk. Ik ben 71 en leef van mijn AOW en een klein pensioen.",
+      "duur": 4.7,
+      "bron": "open-source"
+    },
+    "zorgtoeslag": {
+      "src": "/video/henk/zorgtoeslag.mp4",
+      "poster": "/video/gezichten/henk.jpg",
+      "hash": "65feabd96849",
+      "tekst": "Zorgtoeslag is een bijdrage in de kosten van je zorgverzekering. Hoe lager je inkomen, hoe meer je krijgt.",
+      "duur": 5.6,
+      "bron": "open-source"
+    },
+    "kinderopvangtoeslag": {
+      "src": "/video/henk/kinderopvangtoeslag.mp4",
+      "poster": "/video/gezichten/henk.jpg",
+      "hash": "1642be3c8c3d",
+      "tekst": "Met kinderopvangtoeslag krijg je een groot deel van de kosten van de opvang terug. Let op: boven de maximale uurprijs betaal je zelf.",
+      "duur": 6.9,
+      "bron": "open-source"
+    },
+    "zzpBij": {
+      "src": "/video/henk/zzpBij.mp4",
+      "poster": "/video/gezichten/henk.jpg",
+      "hash": "3e8c2f2f5b36",
+      "tekst": "Je krijgt nu waarschijnlijk te weinig. Pas je inkomen aan in Mijn toeslagen, dan krijg je meteen wat je toekomt.",
+      "duur": 5.1,
+      "bron": "open-source"
+    },
+    "aanvragen": {
+      "src": "/video/henk/aanvragen.mp4",
+      "poster": "/video/gezichten/henk.jpg",
+      "hash": "997bb0c99429",
+      "tekst": "Aanvragen doe je op toeslagen punt nl met je DigiD. Hulp nodig? Bel gratis de BelastingTelefoon.",
+      "duur": 5.5,
+      "bron": "open-source"
+    },
+    "ja": {
+      "src": "/video/henk/ja.mp4",
+      "poster": "/video/gezichten/henk.jpg",
+      "hash": "e02d919508c8",
+      "tekst": "Goed nieuws! In beeld zie je hoeveel je waarschijnlijk kunt krijgen. Dat geld is voor jou bedoeld, dus laat het niet liggen.",
+      "duur": 5.4,
+      "bron": "open-source"
+    },
+    "huurtoeslag": {
+      "src": "/video/henk/huurtoeslag.mp4",
+      "poster": "/video/gezichten/henk.jpg",
+      "hash": "ea6e3ced0bf5",
+      "tekst": "Huurtoeslag is een bijdrage in je huur. Een deel van de huur betaal je altijd zelf; over de rest krijg je een vergoeding.",
+      "duur": 6,
+      "bron": "open-source"
+    },
+    "kinderbijslag": {
+      "src": "/video/henk/kinderbijslag.mp4",
+      "poster": "/video/gezichten/henk.jpg",
+      "hash": "e93d065289f9",
+      "tekst": "Kinderbijslag krijg je van de SVB voor elk kind tot achttien jaar, ongeacht je inkomen.",
+      "duur": 4.4,
+      "bron": "open-source"
+    },
+    "zzpGoed": {
+      "src": "/video/henk/zzpGoed.mp4",
+      "poster": "/video/gezichten/henk.jpg",
+      "hash": "90d51ae39644",
+      "tekst": "Je voorschot klopt ongeveer. Mooi zo! Doe de check volgende maand gewoon opnieuw.",
+      "duur": 4.3,
+      "bron": "open-source"
+    },
+    "nee": {
+      "src": "/video/henk/nee.mp4",
+      "poster": "/video/gezichten/henk.jpg",
+      "hash": "81ebd7efa8f7",
+      "tekst": "Met wat je hebt ingevuld, heb je waarschijnlijk geen recht op deze toeslag. Kijk wel even naar de andere regelingen hieronder, bijvoorbeeld van je gemeente.",
+      "duur": 7,
+      "bron": "open-source"
+    },
+    "kindgebondenBudget": {
+      "src": "/video/henk/kindgebondenBudget.mp4",
+      "poster": "/video/gezichten/henk.jpg",
+      "hash": "f1d25747c33a",
+      "tekst": "Het kindgebonden budget is extra geld voor je kinderen, bovenop de kinderbijslag.",
+      "duur": 4.2,
+      "bron": "open-source"
+    },
+    "zzpTerug": {
+      "src": "/video/henk/zzpTerug.mp4",
+      "poster": "/video/gezichten/henk.jpg",
+      "hash": "3e208f2d4ac0",
+      "tekst": "Let op: je inkomen wordt hoger dan je hebt opgegeven. Pas het nu aan in Mijn toeslagen, dan hoef je straks niets terug te betalen.",
+      "duur": 6.7,
+      "bron": "open-source"
+    },
+    "tip": {
+      "src": "/video/henk/tip.mp4",
+      "poster": "/video/gezichten/henk.jpg",
+      "hash": "c0b921539d55",
+      "tekst": "Mijn tip: met de AOW-leeftijd krijg je extra huurtoeslag als je huur hoger is. En heb je geen volledige AOW, vraag dan naar de AIO-aanvulling bij de SVB.",
+      "duur": 8.3,
+      "bron": "open-source"
+    }
+  },
+  "sanne": {
+    "intro": {
+      "src": "/video/sanne/intro.mp4",
+      "poster": "/video/gezichten/sanne.jpg",
+      "hash": "1efcb787ee7e",
+      "tekst": "Hoi, ik ben Sanne. Ik ben 21 en studeer, dus ik weet precies hoe krap het kan zijn.",
+      "duur": 5.1,
+      "bron": "open-source"
+    },
+    "zorgtoeslag": {
+      "src": "/video/sanne/zorgtoeslag.mp4",
+      "poster": "/video/gezichten/sanne.jpg",
+      "hash": "1cf8c43f18f1",
+      "tekst": "Zorgtoeslag is een bijdrage in de kosten van je zorgverzekering. Hoe lager je inkomen, hoe meer je krijgt.",
+      "duur": 6.2,
+      "bron": "open-source"
+    },
+    "kinderopvangtoeslag": {
+      "src": "/video/sanne/kinderopvangtoeslag.mp4",
+      "poster": "/video/gezichten/sanne.jpg",
+      "hash": "882aebf1151c",
+      "tekst": "Met kinderopvangtoeslag krijg je een groot deel van de kosten van de opvang terug. Let op: boven de maximale uurprijs betaal je zelf.",
+      "duur": 7.4,
+      "bron": "open-source"
+    },
+    "zzpBij": {
+      "src": "/video/sanne/zzpBij.mp4",
+      "poster": "/video/gezichten/sanne.jpg",
+      "hash": "a9cac43a2241",
+      "tekst": "Je krijgt nu waarschijnlijk te weinig. Pas je inkomen aan in Mijn toeslagen, dan krijg je meteen wat je toekomt.",
+      "duur": 7.2,
+      "bron": "open-source"
+    },
+    "aanvragen": {
+      "src": "/video/sanne/aanvragen.mp4",
+      "poster": "/video/gezichten/sanne.jpg",
+      "hash": "292d33c8a7d6",
+      "tekst": "Aanvragen doe je op toeslagen punt nl met je DigiD. Hulp nodig? Bel gratis de BelastingTelefoon.",
+      "duur": 8.1,
+      "bron": "open-source"
+    },
+    "ja": {
+      "src": "/video/sanne/ja.mp4",
+      "poster": "/video/gezichten/sanne.jpg",
+      "hash": "d5f3497f983a",
+      "tekst": "Goed nieuws! In beeld zie je hoeveel je waarschijnlijk kunt krijgen. Dat geld is voor jou bedoeld, dus laat het niet liggen.",
+      "duur": 6,
+      "bron": "open-source"
+    },
+    "huurtoeslag": {
+      "src": "/video/sanne/huurtoeslag.mp4",
+      "poster": "/video/gezichten/sanne.jpg",
+      "hash": "56cc8d4bacca",
+      "tekst": "Huurtoeslag is een bijdrage in je huur. Een deel van de huur betaal je altijd zelf; over de rest krijg je een vergoeding.",
+      "duur": 6.9,
+      "bron": "open-source"
+    },
+    "kinderbijslag": {
+      "src": "/video/sanne/kinderbijslag.mp4",
+      "poster": "/video/gezichten/sanne.jpg",
+      "hash": "b6f25b1bf1b8",
+      "tekst": "Kinderbijslag krijg je van de SVB voor elk kind tot achttien jaar, ongeacht je inkomen.",
+      "duur": 5.5,
+      "bron": "open-source"
+    },
+    "zzpGoed": {
+      "src": "/video/sanne/zzpGoed.mp4",
+      "poster": "/video/gezichten/sanne.jpg",
+      "hash": "c04759c0b500",
+      "tekst": "Je voorschot klopt ongeveer. Mooi zo! Doe de check volgende maand gewoon opnieuw.",
+      "duur": 6,
+      "bron": "open-source"
+    },
+    "nee": {
+      "src": "/video/sanne/nee.mp4",
+      "poster": "/video/gezichten/sanne.jpg",
+      "hash": "1c2b6555ab80",
+      "tekst": "Met wat je hebt ingevuld, heb je waarschijnlijk geen recht op deze toeslag. Kijk wel even naar de andere regelingen hieronder, bijvoorbeeld van je gemeente.",
+      "duur": 9,
+      "bron": "open-source"
+    },
+    "kindgebondenBudget": {
+      "src": "/video/sanne/kindgebondenBudget.mp4",
+      "poster": "/video/gezichten/sanne.jpg",
+      "hash": "c0e67322f0cc",
+      "tekst": "Het kindgebonden budget is extra geld voor je kinderen, bovenop de kinderbijslag.",
+      "duur": 5.3,
+      "bron": "open-source"
+    },
+    "zzpTerug": {
+      "src": "/video/sanne/zzpTerug.mp4",
+      "poster": "/video/gezichten/sanne.jpg",
+      "hash": "d7ca92edded7",
+      "tekst": "Let op: je inkomen wordt hoger dan je hebt opgegeven. Pas het nu aan in Mijn toeslagen, dan hoef je straks niets terug te betalen.",
       "duur": 8,
+      "bron": "open-source"
+    },
+    "tip": {
+      "src": "/video/sanne/tip.mp4",
+      "poster": "/video/gezichten/sanne.jpg",
+      "hash": "b5ef431c72aa",
+      "tekst": "Mijn tip: je studiefinanciering telt niet mee als inkomen. Maar ga je na je studie werken, geef dan meteen je nieuwe inkomen door.",
+      "duur": 7.2,
       "bron": "open-source"
     }
   }
