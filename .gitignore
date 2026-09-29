@@ -8,3 +8,4 @@ uit-video/
 .sadtalker/
 .sadtalker-gewichten/
 .video-cache/
+__pycache__/
