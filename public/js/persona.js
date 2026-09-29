@@ -1,14 +1,17 @@
 // Geanimeerde uitleg-speler: een getekende persona legt de uitkomst uit,
-// met Nederlandse stem (Web Speech API) en ondertitels. Alles gebeurt in de
-// browser; er gaan geen gegevens naar buiten.
-import { kiesPersona, maakScript, voorSpraak, PERSONAS } from './uitleg.js';
+// met stem (Web Speech API, alleen lokale stemmen) en ondertitels, in de taal
+// van de pagina. Alles gebeurt in de browser; er gaan geen gegevens naar buiten.
+// De realistische AI-video's zijn alleen Nederlands; op Engelse pagina's
+// spreekt altijd de getekende persona.
+import { kiesPersona, maakScript, voorSpraak, personas } from './uitleg.js';
 import { videoPlan, planCompleet, SEGMENTEN } from './videoplan.js';
 import { lokaleStem } from './stem.js';
+import { teksten, paginaTaal } from './i18n.js';
 
 const minderBeweging = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const spraakApi = () => 'speechSynthesis' in window;
 // Alleen spreken met een stem op het apparaat zelf; anders alleen ondertitels
-const kanSpreken = () => !!lokaleStem('nl-NL');
+const kanSpreken = (spraak) => !!lokaleStem(spraak);
 const stopSpraak = () => {
   try {
     if (spraakApi()) speechSynthesis.cancel();
@@ -33,11 +36,12 @@ function haar(stijl, kleur) {
   }
 }
 
-export function avatarSvg(p) {
+export function avatarSvg(p, taal = 'nl') {
   const u = p.uiterlijk;
   const id = `g-${p.id}`;
+  const label = teksten(taal).speler.avatar(p);
   if (u.soort === 'mascotte') {
-    return `<svg class="avatar" viewBox="0 0 200 220" role="img" aria-label="${p.naam}, ${p.rol}">
+    return `<svg class="avatar" viewBox="0 0 200 220" role="img" aria-label="${label}">
 <defs><radialGradient id="${id}" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#ffe7a3"/><stop offset="1" stop-color="${u.accent}"/></radialGradient></defs>
 <circle class="avatar-bg" cx="100" cy="110" r="96" fill="#e3f3ed"/>
 <g class="lijf">
@@ -50,7 +54,7 @@ export function avatarSvg(p) {
 <g class="hand"><circle cx="168" cy="80" r="14" fill="${u.kleur}"/><path d="M160 92l-14 16" stroke="${u.kleur}" stroke-width="10" stroke-linecap="round"/></g>
 </g></svg>`;
   }
-  return `<svg class="avatar" viewBox="0 0 200 220" role="img" aria-label="${p.naam}, ${p.leeftijd} jaar, ${p.rol}">
+  return `<svg class="avatar" viewBox="0 0 200 220" role="img" aria-label="${label}">
 <circle class="avatar-bg" cx="100" cy="110" r="96" fill="#e3f3ed"/>
 <g class="lijf">
 ${u.haarstijl === 'lang' ? haar('lang', u.haar) : ''}
@@ -71,24 +75,27 @@ ${u.bril ? '<g fill="none" stroke="#1d2521" stroke-width="3"><circle cx="82" cy=
 }
 
 // ── Speler ───────────────────────────────────────────────────────────
-function maakSpeler(root, persona, regels, { titel = 'Jouw persoonlijke uitleg' } = {}) {
+function maakSpeler(root, persona, regels, { titel, taal = 'nl' } = {}) {
   stopSpraak();
+  const T = teksten(taal);
+  const L = T.speler;
+  const spraak = T.spraak;
   const duur = Math.round(regels.join(' ').length / 14);
   root.innerHTML = `<div class="speler" data-persona="${persona.id}">
   <div class="speler-scherm">
-    <div class="speler-avatar">${avatarSvg(persona)}</div>
-    <div class="speler-ballon" aria-live="off"><p class="speler-titel">${titel}</p><p class="speler-tekst">${persona.intro}</p></div>
-    <button type="button" class="speler-start" data-start><span aria-hidden="true">▶</span>Bekijk uitleg<small>± ${duur} sec</small></button>
+    <div class="speler-avatar">${avatarSvg(persona, taal)}</div>
+    <div class="speler-ballon" aria-live="off"><p class="speler-titel">${titel || L.titel}</p><p class="speler-tekst">${persona.intro}</p></div>
+    <button type="button" class="speler-start" data-start><span aria-hidden="true">▶</span>${L.bekijk}<small>${L.sec(duur)}</small></button>
   </div>
   <div class="speler-balk">
-    <button type="button" class="speler-knop" data-afspelen aria-label="Afspelen">▶</button>
-    <button type="button" class="speler-knop" data-volgende aria-label="Volgende zin">⏭</button>
+    <button type="button" class="speler-knop" data-afspelen aria-label="${L.afspelen}">▶</button>
+    <button type="button" class="speler-knop" data-volgende aria-label="${L.volgendeZin}">⏭</button>
     <div class="speler-voortgang" aria-hidden="true"><i></i></div>
     <span class="speler-teller">0/${regels.length}</span>
-    ${kanSpreken() ? '<button type="button" class="speler-knop" data-geluid aria-pressed="true" aria-label="Geluid aan">🔊</button>' : ''}
+    ${kanSpreken(spraak) ? `<button type="button" class="speler-knop" data-geluid aria-pressed="true" aria-label="${L.geluidAan}">🔊</button>` : ''}
   </div>
-  <p class="speler-label">${persona.naam}${persona.leeftijd ? ` (${persona.leeftijd})` : ''} is een digitale, fictieve persona. De uitleg wordt op je eigen apparaat gemaakt; er gaan geen gegevens naar buiten.</p>
-  <details class="speler-tekstversie"><summary>Lees de uitleg als tekst</summary><ol>${regels.map((r) => `<li>${r}</li>`).join('')}</ol></details>
+  <p class="speler-label">${L.label(persona)}</p>
+  <details class="speler-tekstversie"><summary>${L.tekstversie}</summary><ol>${regels.map((r) => `<li>${r}</li>`).join('')}</ol></details>
 </div>`;
 
   const s = root.querySelector('.speler');
@@ -134,7 +141,7 @@ function maakSpeler(root, persona, regels, { titel = 'Jouw persoonlijke uitleg' 
       s.classList.remove('speelt');
       s.classList.add('klaar');
       afspelen.textContent = '↻';
-      afspelen.setAttribute('aria-label', 'Opnieuw afspelen');
+      afspelen.setAttribute('aria-label', L.opnieuw);
       return;
     }
     const zin = regels[i];
@@ -146,10 +153,10 @@ function maakSpeler(root, persona, regels, { titel = 'Jouw persoonlijke uitleg' 
       svg.classList.remove('praat');
       if (speelt) timer = setTimeout(() => toon(i + 1), 450);
     };
-    const stem = geluid ? lokaleStem('nl-NL') : null;
+    const stem = geluid ? lokaleStem(spraak) : null;
     if (stem) {
-      const u = new SpeechSynthesisUtterance(voorSpraak(zin));
-      u.lang = 'nl-NL';
+      const u = new SpeechSynthesisUtterance(voorSpraak(zin, taal));
+      u.lang = spraak;
       u.rate = 1;
       u.pitch = persona.id === 'henk' ? 0.85 : persona.id === 'sanne' || persona.id === 'ilse' ? 1.15 : 1;
       u.voice = stem;
@@ -168,7 +175,7 @@ function maakSpeler(root, persona, regels, { titel = 'Jouw persoonlijke uitleg' 
     s.classList.add('speelt');
     s.classList.remove('klaar');
     afspelen.textContent = '⏸';
-    afspelen.setAttribute('aria-label', 'Pauzeren');
+    afspelen.setAttribute('aria-label', L.pauzeren);
     toon(i < 0 || i >= regels.length ? 0 : i);
     try {
       window.plausible && window.plausible('Uitleg bekeken', { props: { persona: persona.id } });
@@ -181,7 +188,7 @@ function maakSpeler(root, persona, regels, { titel = 'Jouw persoonlijke uitleg' 
     stopAlles();
     s.classList.remove('speelt');
     afspelen.textContent = '▶';
-    afspelen.setAttribute('aria-label', 'Afspelen');
+    afspelen.setAttribute('aria-label', L.afspelen);
   };
 
   s.querySelector('[data-start]').addEventListener('click', start);
@@ -198,7 +205,7 @@ function maakSpeler(root, persona, regels, { titel = 'Jouw persoonlijke uitleg' 
     geluid = !geluid;
     geluidKnop.textContent = geluid ? '🔊' : '🔇';
     geluidKnop.setAttribute('aria-pressed', String(geluid));
-    geluidKnop.setAttribute('aria-label', geluid ? 'Geluid aan' : 'Geluid uit');
+    geluidKnop.setAttribute('aria-label', geluid ? L.geluidAan : L.geluidUit);
     if (speelt) toon(i);
   });
   return s;
@@ -219,23 +226,24 @@ function laadManifest() {
 
 function videoSpeler(root, persona, plan, manifest, regels) {
   stopSpraak();
+  const L = teksten('nl').speler;
   const clips = manifest[persona.id];
   root.innerHTML = `<div class="speler speler-video" data-persona="${persona.id}">
   <div class="video-scherm">
-    <video playsinline preload="metadata" aria-label="Uitlegvideo door ${persona.naam}"></video>
+    <video playsinline preload="metadata" aria-label="${L.videoLabel(persona.naam)}"></video>
     <p class="video-ondertitel" aria-live="polite"></p>
-    <span class="ai-label">AI-gegenereerde video · fictief persoon</span>
-    <button type="button" class="speler-start" data-start><span aria-hidden="true">▶</span>Bekijk uitleg<small>${plan.length} korte clips</small></button>
+    <span class="ai-label">${L.aiLabel}</span>
+    <button type="button" class="speler-start" data-start><span aria-hidden="true">▶</span>${L.bekijk}<small>${L.clips(plan.length)}</small></button>
   </div>
   <div class="speler-balk">
-    <button type="button" class="speler-knop" data-afspelen aria-label="Afspelen">▶</button>
-    <button type="button" class="speler-knop" data-volgende aria-label="Volgende clip">⏭</button>
+    <button type="button" class="speler-knop" data-afspelen aria-label="${L.afspelen}">▶</button>
+    <button type="button" class="speler-knop" data-volgende aria-label="${L.volgendeClip}">⏭</button>
     <div class="speler-voortgang" aria-hidden="true"><i></i></div>
     <span class="speler-teller">0/${plan.length}</span>
-    <button type="button" class="speler-knop" data-geluid aria-pressed="true" aria-label="Geluid aan">🔊</button>
+    <button type="button" class="speler-knop" data-geluid aria-pressed="true" aria-label="${L.geluidAan}">🔊</button>
   </div>
-  <p class="speler-label">${persona.naam} is een fictieve persoon. Deze video is gemaakt met AI. Je persoonlijke bedragen staan alleen in de ondertiteling en blijven op je eigen apparaat.</p>
-  <details class="speler-tekstversie"><summary>Lees de uitleg als tekst</summary><ol>${regels.map((r) => `<li>${r}</li>`).join('')}</ol></details>
+  <p class="speler-label">${L.videoUitleg(persona.naam)}</p>
+  <details class="speler-tekstversie"><summary>${L.tekstversie}</summary><ol>${regels.map((r) => `<li>${r}</li>`).join('')}</ol></details>
 </div>`;
   const s = root.querySelector('.speler');
   const video = s.querySelector('video');
@@ -251,7 +259,7 @@ function videoSpeler(root, persona, plan, manifest, regels) {
       s.classList.remove('speelt');
       s.classList.add('klaar');
       afspelen.textContent = '↻';
-      afspelen.setAttribute('aria-label', 'Opnieuw afspelen');
+      afspelen.setAttribute('aria-label', L.opnieuw);
       return;
     }
     const stap = plan[i];
@@ -267,7 +275,7 @@ function videoSpeler(root, persona, plan, manifest, regels) {
     s.classList.add('speelt');
     s.classList.remove('klaar');
     afspelen.textContent = '⏸';
-    afspelen.setAttribute('aria-label', 'Pauzeren');
+    afspelen.setAttribute('aria-label', L.pauzeren);
     if (i < 0 || i >= plan.length) laad(0);
     else video.play().catch(() => {});
     try {
@@ -280,7 +288,7 @@ function videoSpeler(root, persona, plan, manifest, regels) {
     video.pause();
     s.classList.remove('speelt');
     afspelen.textContent = '▶';
-    afspelen.setAttribute('aria-label', 'Afspelen');
+    afspelen.setAttribute('aria-label', L.afspelen);
   };
   s.querySelector('[data-start]').addEventListener('click', start);
   afspelen.addEventListener('click', () => (s.classList.contains('speelt') ? pauze() : start()));
@@ -297,9 +305,11 @@ function videoSpeler(root, persona, plan, manifest, regels) {
   return s;
 }
 
-/** Uitleg bij een berekening: echte AI-video als die klaarstaat, anders de getekende persona */
-export async function uitlegBijResultaat(root, calc, invoer, uitkomst) {
-  const { persona, regels } = maakScript(calc, invoer, uitkomst);
+/** Uitleg bij een berekening: echte AI-video als die klaarstaat (alleen
+ *  Nederlands), anders de getekende persona in de taal van de pagina. */
+export async function uitlegBijResultaat(root, calc, invoer, uitkomst, taal = paginaTaal()) {
+  const { persona, regels } = maakScript(calc, invoer, uitkomst, undefined, { taal });
+  if (taal !== 'nl') return maakSpeler(root, persona, regels, { taal });
   const plan = videoPlan(calc, uitkomst, persona);
   const manifest = plan ? await laadManifest() : {};
   if (!root.isConnected) return null;
@@ -308,19 +318,10 @@ export async function uitlegBijResultaat(root, calc, invoer, uitkomst) {
 }
 
 /** Korte introductie door Buddy (homepage) */
-export function introSpeler(root) {
-  const b = PERSONAS.buddy;
-  return maakSpeler(
-    root,
-    { ...b, intro: 'Hoi, ik ben Buddy! Ik help je om geen geld te laten liggen.' },
-    [
-      'Hoi, ik ben Buddy! Ik help je om geen geld te laten liggen.',
-      'Veel mensen hebben recht op zorgtoeslag, huurtoeslag of geld voor hun kinderen, maar vragen het nooit aan.',
-      'Beantwoord hieronder vier korte vragen. Je hoeft niet in te loggen en je gegevens blijven op je eigen telefoon.',
-      'Daarna leg ik, of een van mijn collega’s, je uitkomst persoonlijk uit. Succes!',
-    ],
-    { titel: 'Welkom bij ToeslagBuddy' },
-  );
+export function introSpeler(root, taal = paginaTaal()) {
+  const b = personas(taal).buddy;
+  const t = teksten(taal).uitleg;
+  return maakSpeler(root, { ...b, intro: t.intro[0] }, t.intro, { titel: t.introTitel, taal });
 }
 
 export { kiesPersona };

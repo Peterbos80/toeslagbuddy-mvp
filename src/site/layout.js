@@ -1,67 +1,18 @@
 import config from '../../site.config.js';
 import { JAAR, GECONTROLEERD_OP } from '../calc/params.js';
+import { teksten } from '../i18n/i18n.js';
 
 export const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
-const NAV = [
-  ['/', 'Alle toeslagen'],
-  ['/zorgtoeslag-berekenen/', 'Zorgtoeslag'],
-  ['/huurtoeslag-berekenen/', 'Huurtoeslag'],
-  ['/kindgebonden-budget-berekenen/', 'Kindgebonden budget'],
-  ['/alle-regelingen/', 'Alle regelingen'],
-  ['/zzp-toeslagen/', 'Zzp'],
-  ['/pro/', 'Voor professionals'],
-];
-
-const FOOTER = [
-  ['Rekenhulpen', [
-    ['/', 'Alle toeslagen berekenen'],
-    ['/zorgtoeslag-berekenen/', 'Zorgtoeslag berekenen'],
-    ['/huurtoeslag-berekenen/', 'Huurtoeslag berekenen'],
-    ['/kindgebonden-budget-berekenen/', 'Kindgebonden budget berekenen'],
-    ['/kinderopvangtoeslag-berekenen/', 'Kinderopvangtoeslag berekenen'],
-    ['/kinderbijslag-berekenen/', 'Kinderbijslag berekenen'],
-    ['/toetsingsinkomen/', 'Toetsingsinkomen berekenen'],
-  ]],
-  ['Voor wie', [
-    ['/toeslagen-student/', 'Studenten'],
-    ['/toeslagen-alleenstaande-ouder/', 'Alleenstaande ouders'],
-    ['/toeslagen-aow/', 'AOW’ers en gepensioneerden'],
-    ['/zzp-toeslagen/', 'Zzp’ers: toeslagbewaker'],
-    ['/regelingen-laag-inkomen/', 'Regelingen bij een laag inkomen'],
-    ['/pro/', 'Bewindvoerders en budgetcoaches'],
-  ]],
-  ['Uitleg', [
-    ['/inkomensgrenzen-toeslagen/', `Inkomensgrenzen ${JAAR}`],
-    ['/vermogensgrens-toeslagen/', `Vermogensgrenzen ${JAAR}`],
-    ['/toeslagpartner/', 'Wat is een toeslagpartner?'],
-    ['/toeslagen-aanvragen/', 'Toeslagen aanvragen'],
-    ['/toeslag-terugbetalen/', 'Terugbetalen voorkomen'],
-    ['/toeslagen-2027/', 'Toeslagen 2027'],
-    ['/alle-regelingen/', 'Alle regelingen op een rij'],
-    ['/nieuws/', 'Nieuws over toeslagen'],
-    ['/zorgverzekering-overstappen/', `Zorgverzekering ${JAAR + 1} overstappen`],
-  ]],
-  ['ToeslagBuddy', [
-    ['/over/', 'Over ons'],
-    ['/bronnen/', 'Bronnen en rekenregels'],
-    ['/contact/', 'Contact'],
-    ['/privacy/', 'Privacy en cookies'],
-    ['/disclaimer/', 'Disclaimer'],
-    ['/colofon/', 'Colofon en bedrijfsgegevens'],
-    ['/toegankelijkheid/', 'Toegankelijkheid'],
-    ['/pro/beveiliging/', 'Beveiliging (voor kantoren)'],
-  ]],
-];
-
-export const GEEN_JS = 'Deze rekenhulp werkt alleen met JavaScript. Zet JavaScript aan in je browser, of gebruik een andere browser. De uitleg op deze pagina kun je wel gewoon lezen.';
+// Menu, voettekst en vaste teksten staan per taal in src/i18n (site).
+export const GEEN_JS = teksten('nl').site.geenJs;
 
 // Pro- en beheerpagina's: daar kunnen cliënt- of accountgegevens in de pagina
 // staan. Geen scripts van derden (statistieken, advertenties), een strikte CSP
 // en een framebuster.
 export function afgeschermd(page) {
   const slug = page.slug || '';
-  return !!(page.pro || page.beheer || slug.startsWith('/pro/') || slug.startsWith('/beheer/'));
+  return !!(page.pro || page.beheer || slug.startsWith('/pro/') || slug.startsWith('/en/pro/') || slug.startsWith('/beheer/'));
 }
 
 const origin = (u) => {
@@ -125,16 +76,17 @@ export function csp(page) {
 }
 
 // Bedrijfsgegevens (art. 3:15d BW), uit site.config.js → bedrijf
-export function bedrijfsgegevens() {
+export function bedrijfsgegevens(taal = 'nl') {
   const b = config.bedrijf || {};
+  const w = teksten(taal).site.bedrijf;
   const naam = b.naam || b.handelsnaam || config.naam;
   const email = b.email || 'info@toeslagbuddy.nl';
   const delen = [
-    `<strong>${esc(naam)}</strong>${b.handelsnaam && b.handelsnaam !== naam ? `, handelend onder de naam ${esc(b.handelsnaam)}` : ''}`,
-    b.adres ? esc(b.adres) : b.vestigingsplaats ? `gevestigd in ${esc(b.vestigingsplaats)}` : '',
-    `e-mail: <a href="mailto:${esc(email)}">${esc(email)}</a>`,
-    b.kvk ? `KvK ${esc(b.kvk)}` : '',
-    b.btwId ? `btw-id ${esc(b.btwId)}` : '',
+    `<strong>${esc(naam)}</strong>${b.handelsnaam && b.handelsnaam !== naam ? `, ${w.handelend} ${esc(b.handelsnaam)}` : ''}`,
+    b.adres ? esc(b.adres) : b.vestigingsplaats ? `${w.gevestigd} ${esc(b.vestigingsplaats)}` : '',
+    `${w.email}: <a href="mailto:${esc(email)}">${esc(email)}</a>`,
+    b.kvk ? `${w.kvk} ${esc(b.kvk)}` : '',
+    b.btwId ? `${w.btw} ${esc(b.btwId)}` : '',
   ].filter(Boolean);
   return `<p class="bedrijf">${delen.join(' · ')}</p>`;
 }
@@ -217,17 +169,32 @@ export function partnersJson() {
   return JSON.stringify(actief).replace(/</g, '\\u003c');
 }
 
+// Link in de voettekst; een derde element is de taal van het doel (hreflang)
+const voetLink = ([u, n, taal]) => `<li><a href="${u}"${taal ? ` hreflang="${taal}"` : ''}>${n}</a></li>`;
+
+// hreflang-alternatieven (alleen bij echte vertalingen) met x-default = Nederlands
+function alternatieven(page) {
+  const h = page.hreflang;
+  if (!h) return '';
+  return [...Object.entries(h), ['x-default', h.nl]].map(([taal, slug]) => `\n<link rel="alternate" hreflang="${taal}" href="${config.url}${slug}">`).join('');
+}
+
 export function layout(page, body) {
+  const taal = page.taal || 'nl';
+  const T = teksten(taal);
+  const S = T.site;
   const url = config.url + page.slug;
-  const titel = page.slug === '/' ? page.title : `${page.title} | ${config.naam}`;
-  const kruimel = page.slug === '/' ? [] : [['/', 'Home'], [page.slug, page.kort || page.h1]];
+  const thuis = page.slug === T.home;
+  const titel = thuis ? page.title : `${page.title} | ${config.naam}`;
+  const kruimel = thuis ? [] : [[T.home, S.home], [page.slug, page.kort || page.h1]];
+  const wissel = page.wissel || teksten(S.wissel.naar).home;
   const schemas = [
     {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       name: config.naam,
-      url: config.url + '/',
-      inLanguage: 'nl-NL',
+      url: config.url + T.home,
+      inLanguage: T.inLanguage,
       ...(config.instagram.account ? { sameAs: [`https://www.instagram.com/${config.instagram.account}/`] } : {}),
     },
     ...(kruimel.length
@@ -244,8 +211,8 @@ export function layout(page, body) {
           name: page.h1,
           url,
           applicationCategory: 'FinanceApplication',
-          operatingSystem: 'Alle',
-          inLanguage: 'nl-NL',
+          operatingSystem: S.besturingssysteem,
+          inLanguage: T.inLanguage,
           offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
           dateModified: GECONTROLEERD_OP,
         }]
@@ -264,17 +231,17 @@ export function layout(page, body) {
   ];
 
   return `<!doctype html>
-<html lang="nl">
+<html lang="${taal}">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="${esc(csp(page))}">
 ${afgeschermd(page) ? `<script src="/js/framebuster.js?v=${page.versie}"></script>\n` : ''}<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(titel)}</title>
 <meta name="description" content="${esc(page.description)}">
-<link rel="canonical" href="${url}">${page.noindex ? '\n<meta name="robots" content="noindex">' : ''}
+<link rel="canonical" href="${url}">${alternatieven(page)}${page.noindex ? '\n<meta name="robots" content="noindex">' : ''}
 <meta name="theme-color" content="#0d7a5f">
 <meta property="og:type" content="website">
-<meta property="og:locale" content="nl_NL">
+<meta property="og:locale" content="${T.ogLocale}">\n<meta property="og:locale:alternate" content="${teksten(S.wissel.naar).ogLocale}">
 <meta property="og:site_name" content="${config.naam}">
 <meta property="og:title" content="${esc(page.title)}">
 <meta property="og:description" content="${esc(page.description)}">
@@ -283,37 +250,33 @@ ${afgeschermd(page) ? `<script src="/js/framebuster.js?v=${page.versie}"></scrip
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/manifest.webmanifest">
-<link rel="alternate" type="application/rss+xml" title="Nieuws over toeslagen" href="/nieuws/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="${S.rss}" href="/nieuws/feed.xml">
 <link rel="preload" href="/fonts/nunito-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/site.css?v=${page.versie}">
 ${schemas.map((s) => `<script type="application/ld+json">${JSON.stringify(s).replace(/</g, '\\u003c')}</script>`).join('\n')}
 ${analytics(page)}${adsenseHead(page)}</head>
 <body>
-<a class="skip" href="#main">Naar de inhoud</a>
+<a class="skip" href="#main">${S.naarInhoud}</a>
 <header class="site"><div class="wrap">
-<a class="logo" href="/"><span aria-hidden="true">€</span>${config.naam}</a>
-<button type="button" class="menu-knop" aria-expanded="false" aria-controls="hoofdmenu">Menu</button>
-<nav class="hoofd" id="hoofdmenu" aria-label="Hoofdmenu">${NAV.map(([u, n]) => `<a href="${u}"${u === page.slug ? ' aria-current="page"' : ''}>${n}</a>`).join('')}</nav>
+<a class="logo" href="${T.home}"><span aria-hidden="true">€</span>${config.naam}</a>
+<button type="button" class="menu-knop" aria-expanded="false" aria-controls="hoofdmenu">${S.menu}</button>
+<nav class="hoofd" id="hoofdmenu" aria-label="${S.hoofdmenu}">${S.nav.map(([u, n]) => `<a href="${u}"${u === page.slug ? ' aria-current="page"' : ''}>${n}</a>`).join('')}</nav>
+<a class="taalwissel" href="${wissel}" hreflang="${S.wissel.naar}" lang="${S.wissel.naar}"><span class="taal-lang">${S.wissel.tekst}</span><span class="taal-kort" aria-hidden="true">${S.wissel.naar.toUpperCase()}</span></a>
 </div></header>
 <main id="main">
 <div class="wrap">
-${!page.calc && (afgeschermd(page) || page.script) ? '<noscript><p class="geen-js">Dit onderdeel werkt alleen met JavaScript. Zet JavaScript aan in je browser om verder te gaan.</p></noscript>\n' : ''}${kruimel.length ? `<nav class="kruimel" aria-label="Kruimelpad">${kruimel.map(([u, n], i) => (i < kruimel.length - 1 ? `<a href="${u}">${esc(n)}</a> › ` : esc(n))).join('')}</nav>` : ''}
+${!page.calc && (afgeschermd(page) || page.script) ? `<noscript><p class="geen-js">${S.geenJsAlgemeen}</p></noscript>\n` : ''}${kruimel.length ? `<nav class="kruimel" aria-label="${S.kruimelpad}">${kruimel.map(([u, n], i) => (i < kruimel.length - 1 ? `<a href="${u}">${esc(n)}</a> › ` : esc(n))).join('')}</nav>` : ''}
 ${body}
-<aside class="hulp" aria-label="Hulp">
-<h2>Hulp nodig?</h2>
-<ul>
-<li><strong>Vragen over je eigen toeslag?</strong> Bel gratis de BelastingTelefoon: <a href="tel:08000543">0800 0543</a>.</li>
-<li><strong>Hulp bij het aanvragen?</strong> Ga naar het Informatiepunt Digitale Overheid in de bibliotheek. Daar helpen ze je gratis.</li>
-<li><strong>Geldzorgen?</strong> Je gemeente helpt gratis met schuldhulp. Zie <a href="/regelingen-laag-inkomen/">regelingen bij een laag inkomen</a>.</li>
-</ul>
+<aside class="hulp" aria-label="${S.hulpLabel}">
+${S.hulp}
 </aside>
 </div>
 </main>
 <footer class="site"><div class="wrap">
-<div class="kolommen">${FOOTER.map(([kop, links]) => `<div><h2>${kop}</h2><ul>${links.map(([u, n]) => `<li><a href="${u}">${n}</a></li>`).join('')}</ul></div>`).join('')}</div>
-${config.instagram.account ? `<p>Volg ons op <a href="https://www.instagram.com/${esc(config.instagram.account)}/" rel="noopener">Instagram @${esc(config.instagram.account)}</a> voor toeslag-tips.</p>` : ''}
-${bedrijfsgegevens()}
-<p class="disclaimer">${config.naam} is een onafhankelijke rekenhulp en hoort <strong>niet</strong> bij de Belastingdienst, Dienst Toeslagen of de SVB. De uitkomsten zijn een indicatie, gebaseerd op de officiële rekenregels voor ${JAAR}. Aan de berekening kun je geen rechten ontlenen. Vraag toeslagen altijd aan via <a href="https://www.toeslagen.nl" rel="noopener">toeslagen.nl</a>. Bedragen gecontroleerd op ${new Date(GECONTROLEERD_OP).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })}.</p>
+<div class="kolommen">${S.footer.map(([kop, links]) => `<div><h2>${kop}</h2><ul>${links.map(voetLink).join('')}</ul></div>`).join('')}</div>
+${config.instagram.account ? `<p>${S.instagram(`https://www.instagram.com/${esc(config.instagram.account)}/`, esc(config.instagram.account))}</p>` : ''}
+${bedrijfsgegevens(taal)}
+<p class="disclaimer">${S.disclaimer(config.naam, JAAR, new Date(GECONTROLEERD_OP).toLocaleDateString(T.locale, { day: 'numeric', month: 'long', year: 'numeric' }))}</p>
 </div></footer>
 <script type="application/json" id="tb-config">${configJson(page)}</script>
 <script type="module" src="/js/site.js?v=${page.versie}"></script>

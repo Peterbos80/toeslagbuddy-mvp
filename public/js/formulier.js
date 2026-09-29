@@ -3,16 +3,14 @@
 // beheerder; diens privé-adres staat nergens op de site. Geen Supabase
 // ingesteld? Dan tonen we een link om te mailen naar info@toeslagbuddy.nl.
 import { CONFIG } from './config.js';
+import { teksten, paginaTaal } from './i18n.js';
 
 const INFO = 'info@toeslagbuddy.nl';
 export const MIN_INVULTIJD = 3000; // ms; de database controleert dit ook
 const APART = new Set(['email', 'naam', 'bericht', 'botcheck', 'akkoord']);
 
-const FOUTEN = {
-  te_veel: 'Je hebt net al een paar berichten gestuurd. Probeer het over een uur opnieuw.',
-  te_snel: 'Dat ging erg snel. Wacht een paar seconden en verstuur het opnieuw.',
-  ongeldig: 'Controleer je invoer. Is je bericht niet te lang, en klopt je e-mailadres?',
-};
+const T = () => teksten(paginaTaal()).formulier;
+const FOUTEN = ['te_veel', 'te_snel', 'ongeldig'];
 
 function zet(form, tekst, soort, mailLink = false) {
   const status = form.querySelector('.formulier-status');
@@ -53,28 +51,28 @@ function tekstVan(form) {
 export async function verstuur(form, extra = {}) {
   // Spam-robot: doe alsof het gelukt is
   if (form.botcheck && form.botcheck.checked) {
-    zet(form, 'Bedankt! Je bericht is verstuurd.', 'ok');
+    zet(form, T().robot, 'ok');
     return false;
   }
   const leeg = [...form.querySelectorAll('[required]')].find((el) => (el.type === 'checkbox' ? !el.checked : !el.value.trim()));
   if (leeg) {
-    zet(form, 'Vul alle verplichte velden in.', 'fout');
+    zet(form, T().verplicht, 'fout');
     leeg.focus();
     return false;
   }
   const email = form.querySelector('[type=email]');
   if (email && email.value && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value.trim())) {
-    zet(form, 'Controleer je e-mailadres.', 'fout');
+    zet(form, T().email, 'fout');
     email.focus();
     return false;
   }
   if (!CONFIG.supabaseUrl || !CONFIG.supabaseAnonKey) {
-    zet(form, 'Dit formulier werkt nog niet. Mail je bericht naar ', 'fout', true);
+    zet(form, T().nietIngesteld, 'fout', true);
     return false;
   }
   const knop = form.querySelector('button[type=submit]');
   if (knop) knop.disabled = true;
-  zet(form, 'Bezig met versturen…', 'bezig');
+  zet(form, T().bezig, 'bezig');
   if (!form.dataset.gestart) form.dataset.gestart = String(Date.now());
   // Heel snel ingevuld (of automatisch)? Dan wachten we even; bots haken hier af
   const wacht = Number(form.dataset.gestart) + MIN_INVULTIJD + 200 - Date.now();
@@ -97,12 +95,12 @@ export async function verstuur(form, extra = {}) {
     });
     if (!res.ok) {
       const r = await res.json().catch(() => ({}));
-      const code = Object.keys(FOUTEN).find((k) => String(r.message || '') === k);
-      if (code) zet(form, FOUTEN[code], 'fout');
-      else zet(form, 'Versturen is niet gelukt. Je tekst staat er nog. Probeer het over een paar minuten opnieuw, of mail naar ', 'fout', true);
+      const code = FOUTEN.find((k) => String(r.message || '') === k);
+      if (code) zet(form, T()[code], 'fout');
+      else zet(form, T().mislukt, 'fout', true);
       return false;
     }
-    zet(form, 'Bedankt! Je bericht is verstuurd. We reageren meestal binnen één werkdag.', 'ok');
+    zet(form, T().ok, 'ok');
     form.reset();
     delete form.dataset.gestart;
     try {
@@ -113,7 +111,7 @@ export async function verstuur(form, extra = {}) {
     return true;
   } catch {
     // Geen internet (R1): de invoer blijft staan, opnieuw proberen kan
-    zet(form, 'Versturen is niet gelukt: er is geen verbinding. Je tekst staat er nog. Controleer je internet en klik opnieuw op de knop.', 'fout');
+    zet(form, T().offline, 'fout');
     return false;
   } finally {
     if (knop) knop.disabled = false;

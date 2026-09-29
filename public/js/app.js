@@ -5,15 +5,21 @@ import {
   kinderopvangtoeslag,
   kinderbijslag,
   allesCheck,
-  euro,
+  euro as euroTaal,
 } from './toeslagen.js';
 import { JAAR, KINDEROPVANGTOESLAG } from './params.js';
 import { zzpCheck, herinneringIcs } from './zzp.js';
 import { uitlegBijResultaat } from './persona.js';
 import { CONFIG } from './config.js';
 import { valideer } from './validatie.js';
+import { teksten, paginaTaal } from './i18n.js';
 
-const PARTNERS = CONFIG.partners || {};
+// Taal uit <html lang>; alle teksten van de uitkomst komen uit src/i18n (app)
+const TAAL = paginaTaal();
+const T = teksten(TAAL).app;
+const euro = (n, d = 0) => euroTaal(n, d, TAAL);
+// Partnerlinks zijn Nederlandse aanbieders: alleen op Nederlandse pagina's
+const PARTNERS = TAAL === 'nl' ? CONFIG.partners || {} : {};
 
 const getal = (v) => {
   if (v === null || v === undefined) return 0;
@@ -39,6 +45,7 @@ function lees(form) {
     uurprijs: getal(r.querySelector('[name=uurprijs]').value),
   }));
   return {
+    taal: TAAL,
     partner: ja('partner'),
     inkomen: getal(d.inkomen),
     vermogen: getal(d.vermogen),
@@ -70,23 +77,8 @@ function lees(form) {
   };
 }
 
-const TIPS = {
-  kwijtschelding: ['Kwijtschelding gemeentelijke belastingen', 'Met een laag inkomen hoef je afvalstoffenheffing, rioolheffing of waterschapsbelasting soms niet te betalen.', '/regelingen-laag-inkomen/#kwijtschelding'],
-  'bijzondere-bijstand': ['Bijzondere bijstand', 'Voor noodzakelijke kosten die je zelf niet kunt betalen, zoals een nieuwe wasmachine of eigen risico.', '/regelingen-laag-inkomen/#bijzondere-bijstand'],
-  'individuele-inkomenstoeslag': ['Individuele inkomenstoeslag', 'Een jaarlijks bedrag van je gemeente als je al lang een laag inkomen hebt.', '/regelingen-laag-inkomen/#individuele-inkomenstoeslag'],
-  kindregelingen: ['Regelingen voor kinderen', 'Leergeld, Jeugdfonds Sport & Cultuur en de gemeentelijke meedoenregeling betalen schoolspullen, sport of een fiets.', '/regelingen-laag-inkomen/#kinderen'],
-  toeslagenwet: ['Toeslag op je uitkering (Toeslagenwet)', 'Is je uitkering lager dan het sociaal minimum? Het UWV kan het aanvullen.', '/regelingen-laag-inkomen/#toeslagenwet'],
-  'aio-aanvulling': ['AIO-aanvulling', 'Geen volledige AOW en weinig ander inkomen? De SVB kan je inkomen aanvullen.', '/regelingen-laag-inkomen/#aio'],
-  'heffingskorting-partner': ['Heffingskorting voor de minstverdienende partner', 'Alleen als die partner vóór 1963 geboren is.', '/regelingen-laag-inkomen/#heffingskorting'],
-};
-
-const NAMEN = {
-  zorgtoeslag: ['Zorgtoeslag', '/zorgtoeslag-berekenen/'],
-  huurtoeslag: ['Huurtoeslag', '/huurtoeslag-berekenen/'],
-  kindgebondenBudget: ['Kindgebonden budget', '/kindgebonden-budget-berekenen/'],
-  kinderopvangtoeslag: ['Kinderopvangtoeslag', '/kinderopvangtoeslag-berekenen/'],
-  kinderbijslag: ['Kinderbijslag', '/kinderbijslag-berekenen/'],
-};
+const TIPS = T.tips;
+const NAMEN = T.namen;
 
 const PARTNER_BIJ = {
   zorgtoeslag: ['zorgverzekering'],
@@ -114,20 +106,20 @@ function partnerBlokken(calc) {
 
 function deelBlok() {
   const url = location.origin + location.pathname;
-  const tekst = `Ik heb net gecheckt op welke toeslagen ik recht heb. Doe jij het ook? ${url}`;
-  return `<div class="delen"><p><strong>Ken je iemand die dit ook moet weten?</strong> Veel mensen laten geld liggen.</p>
-<a class="knop-licht" href="https://wa.me/?text=${encodeURIComponent(tekst)}" target="_blank" rel="noopener">Deel via WhatsApp</a>
-<button type="button" class="knop-licht" data-kopieer="${esc(url)}">Kopieer link</button></div>`;
+  const tekst = T.deelTekst(url);
+  return `<div class="delen"><p>${T.deelKop}</p>
+<a class="knop-licht" href="https://wa.me/?text=${encodeURIComponent(tekst)}" target="_blank" rel="noopener">${T.deelWhatsapp}</a>
+<button type="button" class="knop-licht" data-kopieer="${esc(url)}">${T.kopieer}</button></div>`;
 }
 
 function kaart(naam, r, extra = '') {
   if (!r) return '';
   if (!r.recht) {
-    return `<div class="resultaat geen"><h3>${naam}</h3><p class="bedrag">€ 0</p><p>${esc(r.reden || '')}</p>${extra}</div>`;
+    return `<div class="resultaat geen"><h3>${naam}</h3><p class="bedrag">${T.nul}</p><p>${esc(r.reden || '')}</p>${extra}</div>`;
   }
   return `<div class="resultaat"><h3>${naam}</h3>
-<p class="bedrag"><span data-telop="${r.perMaand}" data-dec="${Number.isInteger(r.perMaand) ? 0 : 2}">${euro(r.perMaand, Number.isInteger(r.perMaand) ? 0 : 2)}</span> <small>per maand</small></p>
-<p class="subtiel">${euro(r.perJaar)} per jaar (indicatie ${JAAR})</p>${extra}</div>`;
+<p class="bedrag"><span data-telop="${r.perMaand}" data-dec="${Number.isInteger(r.perMaand) ? 0 : 2}">${euro(r.perMaand, Number.isInteger(r.perMaand) ? 0 : 2)}</span> <small>${T.perMaand}</small></p>
+<p class="subtiel">${T.perJaarIndicatie(euro(r.perJaar), JAAR)}</p>${extra}</div>`;
 }
 
 // Geanimeerde balken: welk deel van het totaal komt uit welke toeslag
@@ -165,57 +157,57 @@ const RUW = {
   zorgtoeslag: (d) => zorgtoeslag(d),
   huurtoeslag: (d) => huurtoeslag(d),
   kindgebondenBudget: (d) => kindgebondenBudget(d),
-  kinderopvangtoeslag: (d) => kinderopvangtoeslag({ inkomen: d.inkomen, kinderen: d.opvang }),
+  kinderopvangtoeslag: (d) => kinderopvangtoeslag({ inkomen: d.inkomen, kinderen: d.opvang, taal: TAAL }),
   kinderbijslag: (d) => kinderbijslag(d),
   alles: (d) => allesCheck({ ...d, opvang: d.gebruiktOpvang ? d.opvang : [] }),
   zzp: (d) => zzpCheck(d),
   toetsingsinkomen: () => ({}),
 };
 
-const aanvragen = `<p class="volgende"><strong>Volgende stap:</strong> vraag aan via <a href="https://www.toeslagen.nl" rel="noopener" target="_blank">Mijn toeslagen</a> met je DigiD. <a href="/toeslagen-aanvragen/">Zo werkt het</a>.</p>`;
+const aanvragen = T.aanvragen;
 
 const reken = {
   zorgtoeslag(d) {
     const r = zorgtoeslag(d);
-    return kaart('Zorgtoeslag', r, r.recht ? aanvragen : '');
+    return kaart(NAMEN.zorgtoeslag[0], r, r.recht ? aanvragen : '');
   },
   huurtoeslag(d) {
     const r = huurtoeslag(d);
     let extra = '';
     if (r.recht) {
-      extra = `<ul class="uitleg"><li>Rekenhuur: ${euro(r.rekenhuur, 2)}${r.huurBovenGrens ? ' (je huur is hoger dan de grens, er wordt tot de grens gerekend)' : ''}</li>
-<li>Basishuur (betaal je zelf): ${euro(r.basishuur, 2)}</li>
-<li>Maximale huurtoeslag bij jouw huur: ${euro(r.maximaalPerMaand, 2)}</li>
-<li>Minder door je inkomen: ${euro(r.verminderingPerMaand, 2)}</li></ul>${aanvragen}`;
+      extra = `<ul class="uitleg"><li>${T.rekenhuur}: ${euro(r.rekenhuur, 2)}${r.huurBovenGrens ? T.bovenGrens : ''}</li>
+<li>${T.basishuur}: ${euro(r.basishuur, 2)}</li>
+<li>${T.maxHuur}: ${euro(r.maximaalPerMaand, 2)}</li>
+<li>${T.minderInkomen}: ${euro(r.verminderingPerMaand, 2)}</li></ul>${aanvragen}`;
     }
-    return kaart('Huurtoeslag', r, extra);
+    return kaart(NAMEN.huurtoeslag[0], r, extra);
   },
   kindgebondenBudget(d) {
     const r = kindgebondenBudget(d);
     const extra = r.recht
-      ? `<p class="subtiel">Maximaal ${euro(r.maximum)} per jaar, min ${euro(r.vermindering)} door je inkomen. Je krijgt het automatisch als je kinderbijslag en zorgtoeslag krijgt; anders vraag je het aan.</p>`
+      ? `<p class="subtiel">${T.kgbUitleg(euro(r.maximum), euro(r.vermindering))}</p>`
       : '';
-    return kaart('Kindgebonden budget', r, extra);
+    return kaart(NAMEN.kindgebondenBudget[0], r, extra);
   },
   kinderopvangtoeslag(d) {
-    const r = kinderopvangtoeslag({ inkomen: d.inkomen, kinderen: d.opvang });
+    const r = kinderopvangtoeslag({ inkomen: d.inkomen, kinderen: d.opvang, taal: TAAL });
     let extra = '';
     if (r.recht) {
       extra = `<ul class="uitleg">${r.perKind
         .map(
           (k, i) =>
-            `<li>Kind ${i + 1} (${k.soort}): ${Math.round(k.percentage * 1000) / 10}% van ${euro(k.vergoedbaar, 2)} × ${k.uren} uur = ${euro(k.toeslagPerMaand, 2)}${k.uurprijs > k.vergoedbaar ? ` <em>(je uurprijs is hoger dan het maximum van ${euro(KINDEROPVANGTOESLAG.maxUurprijs[k.soort], 2)})</em>` : ''}</li>`,
+            `<li>${T.kotRegel(i + 1, T.soortNaam[k.soort], Math.round(k.percentage * 1000) / 10, euro(k.vergoedbaar, 2), k.uren, euro(k.toeslagPerMaand, 2))}${k.uurprijs > k.vergoedbaar ? T.kotBoven(euro(KINDEROPVANGTOESLAG.maxUurprijs[k.soort], 2)) : ''}</li>`,
         )
-        .join('')}</ul><p>Je betaalt zelf ongeveer <strong>${euro(r.eigenBijdragePerMaand, 2)} per maand</strong>.</p>${aanvragen}`;
+        .join('')}</ul><p>${T.kotEigen(euro(r.eigenBijdragePerMaand, 2))}</p>${aanvragen}`;
     }
-    return kaart('Kinderopvangtoeslag', r, extra);
+    return kaart(NAMEN.kinderopvangtoeslag[0], r, extra);
   },
   kinderbijslag(d) {
     const r = kinderbijslag(d);
     const extra = r.recht
-      ? `<p>${euro(r.perKwartaal, 2)} per kwartaal. De SVB betaalt kinderbijslag elk kwartaal uit. Aanvragen gaat via <a href="https://www.svb.nl/kinderbijslag" rel="noopener" target="_blank">svb.nl</a>.</p>`
+      ? `<p>${T.kbUitleg(euro(r.perKwartaal, 2))}</p>`
       : '';
-    return kaart('Kinderbijslag', r, extra);
+    return kaart(NAMEN.kinderbijslag[0], r, extra);
   },
   alles(d) {
     const r = allesCheck({ ...d, opvang: d.gebruiktOpvang ? d.opvang : [] });
@@ -223,7 +215,7 @@ const reken = {
       .filter(([k]) => r[k])
       .map(([k, [naam, url]]) => {
         const x = r[k];
-        const bedrag = x.recht ? `${euro(x.perMaand, Number.isInteger(x.perMaand) ? 0 : 2)} p/m` : '—';
+        const bedrag = x.recht ? `${euro(x.perMaand, Number.isInteger(x.perMaand) ? 0 : 2)} ${T.pm}` : '—';
         const reden = x.recht ? '' : `<small>${esc(x.reden || '')}</small>`;
         return `<tr class="${x.recht ? 'ja' : 'nee'}"><th scope="row"><a href="${url}">${naam}</a>${reden}</th><td>${bedrag}</td></tr>`;
       })
@@ -231,18 +223,19 @@ const reken = {
     const tips = r.tips
       .map((t) => TIPS[t])
       .filter(Boolean)
-      .map(([titel, tekst, url]) => `<li><a href="${url}"><strong>${titel}</strong></a> – ${tekst}</li>`)
+      .map(([titel, tekst, url]) => `<li><a href="${url}"${T.tipsTaal ? ` hreflang="${T.tipsTaal}"` : ''}><strong>${titel}</strong></a>${T.tipsNoot} – ${tekst}</li>`)
       .join('');
     return `<div class="resultaat totaal">
-<h3>Jouw toeslagen in ${JAAR}</h3>
-<p class="bedrag"><span data-telop="${r.totaalPerMaand}" data-dec="0">${euro(r.totaalPerMaand)}</span> <small>per maand</small></p>
-<p class="subtiel">Dat is ongeveer ${euro(r.totaalPerJaar)} per jaar.</p>
+<h3>${T.jouwToeslagen(JAAR)}</h3>
+<p class="bedrag"><span data-telop="${r.totaalPerMaand}" data-dec="0">${euro(r.totaalPerMaand)}</span> <small>${T.perMaand}</small></p>
+<p class="subtiel">${T.ongeveerJaar(euro(r.totaalPerJaar))}</p>
 ${balken(r)}
 <table class="overzicht"><tbody>${rijen}</tbody></table>
 ${r.totaalPerJaar > 0 ? aanvragen : ''}
 </div>
-${tips ? `<div class="resultaat tips"><h3>Dit kun je misschien ook krijgen</h3><ul>${tips}</ul></div>` : ''}`;
+${tips ? `<div class="resultaat tips"><h3>${T.ookKrijgen}</h3><ul>${tips}</ul></div>` : ''}`;
   },
+  // De toeslagbewaker is (nog) alleen Nederlands; deze teksten staan daarom niet in src/i18n
   zzp(d) {
     const r = zzpCheck(d);
     // Het dashboard (zzp-dashboard.js) luistert mee om deze maand te kunnen bewaren
@@ -268,10 +261,10 @@ ${r.status === 'goed' ? '' : `<p><strong>Advies:</strong> geef in <a href="https
   toetsingsinkomen(d) {
     const jaarloon = d.brutoMaand * 12 * 1.08 + (d.dertiendeMaand ? d.brutoMaand : 0);
     const totaal = Math.max(0, jaarloon + d.overig - d.aftrek);
-    return `<div class="resultaat"><h3>Je geschatte toetsingsinkomen</h3>
-<p class="bedrag">${euro(totaal)} <small>per jaar</small></p>
-<p class="subtiel">Bruto maandloon × 12, plus 8% vakantiegeld${d.dertiendeMaand ? ', plus 13e maand' : ''}${d.overig ? ', plus overig inkomen' : ''}${d.aftrek ? ', min aftrekposten' : ''}.</p>
-<p><a class="knop" href="/#check" data-inkomen="${Math.round(totaal)}">Gebruik dit in de toeslagen-check →</a></p></div>`;
+    return `<div class="resultaat"><h3>${T.toetsKop}</h3>
+<p class="bedrag">${euro(totaal)} <small>${T.perJaar}</small></p>
+<p class="subtiel">${T.toetsUitleg(d)}</p>
+<p><a class="knop" href="${teksten(TAAL).home}#check" data-inkomen="${Math.round(totaal)}">${T.toetsKnop}</a></p></div>`;
   },
 };
 
@@ -283,7 +276,7 @@ function controleerVelden(root) {
   const velden = [...root.querySelectorAll('input[name]:not([type=radio]):not([type=checkbox])')].filter(
     (el) => !el.closest('[data-toon-bij][hidden], [data-toon-bij-kinderen][hidden]'),
   );
-  return valideer(velden.map((el) => [el.name, el.value])).map((f) => ({ ...f, el: velden[f.index] }));
+  return valideer(velden.map((el) => [el.name, el.value]), TAAL).map((f) => ({ ...f, el: velden[f.index] }));
 }
 
 function wisFouten(root) {
@@ -317,7 +310,7 @@ function render(form, { focus = false } = {}) {
   const fouten = controleerVelden(form);
   if (fouten.length) {
     toonFouten(fouten);
-    uit.innerHTML = `<div class="melding invoerfout"><p><strong>Controleer je invoer.</strong> We rekenen pas als alles klopt.</p><ul>${fouten.map((f) => `<li>${esc(f.melding)}</li>`).join('')}</ul></div>`;
+    uit.innerHTML = `<div class="melding invoerfout"><p>${T.controleer}</p><ul>${fouten.map((f) => `<li>${esc(f.melding)}</li>`).join('')}</ul></div>`;
     if (focus) {
       const stap = fouten[0].el.closest('.stap');
       if (stap && stap.hidden && form.tbToonStap) form.tbToonStap(stap);
@@ -328,7 +321,7 @@ function render(form, { focus = false } = {}) {
   const d = lees(form);
   const inkomenVeld = form.querySelector('[name=inkomen]');
   if (inkomenVeld && !inkomenVeld.value.trim()) {
-    uit.innerHTML = '<p class="melding">Vul je inkomen in om te rekenen. Heb je geen inkomen? Vul dan 0 in.</p>';
+    uit.innerHTML = `<p class="melding">${T.vulInkomen}</p>`;
     return false;
   }
   uit.innerHTML = reken[calc](d) + partnerBlokken(calc) + (calc === 'toetsingsinkomen' ? '' : deelBlok());
@@ -339,7 +332,7 @@ function render(form, { focus = false } = {}) {
     blok.className = 'uitleg-blok';
     blok.dataset.uitleg = '';
     eerste.after(blok);
-    uitlegBijResultaat(blok, calc, d, RUW[calc](d));
+    uitlegBijResultaat(blok, calc, d, RUW[calc](d), TAAL);
   }
   telOp(uit);
   track('Berekening', { calc });
@@ -349,14 +342,14 @@ function render(form, { focus = false } = {}) {
 function kidsWidget(root) {
   const aantal = root.querySelector('[name=aantalKinderen]');
   const lijst = root.querySelector('[data-kids-lijst]');
-  const opties = Array.from({ length: 18 }, (_, i) => `<option value="${i}">${i === 0 ? 'jonger dan 1 jaar' : `${i} jaar`}</option>`).join('');
+  const opties = Array.from({ length: 18 }, (_, i) => `<option value="${i}">${i === 0 ? T.jongerDan1 : T.jaarOud(i)}</option>`).join('');
   const bijwerken = () => {
     const n = Math.max(0, Math.min(12, Number(aantal.value) || 0));
     while (lijst.children.length < n) {
       const k = lijst.children.length + 1;
       const div = document.createElement('div');
       div.className = 'kind';
-      div.innerHTML = `<label>Leeftijd kind ${k}<select name="kind${k}">${opties}</select></label>`;
+      div.innerHTML = `<label>${T.leeftijdKind(k)}<select name="kind${k}">${opties}</select></label>`;
       lijst.appendChild(div);
     }
     while (lijst.children.length > n) lijst.lastElementChild.remove();
@@ -375,13 +368,14 @@ function opvangWidget(root) {
     const div = document.createElement('div');
     div.className = 'opvang-rij';
     div.dataset.opvangRij = '';
-    div.innerHTML = `<label>Soort opvang<select name="soort">
-<option value="dagopvang">Dagopvang / kinderdagverblijf (max. ${euro(max.dagopvang, 2)})</option>
-<option value="bso">Buitenschoolse opvang (max. ${euro(max.bso, 2)})</option>
-<option value="gastouder">Gastouder (max. ${euro(max.gastouder, 2)})</option></select></label>
-<label>Uren per maand<input name="uren" inputmode="numeric" placeholder="80"></label>
-<label>Uurprijs<input name="uurprijs" inputmode="decimal" placeholder="10,50"></label>
-<button type="button" class="weg" aria-label="Verwijder dit kind">×</button>`;
+    const o = T.opvangOpties;
+    div.innerHTML = `<label>${T.soortOpvang}<select name="soort">
+<option value="dagopvang">${o.dagopvang} (${T.maxPrijs(euro(max.dagopvang, 2))})</option>
+<option value="bso">${o.bso} (${T.maxPrijs(euro(max.bso, 2))})</option>
+<option value="gastouder">${o.gastouder} (${T.maxPrijs(euro(max.gastouder, 2))})</option></select></label>
+<label>${T.urenPerMaand}<input name="uren" inputmode="numeric" placeholder="80"></label>
+<label>${T.uurprijs}<input name="uurprijs" inputmode="decimal" placeholder="${T.phUurprijs}"></label>
+<button type="button" class="weg" aria-label="${T.verwijderKind}">×</button>`;
     div.querySelector('.weg').addEventListener('click', () => div.remove());
     lijst.appendChild(div);
   };
@@ -421,7 +415,7 @@ function stappenplan(form) {
   form.prepend(voortgang);
   const knoppen = document.createElement('div');
   knoppen.className = 'stap-knoppen';
-  knoppen.innerHTML = '<button type="button" class="knop-licht" data-vorige>← Vorige</button><button type="button" class="knop" data-volgende>Volgende →</button>';
+  knoppen.innerHTML = `<button type="button" class="knop-licht" data-vorige>${T.vorige}</button><button type="button" class="knop" data-volgende>${T.volgende}</button>`;
   verzend.before(knoppen);
   knoppen.appendChild(verzend);
   let huidig = 0;
@@ -432,7 +426,7 @@ function stappenplan(form) {
     knoppen.querySelector('[data-vorige]').hidden = i === 0;
     knoppen.querySelector('[data-volgende]').hidden = laatste;
     verzend.hidden = !laatste;
-    voortgang.querySelector('.voortgang-tekst').textContent = `Stap ${i + 1} van ${stappen.length}`;
+    voortgang.querySelector('.voortgang-tekst').textContent = T.stapVan(i + 1, stappen.length);
     voortgang.querySelector('i').style.width = `${((i + 1) / stappen.length) * 100}%`;
     if (focus) {
       const kop = stappen[i].querySelector('h3');
@@ -448,7 +442,7 @@ function stappenplan(form) {
     if (leeg) {
       const m = document.createElement('p');
       m.className = 'melding';
-      m.textContent = 'Vul dit veld in om verder te gaan. Geen inkomen? Vul dan 0 in.';
+      m.textContent = T.vulVeld;
       leeg.closest('.veld').after(m);
       leeg.focus();
       return;
@@ -496,7 +490,7 @@ document.addEventListener('click', (e) => {
   const kopieer = e.target.closest('[data-kopieer]');
   if (kopieer) {
     navigator.clipboard?.writeText(kopieer.dataset.kopieer);
-    kopieer.textContent = 'Link gekopieerd ✓';
+    kopieer.textContent = T.gekopieerd;
   }
   if (e.target.closest('[data-ics]')) {
     const url = location.origin + location.pathname;
@@ -510,6 +504,6 @@ document.addEventListener('click', (e) => {
   const naarCheck = e.target.closest('[data-inkomen]');
   if (naarCheck) {
     e.preventDefault();
-    location.href = `/?inkomen=${naarCheck.dataset.inkomen}#check`;
+    location.href = `${teksten(TAAL).home}?inkomen=${naarCheck.dataset.inkomen}#check`;
   }
 });

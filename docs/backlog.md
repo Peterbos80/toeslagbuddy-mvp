@@ -46,7 +46,7 @@ Legenda: ✅ klaar en getest · 🔜 volgende · 💡 idee · ⛔ wacht op jou (
 | 18 | Pagina's per gemeente voor de grootste 20 gemeenten (kwijtschelding, individuele inkomenstoeslag) | Veel lokale zoekvragen, en bruikbaar voor Pro | 💡 |
 | 19 | Rekenhulp die andere sites kunnen insluiten (huurdersverenigingen, bibliotheken) | Verwijzende links en bereik | 💡 |
 | 20 | Accounts voor zzp'ers en de Moneybird-koppeling | Betaalde versie van de zzp-bewaker | ⛔ na de wachtlijst, zie [accounts-zzp.md](accounts-zzp.md) |
-| 21 | Engelstalige versie ("Dutch benefits calculator") | Expats en internationale studenten | 💡 |
+| 21 | Engelstalige versie ("Dutch benefits calculator") onder `/en/`; volgende taal Pools. Zie [i18n.md](i18n.md) | Expats, internationale studenten en arbeidsmigranten | ✅ gebouwd; ⛔ Engels laten nakijken door een moedertaalspreker |
 | 22 | Samenwerking met een leverancier van bewindvoeringssoftware | Pro als knop in hun pakket | 💡 na 5 klanten |
 
 ## Wacht op jou (⛔)
