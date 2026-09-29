@@ -163,6 +163,7 @@ export function layout(page, body) {
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="alternate" type="application/rss+xml" title="Nieuws over toeslagen" href="/nieuws/feed.xml">
+<link rel="preload" href="/fonts/nunito-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/site.css?v=${page.versie}">
 ${schemas.map((s) => `<script type="application/ld+json">${JSON.stringify(s).replace(/</g, '\\u003c')}</script>`).join('\n')}
 ${analytics()}${adsenseHead()}</head>

@@ -31,7 +31,7 @@ const versie = createHash('sha1').update(css + Object.values(js).join('')).diges
 
 writeFileSync(join(DIST, 'css/site.css'), minifyCss(css));
 for (const [naam, code] of Object.entries(js)) {
-  const metVersie = code.replace(/from '\.\/([\w-]+)\.js'/g, `from './$1.js?v=${versie}'`);
+  const metVersie = code.replace(/(from |import\()'\.\/([\w-]+)\.js'/g, `$1'./$2.js?v=${versie}'`);
   writeFileSync(join(DIST, 'js', naam), metVersie);
 }
 
@@ -84,8 +84,10 @@ for (const page of pages) {
   const body = page.body({ config, bronnen: page.bronnen ? bronnenHtml() : '' });
   const html = `
 <div class="hero">
+<div class="hero-deco" aria-hidden="true"><span class="munt"></span><span class="munt"></span><span class="munt"></span><span class="munt"></span></div>
+<div class="hero-grid"><div>
 ${page.calc ? `<span class="bijgewerkt">✓ Bijgewerkt voor ${params.JAAR}</span>` : ''}
-<h1>${esc(page.h1)}</h1>
+<h1>${page.slug === '/' ? esc(page.h1).replace('recht', '<span class="accent">recht</span>') : esc(page.h1)}</h1>
 <p class="intro">${esc(page.intro)}</p>
 ${page.calc ? `<ul class="vertrouwen" aria-label="Waarom ToeslagBuddy">
 <li>Gratis</li><li>Anoniem, zonder DigiD</li><li>Gegevens blijven op je telefoon</li><li>Officiële regels ${params.JAAR}</li>
@@ -93,6 +95,9 @@ ${page.calc ? `<ul class="vertrouwen" aria-label="Waarom ToeslagBuddy">
 ${page.slug === '/' ? `<p class="hero-knoppen"><a class="knop groot" href="#check">Start de check – 2 minuten</a></p>
 <nav class="snel" aria-label="Snel naar"><span>Of kies:</span> <a href="/toeslagen-student/">Student</a> <a href="/toeslagen-alleenstaande-ouder/">Alleenstaande ouder</a> <a href="/toeslagen-aow/">AOW</a> <a href="/zzp-toeslagen/">Zzp</a> <a href="/huurtoeslag-berekenen/">Alleen huurtoeslag</a></nav>` : ''}
 <button type="button" class="voorlees" hidden aria-pressed="false">🔊 Lees voor</button>
+</div>
+${page.slug === '/' ? '<div class="hero-buddy" data-intro></div>' : ''}
+</div>
 </div>
 <div class="raster">
 <div class="inhoud">

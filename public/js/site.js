@@ -53,3 +53,21 @@ document.addEventListener('click', (e) => {
     /* meten mag de link nooit blokkeren */
   }
 });
+
+// Onthullen bij scrollen: secties schuiven zacht in beeld
+if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const io = new IntersectionObserver(
+    (items) => items.forEach((it) => it.isIntersecting && (it.target.classList.add('zichtbaar'), io.unobserve(it.target))),
+    { rootMargin: '0px 0px -8% 0px' },
+  );
+  document.querySelectorAll('.inhoud > h2, .kaarten, .inhoud > .tabel-scroll, .faq details, .nieuws-lijst li, .hulp, .prijs').forEach((el) => {
+    if (el.getBoundingClientRect().top > window.innerHeight) {
+      el.classList.add('onthul');
+      io.observe(el);
+    }
+  });
+}
+
+// Welkomstvideo van Buddy op de homepage
+const intro = document.querySelector('[data-intro]');
+if (intro) import('./persona.js').then((m) => m.introSpeler(intro));

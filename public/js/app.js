@@ -9,6 +9,7 @@ import {
 } from './toeslagen.js';
 import { JAAR, KINDEROPVANGTOESLAG } from './params.js';
 import { zzpCheck, herinneringIcs } from './zzp.js';
+import { uitlegBijResultaat } from './persona.js';
 
 const PARTNERS = window.TB_PARTNERS || {};
 
@@ -123,9 +124,51 @@ function kaart(naam, r, extra = '') {
     return `<div class="resultaat geen"><h3>${naam}</h3><p class="bedrag">€ 0</p><p>${esc(r.reden || '')}</p>${extra}</div>`;
   }
   return `<div class="resultaat"><h3>${naam}</h3>
-<p class="bedrag">${euro(r.perMaand, Number.isInteger(r.perMaand) ? 0 : 2)} <small>per maand</small></p>
+<p class="bedrag"><span data-telop="${r.perMaand}" data-dec="${Number.isInteger(r.perMaand) ? 0 : 2}">${euro(r.perMaand, Number.isInteger(r.perMaand) ? 0 : 2)}</span> <small>per maand</small></p>
 <p class="subtiel">${euro(r.perJaar)} per jaar (indicatie ${JAAR})</p>${extra}</div>`;
 }
+
+// Geanimeerde balken: welk deel van het totaal komt uit welke toeslag
+function balken(r) {
+  const delen = Object.entries(NAMEN)
+    .filter(([k]) => r[k] && r[k].recht)
+    .map(([k, [naam]]) => [naam, r[k].perJaar, k]);
+  const max = Math.max(...delen.map((x) => x[1]), 1);
+  if (!delen.length) return '';
+  return `<ul class="balken" aria-hidden="true">${delen
+    .map(([naam, jaar, k]) => `<li class="balk-${k}"><span>${naam}</span><b style="--w:${Math.max(6, Math.round((jaar / max) * 100))}%"></b></li>`)
+    .join('')}</ul>`;
+}
+
+// Bedragen laten oplopen (niet bij 'minder beweging')
+function telOp(root) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  root.querySelectorAll('[data-telop]').forEach((el) => {
+    const doel = Number(el.dataset.telop);
+    const dec = Number(el.dataset.dec) || 0;
+    const start = performance.now();
+    const stap = (t) => {
+      const f = Math.min(1, (t - start) / 900);
+      const e = 1 - Math.pow(1 - f, 3);
+      el.textContent = euro(doel * e, dec);
+      if (f < 1) requestAnimationFrame(stap);
+      else el.textContent = euro(doel, dec);
+    };
+    requestAnimationFrame(stap);
+  });
+}
+
+// Ruwe uitkomst per rekenhulp, voor de persoonlijke uitleg
+const RUW = {
+  zorgtoeslag: (d) => zorgtoeslag(d),
+  huurtoeslag: (d) => huurtoeslag(d),
+  kindgebondenBudget: (d) => kindgebondenBudget(d),
+  kinderopvangtoeslag: (d) => kinderopvangtoeslag({ inkomen: d.inkomen, kinderen: d.opvang }),
+  kinderbijslag: (d) => kinderbijslag(d),
+  alles: (d) => allesCheck({ ...d, opvang: d.gebruiktOpvang ? d.opvang : [] }),
+  zzp: (d) => zzpCheck(d),
+  toetsingsinkomen: () => ({}),
+};
 
 const aanvragen = `<p class="volgende"><strong>Volgende stap:</strong> vraag aan via <a href="https://www.toeslagen.nl" rel="noopener" target="_blank">Mijn toeslagen</a> met je DigiD. <a href="/toeslagen-aanvragen/">Zo werkt het</a>.</p>`;
 
@@ -190,8 +233,9 @@ const reken = {
       .join('');
     return `<div class="resultaat totaal">
 <h3>Jouw toeslagen in ${JAAR}</h3>
-<p class="bedrag">${euro(r.totaalPerMaand)} <small>per maand</small></p>
+<p class="bedrag"><span data-telop="${r.totaalPerMaand}" data-dec="0">${euro(r.totaalPerMaand)}</span> <small>per maand</small></p>
 <p class="subtiel">Dat is ongeveer ${euro(r.totaalPerJaar)} per jaar.</p>
+${balken(r)}
 <table class="overzicht"><tbody>${rijen}</tbody></table>
 ${r.totaalPerJaar > 0 ? aanvragen : ''}
 </div>
@@ -239,6 +283,16 @@ function render(form) {
     return;
   }
   uit.innerHTML = reken[calc](d) + partnerBlokken(calc) + (calc === 'toetsingsinkomen' ? '' : deelBlok());
+  // Persoonlijke uitleg door een persona, direct onder de eerste uitkomst
+  const eerste = uit.querySelector('.resultaat');
+  if (eerste && RUW[calc]) {
+    const blok = document.createElement('div');
+    blok.className = 'uitleg-blok';
+    blok.dataset.uitleg = '';
+    eerste.after(blok);
+    uitlegBijResultaat(blok, calc, d, RUW[calc](d));
+  }
+  telOp(uit);
   track('Berekening', { calc });
 }
 

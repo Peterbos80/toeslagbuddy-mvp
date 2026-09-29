@@ -41,7 +41,8 @@ test('home: stappenplan van de complete check', async () => {
 });
 
 test('rekenhulpen geven de officiële voorbeeldbedragen', async () => {
-  const ctx = await s.browser.newContext();
+  // Zonder animaties, zodat oplopende bedragen meteen hun eindwaarde tonen
+  const ctx = await s.browser.newContext({ reducedMotion: 'reduce' });
   const gevallen = [
     ['/zorgtoeslag-berekenen/', { inkomen: '32000' }, /€ 103 per maand/],
     ['/huurtoeslag-berekenen/', { kaleHuur: '710', inkomen: '29000' }, /€ 307 per maand/],
@@ -125,7 +126,8 @@ test('mobiel: menu werkt en geen horizontaal scrollen op alle pagina’s', async
 });
 
 test('toegankelijkheid (axe): geen ernstige problemen op alle pagina’s', async () => {
-  const ctx = await s.browser.newContext();
+  // Meet het eindbeeld (zonder in-vliegende animaties)
+  const ctx = await s.browser.newContext({ reducedMotion: 'reduce' });
   const p = await ctx.newPage();
   const problemen = [];
   for (const pad of await paginas()) {
@@ -156,6 +158,34 @@ test('zzp-dashboard: check bewaren, blijft na herladen, exporteren', async () =>
   assert.equal(await p.locator('#mijn-overzicht tbody tr').count(), 1);
   const [dl] = await Promise.all([p.waitForEvent('download'), p.click('[data-export]')]);
   assert.equal(dl.suggestedFilename(), 'mijn-toeslagbewaker.json');
+  await ctx.close();
+});
+
+test('persona-uitleg: juiste persona, ondertitels en bediening', async () => {
+  const ctx = await s.browser.newContext({ reducedMotion: 'reduce' });
+  const p = await open(ctx, s.basis + '/zorgtoeslag-berekenen/', fouten);
+  // Zonder leeftijd: algemene persona Buddy
+  await p.locator('[name=inkomen]').fill('20000');
+  await p.locator('button[type=submit]').click();
+  const speler = p.locator('[data-uitleg] .speler');
+  assert.equal(await speler.getAttribute('data-persona'), 'buddy');
+  await p.click('[data-uitleg] [data-start]', { force: true });
+  assert.match(await tekst(p.locator('[data-uitleg] .speler-teller')), /^1\//);
+  await p.click('[data-uitleg] [data-volgende]');
+  await p.waitForTimeout(600);
+  assert.match(await tekst(p.locator('[data-uitleg] .speler-tekst')), /Goed nieuws/);
+  assert.match((await p.locator('[data-uitleg] .speler-tekstversie').textContent()).replace(/\s+/g, ' '), /€ 129 per maand/);
+  // Met leeftijd 70 in de complete check: Henk
+  const h = await open(ctx, s.basis + '/', fouten);
+  const f = h.locator('form[data-calc=alles]');
+  await f.locator('[name=leeftijd]').fill('70');
+  await f.locator('[data-volgende]').click();
+  await f.locator('[name=inkomen]').fill('21000');
+  await f.locator('[data-volgende]').click();
+  await f.locator('[name=kaleHuur]').fill('700');
+  await f.locator('[data-volgende]').click();
+  await f.locator('button[type=submit]').click();
+  assert.equal(await h.locator('[data-uitleg] .speler').getAttribute('data-persona'), 'henk');
   await ctx.close();
 });
 
