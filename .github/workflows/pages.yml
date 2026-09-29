@@ -5,6 +5,9 @@ on:
     branches: [main]
   schedule:
     - cron: '15 5 * * *' # elke ochtend rond 07:15: nieuws ophalen en opnieuw publiceren
+  workflow_run:
+    workflows: ["AI-video's maken"]
+    types: [completed]
   workflow_dispatch:
 
 permissions:

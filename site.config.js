@@ -76,6 +76,20 @@ export default {
     proefDagen: 7,
   },
 
+  // Realistische AI-presentatoren (HeyGen). Kies per persona een stock-avatar
+  // en een Nederlandse stem; zie docs/ai-video.md. Leeg = getekende persona.
+  video: {
+    avatars: {
+      buddy: { avatarId: '', voiceId: '' },
+      sanne: { avatarId: '', voiceId: '' },
+      dani: { avatarId: '', voiceId: '' },
+      mo: { avatarId: '', voiceId: '' },
+      ilse: { avatarId: '', voiceId: '' },
+      karin: { avatarId: '', voiceId: '' },
+      henk: { avatarId: '', voiceId: '' },
+    },
+  },
+
   // Instagram. De posts worden gemaakt door social/render.js en dagelijks
   // geplaatst door .github/workflows/instagram.yml (zie docs/instagram.md).
   instagram: {

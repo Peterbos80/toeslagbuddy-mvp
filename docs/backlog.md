@@ -31,6 +31,7 @@ Legenda: ✅ klaar en getest · 🔜 volgende · 💡 idee · ⛔ wacht op jou (
 | ✅ 27 | **Pro met inloggen**: aanmelden, inloglink per e-mail, afgeschermde omgeving, proef van 7 dagen, vergrendeld na afloop, abonnement aanvragen | `test/proef.test.js`, e2e (demo) |
 | ✅ 28 | **Formulieren naar je privé-e-mail** via Web3Forms; nergens een e-mailadres op de site; contactpagina | e2e |
 | ✅ 29 | **Grappige persona-updates** voor X en TikTok, met spelregeltest | `test/social.test.js` |
+| ✅ 30 | **Realistische AI-presentatoren** (HeyGen): pijplijn, speler met echte clips, persoonlijke ondertitels, AI-label (AI-verordening), terugval op de getekende persona | `test/videoplan.test.js`, e2e |
 
 ## Volgende (in volgorde van opbrengst)
 
@@ -56,3 +57,4 @@ Legenda: ✅ klaar en getest · 🔜 volgende · 💡 idee · ⛔ wacht op jou (
 - In GitHub: standaardbranch op `main` zetten en `main` toestaan in de omgeving github-pages
 - Supabase-project voor Pro-accounts: [pro-accounts.md](pro-accounts.md)
 - Web3Forms-sleutel voor formulieren: [email.md](email.md)
+- HeyGen-sleutel en avatars voor de realistische video's: [ai-video.md](ai-video.md)

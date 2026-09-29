@@ -266,6 +266,27 @@ test('alle regelingen: filter en zoeken', async () => {
   await ctx.close();
 });
 
+test('realistische AI-video: clips met persoonlijke ondertitels en AI-label', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const clip = await readFile(new URL('../fixtures/clip.webm', import.meta.url));
+  const { SEGMENTEN } = await import('../../src/calc/videoplan.js');
+  const manifest = { buddy: Object.fromEntries(Object.keys(SEGMENTEN).map((k) => [k, { src: `/video/buddy/${k}.webm` }])) };
+  const ctx = await s.browser.newContext({ reducedMotion: 'reduce' });
+  await ctx.route('**/video/manifest.json', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(manifest) }));
+  await ctx.route('**/video/buddy/*.webm', (r) => r.fulfill({ status: 200, contentType: 'video/webm', body: clip }));
+  const p = await open(ctx, s.basis + '/zorgtoeslag-berekenen/', fouten);
+  await p.locator('[name=inkomen]').fill('20000');
+  await p.locator('button[type=submit]').click();
+  await p.waitForSelector('.speler-video');
+  assert.match(await tekst(p.locator('.speler-video .ai-label')), /AI-gegenereerde video/);
+  await p.click('.speler-video [data-start]', { force: true });
+  assert.equal(await tekst(p.locator('.speler-video .speler-teller')), '1/5');
+  await p.click('.speler-video [data-volgende]');
+  assert.match(await tekst(p.locator('.video-ondertitel')), /€ 129 per maand/);
+  assert.match(await p.locator('.speler-video video').getAttribute('src'), /\/video\/buddy\/ja\.webm$/);
+  await ctx.close();
+});
+
 test('geen JavaScript-fouten tijdens de tests', () => {
   assert.deepEqual(fouten, []);
 });

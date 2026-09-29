@@ -1,0 +1,32 @@
+name: AI-video's maken
+
+on:
+  workflow_dispatch:
+    inputs:
+      persona:
+        description: 'Alleen deze persona (leeg = alle persona’s met een avatar)'
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  videos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: sudo apt-get install -y ffmpeg
+      - name: Clips maken via HeyGen (alleen gewijzigde teksten)
+        env:
+          HEYGEN_API_KEY: ${{ secrets.HEYGEN_API_KEY }}
+        run: node scripts/maak-avatar-videos.js ${{ github.event.inputs.persona && format('--persona {0}', github.event.inputs.persona) || '' }}
+      - name: Video's bewaren
+        run: |
+          git config user.name "toeslagbuddy-video"
+          git config user.email "video@users.noreply.github.com"
+          git add public/video
+          git diff --cached --quiet || (git commit -m "AI-video's bijgewerkt $(date +%F)" && git push)

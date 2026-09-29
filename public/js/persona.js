@@ -2,6 +2,7 @@
 // met Nederlandse stem (Web Speech API) en ondertitels. Alles gebeurt in de
 // browser; er gaan geen gegevens naar buiten.
 import { kiesPersona, maakScript, voorSpraak, PERSONAS } from './uitleg.js';
+import { videoPlan, planCompleet, SEGMENTEN } from './videoplan.js';
 
 const minderBeweging = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const kanSpreken = () => 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
@@ -193,9 +194,104 @@ function maakSpeler(root, persona, regels, { titel = 'Jouw persoonlijke uitleg' 
   return s;
 }
 
-/** Uitleg bij een berekening */
-export function uitlegBijResultaat(root, calc, invoer, uitkomst) {
+// ── Realistische video (vooraf gemaakte AI-clips + persoonlijke ondertitels) ──
+let manifestBelofte = null;
+function laadManifest() {
+  if (!manifestBelofte) {
+    manifestBelofte = fetch('/video/manifest.json', { cache: 'no-cache' })
+      .then((r) => (r.ok ? r.json() : {}))
+      .catch(() => ({}));
+  }
+  return manifestBelofte;
+}
+
+function videoSpeler(root, persona, plan, manifest, regels) {
+  if (kanSpreken()) speechSynthesis.cancel();
+  const clips = manifest[persona.id];
+  root.innerHTML = `<div class="speler speler-video" data-persona="${persona.id}">
+  <div class="video-scherm">
+    <video playsinline preload="metadata" aria-label="Uitlegvideo door ${persona.naam}"></video>
+    <p class="video-ondertitel" aria-live="polite"></p>
+    <span class="ai-label">AI-gegenereerde video · fictief persoon</span>
+    <button type="button" class="speler-start" data-start><span aria-hidden="true">▶</span>Bekijk uitleg<small>${plan.length} korte clips</small></button>
+  </div>
+  <div class="speler-balk">
+    <button type="button" class="speler-knop" data-afspelen aria-label="Afspelen">▶</button>
+    <button type="button" class="speler-knop" data-volgende aria-label="Volgende clip">⏭</button>
+    <div class="speler-voortgang" aria-hidden="true"><i></i></div>
+    <span class="speler-teller">0/${plan.length}</span>
+    <button type="button" class="speler-knop" data-geluid aria-pressed="true" aria-label="Geluid aan">🔊</button>
+  </div>
+  <p class="speler-label">${persona.naam} is een fictieve persoon. Deze video is gemaakt met AI. Je persoonlijke bedragen staan alleen in de ondertiteling en blijven op je eigen apparaat.</p>
+  <details class="speler-tekstversie"><summary>Lees de uitleg als tekst</summary><ol>${regels.map((r) => `<li>${r}</li>`).join('')}</ol></details>
+</div>`;
+  const s = root.querySelector('.speler');
+  const video = s.querySelector('video');
+  const ondertitel = s.querySelector('.video-ondertitel');
+  const afspelen = s.querySelector('[data-afspelen]');
+  const teller = s.querySelector('.speler-teller');
+  const balk = s.querySelector('.speler-voortgang i');
+  const geluidKnop = s.querySelector('[data-geluid]');
+  let i = -1;
+  const laad = (k) => {
+    i = k;
+    if (i >= plan.length) {
+      s.classList.remove('speelt');
+      s.classList.add('klaar');
+      afspelen.textContent = '↻';
+      afspelen.setAttribute('aria-label', 'Opnieuw afspelen');
+      return;
+    }
+    const stap = plan[i];
+    video.src = clips[stap.segment].src;
+    ondertitel.textContent = stap.ondertitel;
+    teller.textContent = `${i + 1}/${plan.length}`;
+    balk.style.width = `${((i + 1) / plan.length) * 100}%`;
+    video.play().catch(() => {});
+  };
+  video.addEventListener('ended', () => laad(i + 1));
+  video.addEventListener('error', () => laad(i + 1));
+  const start = () => {
+    s.classList.add('speelt');
+    s.classList.remove('klaar');
+    afspelen.textContent = '⏸';
+    afspelen.setAttribute('aria-label', 'Pauzeren');
+    if (i < 0 || i >= plan.length) laad(0);
+    else video.play().catch(() => {});
+    try {
+      window.plausible && window.plausible('Uitleg bekeken', { props: { persona: persona.id, soort: 'video' } });
+    } catch {
+      /* meten mag nooit de speler breken */
+    }
+  };
+  const pauze = () => {
+    video.pause();
+    s.classList.remove('speelt');
+    afspelen.textContent = '▶';
+    afspelen.setAttribute('aria-label', 'Afspelen');
+  };
+  s.querySelector('[data-start]').addEventListener('click', start);
+  afspelen.addEventListener('click', () => (s.classList.contains('speelt') ? pauze() : start()));
+  s.querySelector('[data-volgende]').addEventListener('click', () => {
+    s.classList.add('speelt');
+    afspelen.textContent = '⏸';
+    laad(Math.min(plan.length, i + 1));
+  });
+  geluidKnop.addEventListener('click', () => {
+    video.muted = !video.muted;
+    geluidKnop.textContent = video.muted ? '🔇' : '🔊';
+    geluidKnop.setAttribute('aria-pressed', String(!video.muted));
+  });
+  return s;
+}
+
+/** Uitleg bij een berekening: echte AI-video als die klaarstaat, anders de getekende persona */
+export async function uitlegBijResultaat(root, calc, invoer, uitkomst) {
   const { persona, regels } = maakScript(calc, invoer, uitkomst);
+  const plan = videoPlan(calc, uitkomst, persona);
+  const manifest = plan ? await laadManifest() : {};
+  if (!root.isConnected) return null;
+  if (planCompleet(plan, manifest, persona.id)) return videoSpeler(root, persona, plan, manifest, regels);
   return maakSpeler(root, persona, regels);
 }
 

@@ -426,3 +426,13 @@ header.site { position: sticky; top: 0; z-index: 20; background: color-mix(in sr
 .pro-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
 .pro-tabs button { font: inherit; font-weight: 700; border: 0; background: var(--merk-licht); color: var(--merk-donker); border-radius: 12px; padding: 10px 16px; cursor: pointer; min-height: 44px; }
 .pro-tabs button[aria-selected='true'] { background: var(--grad); color: #fff; }
+/* Realistische AI-video */
+.video-scherm { position: relative; border-radius: 16px; overflow: hidden; background: #000; aspect-ratio: 9 / 16; max-height: 70vh; margin: 0 auto; }
+@media (min-width: 600px) { .video-scherm { max-width: 360px; } }
+.video-scherm video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-ondertitel { position: absolute; left: 10px; right: 10px; bottom: 16px; margin: 0; white-space: pre-line; text-align: center; font-weight: 900; font-size: clamp(1.05rem, 4.6vw, 1.35rem); color: #fff; background: rgba(8, 20, 16, .72); border-radius: 12px; padding: 10px 12px; backdrop-filter: blur(4px); }
+.video-ondertitel:empty { display: none; }
+.ai-label { position: absolute; top: 10px; left: 10px; font-size: .72rem; font-weight: 800; color: #fff; background: rgba(0, 0, 0, .6); border-radius: 99px; padding: 4px 10px; }
+.speler-video .speler-start { left: 50%; transform: translate(-50%, -50%); }
+@keyframes puls3 { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.05); } }
+.speler-video .speler-start { animation-name: puls3; }
