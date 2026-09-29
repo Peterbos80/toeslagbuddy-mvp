@@ -45,6 +45,9 @@ export function leesFeed(xml, bron) {
 
 export const TREFWOORDEN = /toeslag|kindgebonden|kinderbijslag|kinderopvang|minimumloon|bijstand|koopkracht|prinsjesdag|miljoenennota|belastingplan|box 3|zorgpremie|zorgverzekering|eigen risico|huur|armoede|schuld|inkomensondersteuning|aow|energie(rekening|toeslag)/i;
 
+// Strenger filter voor algemene nieuwsfeeds (NOS, NU.nl): alleen echt toeslagennieuws
+export const STRENG = /toeslag|kindgebonden|kinderbijslag|kinderopvang|minimumloon|zorgpremie|prinsjesdag|miljoenennota|koopkracht|bijstand|belastingplan|eigen risico/i;
+
 export function filter(items, trefwoorden = TREFWOORDEN) {
   return items.filter((i) => trefwoorden.test(`${i.titel} ${i.samenvatting}`));
 }

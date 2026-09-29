@@ -3,33 +3,40 @@
 //   node scripts/nieuws.js
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { leesFeed, filter, samenvoegen } from './rss.js';
+import { leesFeed, filter, samenvoegen, TREFWOORDEN, STRENG } from './rss.js';
 
 // Feeds van de Rijksoverheid per onderwerp. Een feed die niet (meer) werkt,
 // wordt overgeslagen en in het logboek gemeld.
+// [bron, url, filter] – filter: false (alles), true (trefwoorden) of 'streng'.
+// Een feed die niet (meer) werkt, wordt overgeslagen en in het logboek gemeld.
 export const FEEDS = [
+  ['Google Nieuws', 'https://news.google.com/rss/search?q=toeslagen+OR+zorgtoeslag+OR+huurtoeslag+OR+kinderopvangtoeslag+OR+%22kindgebonden+budget%22&hl=nl&gl=NL&ceid=NL:nl', 'streng'],
+  ['NOS', 'https://feeds.nos.nl/nosnieuwsbinnenland', 'streng'],
+  ['NOS', 'https://feeds.nos.nl/nosnieuwseconomie', 'streng'],
+  ['NU.nl', 'https://www.nu.nl/rss/Economie', 'streng'],
   ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/huurtoeslag/nieuws.rss', false],
   ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/zorgtoeslag/nieuws.rss', false],
-  ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/kinderopvangtoeslag/nieuws.rss', false],
   ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/kinderopvang/nieuws.rss', true],
-  ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/kindgebonden-budget/nieuws.rss', false],
-  ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/kinderbijslag/nieuws.rss', false],
-  ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/huurwoning/nieuws.rss', true],
-  ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/zorgverzekering/nieuws.rss', true],
-  ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/minimumloon/nieuws.rss', true],
-  ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/bijstand/nieuws.rss', true],
-  ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/schulden/nieuws.rss', true],
-  ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/onderwerpen/inkomstenbelasting/nieuws.rss', true],
   ['Rijksoverheid', 'https://feeds.rijksoverheid.nl/nieuws.rss', true],
 ];
 
 const BESTAND = join(import.meta.dirname, '../data/nieuws.json');
 
 async function haal([bron, url, filteren]) {
-  const res = await fetch(url, { signal: AbortSignal.timeout(15000), headers: { 'User-Agent': 'ToeslagBuddy-nieuws/1.0 (+https://www.toeslagbuddy.nl)' } });
+  let res;
+  try {
+    res = await fetch(url, {
+      signal: AbortSignal.timeout(20000),
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ToeslagBuddy-nieuws/1.0; +https://www.toeslagbuddy.nl)', Accept: 'application/rss+xml, application/xml, text/xml, */*' },
+    });
+  } catch (e) {
+    // Toon de echte oorzaak (DNS, TLS, verbinding geweigerd) in het logboek
+    throw new Error(`${e.message}${e.cause ? ` (${e.cause.code || e.cause.message})` : ''}`);
+  }
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const items = leesFeed(await res.text(), bron);
-  return filteren ? filter(items) : items;
+  if (!filteren) return items;
+  return filter(items, filteren === 'streng' ? STRENG : TREFWOORDEN);
 }
 
 const oud = existsSync(BESTAND) ? JSON.parse(readFileSync(BESTAND, 'utf8')).items || [] : [];
