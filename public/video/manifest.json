@@ -1,1 +1,12 @@
-{}
+{
+  "henk": {
+    "intro": {
+      "src": "/video/henk/intro.mp4",
+      "poster": "/video/gezichten/henk.jpg",
+      "hash": "895df357b52c",
+      "tekst": "Goedendag, ik ben Henk. Ik ben 71 en leef van mijn AOW en een klein pensioen.",
+      "duur": 8,
+      "bron": "open-source"
+    }
+  }
+}

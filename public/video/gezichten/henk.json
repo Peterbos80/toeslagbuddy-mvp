@@ -1,0 +1,8 @@
+{
+  "persona": "henk",
+  "model": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+  "seed": 7101,
+  "prompt": "71 year old Dutch man, retired, short grey hair, friendly wrinkles, checked flannel shirt, professional portrait photograph, head and shoulders, facing the camera, looking straight into the lens, calm friendly expression, lips closed, soft natural window light, plain light grey background, sharp focus, 85mm lens, realistic skin texture, natural colors",
+  "licentie": "CreativeML OpenRAIL-M",
+  "fictief": true
+}
