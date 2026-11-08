@@ -1,6 +1,6 @@
 // Interactieve prijsgrafiek op de productpagina: periode kiezen, winkels
 // aan/uit, tooltip met de prijzen per winkel (muis, aanraken en pijltjestoetsen).
-import { grafiekMeerSvg, schaal, prijzenOp, PERIODES } from './grafiek.js';
+import { grafiekMeerSvg, schaal, prijzenOp, PERIODES, MAAT_SMAL } from './grafiek.js';
 import { esc, euroTekst, datumTekst } from './deals-weergave.js';
 
 const DAG = 864e5;
@@ -17,9 +17,11 @@ for (const kader of document.querySelectorAll('[data-pg]')) {
   let verborgen = [];
   let cursor = null; // ms van de gekozen dag
 
-  const s = () => schaal(data, { dagen, verborgen });
+  // Op een telefoon een hogere grafiek met grotere letters
+  const smal = () => teken.clientWidth < 560;
+  const s = () => schaal(data, { dagen, verborgen, ...(smal() ? MAAT_SMAL : {}) });
   function opnieuw() {
-    teken.innerHTML = grafiekMeerSvg(data, { dagen, verborgen });
+    teken.innerHTML = grafiekMeerSvg(data, { dagen, verborgen, smal: smal() });
     if (cursor !== null) toonTip(cursor);
   }
 
@@ -57,6 +59,7 @@ for (const kader of document.querySelectorAll('[data-pg]')) {
     return sc.begin + ((vx - sc.L) / (sc.B - sc.L - sc.R)) * (sc.eind - sc.begin);
   };
 
+  if (smal()) opnieuw();
   teken.addEventListener('pointermove', (e) => toonTip(naarMs(e)));
   teken.addEventListener('pointerdown', (e) => toonTip(naarMs(e)));
   teken.addEventListener('pointerleave', (e) => e.pointerType === 'mouse' && verberg());

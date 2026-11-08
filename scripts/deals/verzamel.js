@@ -69,6 +69,7 @@ export function verwerk(ruw, historie, { nu, koersen = {}, optout = () => false 
 // Invoerbestanden: een lijst aanbiedingen, of { aanbod, status } van de jager
 const winkelStatus = {};
 function leesInvoer(map) {
+  for (const k of Object.keys(winkelStatus)) delete winkelStatus[k];
   if (!map || !existsSync(map)) return [];
   const uit = [];
   const loop = (d) => {

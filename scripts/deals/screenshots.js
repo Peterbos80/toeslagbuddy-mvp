@@ -29,8 +29,10 @@ for (const breedte of [390, 1280]) {
       if (naam === 'deals-product') {
         // Grafiek met tooltip
         const g = p.locator('[data-pg-teken] svg');
+        await p.locator('[data-pg]').scrollIntoViewIfNeeded();
         const box = await g.boundingBox();
-        await p.mouse.move(box.x + box.width * 0.6, box.y + box.height * 0.5);
+        await p.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.5);
+        await p.mouse.move(box.x + box.width * 0.62, box.y + box.height * 0.5, { steps: 5 });
         await p.waitForTimeout(150);
         await p.locator('[data-pg]').screenshot({ path: join(UIT, `deals-grafiek${breedte === 390 ? '-390' : ''}${achtervoegsel}.png`) });
       }

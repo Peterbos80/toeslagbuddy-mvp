@@ -12,13 +12,19 @@ import { bouwIndex, paginaSlugs } from '../../src/deals/dealindex.js';
 import { zoekMatches, bewijsSterk, filterMeldingen } from '../../src/deals/alarm.js';
 import { maakMeldingMail, bewijsVan } from './mail.js';
 
-export async function meld({ env = process.env, map = DATA, fetch: f = globalThis.fetch, log = console.log, nu = null, maxPerMail = 10, maxPerDag = 250 } = {}) {
+// De deal-index zoals de site hem bouwt (zelfde paginanamen)
+export function laadIndex(map = DATA, nu = null) {
   const { producten, vluchten } = leesHistorie(map);
   const status = leesJson(join(map, 'status.json'), {});
   const t = nu ?? (Date.parse(status.bijgewerkt || '') || Date.now());
   const slugs = paginaSlugs([...producten.values()]);
   const { deals } = bouwIndex([...producten.values()], [...vluchten.values()], t, { pagina: (r) => `/deals/p/${slugs.get(r.id)}/` });
   for (const d of deals) if (d.soort === 'product') d.paginaSlug = slugs.get(d.id);
+  return { deals, producten, vluchten, t };
+}
+
+export async function meld({ env = process.env, map = DATA, fetch: f = globalThis.fetch, log = console.log, nu = null, maxPerMail = 10, maxPerDag = 250 } = {}) {
+  const { deals, producten, vluchten, t } = laadIndex(map, nu);
   const regels = leesJson(join(map, 'alarmen.json'), { regels: [] }).regels || [];
   const opties = {
     minDagen: Number(env.DEALS_MIN_DAGEN) || 30,

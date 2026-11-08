@@ -88,3 +88,31 @@ ${meldingen.map((m) => dealBlok(m, siteUrl)).join('\n')}
   const tekst = `DealBuddy\n\n${meldingen.map((m) => tekstBlok(m, siteUrl)).join('\n\n---\n\n')}\n\nPrijzen kunnen veranderen; controleer altijd de prijs in de winkel.`;
   return { sender: AFZENDER, to: [{ email: naar }], subject: onderwerp, htmlContent: html, textContent: tekst, tags: ['dealbuddy'] };
 }
+
+// Rapportmail van persoonlijke jagers (met account): één digest per gebruiker
+export function maakJachtMail(items, { naar, siteUrl = 'https://www.toeslagbuddy.nl' }) {
+  const onderwerp = schoonOnderwerp(items.length === 1 ? `Je jager: ${items[0].jacht.omschrijving} – ${items[0].rapport.oordeel.tekst}` : `Je jagers: ${items.length} nieuwe rapporten`);
+  const blok = ({ jacht, rapport: r }) => {
+    const b = r.beste;
+    const afmelden = `${siteUrl}/deals/jagers/?afmelden=${encodeURIComponent(jacht.afmeld_token)}`;
+    return `<div style="border:1px solid #e9e2fb;border-radius:14px;padding:16px;margin:0 0 16px">
+<h2 style="margin:0 0 4px;font-size:18px;color:#2e1065">${esc(jacht.omschrijving)}</h2>
+<p style="margin:0 0 8px"><b style="background:#f3edff;border-radius:8px;padding:2px 8px">${esc(r.oordeel.tekst)}</b> ${esc(r.oordeel.reden)}</p>
+${b ? `<p style="margin:0 0 6px">Beste prijs: <b>${esc(eur(b.totaal))}</b> bij ${esc(b.winkel)} (incl. verzending) – <a href="${esc(b.url || `${siteUrl}${b.pagina}`)}">bekijk</a></p>
+<p style="margin:0 0 6px;font-size:14px">Gangbare prijs ${esc(eur(r.gangbaar))} · laagste 30 dagen ${esc(eur(r.laagste30))} · trend: ${esc(r.trend.richting)}</p>
+${r.alternatieven.length ? `<p style="margin:0 0 6px;font-size:14px">Alternatieven: ${r.alternatieven.map((a) => `${esc(a.winkel)} ${esc(eur(a.totaal))}`).join(' · ')}</p>` : ''}
+${r.bewijs ? `<p style="margin:0 0 6px;font-size:13px;color:#56615b">Bewijs: ${r.bewijs.dagen} dagen gemeten bij ${r.bewijs.winkels} winkels.${b.pagina ? ` <a href="${esc(`${siteUrl}${b.pagina}`)}">Prijsverloop</a>` : ''}</p>` : ''}` : ''}
+<p style="margin:8px 0 0;font-size:12px"><a href="${esc(afmelden)}">Geen mails meer voor deze jager</a></p></div>`;
+  };
+  const tekst = items
+    .map(({ jacht, rapport: r }) => [`${jacht.omschrijving}: ${r.oordeel.tekst}. ${r.oordeel.reden}`, r.beste ? `Beste prijs ${eur(r.beste.totaal)} bij ${r.beste.winkel}: ${r.beste.url || `${siteUrl}${r.beste.pagina}`}` : '', `Afmelden: ${siteUrl}/deals/jagers/?afmelden=${jacht.afmeld_token}`].filter(Boolean).join('\n'))
+    .join('\n\n');
+  return {
+    sender: AFZENDER,
+    to: [{ email: naar }],
+    subject: onderwerp,
+    htmlContent: `<!doctype html><html lang="nl"><body style="margin:0;background:#f7f5fb;font-family:system-ui,sans-serif;color:#1d2521"><div style="max-width:640px;margin:0 auto;padding:24px"><p style="font-weight:900;color:#4c1d95">% DealBuddy – je jagers</p>${items.map(blok).join('')}<p style="font-size:12px;color:#56615b">Je krijgt deze mail omdat je een jager met mail hebt aangezet op toeslagbuddy.nl/deals/jagers/. Je account en jagers verwijder je op die pagina.</p></div></body></html>`,
+    textContent: `DealBuddy – je jagers\n\n${tekst}`,
+    tags: ['dealbuddy-jager'],
+  };
+}

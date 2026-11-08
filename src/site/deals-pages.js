@@ -260,6 +260,12 @@ ${demoBanner(status)}
 </form>
 <div class="jager-bevestig" data-bevestig hidden></div>
 <div class="jagers" data-jagers aria-live="polite"></div>
+<section class="deal-blok" data-account aria-labelledby="kop-account"><h2 id="kop-account">Mail bij een treffer (met account)</h2>
+<p>Met een gratis account zoekt de server ook als jij er niet bent, en krijg je een mail met bewijs als je doel gehaald is. Je logt in met een link per mail, zonder wachtwoord.</p>
+<div data-account-inhoud><p>Laden…</p></div>
+<p class="formulier-status" role="status" aria-live="polite" data-account-status></p>
+<p class="hint">Privacy: we bewaren je e-mailadres, je jagers en hun rapporten in de EU (Supabase). We gebruiken ze alleen voor deze mails. Verwijder je account, dan is alles direct weg. <a href="/privacy/">Privacyverklaring</a></p>
+</section>
 <section class="deal-blok"><h2>Hoe werkt een jager?</h2>
 <ol>
 <li>Je jager staat <strong>alleen in deze browser</strong> (geen account nodig).</li>
@@ -358,7 +364,7 @@ export function bouwDeals({ dist, versie, layout, map = DATA }) {
   }
   schrijf('/deals/vluchten/', { title: 'Goedkope vliegtickets onder de gangbare prijs – DealBuddy', h1: 'Vliegtickets', kort: 'Vliegtickets', description: 'Prijskalender per route: zie per vertrekdag de laagste prijs en wat een vlucht normaal kost. Van Amsterdam, Eindhoven en Rotterdam.', script: ['deals-vluchten.js'], kruimel: KRUIMEL('/deals/vluchten/', 'Vliegtickets') }, vluchtenPagina({ routes: index.routes, status, nu }));
   schrijf('/deals/volglijst/', { title: 'Mijn volglijst – DealBuddy', h1: 'Mijn volglijst', description: 'Je gevolgde producten en routes met de prijs van nu tegenover jouw drempel.', script: ['deals-volglijst.js'], noindex: true, kruimel: KRUIMEL('/deals/volglijst/', 'Volglijst') }, volglijstPagina({ status }));
-  schrijf('/deals/jagers/', { title: 'Mijn jagers: persoonlijke prijsagenten – DealBuddy', h1: 'Mijn jagers', description: 'Zeg in gewone woorden wat je zoekt. Je jager zoekt in alle bronnen en zegt eerlijk: nu kopen of wachten.', script: ['deals-jagers.js'], kruimel: KRUIMEL('/deals/jagers/', 'Mijn jagers') }, jagersPagina({ status }));
+  schrijf('/deals/jagers/', { title: 'Mijn jagers: persoonlijke prijsagenten – DealBuddy', h1: 'Mijn jagers', description: 'Zeg in gewone woorden wat je zoekt. Je jager zoekt in alle bronnen en zegt eerlijk: nu kopen of wachten.', script: ['deals-jagers.js', 'deals-account.js'], kruimel: KRUIMEL('/deals/jagers/', 'Mijn jagers') }, jagersPagina({ status }));
   schrijf('/deals/over/', { title: 'Zo werkt DealBuddy: bronnen, bot en partnerlinks', h1: 'Zo werkt DealBuddy', kort: 'Zo werkt het', description: 'Hoe DealBuddy de gangbare prijs berekent, nep-kortingen herkent, welke bronnen aan staan en hoe onze bot zich gedraagt.', kruimel: KRUIMEL('/deals/over/', 'Zo werkt het') }, overPagina({ status, winkels }));
 
   // Publieke data voor de browser

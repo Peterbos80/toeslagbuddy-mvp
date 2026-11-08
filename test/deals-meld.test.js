@@ -11,6 +11,7 @@ import { maakMeldingMail, schoonOnderwerp } from '../scripts/deals/mail.js';
 import { grafiekPng } from '../scripts/deals/png.js';
 import { grafiekData } from '../src/deals/grafiek.js';
 import { sseLezer } from '../src/deals/samenvoegen.js';
+import { draaiJachten, aanDeBeurt } from '../scripts/deals/agent.js';
 
 const NU = Date.parse('2026-11-08T12:00:00Z');
 const DAG = 864e5;
@@ -222,4 +223,36 @@ tl('live: bol.com, Travelpayouts, robots.txt en JSON-LD-verificatie', () => {
   const html = readFileSync(join(import.meta.dirname, 'fixtures/deals/product-jsonld.html'), 'utf8');
   assert.deepEqual(L.jsonLdPrijs(html), { prijs: 47.5, verzendkosten: 3.95 }, 'Product in @graph');
   assert.equal(L.jsonLdPrijs('<p>geen</p>'), null);
+});
+
+// ── Jachten met account (scripts/deals/agent.js) ──
+test('agent: jachten aan de beurt, rapport opslaan, mail met afmeldlink (service role alleen in env)', async () => {
+  const map = maakMap();
+  try {
+    const jacht = { id: 'j1', user_id: 'u1234567-0000', omschrijving: 'Bloesem 50 ml onder €80', criteria: { tekst: 'x', soort: 'product', zoekterm: 'Bloesem', merk: null, inhoud: { waarde: 50, eenheid: 'ml' }, variant: null, categorie: 'parfum', maxTotaal: 80, minKorting: null, inclusiefVerzending: true, vlucht: null, uitsluiten: ['tester', 'set'] }, kanaal: 'email', frequentie: 'dag', afmeld_token: 'tok-1', laatst_gedraaid: null };
+    const verzoeken = [];
+    const f = async (url, opties = {}) => {
+      verzoeken.push({ url, methode: opties.method || 'GET', body: opties.body ? JSON.parse(opties.body) : null, kop: opties.headers });
+      if (url.includes('/rest/v1/deals_jachten?actief')) return Response.json([jacht, { ...jacht, id: 'j2', laatst_gedraaid: new Date(NU - 36e5).toISOString() }]);
+      if (url.includes('/rest/v1/deals_rapporten?jacht_id')) return Response.json([]);
+      if (url.endsWith('/rest/v1/deals_rapporten')) return Response.json([{ id: 7 }], { status: 201 });
+      if (url.includes('/auth/v1/admin/users/')) return Response.json({ email: 'ann@voorbeeld.nl' });
+      if (url.includes('brevo')) return new Response('{}', { status: 201 });
+      return new Response(null, { status: 204 });
+    };
+    const r = await draaiJachten({ env: { SUPABASE_URL: 'https://p.supabase.co', SUPABASE_SERVICE_ROLE_KEY: 'service', BREVO_API_KEY: 'k' }, fetch: f, map, nu: NU, log: () => {} });
+    assert.deepEqual(r, { gedraaid: 1, mails: 1, proef: false }, 'j2 draaide een uur geleden: nog niet aan de beurt');
+    const post = verzoeken.find((v) => v.methode === 'POST' && v.url.endsWith('/deals_rapporten'));
+    assert.equal(post.body.rapport.oordeel.tekst, 'Nu kopen');
+    assert.equal(post.kop.Authorization, 'Bearer service');
+    const mail = verzoeken.find((v) => v.url.includes('brevo')).body;
+    assert.deepEqual(mail.to, [{ email: 'ann@voorbeeld.nl' }]);
+    assert.match(mail.htmlContent, /\/deals\/jagers\/\?afmelden=tok-1/);
+    assert.ok(verzoeken.some((v) => v.methode === 'PATCH' && v.url.includes('deals_rapporten?id=eq.7') && v.body.gemeld === true));
+    assert.deepEqual(await draaiJachten({ env: {}, log: () => {} }), { gedraaid: 0, mails: 0 });
+    assert.equal(aanDeBeurt({ frequentie: 'uur', laatst_gedraaid: new Date(NU - 56 * 60000).toISOString() }, NU), true);
+    assert.equal(aanDeBeurt({ frequentie: 'week', laatst_gedraaid: new Date(NU - 2 * 864e5).toISOString() }, NU), false);
+  } finally {
+    rmSync(map, { recursive: true, force: true });
+  }
 });

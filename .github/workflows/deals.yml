@@ -1,0 +1,126 @@
+name: DealBuddy-agents (prijzen verzamelen)
+
+# Elk uur: de jager (8 shards, alleen als repo-variabele DEALS_JAGER = 'aan'),
+# een verse check van alarm-producten, dan verzamelen (feeds, vluchten, demo),
+# bewijsmail (meld.js) en de jachten met account. De historie gaat naar git;
+# de site wordt om de paar uur opnieuw gepubliceerd (met alle tests).
+# Let op: GitHub start geplande workflows 'best effort' – soms later of overgeslagen.
+# Gratis: in een openbare repo zijn Actions-minuten onbeperkt; in een privé-repo
+# 2.000 min/maand. Zie docs/deals-techniek.md (of draai agent.js op een VM).
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+    inputs:
+      publiceren:
+        description: 'Daarna de site opnieuw publiceren (met alle tests)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: deals
+  cancel-in-progress: false
+
+jobs:
+  jager:
+    if: vars.DEALS_JAGER == 'aan'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Jager, shard ${{ matrix.shard }}/8
+        run: node scripts/deals/jager/jager.js --shard "${{ matrix.shard }}/8" --budget "${{ vars.DEALS_JAGER_BUDGET || '300' }}" --uit "uit-jager/shard-${{ matrix.shard }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deals-jager-${{ matrix.shard }}
+          path: uit-jager/
+          retention-days: 2
+
+  verse-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/deals/verse-check.js --uit uit-jager/verse-check.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deals-verse-check
+          path: uit-jager/
+          retention-days: 2
+
+  verzamelen:
+    needs: [jager, verse-check]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Resultaten van de jager ophalen
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: deals-*
+          path: uit-jager
+      - name: Verzamelen (feeds, vluchten, jager; demo zolang er geen echte bron is)
+        env:
+          DAISYCON_FEED_URLS: ${{ secrets.DAISYCON_FEED_URLS }}
+          TRADETRACKER_FEED_URLS: ${{ secrets.TRADETRACKER_FEED_URLS }}
+          AWIN_FEED_URLS: ${{ secrets.AWIN_FEED_URLS }}
+          TRAVELPAYOUTS_TOKEN: ${{ secrets.TRAVELPAYOUTS_TOKEN }}
+          TRAVELPAYOUTS_MARKER: ${{ vars.TRAVELPAYOUTS_MARKER }}
+          JSONLD_WINKELS: ${{ vars.JSONLD_WINKELS }}
+          DEALS_DEMO: ${{ vars.DEALS_DEMO }}
+        run: node scripts/deals/verzamel.js --invoer uit-jager
+      - name: Bewijsmail bij een alarm (proefdraai zonder geheimen)
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          DEALS_EMAIL: ${{ secrets.DEALS_EMAIL }}
+        run: node scripts/deals/meld.js
+      - name: Persoonlijke jagers met account
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+        run: node scripts/deals/agent.js --alleen-jachten
+      - name: Historie bewaren in git
+        run: |
+          git config user.name "dealbuddy-agent"
+          git config user.email "dealbuddy@users.noreply.github.com"
+          git add data/deals
+          git diff --cached --quiet && { echo "Niets nieuws"; exit 0; }
+          git commit -q -m "DealBuddy: prijzen $(date -u +%F' '%H:%M)"
+          # GitHub geeft soms een tijdelijke fout: opnieuw proberen, eerst bijwerken
+          for poging in 1 2 3 4 5; do
+            git pull --rebase -q origin "${{ github.ref_name }}" && git push && exit 0
+            echo "Push mislukt (poging $poging), opnieuw over $((poging * 10)) s"; sleep $((poging * 10))
+          done
+          exit 1
+      - name: Site opnieuw publiceren (tests draaien eerst)
+        # Handmatig, of elke paar uur (DEALS_PUBLICEER_UREN, standaard 6) om minuten te sparen
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.publiceren == 'true' || github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ELKE: ${{ vars.DEALS_PUBLICEER_UREN || '6' }}
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] && [ $(( 10#$(date -u +%H) % ELKE )) -ne 0 ]; then
+            echo "Nu niet publiceren (elke $ELKE uur)"; exit 0
+          fi
+          gh workflow run pages.yml --ref "${{ github.ref_name }}"

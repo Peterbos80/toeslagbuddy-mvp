@@ -150,7 +150,7 @@ test('volglijst: exporteren en importeren als JSON', async () => {
   assert.match(await tekst(p.locator('[data-volglijst]')), /Je volgt nog niets/);
   const bestand = JSON.stringify({ soort: 'dealbuddy-volglijst', regels: [{ type: 'vlucht', waarde: 'AMS-BCN', minKorting: 15 }, { type: 'categorie', waarde: 'parfum', minKorting: 10 }, { type: 'onzin' }] });
   await p.locator('[data-import]').setInputFiles({ name: 'v.json', mimeType: 'application/json', buffer: Buffer.from(bestand) });
-  assert.match(await p.locator('[data-volg-status]').innerText(), /2 regel\(s\) geïmporteerd/);
+  await p.waitForFunction(() => /2 regel\(s\) geïmporteerd/.test(document.querySelector('[data-volg-status]').textContent));
   assert.equal(await p.locator('.volg-item').count(), 2);
   const [dl] = await Promise.all([p.waitForEvent('download'), p.click('[data-export]')]);
   const json = JSON.parse(await readFile(await dl.path(), 'utf8'));
@@ -160,7 +160,7 @@ test('volglijst: exporteren en importeren als JSON', async () => {
   assert.equal(await p.locator('.volg-item').count(), 1);
   // Kapot bestand
   await p.locator('[data-import]').setInputFiles({ name: 'x.json', mimeType: 'application/json', buffer: Buffer.from('geen json') });
-  assert.match(await p.locator('[data-volg-status]').innerText(), /kan ik niet lezen/);
+  await p.waitForFunction(() => /kan ik niet lezen/.test(document.querySelector('[data-volg-status]').textContent));
   await ctx.close();
 });
 
@@ -320,4 +320,64 @@ test('deals-data: JSON klopt en bewijspagina’s staan niet in de sitemap', asyn
   assert.ok(!/\/deals\/bewijs\//.test(sitemap));
   const bewijs = await readFile(join(DIST, 'deals/bewijs/eau-de-parfum-bloesem-50-ml/index.html'), 'utf8');
   assert.match(bewijs, /<meta name="robots" content="noindex">/);
+});
+
+test('jagers met account: inloglink, terug met token, jagers naar de server, afmelden via mail', async () => {
+  const ctx = await s.browser.newContext({ reducedMotion: 'reduce', bypassCSP: true });
+  await ctx.route('**/deals/jagers/**', async (route) => {
+    const r = await route.fetch();
+    const html = (await r.text()).replace(/("supabaseUrl":)"[^"]*"/, '$1"https://test.supabase.co"').replace(/("supabaseAnonKey":)"[^"]*"/, '$1"anon"');
+    await route.fulfill({ response: r, body: html });
+  });
+  const verzoeken = [];
+  const servers = [];
+  await ctx.route('https://test.supabase.co/**', async (route) => {
+    const req = route.request();
+    const url = req.url();
+    verzoeken.push({ url, methode: req.method(), body: req.postData(), auth: req.headers().authorization });
+    const json = (d, status = 200) => route.fulfill({ status, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify(d) });
+    if (url.endsWith('/auth/v1/otp')) return json({});
+    if (url.endsWith('/functions/v1/deals-zoek')) return route.fulfill({ status: 200, headers: { 'Content-Type': 'text/event-stream', 'Access-Control-Allow-Origin': '*' }, body: 'event: start\ndata: {"bronnen":[]}\n\nevent: klaar\ndata: {}\n\n' });
+    if (url.endsWith('/auth/v1/user')) return json({ email: 'ann@voorbeeld.nl' });
+    if (url.includes('/rest/v1/rpc/deals_afmelden')) return json({ ok: true, afgemeld: true });
+    if (url.includes('/rest/v1/deals_jachten') && req.method() === 'POST') {
+      servers.push(JSON.parse(req.postData()));
+      return route.fulfill({ status: 201, headers: { 'Access-Control-Allow-Origin': '*' }, body: '' });
+    }
+    if (url.includes('/rest/v1/deals_jachten')) return json(servers.map((x, i) => ({ id: String(i), omschrijving: x.omschrijving, frequentie: x.frequentie, actief: true, laatst_gedraaid: null })));
+    return json({}, 404);
+  });
+  const p = await open(ctx, s.basis + '/deals/jagers/', fouten);
+  // Inloglink vragen: eerst toestemming
+  await p.locator('#acc-email').fill('ann@voorbeeld.nl');
+  await p.click('[data-login] button[type=submit]');
+  assert.match(await p.locator('[data-account-status]').innerText(), /Vink aan/);
+  await p.check('#acc-ok');
+  await p.click('[data-login] button[type=submit]');
+  await p.waitForFunction(() => /inloglink/.test(document.querySelector('[data-account-status]').textContent));
+  const otp = verzoeken.find((v) => v.url.endsWith('/auth/v1/otp'));
+  assert.equal(JSON.parse(otp.body).email, 'ann@voorbeeld.nl');
+  // Een jager in de browser maken
+  await p.locator('#jager-opdracht').fill('airfryer onder 80 euro');
+  await p.click('[data-jager-form] button[type=submit]');
+  await p.click('[data-criteria] button[type=submit]');
+  await p.locator('.jager-kaart').first().waitFor();
+  // Terug van de inloglink
+  await p.goto('about:blank');
+  await p.goto(s.basis + '/deals/jagers/#access_token=tok123&type=magiclink');
+  await p.locator('[data-sync]').waitFor();
+  assert.match(await tekst(p.locator('[data-account-inhoud]')), /Ingelogd als ann@voorbeeld\.nl/);
+  assert.ok(!p.url().includes('access_token'), 'token uit de adresbalk');
+  await p.selectOption('[data-freq]', 'week');
+  await p.click('[data-sync]');
+  await p.locator('[data-account-inhoud] h3').waitFor();
+  assert.equal(servers.length, 1);
+  assert.equal(servers[0].frequentie, 'week');
+  assert.equal(servers[0].criteria.zoekterm, 'airfryer');
+  assert.ok(servers[0].toestemming);
+  assert.ok(verzoeken.filter((v) => v.url.includes('deals_jachten')).every((v) => v.auth === 'Bearer tok123'));
+  // Afmelden via de link in de mail
+  await p.goto(s.basis + '/deals/jagers/?afmelden=00000000-0000-4000-8000-000000000001');
+  await p.waitForFunction(() => /Gelukt/.test(document.querySelector('[data-account-status]').textContent));
+  await ctx.close();
 });

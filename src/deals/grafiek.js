@@ -108,8 +108,10 @@ export function samenvatting(data) {
 }
 
 // De hele grafiek als SVG-tekst
-export function grafiekMeerSvg(data, { dagen = 90, verborgen = [], id = 'pg' } = {}) {
-  const s = schaal(data, { dagen, verborgen });
+// smal: voor telefoons (minder breed, dus hoger en grotere letters)
+export const MAAT_SMAL = { B: 440, H: 340, L: 52 };
+export function grafiekMeerSvg(data, { dagen = 90, verborgen = [], id = 'pg', smal = false } = {}) {
+  const s = schaal(data, { dagen, verborgen, ...(smal ? MAAT_SMAL : {}) });
   const raster = Array.from({ length: 5 }, (_, i) => s.min + ((s.max - s.min) * i) / 4)
     .map((v) => `<line class="gr-raster" x1="${s.L}" x2="${s.B - s.R}" y1="${s.y(v).toFixed(1)}" y2="${s.y(v).toFixed(1)}"/><text class="gr-as" x="${s.L - 8}" y="${(s.y(v) + 4).toFixed(1)}" text-anchor="end">${esc(eur(v, 0))}</text>`)
     .join('');
@@ -132,18 +134,21 @@ export function grafiekMeerSvg(data, { dagen = 90, verborgen = [], id = 'pg' } =
       (n) => {
         const xx = s.x(t(n.datum));
         const links = xx > s.B * 0.6;
-        return `<g class="pg-nep"><line x1="${xx.toFixed(1)}" x2="${xx.toFixed(1)}" y1="${s.T}" y2="${s.H - s.O}"/><text x="${(xx + (links ? -4 : 4)).toFixed(1)}" y="${s.T + 12}" text-anchor="${links ? 'end' : 'start'}">nep-korting: eerst duurder (${esc(n.w.winkel)})</text></g>`;
+        return `<g class="pg-nep"><line x1="${xx.toFixed(1)}" x2="${xx.toFixed(1)}" y1="${s.T}" y2="${s.H - s.O}"/><text x="${(xx + (links ? -4 : 4)).toFixed(1)}" y="${s.T + 12}" text-anchor="${links ? 'end' : 'start'}">${smal ? 'nep-korting' : `nep-korting: eerst duurder (${esc(n.w.winkel)})`}</text></g>`;
       },
     )
     .join('');
   const gl = data.gangbaar
-    ? `<line class="gr-gangbaar" x1="${s.L}" x2="${s.B - s.R}" y1="${s.y(data.gangbaar).toFixed(1)}" y2="${s.y(data.gangbaar).toFixed(1)}"/><text class="gr-label gr-label-gangbaar" x="${s.B - s.R - 4}" y="${(s.y(data.gangbaar) - 6).toFixed(1)}" text-anchor="end">gangbaar ${esc(eur(data.gangbaar))}</text>`
+    ? `<line class="gr-gangbaar" x1="${s.L}" x2="${s.B - s.R}" y1="${s.y(data.gangbaar).toFixed(1)}" y2="${s.y(data.gangbaar).toFixed(1)}"/><text class="gr-label gr-label-gangbaar" x="${s.L + 6}" y="${(s.y(data.gangbaar) - 6).toFixed(1)}">gangbaar ${esc(eur(data.gangbaar))}</text>`
     : '';
   const x30 = Math.max(s.L, s.x(s.eind - 30 * DAG));
   const l30 = data.laagste30
-    ? `<line class="gr-l30" x1="${x30.toFixed(1)}" x2="${s.x(s.eind).toFixed(1)}" y1="${s.y(data.laagste30).toFixed(1)}" y2="${s.y(data.laagste30).toFixed(1)}"/><text class="gr-label gr-label-l30" x="${x30.toFixed(1)}" y="${(s.y(data.laagste30) + 16).toFixed(1)}">laagste 30 dagen ${esc(eur(data.laagste30))}</text>`
+    ? `<line class="gr-l30" x1="${x30.toFixed(1)}" x2="${s.x(s.eind).toFixed(1)}" y1="${s.y(data.laagste30).toFixed(1)}" y2="${s.y(data.laagste30).toFixed(1)}"/><text class="gr-label gr-label-l30" x="${(smal ? s.x(s.eind) : x30).toFixed(1)}" y="${(s.y(data.laagste30) + 16).toFixed(1)}"${smal ? ' text-anchor="end"' : ''}>laagste 30 dagen ${esc(eur(data.laagste30))}</text>`
     : '';
-  const b = data.beste && !verborgen.includes(data.beste.winkel) ? `<circle class="gr-nu" cx="${s.x(s.eind).toFixed(1)}" cy="${s.y(data.beste.totaal).toFixed(1)}" r="7"/><text class="gr-label pg-beste" x="${(s.x(s.eind) - 10).toFixed(1)}" y="${(s.y(data.beste.totaal) - 12).toFixed(1)}" text-anchor="end">nu ${esc(eur(data.beste.totaal))}</text>` : '';
+  // 'nu'-label boven de stip, of eronder als de gangbare prijs er vlak boven ligt
+  const yb = data.beste ? s.y(data.beste.totaal) : 0;
+  const onder = data.gangbaar && s.y(data.gangbaar) < yb && yb - s.y(data.gangbaar) < 26;
+  const b = data.beste && !verborgen.includes(data.beste.winkel) ? `<circle class="gr-nu" cx="${s.x(s.eind).toFixed(1)}" cy="${yb.toFixed(1)}" r="7"/><text class="gr-label pg-beste" x="${(s.x(s.eind) - 10).toFixed(1)}" y="${(onder ? yb + 22 : yb - 12).toFixed(1)}" text-anchor="end">nu ${esc(eur(data.beste.totaal))}</text>` : '';
   return `<svg class="grafiek pg" viewBox="0 0 ${s.B} ${s.H}" role="img" aria-label="${esc(samenvatting(data))}" data-id="${esc(id)}">${raster}${labels.join('')}${gl}${l30}${nep}${lijnen}${b}<line class="pg-cursor" x1="0" x2="0" y1="${s.T}" y2="${s.H - s.O}" visibility="hidden"/></svg>`;
 }
 
