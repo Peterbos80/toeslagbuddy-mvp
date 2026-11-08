@@ -1,0 +1,18 @@
+{
+  "products": [
+    {
+      "id": 1, "title": "Voorbeeld Eau de Parfum", "handle": "voorbeeld-edp", "vendor": "Voorbeeldmerk", "product_type": "Parfum",
+      "body_html": "<p>Lange tekst die we niet overnemen</p>",
+      "variants": [
+        { "id": 11, "title": "50 ml", "price": "49.95", "compare_at_price": "69.95", "sku": "VB50", "barcode": "4006381333931", "available": true },
+        { "id": 12, "title": "100 ml", "price": "79.95", "compare_at_price": null, "sku": "VB100", "barcode": "", "available": false }
+      ],
+      "images": [{ "src": "https://cdn.shopify.example/vb.jpg" }]
+    },
+    {
+      "id": 2, "title": "Voorbeeld Bodylotion", "handle": "bodylotion", "vendor": "Voorbeeldmerk", "product_type": "Beauty",
+      "variants": [{ "id": 21, "title": "Default Title", "price": "12.50", "compare_at_price": "", "barcode": null, "available": true }],
+      "images": []
+    }
+  ]
+}

@@ -3,7 +3,8 @@
 import { join } from 'node:path';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { leesHistorie, leesJson, DATA } from '../../scripts/deals/opslag.js';
-import { bouwIndex } from '../deals/dealindex.js';
+import { bouwIndex, paginaSlugs } from '../deals/dealindex.js';
+import { grafiekPng } from '../../scripts/deals/png.js';
 import { slug, CATEGORIEEN } from '../deals/aanbod.js';
 import { weekOverzicht, dagReeks } from '../deals/historie.js';
 import { plaats } from '../deals/vluchten.js';
@@ -321,14 +322,7 @@ export function bouwDeals({ dist, versie, layout, map = DATA }) {
   // Rekenmoment = laatste verzamelronde (dan klopt 'nu' ook als de build later draait)
   const nu = Date.parse(status.bijgewerkt || '') || Date.now();
   const betrouwbaarheid = Object.fromEntries(winkels.filter((w) => w.betrouwbaarheid).map((w) => [w.naam, w.betrouwbaarheid]));
-  const gebruikt = new Set();
-  const paginaSlug = new Map();
-  for (const r of [...producten.values()].sort((a, b) => a.id.localeCompare(b.id))) {
-    let s = slug(r.titel) || slug(r.id);
-    if (gebruikt.has(s)) s = `${s}-${slug(r.id).slice(-6)}`;
-    gebruikt.add(s);
-    paginaSlug.set(r.id, s);
-  }
+  const paginaSlug = paginaSlugs([...producten.values()]);
   const index = bouwIndex([...producten.values()], [...vluchten.values()], nu, { pagina: (r) => `/deals/p/${paginaSlug.get(r.id)}/`, betrouwbaarheid });
   for (const p of index.producten) p.deal.paginaSlug = paginaSlug.get(p.deal.id);
 
@@ -357,6 +351,9 @@ export function bouwDeals({ dist, versie, layout, map = DATA }) {
         : [{ '@context': 'https://schema.org', '@type': 'Product', name: deal.titel, ...(deal.merk ? { brand: { '@type': 'Brand', name: deal.merk } } : {}), ...(/^\d{13}$/.test(deal.id) ? { gtin13: deal.id } : {}), offers: { '@type': 'AggregateOffer', priceCurrency: 'EUR', lowPrice: deal.totaal, offerCount: ov.aanbod.length } }],
     }, productPagina({ deal, ov, nu, status, record }));
     const bpad = `/deals/bewijs/${deal.paginaSlug}/`;
+    // Mini-grafiek als PNG voor de bewijsmail (mail toont geen SVG)
+    mkdirSync(join(dist, bpad), { recursive: true });
+    writeFileSync(join(dist, bpad, 'grafiek.png'), grafiekPng(grafiekData(record, nu)));
     schrijf(bpad, { title: `Bewijs: ${deal.titel}`, h1: `Bewijs: ${deal.titel}`, description: `Alle gemeten prijzen van ${deal.titel}, per winkel en per week.`, kruimel: KRUIMEL(bpad, 'Bewijs', [[pad, deal.titel]]), noindex: true }, bewijsPagina({ deal, ov, nu, record }));
   }
   schrijf('/deals/vluchten/', { title: 'Goedkope vliegtickets onder de gangbare prijs – DealBuddy', h1: 'Vliegtickets', kort: 'Vliegtickets', description: 'Prijskalender per route: zie per vertrekdag de laagste prijs en wat een vlucht normaal kost. Van Amsterdam, Eindhoven en Rotterdam.', script: ['deals-vluchten.js'], kruimel: KRUIMEL('/deals/vluchten/', 'Vliegtickets') }, vluchtenPagina({ routes: index.routes, status, nu }));

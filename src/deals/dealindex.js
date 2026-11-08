@@ -3,6 +3,20 @@
 // (pagina's), meld.js (alarmen) en de browser (volglijst, live zoeken).
 import { productOverzicht, venster } from './historie.js';
 import { routeOverzicht, plaats } from './vluchten.js';
+import { slug } from './aanbod.js';
+
+// Vaste, unieke paginanaam per product (/deals/p/<naam>/): slug van de titel
+export function paginaSlugs(records) {
+  const gebruikt = new Set();
+  const uit = new Map();
+  for (const r of [...records].sort((a, b) => a.id.localeCompare(b.id))) {
+    let s = slug(r.titel) || slug(r.id);
+    if (gebruikt.has(s)) s = `${s}-${slug(r.id).slice(-6)}`;
+    gebruikt.add(s);
+    uit.set(r.id, s);
+  }
+  return uit;
+}
 
 export function productDeal(ov, pagina, nu) {
   const b = ov.beste;

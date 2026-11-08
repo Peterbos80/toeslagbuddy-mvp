@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:pepper="https://nl.pepper.com/rss" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Pepper NL – hot (voorbeeld)</title>
+    <item>
+      <title>Maison Lumière Eau de Parfum Bloesem 50 ml voor € 39,95</title>
+      <link>https://nl.pepper.com/aanbiedingen/bloesem-123</link>
+      <pubDate>Sun, 08 Nov 2026 09:00:00 +0100</pubDate>
+      <pepper:merchant name="Geurwinkel">Geurwinkel</pepper:merchant>
+      <description><![CDATA[Top deal! <a href="https://geurwinkel.example/p/2000000010007">Naar de winkel</a> en <a href="https://nl.pepper.com/x">reacties</a>]]></description>
+    </item>
+    <item>
+      <title>Gratis verzending bij alles</title>
+      <link>https://nl.pepper.com/aanbiedingen/verzending-9</link>
+    </item>
+  </channel>
+</rss>

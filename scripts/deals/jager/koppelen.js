@@ -46,7 +46,8 @@ export function kenmerken({ titel, merk, ean }) {
     varianten: VARIANTEN.filter(([, re]) => re.test(t)).map(([k]) => k).sort(),
     soort: (SOORTEN.find(([, re]) => re.test(t)) || [null])[0],
     woorden: new Set(
-      t
+      [...SOORTEN, ...VARIANTEN]
+        .reduce((x, [, re]) => x.replace(new RegExp(re.source, 'g'), ' '), t)
         .replace(/\d+(?:[.,]\d+)?\s*(ml|cl|l|g|gr|kg)\b/g, ' ')
         .split(/[^a-z0-9]+/)
         .filter((w) => w && !STOP.has(w) && !(m && m.split('-').includes(w))),

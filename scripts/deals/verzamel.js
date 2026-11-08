@@ -66,6 +66,8 @@ export function verwerk(ruw, historie, { nu, koersen = {}, optout = () => false 
   return { producten: producten.length, vluchten, weg, gekoppeld };
 }
 
+// Invoerbestanden: een lijst aanbiedingen, of { aanbod, status } van de jager
+const winkelStatus = {};
 function leesInvoer(map) {
   if (!map || !existsSync(map)) return [];
   const uit = [];
@@ -77,6 +79,7 @@ function leesInvoer(map) {
         try {
           const j = JSON.parse(readFileSync(p, 'utf8'));
           for (const x of Array.isArray(j) ? j : j.aanbod || []) uit.push(x);
+          if (j.status) Object.assign(winkelStatus, j.status);
         } catch {
           /* kapot bestand overslaan */
         }
@@ -87,7 +90,7 @@ function leesInvoer(map) {
   return uit;
 }
 
-export async function verzamel({ env = process.env, nu = Date.now(), map = DATA, fetch: f = globalThis.fetch, invoer = null, log = console.log, bronnen = BRONNEN } = {}) {
+export async function verzamel({ env = process.env, nu = Date.now(), map = DATA, fetch: f = globalThis.fetch, invoer = null, extraAanbod = [], log = console.log, bronnen = BRONNEN } = {}) {
   const historie = leesHistorie(map);
   const optout = optoutLijst(map);
   const context = {
@@ -104,7 +107,7 @@ export async function verzamel({ env = process.env, nu = Date.now(), map = DATA,
   const statusBronnen = [];
   const ruw = [];
   const echte = bronnen.filter((b) => b.actief(env, { standaardPad: context.jsonldPad }));
-  const extra = leesInvoer(invoer);
+  const extra = [...leesInvoer(invoer), ...extraAanbod];
   for (const b of [...bronnen, demo]) {
     const actief = b === demo ? demo.actief(env, { echteBronnen: echte.length + (extra.length ? 1 : 0) }) : echte.includes(b);
     const s = { naam: b.naam, label: b.label, soort: b.soort, actief, status: actief ? 'ok' : 'uit', aantal: 0 };
@@ -136,7 +139,7 @@ export async function verzamel({ env = process.env, nu = Date.now(), map = DATA,
     bijgewerkt: new Date(nu).toISOString(),
     demo: statusBronnen.find((s) => s.naam === 'demo')?.actief ?? false,
     bronnen: statusBronnen,
-    winkels: vorige.winkels || {},
+    winkels: { ...(vorige.winkels || {}), ...winkelStatus },
     producten: historie.producten.size,
     routes: historie.vluchten.size,
     ...telling,
