@@ -236,7 +236,7 @@ ${demoBanner(status)}
 <section class="deal-blok"><h2>Bewaren of overzetten</h2>
 <p>Zet je volglijst over naar een andere browser met een bestand.</p>
 <p class="knoppen"><button type="button" class="knop-licht" data-export>Exporteer (JSON)</button>
-<label class="knop-licht bestand-knop" for="volg-import">Importeer (JSON)</label><input id="volg-import" type="file" accept="application/json,.json" class="skip" data-import></p>
+<label class="knop-licht bestand-knop" for="volg-import">Importeer (JSON)</label><input id="volg-import" type="file" accept="application/json,.json" class="verborgen-invoer" data-import></p>
 <p role="status" aria-live="polite" data-volg-status></p></section>`;
 }
 

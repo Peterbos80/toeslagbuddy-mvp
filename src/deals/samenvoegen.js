@@ -124,7 +124,7 @@ export function voegLiveSamen(lijst, bericht, nu = Date.now()) {
 // Op totaalprijs incl. verzending; gelijk: geverifieerd eerst, dan winkelnaam
 export const sorteer = (lijst) => lijst.sort((a, b) => a.totaal - b.totaal || (b.geverifieerd ? 1 : 0) - (a.geverifieerd ? 1 : 0) || a.winkel.localeCompare(b.winkel));
 
-const BRONNAMEN = { travelpayouts: 'vluchten', bol: 'bol.com', verificatie: 'winkels nagekeken' };
+const BRONNAMEN = { index: 'onze index', travelpayouts: 'vluchten', bol: 'bol.com', verificatie: 'winkels nagekeken' };
 export const bronNaam = (b) => BRONNAMEN[b] || b;
 
 // Tekst voor een statuschip: 'bol.com ✓ 0,8 s' / 'winkel X ✗ time-out'

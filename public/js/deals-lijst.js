@@ -54,6 +54,11 @@ if (form && raster) {
   sorteer.addEventListener('change', toon);
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    // Zoeken doet in alle categorieën (de startcategorie Parfum los laten)
+    if (zoek.value.trim() && cat) {
+      cat = '';
+      chips.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.cat === '')));
+    }
     toon();
   });
 

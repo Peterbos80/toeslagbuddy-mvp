@@ -747,3 +747,5 @@ h1, h2, .inhoud p, .inhoud li { overflow-wrap: break-word; }
 .pg-winkel[aria-pressed='false'] { opacity: .55; text-decoration: line-through; }
 .pg-vast { color: var(--zacht); }
 .pg-tabel summary { cursor: pointer; font-weight: 700; margin: 6px 0; }
+.verborgen-invoer { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; opacity: 0; }
+.verborgen-invoer:focus-visible + *, .knoppen:has(.verborgen-invoer:focus-visible) .bestand-knop { outline: 3px solid var(--db-1); outline-offset: 2px; }
