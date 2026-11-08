@@ -1,0 +1,9 @@
+{
+  "_uitleg": "Prijsalarmen van de eigenaar. meld.js mailt alleen bij sterk bewijs (zie docs/deals-techniek.md). Het e-mailadres staat NIET hier maar in het geheim DEALS_EMAIL. type: product (EAN of id) | categorie | zoekterm | vlucht (AMS-BCN). minKorting in procent onder de gangbare prijs, maxPrijs incl. verzending.",
+  "regels": [
+    { "id": "parfum-30", "type": "categorie", "waarde": "parfum", "minKorting": 30 },
+    { "id": "koptelefoon", "type": "zoekterm", "waarde": "koptelefoon", "minKorting": 25, "maxPrijs": 200 },
+    { "id": "lissabon", "type": "vlucht", "waarde": "AMS-LIS", "minKorting": 25, "maxPrijs": 120 },
+    { "id": "barcelona", "type": "vlucht", "waarde": "AMS-BCN", "minKorting": 30 }
+  ]
+}

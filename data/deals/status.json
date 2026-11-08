@@ -1,0 +1,61 @@
+{
+  "bijgewerkt": "2026-11-08T20:14:24.063Z",
+  "demo": true,
+  "bronnen": [
+    {
+      "naam": "daisycon",
+      "label": "Daisycon-productfeeds",
+      "soort": "feed",
+      "actief": false,
+      "status": "uit",
+      "aantal": 0
+    },
+    {
+      "naam": "tradetracker",
+      "label": "TradeTracker-productfeeds",
+      "soort": "feed",
+      "actief": false,
+      "status": "uit",
+      "aantal": 0
+    },
+    {
+      "naam": "awin",
+      "label": "Awin-productfeeds",
+      "soort": "feed",
+      "actief": false,
+      "status": "uit",
+      "aantal": 0
+    },
+    {
+      "naam": "travelpayouts",
+      "label": "Travelpayouts (vliegtickets)",
+      "soort": "vlucht",
+      "actief": false,
+      "status": "uit",
+      "aantal": 0
+    },
+    {
+      "naam": "jsonld",
+      "label": "Winkelpagina’s (schema.org)",
+      "soort": "crawl",
+      "actief": false,
+      "status": "uit",
+      "aantal": 0
+    },
+    {
+      "naam": "demo",
+      "label": "Demo-gegevens (verzonnen)",
+      "soort": "demo",
+      "actief": true,
+      "status": "ok",
+      "aantal": 132476,
+      "ms": 477
+    }
+  ],
+  "winkels": {},
+  "producten": 13412,
+  "routes": 8,
+  "vluchten": 119064,
+  "weg": 0,
+  "gekoppeld": 0
+}

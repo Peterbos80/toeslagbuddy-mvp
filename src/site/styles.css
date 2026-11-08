@@ -476,3 +476,274 @@ h1, h2, .inhoud p, .inhoud li { overflow-wrap: break-word; }
   nav.hoofd { order: 3; }
 }
 .samenvattingen h3 { margin-top: 1.2em; }
+/* Met 'Deals' in het menu: op brede schermen 'EN' in plaats van 'English', zodat de kop op één regel past */
+@media (min-width: 761px) {
+  nav.hoofd { gap: 4px 14px; }
+  .taalwissel { padding: 6px 12px; }
+  .taalwissel .taal-kort { display: inline; }
+  .taalwissel .taal-lang { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+
+/* ── DealBuddy (/deals/) – eigen kleuren, zodat ToeslagBuddy zelf rustig blijft ── */
+.deals-pagina {
+  --db-1: #6d28d9; --db-2: #be185d; --db-3: #f59e0b; --db-diep: #2e1065;
+  --db-licht: #f3edff; --db-glas: rgb(255 255 255 / 78%); --db-rand: rgb(109 40 217 / 14%);
+  --db-goed: #047857; --db-goed-licht: #d9f5ea; --db-let: #92400e; --db-let-licht: #fef3c7; --db-fout: #9f1239; --db-fout-licht: #ffe4ec;
+  --merk: #6d28d9; --merk-donker: #4c1d95; --merk-licht: #f1eafe;
+  --grad: linear-gradient(135deg, #5b21b6 0%, #7c3aed 50%, #be185d 100%);
+  --db-schaduw: 0 1px 2px rgb(46 16 101 / 6%), 0 18px 40px -22px rgb(46 16 101 / 38%);
+}
+@media (prefers-color-scheme: dark) {
+  .deals-pagina {
+    --db-1: #c4b5fd; --db-2: #f9a8d4; --db-diep: #ede9fe; --db-licht: #241a3b; --db-glas: rgb(30 22 48 / 82%); --db-rand: rgb(196 181 253 / 18%);
+    --db-goed: #6ee7b7; --db-goed-licht: #0f2f25; --db-let: #fcd34d; --db-let-licht: #3a2a08; --db-fout: #fda4af; --db-fout-licht: #3d1220;
+    --merk: #c4b5fd; --merk-donker: #ddd6fe; --merk-licht: #2a1f45;
+    --db-schaduw: 0 18px 40px -24px rgb(0 0 0 / 70%);
+  }
+}
+.deals-pagina a { color: var(--merk); }
+.deals-pagina .knop { color: #fff; box-shadow: 0 10px 24px -10px rgb(109 40 217 / 65%); }
+.deals-pagina .knop:hover { box-shadow: 0 14px 28px -10px rgb(190 24 93 / 60%); }
+.deals-pagina .knop-licht { background: var(--merk-licht); color: var(--merk-donker); border: 1.5px solid var(--db-rand); }
+.deals-pagina .knop-licht:hover { background: var(--db-licht); }
+.deals-pagina input:focus, .deals-pagina select:focus { outline-color: color-mix(in srgb, var(--db-1) 40%, transparent); border-color: var(--db-1); }
+.deals-pagina :focus-visible { outline: 3px solid color-mix(in srgb, var(--db-1) 55%, transparent); outline-offset: 2px; }
+.deals-pagina .chip[aria-pressed='true'] { box-shadow: 0 6px 16px -6px rgb(109 40 217 / 60%); }
+
+.deals-hero { position: relative; overflow: hidden; margin: 16px 0 18px; padding: 28px 20px 18px; border-radius: 28px; color: #fff;
+  background: radial-gradient(120% 140% at 100% 0%, #db2777 0%, transparent 55%), radial-gradient(90% 120% at 0% 100%, #7c3aed 0%, transparent 60%), linear-gradient(135deg, #2e1065, #4c1d95 60%, #831843);
+  box-shadow: 0 30px 60px -30px rgb(46 16 101 / 70%); }
+@media (min-width: 700px) { .deals-hero { padding: 40px 40px 22px; } }
+.deals-hero h1 { color: #fff; max-width: 760px; }
+.deals-hero .intro { color: #f5f0ff; max-width: 720px; }
+.deals-hero a { color: #fff; }
+.deals-hero-klein h1 { font-size: clamp(1.5rem, 4vw, 2.2rem); }
+.db-merk { display: inline-flex; align-items: center; gap: 8px; font-weight: 900; letter-spacing: .02em; font-size: .95rem; margin-bottom: 10px; color: #fff; }
+.db-logo { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 10px; background: linear-gradient(135deg, #fbbf24, #f472b6); color: #2e1065; font-weight: 900; box-shadow: 0 6px 14px -6px rgb(0 0 0 / 50%); }
+.db-accent { background: linear-gradient(90deg, #fde68a, #fbcfe8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.deals-hero-deco span { position: absolute; border-radius: 50%; filter: blur(2px); opacity: .35; background: radial-gradient(circle at 30% 30%, #fff, transparent 60%); pointer-events: none; }
+.deals-hero-deco span:nth-child(1) { width: 180px; height: 180px; right: -40px; top: -50px; animation: zweef 9s ease-in-out infinite; }
+.deals-hero-deco span:nth-child(2) { width: 90px; height: 90px; right: 22%; bottom: -30px; animation: zweef 7s ease-in-out infinite reverse; }
+.deals-hero-deco span:nth-child(3) { width: 50px; height: 50px; left: 55%; top: 18px; animation: zweef 11s ease-in-out infinite; }
+@keyframes zweef { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-12px, 10px); } }
+.teller { font-size: 1rem; margin: 6px 0 14px; color: #f5f0ff; }
+.teller-getal { display: inline-block; min-width: 2ch; font-size: 1.6rem; font-weight: 900; color: #fff; background: rgb(255 255 255 / 16%); border-radius: 12px; padding: 0 10px; margin-right: 2px; }
+.deals-sub { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.deals-sub a { text-decoration: none; font-weight: 700; font-size: .92rem; padding: 7px 14px; border-radius: 99px; background: rgb(255 255 255 / 14%); color: #fff; border: 1px solid rgb(255 255 255 / 22%); }
+.deals-sub a:hover, .deals-sub a[aria-current] { background: #fff; color: #4c1d95; }
+
+.demo-banner { background: var(--db-let-licht); color: var(--db-let); border-radius: 16px; padding: 12px 16px; margin: 0 0 16px; font-size: .95rem; border: 1px dashed color-mix(in srgb, var(--db-let) 45%, transparent); }
+.demo-banner a { color: inherit; }
+
+.deals-filter { display: grid; gap: 14px; background: var(--db-glas); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid var(--db-rand); border-radius: 22px; padding: 16px; box-shadow: var(--db-schaduw); margin-bottom: 18px; }
+@media (min-width: 900px) { .deals-filter { grid-template-columns: 1.4fr 1fr; align-items: start; } .deals-filter .chips { grid-column: 1 / -1; } }
+.deals-filter label, .alarm-form label, .vlucht-form label, .jager-form label { font-weight: 750; display: block; margin-bottom: 4px; }
+.zoek-veld { display: flex; gap: 8px; }
+.zoek-veld input { flex: 1; min-width: 0; }
+.zoek-veld .knop { width: auto; flex: none; }
+.chips { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.chips legend { font-weight: 750; margin-bottom: 6px; padding: 0; }
+.chip { min-height: 40px; }
+.schuif input[type=range] { padding: 0; min-height: 36px; border: 0; background: transparent; accent-color: var(--db-1); }
+.schuif output { font-weight: 900; color: var(--merk-donker); }
+.sorteer select { max-width: 260px; }
+
+.deal-raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); gap: 16px; margin: 0 0 28px; }
+.deal-kaart { position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 12px; background: var(--vlak); border: 1px solid var(--db-rand); border-radius: 22px; padding: 16px; box-shadow: var(--db-schaduw); transition: transform .25s cubic-bezier(.2, 1.2, .4, 1), box-shadow .25s; animation: opduiken .45s ease-out both; }
+.deal-kaart:hover { transform: translateY(-4px); box-shadow: 0 26px 50px -26px rgb(76 29 149 / 55%); }
+.deal-kaart[hidden] { display: none; }
+.deal-beeld { width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; font-weight: 900; font-size: 1.15rem; color: #fff; }
+.kleur-0 { background: linear-gradient(135deg, #7c3aed, #db2777); }
+.kleur-1 { background: linear-gradient(135deg, #0e7490, #6d28d9); }
+.kleur-2 { background: linear-gradient(135deg, #b45309, #be185d); }
+.kleur-3 { background: linear-gradient(135deg, #047857, #0e7490); }
+.kleur-4 { background: linear-gradient(135deg, #be185d, #9d174d); }
+.kleur-5 { background: linear-gradient(135deg, #4338ca, #7c3aed); }
+.deal-tekst { min-width: 0; }
+.deal-tekst h3 { margin: 2px 0 4px; font-size: 1.05rem; line-height: 1.3; }
+.deal-tekst h3 a { color: var(--tekst); text-decoration: none; }
+.deal-tekst h3 a:hover { color: var(--merk); text-decoration: underline; }
+.deal-tekst h3 small { display: block; font-weight: 600; color: var(--zacht); font-size: .85rem; }
+.deal-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0; font-size: .78rem; }
+.deal-cat { text-transform: uppercase; letter-spacing: .06em; font-weight: 800; color: var(--merk); }
+.deals-hero .deal-cat { color: #fde68a; }
+.deal-winkel, .deal-gangbaar { margin: 0; font-size: .9rem; color: var(--zacht); }
+.deal-prijs { margin: 8px 0 2px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.totaal { font-size: 1.55rem; font-weight: 900; letter-spacing: -.01em; color: var(--tekst); }
+.verzend { font-size: .82rem; color: var(--zacht); }
+.verzend-onbekend { color: var(--db-let); font-weight: 700; }
+.deal-badges { margin: 8px 0 4px; display: flex; flex-wrap: wrap; gap: 6px; }
+.deals-pagina .badge { font-size: .78rem; padding: 3px 10px; margin: 0; }
+.badge-echt { background: var(--db-goed-licht); color: var(--db-goed); }
+.badge-geen { background: var(--lijn); color: var(--tekst); }
+.badge-nieuw { background: var(--db-licht); color: var(--merk-donker); }
+.badge-let { background: var(--db-let-licht); color: var(--db-let); }
+.badge-demo { background: var(--db-let-licht); color: var(--db-let); text-transform: uppercase; letter-spacing: .05em; }
+.partner-label-klein { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--zacht); border: 1px solid var(--lijn); border-radius: 6px; padding: 0 5px; }
+.nep-waarschuwing { background: var(--db-fout-licht); color: var(--db-fout); border-radius: 12px; padding: 8px 10px; font-size: .85rem; margin: 6px 0; }
+.spark { display: block; width: 100%; max-width: 220px; height: 40px; margin: 6px 0; overflow: visible; }
+.spark-lijn { fill: none; stroke: var(--db-1); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.spark-gangbaar { stroke: var(--zacht); stroke-width: 1; stroke-dasharray: 3 3; }
+.spark-nu { fill: var(--db-2); stroke: var(--vlak); stroke-width: 1.5; }
+.deal-acties { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.deal-acties .knop { width: auto; padding: 10px 16px; font-size: .95rem; }
+.volg-knop[aria-pressed='true'] { background: var(--db-goed-licht); color: var(--db-goed); border-color: transparent; }
+.geen-resultaat { background: var(--db-licht); border-radius: 16px; padding: 16px; }
+
+.live { background: var(--db-glas); border: 1px solid var(--db-rand); border-radius: 22px; padding: 16px; margin: 0 0 18px; box-shadow: var(--db-schaduw); }
+.live h2 { margin: 0 0 6px; font-size: 1.2rem; }
+.live-noot { margin: 0 0 8px; font-size: .9rem; color: var(--zacht); }
+.live-chips { list-style: none; padding: 0; margin: 0 0 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+.live-chip { font-size: .82rem; font-weight: 700; padding: 4px 10px; border-radius: 99px; background: var(--db-licht); color: var(--merk-donker); }
+.live-chip[data-status='ok'] { background: var(--db-goed-licht); color: var(--db-goed); }
+.live-chip[data-status='timeout'], .live-chip[data-status='fout'] { background: var(--db-fout-licht); color: var(--db-fout); }
+.live-chip[data-status='bezig']::after { content: ''; display: inline-block; width: 8px; height: 8px; margin-left: 6px; border-radius: 50%; background: currentColor; animation: puls 1s ease-in-out infinite; }
+@keyframes puls { 50% { opacity: .25; } }
+.live-lijst { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.live-regel { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; background: var(--vlak); border: 1px solid var(--lijn); border-radius: 14px; padding: 10px 12px; transition: background .4s; }
+.live-regel strong { font-size: 1.1rem; }
+.live-regel .hint { margin: 0; }
+.live-regel.nieuw-laagste { border-color: var(--db-goed); background: var(--db-goed-licht); }
+.live-regel.skelet { min-height: 54px; background: linear-gradient(90deg, var(--lijn) 0%, var(--vlak) 50%, var(--lijn) 100%); background-size: 200% 100%; animation: skelet 1.2s linear infinite; }
+@keyframes skelet { to { background-position: -200% 0; } }
+.live-badge { font-size: .75rem; font-weight: 800; border-radius: 99px; padding: 1px 8px; background: var(--db-goed-licht); color: var(--db-goed); margin-left: 4px; }
+
+.deals-uitleg { margin: 10px 0 24px; }
+.uitleg-raster { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 14px; }
+.uitleg-raster > div { background: var(--vlak); border: 1px solid var(--db-rand); border-radius: 20px; padding: 16px; }
+.uitleg-raster h3 { margin-top: 0; }
+.disclosure { font-size: .88rem; color: var(--zacht); }
+
+.prijs-groot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 6px 0 4px; }
+.prijs-groot .totaal { color: #fff; font-size: 2.4rem; }
+.deal-blok { background: var(--vlak); border: 1px solid var(--db-rand); border-radius: 24px; padding: 18px; margin: 0 0 18px; box-shadow: var(--db-schaduw); }
+.deal-blok h2 { margin-top: 0; }
+.grafiek-kader { width: 100%; }
+.grafiek { width: 100%; height: auto; display: block; }
+.gr-raster { stroke: var(--lijn); stroke-width: 1; }
+.gr-as { fill: var(--zacht); font-size: 12px; }
+.gr-lijn { fill: none; stroke: var(--db-1); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.gr-stop1 { stop-color: var(--db-1); stop-opacity: .3; }
+.gr-stop2 { stop-color: var(--db-1); stop-opacity: 0; }
+.gr-gangbaar { stroke: var(--zacht); stroke-width: 1.5; stroke-dasharray: 6 5; }
+.gr-l30 { stroke: var(--db-2); stroke-width: 3; stroke-dasharray: 2 4; stroke-linecap: round; }
+.gr-label { font-size: 12px; font-weight: 700; }
+.gr-label-gangbaar { fill: var(--zacht); }
+.gr-label-l30 { fill: var(--db-2); }
+.gr-nu { fill: var(--db-2); stroke: var(--vlak); stroke-width: 3; }
+.grafiek-leeg { color: var(--zacht); }
+.legenda { font-size: .85rem; color: var(--zacht); display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+.lg { display: inline-block; width: 22px; height: 0; border-top: 3px solid var(--db-1); vertical-align: middle; margin-right: 4px; }
+.lg-gangbaar { border-top: 2px dashed var(--zacht); }
+.lg-l30 { border-top: 3px dotted var(--db-2); }
+.tegels { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 10px; margin: 14px 0 0; }
+.tegel { background: var(--db-licht); border-radius: 16px; padding: 12px; }
+.tegel p { margin: 0; }
+.tegel-kop { font-size: .8rem; font-weight: 750; color: var(--merk-donker); }
+.tegel-waarde { font-size: 1.3rem; font-weight: 900; }
+.tegel-sub { font-size: .78rem; color: var(--zacht); }
+.deals-tabel { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.deals-tabel th, .deals-tabel td { padding: 9px 8px; border-bottom: 1px solid var(--lijn); text-align: left; vertical-align: top; }
+.deals-tabel td small { display: block; color: var(--zacht); }
+.deals-tabel tr.beste { background: var(--db-goed-licht); }
+.deals-tabel.smal { max-width: 640px; }
+.nep-blok { background: var(--db-fout-licht); color: var(--db-fout); border-radius: 20px; padding: 16px 18px; margin: 0 0 18px; }
+.nep-blok h2 { margin: 0 0 6px; font-size: 1.15rem; }
+.alarm-form { display: grid; gap: 12px; max-width: 520px; }
+.alarm-form .veld { margin: 0; }
+.alarm-form .knop { width: auto; justify-self: start; }
+.bewijs-lijst li { margin: 4px 0; }
+
+.vlucht-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 12px; align-items: end; background: var(--db-glas); border: 1px solid var(--db-rand); border-radius: 22px; padding: 16px; box-shadow: var(--db-schaduw); }
+.vlucht-form .veld { margin: 0; }
+.vlucht-noot { margin: 10px 0 16px; }
+.kalender { border-collapse: separate; border-spacing: 4px; width: 100%; min-width: 300px; table-layout: fixed; }
+.kalender caption { text-align: left; font-weight: 750; margin-bottom: 4px; }
+.kalender th { font-size: .78rem; color: var(--zacht); font-weight: 700; }
+.kal-dag { border-radius: 10px; padding: 4px 2px; text-align: center; vertical-align: middle; height: 52px; }
+.kal-nr { display: block; font-size: .72rem; }
+.kal-prijs { display: block; font-weight: 800; font-size: .8rem; white-space: nowrap; }
+@media (min-width: 600px) { .kal-prijs { font-size: .95rem; } }
+.kal-geen { background: var(--bg); color: var(--zacht); }
+.niveau-0 { background: #065f46; color: #fff; }
+.niveau-1 { background: #3f6212; color: #fff; }
+.niveau-2 { background: #92400e; color: #fff; }
+.niveau-3 { background: #9a3412; color: #fff; }
+.niveau-4 { background: #9f1239; color: #fff; }
+.kal-onder { box-shadow: inset 0 0 0 2px #fde68a; }
+.lg.niveau-0, .lg.niveau-2, .lg.niveau-4 { height: 12px; width: 18px; border: 0; border-radius: 4px; }
+.goedkoopst li { margin: 6px 0; }
+
+.volglijst { display: grid; gap: 12px; margin-bottom: 18px; }
+.volg-item { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; background: var(--vlak); border: 1px solid var(--db-rand); border-radius: 18px; padding: 14px 16px; box-shadow: var(--db-schaduw); }
+@media (min-width: 700px) { .volg-item { grid-template-columns: minmax(0, 1fr) auto; align-items: center; } }
+.volg-item h3 { margin: 0; font-size: 1.05rem; }
+.volg-item p { margin: 0; font-size: .92rem; }
+.volg-status { font-weight: 800; }
+.volg-status[data-status='gehaald'] { color: var(--db-goed); }
+.volg-status[data-status='wachten'] { color: var(--merk-donker); }
+.volg-status[data-status='geen-aanbod'] { color: var(--zacht); }
+.knoppen { display: flex; flex-wrap: wrap; gap: 8px; }
+.bestand-knop { cursor: pointer; }
+.link-knop { font: inherit; background: none; border: 0; padding: 0; color: var(--merk); text-decoration: underline; cursor: pointer; text-align: left; }
+
+.jager-form { background: var(--db-glas); border: 1px solid var(--db-rand); border-radius: 22px; padding: 16px; box-shadow: var(--db-schaduw); margin-bottom: 16px; }
+.jager-bevestig, .jager-kaart, .terug-samenvatting { background: var(--vlak); border: 1px solid var(--db-rand); border-radius: 22px; padding: 16px 18px; margin: 0 0 16px; box-shadow: var(--db-schaduw); }
+.terug-samenvatting { background: var(--db-licht); }
+.jager-bevestig h2, .jager-kaart h3 { margin: 0 0 8px; }
+.criteria { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr)); gap: 10px; margin: 8px 0 12px; }
+.criteria .veld { margin: 0; }
+.criteria label { font-size: .85rem; font-weight: 700; display: block; }
+.jagers { display: grid; gap: 14px; }
+.jager-kop { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; justify-content: space-between; }
+.agent-actief { display: inline-flex; align-items: center; gap: 6px; font-size: .82rem; font-weight: 800; color: var(--db-goed); }
+.agent-actief::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: currentColor; animation: radar 1.8s ease-out infinite; }
+@keyframes radar { 0% { box-shadow: 0 0 0 0 rgb(4 120 87 / 50%); } 100% { box-shadow: 0 0 0 10px rgb(4 120 87 / 0%); } }
+.oordeel { display: inline-block; font-weight: 900; border-radius: 12px; padding: 4px 12px; margin: 6px 0; }
+.oordeel[data-soort='kopen'] { background: var(--db-goed-licht); color: var(--db-goed); }
+.oordeel[data-soort='wachten'] { background: var(--db-licht); color: var(--merk-donker); }
+.oordeel[data-soort='nep'] { background: var(--db-fout-licht); color: var(--db-fout); }
+.oordeel[data-soort='data'] { background: var(--lijn); color: var(--tekst); }
+.tijdlijn { list-style: none; padding: 0 0 0 16px; margin: 8px 0 0; border-left: 2px solid var(--db-rand); font-size: .88rem; }
+.tijdlijn li { margin: 0 0 6px; position: relative; }
+.tijdlijn li::before { content: ''; position: absolute; left: -22px; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: var(--db-1); }
+.jager-cijfers { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .85rem; color: var(--zacht); margin: 4px 0; }
+.tekst-blok { max-width: 780px; }
+.tekst-blok code { font-size: .85em; background: var(--db-licht); padding: 1px 5px; border-radius: 6px; overflow-wrap: anywhere; }
+
+@media (prefers-reduced-motion: reduce) {
+  .deals-hero-deco span, .deal-kaart, .live-chip::after, .live-regel.skelet, .agent-actief::before { animation: none !important; }
+  .deal-kaart:hover { transform: none; }
+}
+@media print { .deals-filter, .deal-acties, .alarm-blok, .deals-sub { display: none; } .deals-hero { color: #000; background: none; box-shadow: none; } .deals-hero h1, .deals-hero .intro { color: #000; } }
+
+/* Prijsgrafiek per winkel */
+.deals-pagina { --pg-0: #6d28d9; --pg-1: #be185d; --pg-2: #0e7490; --pg-3: #b45309; --pg-4: #047857; --pg-5: #4338ca; --pg-6: #9f1239; --pg-7: #374151; }
+@media (prefers-color-scheme: dark) { .deals-pagina { --pg-0: #c4b5fd; --pg-1: #f9a8d4; --pg-2: #67e8f9; --pg-3: #fcd34d; --pg-4: #6ee7b7; --pg-5: #a5b4fc; --pg-6: #fda4af; --pg-7: #d1d5db; } }
+.pg-kader { position: relative; }
+.pg-periodes { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+.pg-teken { touch-action: pan-y; border-radius: 12px; }
+.pg-lijn { fill: none; stroke-width: 2.5; stroke-linejoin: round; }
+.pg-kleur-0 { stroke: var(--pg-0); background: var(--pg-0); }
+.pg-kleur-1 { stroke: var(--pg-1); background: var(--pg-1); }
+.pg-kleur-2 { stroke: var(--pg-2); background: var(--pg-2); }
+.pg-kleur-3 { stroke: var(--pg-3); background: var(--pg-3); }
+.pg-kleur-4 { stroke: var(--pg-4); background: var(--pg-4); }
+.pg-kleur-5 { stroke: var(--pg-5); background: var(--pg-5); }
+.pg-kleur-6 { stroke: var(--pg-6); background: var(--pg-6); }
+.pg-kleur-7 { stroke: var(--pg-7); background: var(--pg-7); }
+.pg-nep line { stroke: var(--db-fout); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.pg-nep text { fill: var(--db-fout); font-size: 11px; font-weight: 700; }
+.pg-beste { fill: var(--db-2); }
+.pg-cursor { stroke: var(--tekst); stroke-width: 1; opacity: .5; }
+.pg-tip { position: absolute; top: 44px; z-index: 3; min-width: 190px; max-width: 260px; background: var(--vlak); border: 1px solid var(--db-rand); border-radius: 14px; padding: 10px 12px; box-shadow: var(--db-schaduw); font-size: .85rem; pointer-events: none; }
+.pg-tip ul { list-style: none; margin: 0; padding: 0; }
+.pg-tip li { display: grid; grid-template-columns: 12px 1fr auto; gap: 0 6px; align-items: center; margin: 2px 0; }
+.pg-tip small { grid-column: 2 / -1; color: var(--zacht); }
+.pg-tip-datum { margin: 0 0 4px; font-weight: 800; }
+.pg-stip { display: inline-block; width: 12px; height: 12px; border-radius: 4px; }
+.pg-legenda { list-style: none; padding: 0; margin: 8px 0; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; font-size: .88rem; }
+.pg-winkel { font: inherit; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 4px 12px; border-radius: 99px; border: 1.5px solid var(--db-rand); background: var(--vlak); color: var(--tekst); cursor: pointer; }
+.pg-winkel[aria-pressed='false'] { opacity: .55; text-decoration: line-through; }
+.pg-vast { color: var(--zacht); }
+.pg-tabel summary { cursor: pointer; font-weight: 700; margin: 6px 0; }

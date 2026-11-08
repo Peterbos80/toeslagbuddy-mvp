@@ -1,0 +1,3 @@
+daisycon_unique_id;title;link;price;price_old;price_shipping;ean;brand;category;image_default;currency;in_stock
+abc1;"Voorbeeld koptelefoon ""Pro"" ANC";https://voorbeeld-elektro.example/p/1;129,00;179,00;0;4006381333931;Sonora;Elektronica > Audio;https://voorbeeld-elektro.example/1.jpg;EUR;1
+abc2;Voorbeeld speaker;https://voorbeeld-elektro.example/p/2;59.95;;4.95;;Sonora;Audio;;EUR;0

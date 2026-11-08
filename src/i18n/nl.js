@@ -29,6 +29,7 @@ export default {
       ['/alle-regelingen/', 'Alle regelingen'],
       ['/zzp-toeslagen/', 'Zzp'],
       ['/pro/', 'Voor professionals'],
+      ['/deals/', 'Deals'],
     ],
     // [kop, [[url, tekst, taal van het doel (optioneel)]]]
     footer: [
@@ -59,6 +60,13 @@ export default {
         ['/alle-regelingen/', 'Alle regelingen op een rij'],
         ['/nieuws/', 'Nieuws over toeslagen'],
         ['/zorgverzekering-overstappen/', `Zorgverzekering ${JAAR + 1} overstappen`],
+      ]],
+      ['Deals', [
+        ['/deals/', 'Deals onder de gangbare prijs'],
+        ['/deals/vluchten/', 'Goedkope vliegtickets'],
+        ['/deals/jagers/', 'Mijn jagers'],
+        ['/deals/volglijst/', 'Mijn volglijst'],
+        ['/deals/over/', 'Zo werkt DealBuddy'],
       ]],
       ['ToeslagBuddy', [
         ['/over/', 'Over ons'],

@@ -1,0 +1,6 @@
+{
+  "_uitleg": "Openbare RSS/Atom-feeds met deal-tips. Een tip wordt pas getoond nadat de jager prijs en verzending op de winkel zelf heeft gecontroleerd.",
+  "feeds": [
+    { "naam": "Pepper NL (hot)", "url": "https://nl.pepper.com/rss/hot" }
+  ]
+}
