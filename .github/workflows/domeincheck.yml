@@ -1,0 +1,41 @@
+name: Domeinnamen controleren
+
+# Controleert via WHOIS of domeinnamen nog vrij zijn (SIDN voor .nl, en de
+# registers van .com/.eu/.deals). Uitkomst staat in de samenvatting van de run.
+
+on:
+  workflow_dispatch:
+    inputs:
+      namen:
+        description: 'Domeinnamen, gescheiden door spaties'
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: sudo apt-get update -q && sudo apt-get install -y -q whois
+      - name: WHOIS per naam
+        env:
+          NAMEN: ${{ github.event.inputs.namen }}
+        run: |
+          echo "| Domein | Status |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          for d in $NAMEN; do
+            # Alleen geldige domeinnamen (geen shell-tekens)
+            [[ "$d" =~ ^[a-z0-9-]+(\.[a-z0-9-]+)+$ ]] || { echo "overslaan: $d"; continue; }
+            uit=$(timeout 20 whois "$d" 2>&1 || true)
+            if echo "$uit" | grep -qiE 'is free|no match|not found|no data found|status:\s*free|no entries found|domain not found|available for'; then
+              s="vrij"
+            elif echo "$uit" | grep -qiE 'excessive|limit exceeded|try again'; then
+              s="onbekend (limiet)"
+            else
+              s="bezet"
+            fi
+            echo "$d: $s"
+            echo "| $d | $s |" >> "$GITHUB_STEP_SUMMARY"
+            sleep 2
+          done
