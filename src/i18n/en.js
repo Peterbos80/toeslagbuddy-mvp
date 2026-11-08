@@ -56,6 +56,7 @@ export default {
         ['/colofon/', 'Company details (Dutch)', 'nl'],
         ['/toegankelijkheid/', 'Accessibility (Dutch)', 'nl'],
         ['/disclaimer/', 'Disclaimer (Dutch)', 'nl'],
+        ['/deals/', 'Deals (Dutch)', 'nl'],
       ]],
     ],
     hulp: `<h2>Need help?</h2>

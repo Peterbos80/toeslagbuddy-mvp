@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Klein voorbeeld in het TradeTracker-productfeedformaat (verzonnen gegevens) -->
+<products>
+  <product ID="9001">
+    <name>Voorbeeld Bouwset ruimtestation 900 stukjes</name>
+    <price currency="EUR">79.99</price>
+    <URL>https://speelgoed.example/p/9001?tt=1</URL>
+    <images><image>https://speelgoed.example/img/9001.jpg</image></images>
+    <description><![CDATA[Lange tekst die we NIET overnemen.]]></description>
+    <categories><category path="Speelgoed &gt; Bouwen">Bouwen</category></categories>
+    <properties>
+      <property name="EAN"><value>4006381333931</value></property>
+      <property name="brand"><value>Bouwblok</value></property>
+      <property name="deliveryCosts"><value>4.95</value></property>
+      <property name="fromPrice"><value>99.99</value></property>
+    </properties>
+  </product>
+  <product ID="9002">
+    <name>Voorbeeld puzzel</name>
+    <price currency="USD">20.00</price>
+    <URL>https://speelgoed.example/p/9002</URL>
+    <properties><property name="stock"><value>0</value></property></properties>
+  </product>
+</products>

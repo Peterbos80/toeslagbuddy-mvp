@@ -47,12 +47,12 @@ test('anon: geen tabellen lezen en alleen bericht_plaatsen uitvoeren', async () 
   assert.match(await db.fout(db.als(null, `select public.organisatie_aanmaken('x')`)), /permission denied/);
   assert.match(await db.fout(db.als(null, `select private.is_beheerder()`)), /permission denied/);
   assert.match(await db.fout(db.als(null, `select private.opruimen()`)), /permission denied/);
-  // Alleen deze functie is voor anon
+  // Alleen deze functies zijn voor anon (formulieren en afmelden van DealBuddy-mails)
   const rijen = await db.sql(
     `select p.proname from pg_proc p join pg_namespace n on n.oid = p.pronamespace
      where n.nspname in ('public', 'private') and has_function_privilege('anon', p.oid, 'execute')`,
   );
-  assert.deepEqual(rijen.map((r) => r.proname), ['bericht_plaatsen']);
+  assert.deepEqual(rijen.map((r) => r.proname).sort(), ['bericht_plaatsen', 'deals_afmelden']);
 });
 
 test('authenticated: interne functies en beheerfuncties zijn dicht', async () => {

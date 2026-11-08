@@ -12,6 +12,7 @@ import { koppel } from './src/site/talen.js';
 import { forms } from './src/site/forms.js';
 import { layout, advertentie, nieuwsbrief, esc } from './src/site/layout.js';
 import { teksten } from './src/i18n/i18n.js';
+import { bouwDeals } from './src/site/deals-pages.js';
 
 // Alle pagina's, Nederlands en Engels, met hreflang-paren en taalschakelaar
 const pages = koppel([...pagesNl, ...pagesEn]);
@@ -28,10 +29,11 @@ if (existsSync(join(ROOT, 'public'))) cpSync(join(ROOT, 'public'), DIST, { recur
 
 // Versie voor cache-busting: hash van alle code en parameters
 const css = readFileSync(join(ROOT, 'src/site/styles.css'), 'utf8');
-// Alle browser-scripts: rekenmotor (src/calc), teksten (src/i18n) en
-// pagina-scripts (public/js). Ze komen plat in /js/, dus namen moeten uniek zijn.
+// Alle browser-scripts: rekenmotor (src/calc), teksten (src/i18n), de
+// DealBuddy-motor (src/deals) en pagina-scripts (public/js). Ze komen plat in
+// /js/, dus namen moeten uniek zijn.
 const js = {};
-for (const map of ['src/calc', 'src/i18n', 'public/js']) {
+for (const map of ['src/calc', 'src/i18n', 'src/deals', 'public/js']) {
   for (const f of readdirSync(join(ROOT, map)).filter((f) => f.endsWith('.js'))) {
     if (js[f]) throw new Error(`Dubbele scriptnaam ${f} in ${map}: /js/ is plat`);
     js[f] = readFileSync(join(ROOT, map, f), 'utf8');
@@ -121,6 +123,10 @@ ${zijbalk(page.slug, S)}
   writeFileSync(join(dir, 'index.html'), layout(page, html));
   if (!page.noindex) sitemap.push(page);
 }
+
+// DealBuddy (/deals/): eigen pagina's, data uit data/deals/
+const deals = bouwDeals({ dist: DIST, versie, layout });
+for (const p of deals.paginas) if (!p.noindex) sitemap.push({ ...p, taal: 'nl' });
 
 // 404-pagina
 writeFileSync(
@@ -224,7 +230,7 @@ AddType text/javascript .js
 `,
 );
 
-console.log(`✓ ${pages.length} pagina's gebouwd in dist/ (versie ${versie})`);
+console.log(`✓ ${pages.length} pagina's gebouwd in dist/ (versie ${versie}), plus ${deals.paginas.length} DealBuddy-pagina's met ${deals.aantal} deals`);
 
 // security.txt (RFC 9116) moet een geldige 'Expires' hebben
 {

@@ -186,7 +186,7 @@ export function layout(page, body) {
   const url = config.url + page.slug;
   const thuis = page.slug === T.home;
   const titel = thuis ? page.title : `${page.title} | ${config.naam}`;
-  const kruimel = thuis ? [] : [[T.home, S.home], [page.slug, page.kort || page.h1]];
+  const kruimel = page.kruimel || (thuis ? [] : [[T.home, S.home], [page.slug, page.kort || page.h1]]);
   const wissel = page.wissel || teksten(S.wissel.naar).home;
   const schemas = [
     {
@@ -228,6 +228,7 @@ export function layout(page, body) {
           })),
         }]
       : []),
+    ...(page.schemas || []),
   ];
 
   return `<!doctype html>
@@ -255,7 +256,7 @@ ${afgeschermd(page) ? `<script src="/js/framebuster.js?v=${page.versie}"></scrip
 <link rel="stylesheet" href="/css/site.css?v=${page.versie}">
 ${schemas.map((s) => `<script type="application/ld+json">${JSON.stringify(s).replace(/</g, '\\u003c')}</script>`).join('\n')}
 ${analytics(page)}${adsenseHead(page)}</head>
-<body>
+<body${page.bodyKlasse ? ` class="${esc(page.bodyKlasse)}"` : ''}>
 <a class="skip" href="#main">${S.naarInhoud}</a>
 <header class="site"><div class="wrap">
 <a class="logo" href="${T.home}"><span aria-hidden="true">€</span>${config.naam}</a>
@@ -267,9 +268,9 @@ ${analytics(page)}${adsenseHead(page)}</head>
 <div class="wrap">
 ${!page.calc && (afgeschermd(page) || page.script) ? `<noscript><p class="geen-js">${S.geenJsAlgemeen}</p></noscript>\n` : ''}${kruimel.length ? `<nav class="kruimel" aria-label="${S.kruimelpad}">${kruimel.map(([u, n], i) => (i < kruimel.length - 1 ? `<a href="${u}">${esc(n)}</a> › ` : esc(n))).join('')}</nav>` : ''}
 ${body}
-<aside class="hulp" aria-label="${S.hulpLabel}">
+${page.zonderHulp ? '' : `<aside class="hulp" aria-label="${S.hulpLabel}">
 ${S.hulp}
-</aside>
+</aside>`}
 </div>
 </main>
 <footer class="site"><div class="wrap">

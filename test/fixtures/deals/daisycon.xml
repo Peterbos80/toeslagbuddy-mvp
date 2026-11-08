@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Klein voorbeeld in het standaard Daisycon-productfeedformaat (verzonnen gegevens) -->
+<datafeed>
+  <info><category>Parfum</category><product_count>3</product_count></info>
+  <programs>
+    <program>
+      <program_info>
+        <id>1234</id>
+        <name>Voorbeeld Parfumerie</name>
+        <currency>EUR</currency>
+      </program_info>
+      <products>
+        <product>
+          <product_info>
+            <ean>4006381333931</ean>
+            <title><![CDATA[Voorbeeld Eau de Parfum 50 ml & meer]]></title>
+            <link>https://voorbeeld-parfumerie.example/p/123?dc=1</link>
+            <price>49.95</price>
+            <price_old>69.95</price_old>
+            <price_shipping>3.95</price_shipping>
+            <currency>EUR</currency>
+            <brand>Voorbeeldmerk</brand>
+            <category>Parfum &gt; Dames</category>
+            <in_stock>true</in_stock>
+            <images><image><location>https://voorbeeld-parfumerie.example/img/123.jpg</location></image></images>
+          </product_info>
+          <update_info><modified>2026-11-07 10:00:00</modified></update_info>
+        </product>
+        <product>
+          <product_info>
+            <ean>8710103998543</ean>
+            <title>Voorbeeld Aftershave 100 ml</title>
+            <link>https://voorbeeld-parfumerie.example/p/124</link>
+            <price>24,50</price>
+            <price_shipping></price_shipping>
+            <brand>Voorbeeldmerk</brand>
+            <category>Parfum</category>
+            <in_stock>true</in_stock>
+          </product_info>
+        </product>
+        <product>
+          <product_info>
+            <ean>1234567890128</ean>
+            <title>Uitverkocht product</title>
+            <link>https://voorbeeld-parfumerie.example/p/125</link>
+            <price>10.00</price>
+            <in_stock>false</in_stock>
+          </product_info>
+        </product>
+      </products>
+    </program>
+  </programs>
+</datafeed>

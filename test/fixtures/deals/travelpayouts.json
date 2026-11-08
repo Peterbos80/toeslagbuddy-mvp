@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "data": [
+    { "origin": "AMS", "destination": "LIS", "origin_airport": "AMS", "destination_airport": "LIS", "price": 59, "airline": "TP", "flight_number": "665", "departure_at": "2027-01-14T06:25:00+01:00", "return_at": "", "transfers": 0, "return_transfers": 0, "duration": 185, "link": "/search/AMS1401LIS1?t=TP16786", "found_at": "2026-11-05T10:12:00Z" },
+    { "origin": "AMS", "destination": "LIS", "price": 112.4, "airline": "KL", "departure_at": "2027-01-20T09:00:00+01:00", "transfers": 1, "link": "/search/AMS2001LIS1" },
+    { "origin": "AMS", "destination": "AMS", "price": 10, "airline": "XX", "departure_at": "2027-01-21T09:00:00+01:00", "transfers": 0 }
+  ],
+  "currency": "eur"
+}

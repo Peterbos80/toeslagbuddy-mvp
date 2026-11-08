@@ -1,0 +1,10 @@
+{
+  "shop": { "title": "Voorbeeld Lightspeed-winkel" },
+  "product": {
+    "id": 77, "title": "Yogamat", "fulltitle": "Zenfit Yogamat extra dik 8 mm", "ean": "4006381333931",
+    "brand": { "title": "Zenfit" },
+    "price": { "price": 20.62, "price_incl": 24.95, "price_excl": 20.62, "price_old_incl": 29.95 },
+    "url": "yogamat-extra-dik.html",
+    "image": "https://cdn.webshopapp.example/yogamat.jpg"
+  }
+}

@@ -1,0 +1,13 @@
+[
+  {
+    "id": 501, "name": "Houten treinbaan &amp; brug", "permalink": "https://speel.example/product/treinbaan/", "sku": "4006381333931",
+    "is_in_stock": true,
+    "prices": { "price": "3495", "regular_price": "3995", "sale_price": "3495", "currency_code": "EUR", "currency_minor_unit": 2 },
+    "images": [{ "src": "https://speel.example/wp-content/uploads/trein.jpg" }]
+  },
+  {
+    "id": 502, "name": "Uitverkochte puzzel", "permalink": "https://speel.example/product/puzzel/", "sku": "P-1",
+    "is_in_stock": false,
+    "prices": { "price": "1299", "regular_price": "1299", "sale_price": "1299", "currency_code": "EUR", "currency_minor_unit": 2 }
+  }
+]

@@ -1,0 +1,17 @@
+# Voorbeeld-robots.txt
+User-agent: *
+Disallow: /checkout
+Disallow: /*?sort=
+Allow: /checkout/hulp$
+Crawl-delay: 2
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: DealBuddyBot
+User-agent: AndereBot
+Disallow: /privé/
+Disallow: /zoeken
+Allow: /zoeken/parfum
+
+Sitemap: https://winkel.example/sitemap_index.xml

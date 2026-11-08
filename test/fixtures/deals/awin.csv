@@ -1,0 +1,3 @@
+aw_deep_link,product_name,aw_product_id,merchant_product_id,merchant_image_url,merchant_category,search_price,merchant_name,merchant_id,category_name,aw_image_url,currency,store_price,delivery_cost,merchant_deep_link,brand_name,ean,product_GTIN,rrp_price,in_stock
+https://www.awin1.com/pclick.php?p=1&a=2&m=3,"Airfryer XL 5,5 liter",111,A1,https://huis.example/a1.jpg,Keuken,89.99,Huiswinkel Voorbeeld,3,Keukenapparatuur,,EUR,89.99,,https://huis.example/p/a1,Keukenheld,,04006381333931,119.99,1
+https://www.awin1.com/pclick.php?p=2&a=2&m=3,Staafmixer,112,A2,,Keuken,29.99,Huiswinkel Voorbeeld,3,Keukenapparatuur,,EUR,29.99,5.95,https://huis.example/p/a2,Keukenheld,,,,1

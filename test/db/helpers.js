@@ -3,11 +3,12 @@
 // authenticated, service_role) en de JWT van Supabase zijn hier nagebootst.
 // Dat is geen volledige Supabase-test: draai na de installatie ook de
 // SQL-rooktest uit docs/pro-accounts.md.
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { PGlite } from '@electric-sql/pglite';
 import { pgcrypto } from '@electric-sql/pglite/contrib/pgcrypto';
 
-const MIGRATIE = new URL('../../supabase/migrations/20260930_suite.sql', import.meta.url);
+// Alle migraties op volgorde (de Pro-suite en DealBuddy)
+const MIGRATIES = new URL('../../supabase/migrations/', import.meta.url);
 
 // Nagebootste Supabase-omgeving: auth-schema, rollen en standaardrechten.
 // Supabase geeft anon en authenticated standaard álle rechten op nieuwe
@@ -49,7 +50,7 @@ create schema extensions;
 export async function nieuweDb() {
   const db = new PGlite({ extensions: { pgcrypto } });
   await db.exec(SUPABASE_STUB);
-  await db.exec(await readFile(MIGRATIE, 'utf8'));
+  for (const f of (await readdir(MIGRATIES)).filter((f) => f.endsWith('.sql')).sort()) await db.exec(await readFile(new URL(f, MIGRATIES), 'utf8'));
   return new Db(db);
 }
 
