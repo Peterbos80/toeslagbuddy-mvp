@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-11-08T20:14:24.063Z",
+  "bijgewerkt": "2026-11-09T00:58:07.161Z",
   "demo": true,
   "bronnen": [
     {
@@ -48,14 +48,14 @@
       "soort": "demo",
       "actief": true,
       "status": "ok",
-      "aantal": 132476,
-      "ms": 477
+      "aantal": 1061,
+      "ms": 7
     }
   ],
   "winkels": {},
-  "producten": 13412,
+  "producten": 77,
   "routes": 8,
-  "vluchten": 119064,
+  "vluchten": 984,
   "weg": 0,
   "gekoppeld": 0
 }
