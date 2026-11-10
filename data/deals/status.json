@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-11-10T17:55:16.868Z",
+  "bijgewerkt": "2026-11-10T23:28:56.379Z",
   "demo": true,
   "bronnen": [
     {
@@ -49,7 +49,7 @@
       "actief": true,
       "status": "ok",
       "aantal": 1061,
-      "ms": 9
+      "ms": 10
     }
   ],
   "winkels": {},
