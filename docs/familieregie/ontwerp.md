@@ -311,7 +311,7 @@ De eigenaar wil dat het product er **super mooi** uitziet. Dat is een harde eis,
 ### 3A.3 Typografie (zelf gehost, CSP `font-src 'self'`, OFL-licentie in `public/fonts/`)
 
 - **Koppen:** *Fraunces* (variabel, OFL), gewicht 500–600, met de "soft"-as iets omhoog voor een warme, menselijke uitstraling.
-- **Tekst en interface:** *Atkinson Hyperlegible Next* (OFL, ontworpen voor slechtziende lezers; past bij oudere gebruikers). Als terugval: de bestaande *Nunito*.
+- **Tekst en interface:** *Figtree* (OFL): open, rustige letters die ook op 80-jarige leeftijd goed leesbaar zijn. (Eerst gekozen: Atkinson Hyperlegible Next. Die heeft een doorgestreepte nul zonder alternatief, en dat leest in bedragen als computercode.)
 - **Schaal** (verhouding 1,25):
   - lopende tekst 18 px in de app, 17 px op informatiepagina's;
   - bijschrift 15 px, nooit kleiner dan 14 px;
@@ -391,7 +391,7 @@ De eigenaar wil dat het product er **super mooi** uitziet. Dat is een harde eis,
    - [ ] Is er per scherm één duidelijke hoofdactie?
    - [ ] Liggen alle elementen op het 4-px-raster, met gelijke afstanden tussen gelijke dingen?
    - [ ] Komen er hooguit drie kleuren in beeld, met kleur alleen waar die iets betekent?
-   - [ ] Zijn de koppen in Fraunces, de tekst in Atkinson, en de cijfers tabelcijfers?
+   - [ ] Zijn de koppen in Fraunces, de tekst in Figtree, en de cijfers tabelcijfers?
    - [ ] Hebben lege staten een illustratie, één zin en één knop?
    - [ ] Is er nergens tekst kleiner dan 14 px, of contrast onder AA?
    - [ ] Zijn de focusringen zichtbaar en mooi (2 px `--f-primair`, 2 px afstand)?

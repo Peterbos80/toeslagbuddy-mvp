@@ -169,6 +169,22 @@ export function partnersJson() {
   return JSON.stringify(actief).replace(/</g, '\\u003c');
 }
 
+// Bij welk onderdeel van de site hoort een pagina? Bepaalt het actieve
+// menu-item, het sectiemenu en de accentkleur (body.sectie-…).
+export function sectieVan(page) {
+  if (page.sectie) return page.sectie;
+  const s = page.slug || '';
+  if (s.startsWith('/familie/')) return 'familie';
+  if (s.startsWith('/deals/')) return 'deals';
+  if (s.startsWith('/pro/') || s.startsWith('/en/pro/') || s.startsWith('/beheer/') || s === '/en/terms/') return 'pro';
+  if (s.startsWith('/zzp')) return 'zzp';
+  if (s.startsWith('/nieuws/')) return 'nieuws';
+  return 'toeslagen';
+}
+
+// Icoon uit de sprite /img/iconen.svg (lijniconen, 24 px raster)
+export const icoon = (naam, klasse = '') => `<svg class="ico${klasse ? ` ${klasse}` : ''}" aria-hidden="true" focusable="false"><use href="/img/iconen.svg#${naam}"/></svg>`;
+
 // Link in de voettekst; een derde element is de taal van het doel (hreflang)
 const voetLink = ([u, n, taal]) => `<li><a href="${u}"${taal ? ` hreflang="${taal}"` : ''}>${n}</a></li>`;
 
@@ -188,6 +204,10 @@ export function layout(page, body) {
   const titel = thuis ? page.title : `${page.title} | ${config.naam}`;
   const kruimel = page.kruimel || (thuis ? [] : [[T.home, S.home], [page.slug, page.kort || page.h1]]);
   const wissel = page.wissel || teksten(S.wissel.naar).home;
+  const sectie = sectieVan(page);
+  const sub = (S.sub[sectie] || []).filter(([u]) => !page.zonderSub);
+  const actie = S.kopActie[sectie];
+  const logo = `<a class="logo" href="${T.home}"><span aria-hidden="true">€</span>${config.naam}</a>`;
   const schemas = [
     {
       '@context': 'https://schema.org',
@@ -240,7 +260,8 @@ ${afgeschermd(page) ? `<script src="/js/framebuster.js?v=${page.versie}"></scrip
 <title>${esc(titel)}</title>
 <meta name="description" content="${esc(page.description)}">
 <link rel="canonical" href="${url}">${alternatieven(page)}${page.noindex ? '\n<meta name="robots" content="noindex">' : ''}
-<meta name="theme-color" content="#0d7a5f">
+<meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111917" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="${T.ogLocale}">\n<meta property="og:locale:alternate" content="${teksten(S.wissel.naar).ogLocale}">
 <meta property="og:site_name" content="${config.naam}">
@@ -252,18 +273,22 @@ ${afgeschermd(page) ? `<script src="/js/framebuster.js?v=${page.versie}"></scrip
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="alternate" type="application/rss+xml" title="${S.rss}" href="/nieuws/feed.xml">
-<link rel="preload" href="/fonts/nunito-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/css/site.css?v=${page.versie}">
+<link rel="preload" href="/fonts/figtree-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fraunces-latin-soft-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/site.css?v=${page.versie}">${[].concat(page.css || []).map((c) => `\n<link rel="stylesheet" href="/css/${c}.css?v=${page.versie}">`).join('')}
 ${schemas.map((s) => `<script type="application/ld+json">${JSON.stringify(s).replace(/</g, '\\u003c')}</script>`).join('\n')}
 ${analytics(page)}${adsenseHead(page)}</head>
-<body${page.bodyKlasse ? ` class="${esc(page.bodyKlasse)}"` : ''}>
+<body class="sectie-${sectie}${page.bodyKlasse ? ` ${esc(page.bodyKlasse)}` : ''}">
 <a class="skip" href="#main">${S.naarInhoud}</a>
 <header class="site"><div class="wrap">
-<a class="logo" href="${T.home}"><span aria-hidden="true">€</span>${config.naam}</a>
+${logo}
 <button type="button" class="menu-knop" aria-expanded="false" aria-controls="hoofdmenu">${S.menu}</button>
-<nav class="hoofd" id="hoofdmenu" aria-label="${S.hoofdmenu}">${S.nav.map(([u, n]) => `<a href="${u}"${u === page.slug ? ' aria-current="page"' : ''}>${n}</a>`).join('')}</nav>
+<nav class="hoofd" id="hoofdmenu" aria-label="${S.hoofdmenu}">${S.secties.map(([k, u, n]) => `<a href="${u}"${u === page.slug ? ' aria-current="page"' : k === sectie ? ' aria-current="true"' : ''}>${n}</a>`).join('')}</nav>
 <a class="taalwissel" href="${wissel}" hreflang="${S.wissel.naar}" lang="${S.wissel.naar}"><span class="taal-lang">${S.wissel.tekst}</span><span class="taal-kort" aria-hidden="true">${S.wissel.naar.toUpperCase()}</span></a>
-</div></header>
+${actie && !page.zonderKopActie ? `<a class="kop-actie" href="${actie[0]}">${actie[1]}</a>` : ''}
+</div>${sub.length ? `
+<nav class="sub" aria-label="${S.sectiemenu}"><div class="wrap">${sub.map(([u, n]) => `<a href="${u}"${u === page.slug ? ' aria-current="page"' : ''}>${n}</a>`).join('')}</div></nav>` : ''}
+</header>
 <main id="main">
 <div class="wrap">
 ${!page.calc && (afgeschermd(page) || page.script) ? `<noscript><p class="geen-js">${S.geenJsAlgemeen}</p></noscript>\n` : ''}${kruimel.length ? `<nav class="kruimel" aria-label="${S.kruimelpad}">${kruimel.map(([u, n], i) => (i < kruimel.length - 1 ? `<a href="${u}">${esc(n)}</a> › ` : esc(n))).join('')}</nav>` : ''}
@@ -274,7 +299,10 @@ ${S.hulp}
 </div>
 </main>
 <footer class="site"><div class="wrap">
+<div class="voet-top">
+<div class="voet-merk">${logo}<p>${S.merkregel}</p></div>
 <div class="kolommen">${S.footer.map(([kop, links]) => `<div><h2>${kop}</h2><ul>${links.map(voetLink).join('')}</ul></div>`).join('')}</div>
+</div>
 ${config.instagram.account ? `<p>${S.instagram(`https://www.instagram.com/${esc(config.instagram.account)}/`, esc(config.instagram.account))}</p>` : ''}
 ${bedrijfsgegevens(taal)}
 <p class="disclaimer">${S.disclaimer(config.naam, JAAR, new Date(GECONTROLEERD_OP).toLocaleDateString(T.locale, { day: 'numeric', month: 'long', year: 'numeric' }))}</p>

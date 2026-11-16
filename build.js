@@ -10,7 +10,7 @@ import { pages as pagesNl, nieuws } from './src/site/pages.js';
 import { pagesEn } from './src/site/pages-en.js';
 import { koppel } from './src/site/talen.js';
 import { forms } from './src/site/forms.js';
-import { layout, advertentie, nieuwsbrief, esc } from './src/site/layout.js';
+import { layout, advertentie, nieuwsbrief, esc, icoon } from './src/site/layout.js';
 import { teksten } from './src/i18n/i18n.js';
 import { bouwDeals } from './src/site/deals-pages.js';
 
@@ -28,20 +28,29 @@ mkdirSync(join(DIST, 'css'), { recursive: true });
 if (existsSync(join(ROOT, 'public'))) cpSync(join(ROOT, 'public'), DIST, { recursive: true });
 
 // Versie voor cache-busting: hash van alle code en parameters
-const css = readFileSync(join(ROOT, 'src/site/styles.css'), 'utf8');
+// styles.css is de basis; ontwerp.css is het ontwerpsysteem (v2) en komt erna.
+// Overige bestanden in src/site/css/ worden losse stylesheets (/css/<naam>.css)
+// die een pagina laadt met page.css = ['naam'].
+const css = readFileSync(join(ROOT, 'src/site/styles.css'), 'utf8') + '\n' + readFileSync(join(ROOT, 'src/site/ontwerp.css'), 'utf8');
+const losseCss = {};
+if (existsSync(join(ROOT, 'src/site/css'))) {
+  for (const f of readdirSync(join(ROOT, 'src/site/css')).filter((f) => f.endsWith('.css'))) losseCss[f] = readFileSync(join(ROOT, 'src/site/css', f), 'utf8');
+}
 // Alle browser-scripts: rekenmotor (src/calc), teksten (src/i18n), de
 // DealBuddy-motor (src/deals) en pagina-scripts (public/js). Ze komen plat in
 // /js/, dus namen moeten uniek zijn.
 const js = {};
-for (const map of ['src/calc', 'src/i18n', 'src/deals', 'public/js']) {
+for (const map of ['src/calc', 'src/i18n', 'src/deals', 'src/familie', 'public/js']) {
+  if (!existsSync(join(ROOT, map))) continue;
   for (const f of readdirSync(join(ROOT, map)).filter((f) => f.endsWith('.js'))) {
     if (js[f]) throw new Error(`Dubbele scriptnaam ${f} in ${map}: /js/ is plat`);
     js[f] = readFileSync(join(ROOT, map, f), 'utf8');
   }
 }
-const versie = createHash('sha1').update(css + Object.values(js).join('')).digest('hex').slice(0, 8);
+const versie = createHash('sha1').update(css + Object.values(losseCss).join('') + Object.values(js).join('')).digest('hex').slice(0, 8);
 
 writeFileSync(join(DIST, 'css/site.css'), minifyCss(css));
+for (const [naam, inhoud] of Object.entries(losseCss)) writeFileSync(join(DIST, 'css', naam), minifyCss(inhoud));
 for (const [naam, code] of Object.entries(js)) {
   // '../i18n/nl.js' en './params.js' worden allebei './naam.js?v=…'
   const metVersie = code.replace(/(from |import\()'(?:\.\.\/[\w-]+\/|\.\/)([\w-]+)\.js'/g, `$1'./$2.js?v=${versie}'`);
@@ -84,6 +93,22 @@ function faqHtml(faq, S) {
     .join('')}</section>`;
 }
 
+// Alle onderdelen van de site in één overzicht (op de startpagina)
+function onderdelenHtml() {
+  const o = (klasse, url, ico, titel, tekst, meer, nieuw = '') =>
+    `<a class="onderdeel o-${klasse}" href="${url}">${nieuw ? `<span class="o-nieuw">${nieuw}</span>` : ''}<span class="o-icoon">${icoon(ico)}</span><strong>${titel}</strong><span class="o-tekst">${tekst}</span><span class="o-meer">${meer} ${icoon('pijl', 'klein')}</span></a>`;
+  return `<section class="onderdelen" aria-labelledby="onderdelen-kop">
+<h2 id="onderdelen-kop">Meer dan toeslagen</h2>
+<p>ToeslagBuddy helpt je met alles rond geld en regelzaken. Onafhankelijk, in gewone taal, en je gegevens blijven van jou.</p>
+<div class="onderdelen-raster">
+${o('familie', '/familie/', 'familie', 'Samen de zaken van je ouders regelen', 'Eén gedeelde regelkamer voor de familie: termijnen, brieven, geld en afspraken. Tot en met de afwikkeling na een overlijden.', 'Naar Familie', 'Nieuw')}
+${o('deals', '/deals/', 'label', 'Echte deals, eerlijk berekend', 'We vergelijken de prijs van vandaag met wat een product meestal kost, inclusief verzendkosten. Met bewijs.', 'Naar Deals')}
+${o('pro', '/pro/', 'koffer', 'Voor bewindvoerders en budgetcoaches', 'Controleer in één keer voor al je cliënten of ze toeslagen missen of moeten terugbetalen.', 'Naar Professionals')}
+${o('pro', '/zzp-toeslagen/', 'grafiek', 'Toeslagbewaker voor zzp’ers', 'Wisselend inkomen? Zie per maand of je toeslagen nog kloppen en voorkom terugbetalen.', 'Naar Zzp')}
+</div>
+</section>`;
+}
+
 const sitemap = [];
 for (const page of pages) {
   page.versie = versie;
@@ -110,6 +135,7 @@ ${home ? '<div class="hero-buddy" data-intro></div>' : ''}
 <div class="raster">
 <div class="inhoud">
 ${page.calc ? `<section class="rekenkaart" id="${page.anker || 'rekenhulp'}" aria-label="${S.rekenhulp}">\n<noscript><p class="geen-js">${S.geenJs}</p></noscript>\n${forms[page.calc](page.taal)}\n</section>` : ''}
+${home && page.taal === 'nl' ? onderdelenHtml() : ''}
 ${advertentie('slotInhoud', page)}
 ${body}
 ${faqHtml(page.faq, S)}

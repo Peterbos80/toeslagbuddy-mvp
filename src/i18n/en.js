@@ -21,6 +21,38 @@ export default {
     hulpLabel: 'Help',
     besturingssysteem: 'Any',
     rss: 'News about allowances (Dutch)',
+    secties: [
+      ['toeslagen', '/en/', 'Allowances'],
+      ['pro', '/en/pro/', 'Professionals'],
+    ],
+    sectiemenu: 'Menu of this section',
+    merkregel: 'Money and paperwork in the Netherlands, made clear. Independent, in plain language.',
+    kopActie: {
+      toeslagen: ['/en/#check', 'Start the check'],
+      familie: ['/en/#check', 'Start the check'],
+      deals: ['/en/#check', 'Start the check'],
+      pro: ['/en/pro/', 'For professionals'],
+      zzp: ['/en/#check', 'Start the check'],
+      nieuws: ['/en/#check', 'Start the check'],
+    },
+    sub: {
+      toeslagen: [
+        ['/en/', 'All allowances'],
+        ['/en/healthcare-allowance/', 'Healthcare'],
+        ['/en/rent-allowance/', 'Rent'],
+        ['/en/child-budget/', 'Child budget'],
+        ['/en/childcare-allowance/', 'Childcare'],
+        ['/en/repaying-allowances/', 'Avoid repaying'],
+      ],
+      familie: [],
+      deals: [],
+      pro: [
+        ['/en/pro/', 'For professionals'],
+        ['/en/terms/', 'Terms'],
+      ],
+      zzp: [],
+      nieuws: [],
+    },
     nav: [
       ['/en/', 'All allowances'],
       ['/en/healthcare-allowance/', 'Healthcare'],

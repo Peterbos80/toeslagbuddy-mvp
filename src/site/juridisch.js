@@ -247,7 +247,7 @@ ${gegevensLijst(config)}
 <h2>Advertenties en partnerlinks</h2>
 <p>De site wordt betaald met partnerlinks en later mogelijk advertenties. Die zijn altijd herkenbaar als ‘Partnerlink’ of advertentie en hebben geen invloed op de berekening. Op de Pro-pagina’s staan nooit advertenties.</p>
 <h2>Techniek</h2>
-<p>ToeslagBuddy is een statische website zonder eigen server. Het lettertype (Nunito, Open Font License) staat op onze eigen server, dus je browser haalt niets op bij andere partijen. Lees ook onze <a href="/privacy/">privacyverklaring</a> en de <a href="/toegankelijkheid/">toegankelijkheidsverklaring</a>.</p>
+<p>ToeslagBuddy is een statische website zonder eigen server. De lettertypes (Fraunces en Figtree, Open Font License) staan op onze eigen server, dus je browser haalt niets op bij andere partijen. Lees ook onze <a href="/privacy/">privacyverklaring</a> en de <a href="/toegankelijkheid/">toegankelijkheidsverklaring</a>.</p>
 <h2>Beveiligingsprobleem gevonden?</h2>
 <p>Meld het aan ${mail(SECURITY_MAIL)}. Lees eerst <a href="/pro/beveiliging/#melden">hoe je een kwetsbaarheid meldt</a>. Onze gegevens staan ook in <a href="/.well-known/security.txt">security.txt</a>.</p>`,
   },

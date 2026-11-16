@@ -21,6 +21,68 @@ export default {
     hulpLabel: 'Hulp',
     besturingssysteem: 'Alle',
     rss: 'Nieuws over toeslagen',
+    // Hoofdmenu: de onderdelen van de site. [sleutel, url, tekst]
+    secties: [
+      ['toeslagen', '/', 'Toeslagen'],
+      ['familie', '/familie/', 'Familie'],
+      ['deals', '/deals/', 'Deals'],
+      ['pro', '/pro/', 'Professionals'],
+      ['zzp', '/zzp-toeslagen/', 'Zzp'],
+      ['nieuws', '/nieuws/', 'Nieuws'],
+    ],
+    sectiemenu: 'Menu van dit onderdeel',
+    merkregel: 'Geld- en regelzaken, helder gemaakt. Onafhankelijk, in gewone taal.',
+    // Knop rechts in de kop, per onderdeel: [url, tekst]
+    kopActie: {
+      toeslagen: ['/#check', 'Start de check'],
+      familie: ['/familie/app/', 'Open de regelkamer'],
+      deals: ['/deals/jagers/', 'Zet een jager aan'],
+      pro: ['/pro/aanmelden/', 'Gratis proberen'],
+      zzp: ['/zzp-toeslagen/', 'Open de toeslagbewaker'],
+      nieuws: ['/#check', 'Start de check'],
+    },
+    // Menu per onderdeel (tweede rij in de kop)
+    sub: {
+      toeslagen: [
+        ['/', 'Alle toeslagen'],
+        ['/zorgtoeslag-berekenen/', 'Zorgtoeslag'],
+        ['/huurtoeslag-berekenen/', 'Huurtoeslag'],
+        ['/kindgebonden-budget-berekenen/', 'Kindgebonden budget'],
+        ['/kinderopvangtoeslag-berekenen/', 'Kinderopvangtoeslag'],
+        ['/alle-regelingen/', 'Alle regelingen'],
+        ['/toeslagen-2027/', 'Toeslagen 2027'],
+      ],
+      familie: [
+        ['/familie/', 'Overzicht'],
+        ['/familie/app/', 'Regelkamer'],
+        ['/familie/rekenhulp/verpleeghuis/', 'Kosten verpleeghuis'],
+        ['/familie/rekenhulp/erfbelasting/', 'Erfbelasting'],
+        ['/familie/checklist/na-overlijden/', 'Na een overlijden'],
+        ['/familie/gids/', 'Gidsen'],
+        ['/familie/prijzen/', 'Prijzen'],
+      ],
+      deals: [
+        ['/deals/', 'Deals'],
+        ['/deals/vluchten/', 'Vliegtickets'],
+        ['/deals/jagers/', 'Mijn jagers'],
+        ['/deals/volglijst/', 'Volglijst'],
+        ['/deals/over/', 'Zo werkt het'],
+      ],
+      pro: [
+        ['/pro/', 'Voor professionals'],
+        ['/pro/check/', 'Cliënten-check'],
+        ['/pro/beveiliging/', 'Beveiliging'],
+        ['/pro/inloggen/', 'Inloggen'],
+      ],
+      zzp: [
+        ['/zzp-toeslagen/', 'Toeslagbewaker'],
+        ['/toetsingsinkomen/', 'Toetsingsinkomen'],
+      ],
+      nieuws: [
+        ['/nieuws/', 'Nieuws'],
+        ['/toeslagen-2027/', 'Toeslagen 2027'],
+      ],
+    },
     nav: [
       ['/', 'Alle toeslagen'],
       ['/zorgtoeslag-berekenen/', 'Zorgtoeslag'],
@@ -60,6 +122,14 @@ export default {
         ['/alle-regelingen/', 'Alle regelingen op een rij'],
         ['/nieuws/', 'Nieuws over toeslagen'],
         ['/zorgverzekering-overstappen/', `Zorgverzekering ${JAAR + 1} overstappen`],
+      ]],
+      ['Familie', [
+        ['/familie/', 'Samen de zaken van je ouders regelen'],
+        ['/familie/rekenhulp/verpleeghuis/', 'Eigen bijdrage verpleeghuis'],
+        ['/familie/rekenhulp/erfbelasting/', 'Erfbelasting berekenen'],
+        ['/familie/checklist/na-overlijden/', 'Checklist na een overlijden'],
+        ['/familie/gids/', 'Gidsen voor mantelzorgers'],
+        ['/familie/prijzen/', 'Prijzen'],
       ]],
       ['Deals', [
         ['/deals/', 'Deals onder de gangbare prijs'],

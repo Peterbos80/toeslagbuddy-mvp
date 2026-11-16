@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+<symbol id="bank" viewBox="0 0 24 24"><path d="M3.5 9.5 12 4l8.5 5.500z"/><path d="M5.5 9.500V17M10 9.500V17M14 9.500V17M18.5 9.500V17M3.5 20h17M4.5 17h15"/></symbol>
+<symbol id="bel" viewBox="0 0 24 24"><path d="M6 16.500V11a6 6 0 0 1 12 0v5.500l1.5 2h-15z"/><path d="M10 20.500a2.2 2.2 0 0 0 4 0"/></symbol>
+<symbol id="bliksem" viewBox="0 0 24 24"><path d="M13 3 5 13.500h6L10 21l8-10.500h-6z"/></symbol>
+<symbol id="brief" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m3.8 7.5 8.2 6 8.2-6"/></symbol>
+<symbol id="bron" viewBox="0 0 24 24"><path d="M12 6.500C10.3 5 8 4.5 4.5 4.500v13.500c3.5 0 5.8.500 7.5 2 1.7-1.5 4-2 7.5-2V4.500c-3.5 0-5.8.500-7.5 2zM12 6.500V20"/></symbol>
+<symbol id="camera" viewBox="0 0 24 24"><path d="M4.5 8h3L9 5.500h6L16.5 8h3a1.5 1.5 0 0 1 1.5 1.500v8a1.5 1.5 0 0 1-1.5 1.500h-15A1.5 1.5 0 0 1 3 17.500v-8A1.5 1.5 0 0 1 4.5 8z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+<symbol id="chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+<symbol id="contract" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 15.5h5M10 8.5h1.5"/></symbol>
+<symbol id="deel" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="m8.2 10.9 7.6-3.800M8.2 13.100l7.6 3.8"/></symbol>
+<symbol id="document" viewBox="0 0 24 24"><path d="M6.5 3h8l4 4v14h-12z"/><path d="M14.5 3v4h4"/></symbol>
+<symbol id="download" viewBox="0 0 24 24"><path d="M12 4v11.500M7.5 11 12 15.5 16.5 11M4.5 15v3.500a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V15"/></symbol>
+<symbol id="euro" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.2 8.6a4 4 0 1 0 0 6.8M7.6 10.8h5.2M7.6 13.2h5.2"/></symbol>
+<symbol id="familie" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9.5" r="2.3"/><path d="M2.5 19.5c.4-3.3 2.6-5.5 5.5-5.5s5.1 2.2 5.5 5.5M14.8 14.600c.700-.400 1.4-.600 2.2-.600 2.3 0 4 1.7 4.5 4.5"/></symbol>
+<symbol id="gebruiker" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.6-3.8 3.3-6 7-6s6.4 2.2 7 6"/></symbol>
+<symbol id="geld" viewBox="0 0 24 24"><circle cx="9" cy="9" r="5.5"/><path d="M14.2 10.7a5.5 5.5 0 1 1-3.5 3.5"/><path d="M10.6 7.4a2.2 2.2 0 1 0 0 3.2M6.6 8.4h2.6M6.6 9.8h2.6"/></symbol>
+<symbol id="grafiek" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></symbol>
+<symbol id="hand" viewBox="0 0 24 24"><path d="M3.5 14.500h3l4-2h3a1.5 1.5 0 0 1 0 3H11"/><path d="m13.5 15.5 5-2.200a1.5 1.5 0 0 1 1.3 2.700L13 19.500H6.500l-3 1"/></symbol>
+<symbol id="hart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.3 4.3 4.3 0 0 1 19.5 10c0 5.6-7.5 10-7.5 10z"/></symbol>
+<symbol id="huis" viewBox="0 0 24 24"><path d="m3.5 11 8.5-7 8.5 7"/><path d="M5.5 9.500V20h13V9.500M10 20v-5.500h4V20"/></symbol>
+<symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.8" r=".700" fill="currentColor"/></symbol>
+<symbol id="instellingen" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h11M19 17h1"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="17" r="2"/></symbol>
+<symbol id="kaars" viewBox="0 0 24 24"><path d="M12 3c1.5 1.7 2 2.8 2 3.800a2 2 0 0 1-4 0c0-1 .500-2.1 2-3.800z"/><rect x="8.5" y="10.5" width="7" height="10" rx="1.5"/><path d="M12 8.800v1.7"/></symbol>
+<symbol id="kalender" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><circle cx="8.5" cy="14.5" r=".6" fill="currentColor"/><circle cx="12" cy="14.5" r=".6" fill="currentColor"/></symbol>
+<symbol id="klok" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.500l3.5 2"/></symbol>
+<symbol id="koffer" viewBox="0 0 24 24"><rect x="3" y="7.5" width="18" height="12.5" rx="2.5"/><path d="M9 7.500V5.500a1.5 1.5 0 0 1 1.5-1.500h3A1.5 1.5 0 0 1 15 5.500v2M3 13h18"/></symbol>
+<symbol id="krant" viewBox="0 0 24 24"><path d="M4 5h13v14.500H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v8.500a2 2 0 0 1-2 2M7.5 9h6M7.5 12.500h6M7.5 16h3.5"/></symbol>
+<symbol id="kruis" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+<symbol id="label" viewBox="0 0 24 24"><path d="M3.5 12.500V4.500h8l9 9-8 8z"/><circle cx="8" cy="9" r="1.3"/></symbol>
+<symbol id="logboek" viewBox="0 0 24 24"><path d="M6 3.500h12v17l-2.5-1.500L13 20.5 10.5 19 8 20.5 6 19z"/><path d="M9 8h6M9 11.500h6M9 15h3.5"/></symbol>
+<symbol id="menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="oog" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="pijl" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="pijl-terug" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+<symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="potlood" viewBox="0 0 24 24"><path d="m4 20 1-4.500L15.5 5l3.5 3.500L8.5 19z"/><path d="m13.5 7 3.5 3.5"/></symbol>
+<symbol id="prullenbak" viewBox="0 0 24 24"><path d="M4.5 7h15M9.5 7V4.500h5V7M6.5 7l1 13h9l1-13M10 11v5.500M14 11v5.5"/></symbol>
+<symbol id="rekenmachine" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7.500h7"/><circle cx="9" cy="12" r=".700" fill="currentColor"/><circle cx="12" cy="12" r=".700" fill="currentColor"/><circle cx="15" cy="12" r=".700" fill="currentColor"/><circle cx="9" cy="16" r=".700" fill="currentColor"/><circle cx="12" cy="16" r=".700" fill="currentColor"/><circle cx="15" cy="16" r=".700" fill="currentColor"/></symbol>
+<symbol id="schild" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.500c0 4.5 3 8 7.5 9.5 4.5-1.5 7.5-5 7.5-9.500V6z"/><path d="m9 12 2.2 2.200L15.2 10"/></symbol>
+<symbol id="sleutel" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 8.5-8.500M16 7l2.5 2.500M13.5 9.5 15 11"/></symbol>
+<symbol id="slot" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.500V8a4 4 0 0 1 8 0v2.5"/><circle cx="12" cy="15.5" r="1" fill="currentColor"/></symbol>
+<symbol id="ster" viewBox="0 0 24 24"><path d="m12 3.5 2.6 5.4 5.9.800-4.3 4.1 1 5.900L12 16.900l-5.2 2.8 1-5.900L3.5 9.700l5.9-.800z"/></symbol>
+<symbol id="taak" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.8 2.8L16 9.7"/></symbol>
+<symbol id="telefoon" viewBox="0 0 24 24"><path d="M6.5 3.500h3l1.5 4-2 1.500a11 11 0 0 0 6 6l1.5-2 4 1.500v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.700a2 2 0 0 1 2-2.200z"/></symbol>
+<symbol id="uitnodigen" viewBox="0 0 24 24"><circle cx="10" cy="8" r="3.5"/><path d="M3 20c.6-3.8 3.3-6 7-6 1.3 0 2.5.300 3.5.800M18 13v6M15 16h6"/></symbol>
+<symbol id="uitroep" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.500v5.5"/><circle cx="12" cy="16.2" r=".700" fill="currentColor"/></symbol>
+<symbol id="upload" viewBox="0 0 24 24"><path d="M12 15.500V4M7.5 8.5 12 4l4.5 4.500M4.5 15v3.500a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V15"/></symbol>
+<symbol id="video" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m10 9.5 5 2.5-5 2.500z"/></symbol>
+<symbol id="vink" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+<symbol id="vliegtuig" viewBox="0 0 24 24"><path d="m3 13.5 18-9-5 16-4-6.500z"/><path d="m12 14 9-9.5"/></symbol>
+<symbol id="waarschuwing" viewBox="0 0 24 24"><path d="M12 4 2.8 19.500h18.400z"/><path d="M12 10v4.5"/><circle cx="12" cy="17" r=".700" fill="currentColor"/></symbol>
+<symbol id="weegschaal" viewBox="0 0 24 24"><path d="M12 4v16M7 20h10M5 7h14"/><path d="m5 7-2.5 6a2.7 2.7 0 0 0 5 0zM19 7l-2.5 6a2.7 2.7 0 0 0 5 0z"/></symbol>
+<symbol id="zoek" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+<symbol id="zon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.500v2.500M12 19v2.500M2.5 12H5M19 12h2.500M5.3 5.300l1.8 1.800M16.9 16.900l1.8 1.800M5.3 18.700l1.8-1.800M16.9 7.100l1.8-1.8"/></symbol>
+<symbol id="zorg" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.3 4.3 4.3 0 0 1 19.5 10c0 5.6-7.5 10-7.5 10z"/><path d="M9 11.500h2v-2h2v2h2v2h-2v2h-2v-2H9z"/></symbol>
+</svg>

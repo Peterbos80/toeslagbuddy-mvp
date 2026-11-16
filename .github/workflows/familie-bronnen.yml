@@ -1,0 +1,58 @@
+name: Familie – officiële bronnen ophalen
+
+# Haalt wekelijks de officiële bronpagina's op (CAK, Belastingdienst,
+# Rijksoverheid, SVB) waar de regels en bedragen van /familie/ vandaan komen.
+# De tekstafdrukken gaan naar data/familie/bronnen/ in git. Verandert een
+# pagina, dan staat dat in index.json ("gewijzigd") en in het weekbericht.
+# Beleefd: robots.txt eerst, 5 seconden tussen verzoeken per site.
+
+on:
+  schedule:
+    - cron: '23 4 * * 1'
+  workflow_dispatch:
+    inputs:
+      alleen:
+        description: "Alleen deze bron-id's (komma's), leeg = alles"
+        required: false
+      ontdek:
+        description: 'Ook verwante pagina’s op dezelfde site zoeken'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: familie-bronnen
+  cancel-in-progress: false
+
+jobs:
+  ophalen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Bronnen ophalen
+        env:
+          ALLEEN: ${{ github.event.inputs.alleen }}
+          ONTDEK: ${{ github.event.inputs.ontdek }}
+        run: |
+          args=()
+          [[ "$ALLEEN" =~ ^[a-z0-9,-]+$ ]] && args+=(--alleen "$ALLEEN")
+          [[ "$ONTDEK" != "false" ]] && args+=(--ontdek)
+          node scripts/familie/bronnen.js "${args[@]}"
+      - name: Bewaren in git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/familie/bronnen
+          git diff --cached --quiet && { echo "Niets veranderd"; exit 0; }
+          git commit -m "Familie: bronnen opgehaald $(date -u +%F)"
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((i * 5))
+          done
+          exit 1
