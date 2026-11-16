@@ -1,0 +1,35 @@
+{
+ "id": "salderen",
+ "titel": "Einde salderingsregeling per 1 januari 2027",
+ "geldigVanaf": "2026-01-01",
+ "geldigTot": "2029-12-31",
+ "gecontroleerdOp": "2026-11-16",
+ "status": "bevestigd",
+ "instantie": "Rijksoverheid",
+ "controleerBij": "https://www.rijksoverheid.nl/themas/klimaat-milieu-en-natuur/energie-thuis/salderingsregeling",
+ "datums": {
+  "einde": "2027-01-01",
+  "minimumTot": "2030-01-01"
+ },
+ "percentages": {
+  "minimumVergoeding": {
+   "waarde": 0.5,
+   "tekst": "minimaal 50% van het kale leveringstarief",
+   "bron": "ro-salderen"
+  }
+ },
+ "feiten": [
+  {
+   "tekst": "De salderingsregeling stopt vanaf 1 januari 2027",
+   "bron": "ro-salderen"
+  },
+  {
+   "tekst": "Tot 2030 moet deze vergoeding minimaal 50% van het kale leveringstarief van stroom zijn",
+   "bron": "ro-salderen"
+  },
+  {
+   "tekst": "Over stroom die mensen zelf opwekken en direct gebruiken, betalen ze geen belastingen",
+   "bron": "ro-salderen"
+  }
+ ]
+}

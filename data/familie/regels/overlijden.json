@@ -1,0 +1,111 @@
+{
+ "id": "overlijden",
+ "titel": "Regels na een overlijden: erfenis, belasting en toeslagen",
+ "geldigVanaf": "2026-01-01",
+ "geldigTot": "2027-12-31",
+ "gecontroleerdOp": "2026-11-16",
+ "status": "bevestigd",
+ "instantie": "Belastingdienst en Rijksoverheid",
+ "controleerBij": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/na-een-overlijden",
+ "termijnen": {
+  "erfbelastingMaanden": {
+   "waarde": 20,
+   "vanafOverlijdensjaar": 2026,
+   "tekst": "Deze datum ligt 20 maanden na de overlijdensdatum",
+   "bron": "bd-erf-termijn"
+  },
+  "erfbelastingMaandenOud": {
+   "waarde": 8,
+   "totOverlijdensjaar": 2025,
+   "tekst": "Deze datum ligt 8 maanden na de overlijdensdatum",
+   "bron": "bd-erf-termijn"
+  },
+  "schuldeisersMaanden": {
+   "waarde": 3,
+   "tekst": "Schuldeisers mogen de erfgenamen de eerste 3 maanden niet vragen de schulden te betalen",
+   "bron": "ro-aanvaarden"
+  },
+  "ibGeenBriefMaanden": {
+   "waarde": 5,
+   "tekst": "Hebt u na 5 maanden geen brief van ons ontvangen",
+   "bron": "bd-ib-overledene"
+  },
+  "toeslagBriefWeken": {
+   "waarde": 5,
+   "tekst": "Binnen 5 weken na het overlijden",
+   "bron": "bd-toeslagen-partner"
+  },
+  "toeslagUitbetalingWeken": {
+   "waarde": 8,
+   "tekst": "Binnen 8 weken na het overlijden",
+   "bron": "bd-toeslagen-partner"
+  }
+ },
+ "feiten": [
+  {
+   "id": "geen-termijn-aanvaarden",
+   "tekst": "Hier is geen wettelijke termijn voor",
+   "bron": "ro-aanvaarden"
+  },
+  {
+   "id": "zuiver-door-handelen",
+   "tekst": "Dan heeft u volgens de wet de erfenis zuiver aanvaard",
+   "bron": "ro-aanvaarden"
+  },
+  {
+   "id": "uitvaart-uitzondering",
+   "tekst": "U mag wel de begrafenis of uitvaart betalen uit de erfenis",
+   "bron": "ro-aanvaarden"
+  },
+  {
+   "id": "verklaring-rechtbank",
+   "tekst": "Dan moet u een verklaring nalatenschap afleggen bij de rechtbank",
+   "bron": "ro-aanvaarden"
+  },
+  {
+   "id": "ib-vanaf-1-maart",
+   "tekst": "Aangifte doen kan vanaf 1 maart na het jaar van overlijden",
+   "bron": "bd-ib-overledene"
+  },
+  {
+   "id": "geen-digid-overledene",
+   "tekst": "Aangifte doen met de DigiD van de overledene is niet mogelijk",
+   "bron": "bd-ib-overledene"
+  },
+  {
+   "id": "telefoon-nabestaanden",
+   "tekst": "0800 - 235 83 54",
+   "bron": "bd-ib-overledene"
+  },
+  {
+   "id": "machtiging",
+   "tekst": "Met de nabestaandenmachtiging kunt u belastingzaken en toeslagzaken van een overledene online regelen",
+   "bron": "bd-nabestaandenmachtiging"
+  },
+  {
+   "id": "tien-procent",
+   "tekst": "Uw inkomen was voor het overlijden van uw partner minstens 10% lager",
+   "bron": "bd-10-procent"
+  },
+  {
+   "id": "wettelijke-verdeling",
+   "tekst": "voor gelijke delen erfgenaam",
+   "bron": "bd-wettelijke-verdeling"
+  },
+  {
+   "id": "ouder-schiet-voor",
+   "tekst": "de langstlevende ouder de erfbelasting voor de kinderen voor moet schieten",
+   "bron": "bd-wettelijke-verdeling"
+  },
+  {
+   "id": "verklaring-erfrecht",
+   "tekst": "In een verklaring van erfrecht staat wie de erfgenamen zijn",
+   "bron": "ro-verklaring-erfrecht"
+  },
+  {
+   "id": "uitvaartkosten",
+   "tekst": "sommige uitvaartkosten zijn wel aftrekbaar voor de erfbelasting",
+   "bron": "bd-erf-uitvaart"
+  }
+ ]
+}

@@ -1,0 +1,201 @@
+{
+ "id": "wlz-2026",
+ "titel": "Eigen bijdrage Wet langdurige zorg (Wlz) 2026",
+ "jaar": 2026,
+ "peiljaar": 2024,
+ "geldigVanaf": "2026-01-01",
+ "geldigTot": "2026-12-31",
+ "gecontroleerdOp": "2026-11-16",
+ "status": "bevestigd",
+ "instantie": "CAK",
+ "controleerBij": "https://www.hetcak.nl/zelf-regelen/eigen-bijdrage-rekenhulp/",
+ "bedragen": {
+  "laagMin": {
+   "waarde": 212.6,
+   "bron": "cak-wlz-laag",
+   "omschrijving": "Lage eigen bijdrage, minimum per maand"
+  },
+  "laagMax": {
+   "waarde": 1115.8,
+   "bron": "cak-wlz-laag",
+   "omschrijving": "Lage eigen bijdrage, maximum per maand"
+  },
+  "hoogMax": {
+   "waarde": 3061.8,
+   "bron": "cak-wlz-hoog",
+   "omschrijving": "Hoge eigen bijdrage, maximum per maand"
+  },
+  "toetsbedragAlleen": {
+   "waarde": 36952,
+   "bron": "cak-wlz-laag",
+   "omschrijving": "Toetsbedrag vermogen, alleenstaand"
+  },
+  "toetsbedragPartner": {
+   "waarde": 73904,
+   "bron": "cak-wlz-laag",
+   "omschrijving": "Toetsbedrag vermogen, met partner"
+  },
+  "zakKleedgeldAlleen": {
+   "waarde": 4925,
+   "bron": "cak-wlz-hoog",
+   "omschrijving": "Zak- en kleedgeld per jaar, alleenstaand"
+  },
+  "zakKleedgeldPartner": {
+   "waarde": 7661,
+   "bron": "cak-wlz-hoog",
+   "omschrijving": "Zak- en kleedgeld per jaar, met partner"
+  },
+  "aftrekPensioen": {
+   "waarde": 1294,
+   "bron": "cak-wlz-hoog",
+   "omschrijving": "Aftrek pensioengerechtigde leeftijd per jaar"
+  },
+  "aftrekNietPensioen": {
+   "waarde": 2315,
+   "bron": "cak-wlz-hoog",
+   "omschrijving": "Aftrek niet-pensioengerechtigde leeftijd per jaar"
+  },
+  "ouderentoeslagMax": {
+   "waarde": 1133,
+   "bron": "cak-wlz-laag",
+   "omschrijving": "Compensatie vervallen ouderentoeslag, maximum per persoon"
+  },
+  "mptInkomensaftrek": {
+   "waarde": 7727.6,
+   "bron": "cak-wlz-laag",
+   "omschrijving": "Inkomensaftrek bij mpt of pgb per jaar"
+  },
+  "mptAftrekMaand": {
+   "waarde": 182.2,
+   "bron": "cak-wlz-laag",
+   "omschrijving": "Mpt/pgb-aftrek per maand"
+  },
+  "mptMin": {
+   "waarde": 30.4,
+   "bron": "cak-wlz-2026",
+   "omschrijving": "Lage eigen bijdrage bij mpt of pgb, minimum per maand"
+  },
+  "mptMax": {
+   "waarde": 933.6,
+   "bron": "cak-wlz-2026",
+   "omschrijving": "Lage eigen bijdrage bij mpt of pgb, maximum per maand"
+  },
+  "zvwPremie": {
+   "waarde": 1987,
+   "bron": "cak-aftrek-zvw",
+   "omschrijving": "Standaardpremie basisverzekering 2024 per persoon per jaar"
+  },
+  "zvwMinNietPensioen": {
+   "waarde": 1987,
+   "bron": "cak-aftrek-zvw",
+   "omschrijving": "Aftrek Zvw stap 1, minimum per persoon, nog niet pensioengerechtigd"
+  },
+  "zvwMinAlleenPensioen": {
+   "waarde": 3029.45,
+   "bron": "cak-aftrek-zvw",
+   "omschrijving": "Aftrek Zvw stap 1, minimum per persoon, ongehuwd en pensioengerechtigd"
+  },
+  "zvwMinGehuwdPensioen": {
+   "waarde": 2697.37,
+   "bron": "cak-aftrek-zvw",
+   "omschrijving": "Aftrek Zvw stap 1, minimum per persoon, gehuwd en pensioengerechtigd"
+  },
+  "zvwMax": {
+   "waarde": 5797.61,
+   "bron": "cak-aftrek-zvw",
+   "omschrijving": "Aftrek Zvw stap 1, maximum per persoon"
+  },
+  "zorgtoeslagAlleen": {
+   "waarde": 1483,
+   "bron": "cak-aftrek-zvw",
+   "omschrijving": "Zorgtoeslag in de aftrek Zvw, ongehuwd"
+  },
+  "zorgtoeslagGehuwd": {
+   "waarde": 2966,
+   "bron": "cak-aftrek-zvw",
+   "omschrijving": "Zorgtoeslag in de aftrek Zvw, gehuwd (samen)"
+  },
+  "zorgtoeslagDrempel": {
+   "waarde": 26820,
+   "bron": "cak-aftrek-zvw",
+   "omschrijving": "Inkomen waarboven de zorgtoeslag in de aftrek Zvw daalt"
+  },
+  "zorgtoeslagVermogenAlleen": {
+   "waarde": 140213,
+   "bron": "cak-aftrek-zvw",
+   "omschrijving": "Vermogensgrens zorgtoeslag in de aftrek Zvw, alleen"
+  },
+  "zorgtoeslagVermogenPartner": {
+   "waarde": 177301,
+   "bron": "cak-aftrek-zvw",
+   "omschrijving": "Vermogensgrens zorgtoeslag in de aftrek Zvw, met partner"
+  },
+  "vrijstellingAlleenAow": {
+   "waarde": 11830,
+   "bron": "cak-aftrek-beschikbaar",
+   "omschrijving": "Vrijstellingsgrens beschikbaar inkomen, niet getrouwd, AOW-leeftijd"
+  },
+  "vrijstellingAlleenJonger": {
+   "waarde": 9406,
+   "bron": "cak-aftrek-beschikbaar",
+   "omschrijving": "Vrijstellingsgrens beschikbaar inkomen, niet getrouwd, nog geen AOW-leeftijd"
+  },
+  "vrijstellingGehuwdAow": {
+   "waarde": 13894,
+   "bron": "cak-aftrek-beschikbaar",
+   "omschrijving": "Vrijstellingsgrens beschikbaar inkomen, getrouwd, AOW-leeftijd"
+  },
+  "vrijstellingGehuwdJonger": {
+   "waarde": 18950,
+   "bron": "cak-aftrek-beschikbaar",
+   "omschrijving": "Vrijstellingsgrens beschikbaar inkomen, getrouwd, nog geen AOW-leeftijd"
+  }
+ },
+ "percentages": {
+  "laag": {
+   "waarde": 0.1,
+   "tekst": "Neem 10% van uw bijdrageplichtig inkomen",
+   "bron": "cak-wlz-laag"
+  },
+  "vermogen": {
+   "waarde": 0.04,
+   "tekst": "4% van het vermogen boven het toetsbedrag",
+   "bron": "cak-wlz-laag"
+  },
+  "arbeid": {
+   "waarde": 0.15,
+   "tekst": "15% van de inkomsten uit arbeid",
+   "bron": "cak-wlz-hoog"
+  },
+  "zvwBijdrage": {
+   "waarde": 0.0532,
+   "tekst": "5,32% van uw verzamelinkomen",
+   "bron": "cak-aftrek-zvw"
+  },
+  "zorgtoeslagAfbouw": {
+   "waarde": 0.1367,
+   "tekst": "13,67% van uw inkomen boven",
+   "bron": "cak-aftrek-zvw"
+  },
+  "beschikbaar": {
+   "waarde": 0.25,
+   "tekst": "25% van uw beschikbaar inkomen boven de vrijstellingsgrens",
+   "bron": "cak-aftrek-beschikbaar"
+  }
+ },
+ "feiten": [
+  {
+   "tekst": "We kijken naar de gegevens van 2 jaar geleden",
+   "bron": "cak-wlz-laag"
+  }
+ ],
+ "bronnen": [
+  "cak-wlz-2026",
+  "cak-wlz-laag",
+  "cak-wlz-hoog",
+  "cak-aftrek-zvw",
+  "cak-aftrek-beschikbaar",
+  "cak-toetsbedrag",
+  "cak-aftrek-pensioen"
+ ]
+}

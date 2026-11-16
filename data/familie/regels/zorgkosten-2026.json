@@ -1,0 +1,70 @@
+{
+ "id": "zorgkosten-2026",
+ "titel": "Aftrek specifieke zorgkosten 2026: drempel en verhoging",
+ "jaar": 2026,
+ "geldigVanaf": "2026-01-01",
+ "geldigTot": "2026-12-31",
+ "gecontroleerdOp": "2026-11-16",
+ "status": "bevestigd",
+ "instantie": "Belastingdienst",
+ "controleerBij": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/",
+ "bedragen": {
+  "drempelMinAlleen": {
+   "waarde": 166,
+   "bron": "bd-zorgkosten-drempel",
+   "omschrijving": "Drempel bij een laag drempelinkomen, zonder fiscale partner"
+  },
+  "grensLaagAlleen": {
+   "waarde": 9680,
+   "bron": "bd-zorgkosten-drempel",
+   "omschrijving": "Drempelinkomen tot waar de vaste drempel geldt, zonder partner"
+  },
+  "drempelMinPartner": {
+   "waarde": 332,
+   "bron": "bd-zorgkosten-drempel",
+   "omschrijving": "Drempel bij een laag drempelinkomen, met fiscale partner"
+  },
+  "grensLaagPartner": {
+   "waarde": 19360,
+   "bron": "bd-zorgkosten-drempel",
+   "omschrijving": "Drempelinkomen tot waar de vaste drempel geldt, met partner"
+  },
+  "grensHoog": {
+   "waarde": 51411,
+   "bron": "bd-zorgkosten-drempel",
+   "omschrijving": "Drempelinkomen waarboven het hoge percentage geldt"
+  },
+  "drempelVastHoog": {
+   "waarde": 848,
+   "bron": "bd-zorgkosten-drempel",
+   "omschrijving": "Vast deel van de drempel boven de hoge grens"
+  },
+  "verhogingGrens": {
+   "waarde": 41123,
+   "bron": "bd-zorgkosten-verhoging",
+   "omschrijving": "Drempelinkomen tot waar de verhoging geldt"
+  }
+ },
+ "percentages": {
+  "midden": {
+   "waarde": 0.0165,
+   "tekst": "1,65% van het drempelinkomen",
+   "bron": "bd-zorgkosten-drempel"
+  },
+  "hoog": {
+   "waarde": 0.0575,
+   "tekst": "5,75% van het bedrag boven",
+   "bron": "bd-zorgkosten-drempel"
+  },
+  "verhogingAow": {
+   "waarde": 1.13,
+   "tekst": "113%",
+   "bron": "bd-zorgkosten-verhoging"
+  },
+  "verhogingJonger": {
+   "waarde": 0.4,
+   "tekst": "40%",
+   "bron": "bd-zorgkosten-verhoging"
+  }
+ }
+}

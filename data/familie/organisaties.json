@@ -1,0 +1,1495 @@
+{
+"uitleg": "Bekende organisaties om terugkerende betalingen te herkennen. Opzegroutes staan er bewust niet in: die verschillen en veranderen. De familie zoekt de route op de website van de organisatie; wij maken de brief.",
+"organisaties": [
+{
+"id": "essent",
+"naam": "Essent",
+"soort": "energie",
+"herken": [
+"Essent"
+]
+},
+{
+"id": "eneco",
+"naam": "Eneco",
+"soort": "energie",
+"herken": [
+"Eneco"
+]
+},
+{
+"id": "vattenfall",
+"naam": "Vattenfall",
+"soort": "energie",
+"herken": [
+"Vattenfall"
+]
+},
+{
+"id": "greenchoice",
+"naam": "Greenchoice",
+"soort": "energie",
+"herken": [
+"Greenchoice"
+]
+},
+{
+"id": "budget-energie",
+"naam": "Budget Energie",
+"soort": "energie",
+"herken": [
+"Budget Energie"
+]
+},
+{
+"id": "engie",
+"naam": "ENGIE",
+"soort": "energie",
+"herken": [
+"engie"
+]
+},
+{
+"id": "oxxio",
+"naam": "Oxxio",
+"soort": "energie",
+"herken": [
+"Oxxio"
+]
+},
+{
+"id": "vandebron",
+"naam": "Vandebron",
+"soort": "energie",
+"herken": [
+"Vandebron"
+]
+},
+{
+"id": "zonneplan",
+"naam": "Zonneplan",
+"soort": "energie",
+"herken": [
+"Zonneplan"
+]
+},
+{
+"id": "tibber",
+"naam": "Tibber",
+"soort": "energie",
+"herken": [
+"Tibber"
+]
+},
+{
+"id": "frank-energie",
+"naam": "Frank Energie",
+"soort": "energie",
+"herken": [
+"Frank Energie"
+]
+},
+{
+"id": "pure-energie",
+"naam": "Pure Energie",
+"soort": "energie",
+"herken": [
+"Pure Energie"
+]
+},
+{
+"id": "energiedirect",
+"naam": "Energiedirect",
+"soort": "energie",
+"herken": [
+"Energiedirect"
+]
+},
+{
+"id": "delta-energie",
+"naam": "Delta Energie",
+"soort": "energie",
+"herken": [
+"Delta Energie"
+]
+},
+{
+"id": "coolblue-energie",
+"naam": "Coolblue Energie",
+"soort": "energie",
+"herken": [
+"Coolblue Energie"
+]
+},
+{
+"id": "vitens",
+"naam": "Vitens",
+"soort": "water",
+"herken": [
+"Vitens"
+]
+},
+{
+"id": "evides",
+"naam": "Evides",
+"soort": "water",
+"herken": [
+"Evides"
+]
+},
+{
+"id": "brabant-water",
+"naam": "Brabant Water",
+"soort": "water",
+"herken": [
+"Brabant Water"
+]
+},
+{
+"id": "waternet",
+"naam": "Waternet",
+"soort": "water",
+"herken": [
+"Waternet"
+]
+},
+{
+"id": "dunea",
+"naam": "Dunea",
+"soort": "water",
+"herken": [
+"Dunea"
+]
+},
+{
+"id": "pwn",
+"naam": "PWN",
+"soort": "water",
+"herken": [
+"PWN"
+]
+},
+{
+"id": "oasen",
+"naam": "Oasen",
+"soort": "water",
+"herken": [
+"Oasen"
+]
+},
+{
+"id": "wml",
+"naam": "WML",
+"soort": "water",
+"herken": [
+"WML"
+]
+},
+{
+"id": "waterbedrijf-groningen",
+"naam": "Waterbedrijf Groningen",
+"soort": "water",
+"herken": [
+"Waterbedrijf Groningen"
+]
+},
+{
+"id": "wmd",
+"naam": "WMD",
+"soort": "water",
+"herken": [
+"WMD"
+]
+},
+{
+"id": "kpn",
+"naam": "KPN",
+"soort": "telecom",
+"herken": [
+"KPN"
+]
+},
+{
+"id": "ziggo",
+"naam": "Ziggo",
+"soort": "telecom",
+"herken": [
+"Ziggo"
+]
+},
+{
+"id": "odido",
+"naam": "Odido",
+"soort": "telecom",
+"herken": [
+"Odido"
+]
+},
+{
+"id": "vodafone",
+"naam": "Vodafone",
+"soort": "telecom",
+"herken": [
+"vodafone"
+]
+},
+{
+"id": "tele2",
+"naam": "Tele2",
+"soort": "telecom",
+"herken": [
+"Tele2"
+]
+},
+{
+"id": "simyo",
+"naam": "Simyo",
+"soort": "telecom",
+"herken": [
+"Simyo"
+]
+},
+{
+"id": "youfone",
+"naam": "Youfone",
+"soort": "telecom",
+"herken": [
+"Youfone"
+]
+},
+{
+"id": "lebara",
+"naam": "Lebara",
+"soort": "telecom",
+"herken": [
+"Lebara"
+]
+},
+{
+"id": "ben",
+"naam": "Ben",
+"soort": "telecom",
+"herken": [
+"Ben"
+]
+},
+{
+"id": "delta-fiber",
+"naam": "Delta Fiber",
+"soort": "telecom",
+"herken": [
+"Delta Fiber"
+]
+},
+{
+"id": "budget-thuis",
+"naam": "Budget Thuis",
+"soort": "telecom",
+"herken": [
+"Budget Thuis"
+]
+},
+{
+"id": "hollandsnieuwe",
+"naam": "Hollandsnieuwe",
+"soort": "telecom",
+"herken": [
+"Hollandsnieuwe"
+]
+},
+{
+"id": "simpel",
+"naam": "Simpel",
+"soort": "telecom",
+"herken": [
+"Simpel"
+]
+},
+{
+"id": "caiway",
+"naam": "Caiway",
+"soort": "telecom",
+"herken": [
+"Caiway"
+]
+},
+{
+"id": "zilveren-kruis",
+"naam": "Zilveren Kruis",
+"soort": "zorgverzekering",
+"herken": [
+"Zilveren Kruis"
+]
+},
+{
+"id": "vgz",
+"naam": "VGZ",
+"soort": "zorgverzekering",
+"herken": [
+"VGZ"
+]
+},
+{
+"id": "cz",
+"naam": "CZ",
+"soort": "zorgverzekering",
+"herken": [
+"CZ"
+]
+},
+{
+"id": "menzis",
+"naam": "Menzis",
+"soort": "zorgverzekering",
+"herken": [
+"Menzis"
+]
+},
+{
+"id": "dsw",
+"naam": "DSW",
+"soort": "zorgverzekering",
+"herken": [
+"DSW"
+]
+},
+{
+"id": "onvz",
+"naam": "ONVZ",
+"soort": "zorgverzekering",
+"herken": [
+"ONVZ"
+]
+},
+{
+"id": "zorg-en-zekerheid",
+"naam": "Zorg en Zekerheid",
+"soort": "zorgverzekering",
+"herken": [
+"Zorg en Zekerheid"
+]
+},
+{
+"id": "asr-zorgverzekering",
+"naam": "a.s.r. zorgverzekering",
+"soort": "zorgverzekering",
+"herken": [
+"a.s.r. zorgverzekering"
+]
+},
+{
+"id": "fbto",
+"naam": "FBTO",
+"soort": "zorgverzekering",
+"herken": [
+"fbto"
+]
+},
+{
+"id": "interpolis",
+"naam": "Interpolis",
+"soort": "zorgverzekering",
+"herken": [
+"Interpolis"
+]
+},
+{
+"id": "univé",
+"naam": "Univé",
+"soort": "zorgverzekering",
+"herken": [
+"Univé"
+]
+},
+{
+"id": "de-friesland",
+"naam": "De Friesland",
+"soort": "zorgverzekering",
+"herken": [
+"De Friesland"
+]
+},
+{
+"id": "ohra",
+"naam": "OHRA",
+"soort": "zorgverzekering",
+"herken": [
+"OHRA"
+]
+},
+{
+"id": "ditzo",
+"naam": "Ditzo",
+"soort": "zorgverzekering",
+"herken": [
+"Ditzo"
+]
+},
+{
+"id": "iza",
+"naam": "IZA",
+"soort": "zorgverzekering",
+"herken": [
+"IZA"
+]
+},
+{
+"id": "anderzorg",
+"naam": "Anderzorg",
+"soort": "zorgverzekering",
+"herken": [
+"Anderzorg"
+]
+},
+{
+"id": "just",
+"naam": "Just",
+"soort": "zorgverzekering",
+"herken": [
+"Just"
+]
+},
+{
+"id": "salland",
+"naam": "Salland",
+"soort": "zorgverzekering",
+"herken": [
+"Salland"
+]
+},
+{
+"id": "eno",
+"naam": "Eno",
+"soort": "zorgverzekering",
+"herken": [
+"Eno"
+]
+},
+{
+"id": "stad-holland",
+"naam": "Stad Holland",
+"soort": "zorgverzekering",
+"herken": [
+"Stad Holland"
+]
+},
+{
+"id": "intwente",
+"naam": "inTwente",
+"soort": "zorgverzekering",
+"herken": [
+"inTwente"
+]
+},
+{
+"id": "nationale-nederlanden-zorg",
+"naam": "Nationale-Nederlanden Zorg",
+"soort": "zorgverzekering",
+"herken": [
+"Nationale-Nederlanden Zorg"
+]
+},
+{
+"id": "pma",
+"naam": "PMA",
+"soort": "zorgverzekering",
+"herken": [
+"PMA"
+]
+},
+{
+"id": "vvaa",
+"naam": "VvAA",
+"soort": "zorgverzekering",
+"herken": [
+"VvAA"
+]
+},
+{
+"id": "ziezo",
+"naam": "ZieZo",
+"soort": "zorgverzekering",
+"herken": [
+"ZieZo"
+]
+},
+{
+"id": "zekur",
+"naam": "Zekur",
+"soort": "zorgverzekering",
+"herken": [
+"Zekur"
+]
+},
+{
+"id": "promovendum",
+"naam": "Promovendum",
+"soort": "zorgverzekering",
+"herken": [
+"Promovendum"
+]
+},
+{
+"id": "national-academic",
+"naam": "National Academic",
+"soort": "zorgverzekering",
+"herken": [
+"National Academic"
+]
+},
+{
+"id": "besured",
+"naam": "Besured",
+"soort": "zorgverzekering",
+"herken": [
+"Besured"
+]
+},
+{
+"id": "aevitae",
+"naam": "Aevitae",
+"soort": "zorgverzekering",
+"herken": [
+"Aevitae"
+]
+},
+{
+"id": "hema-zorgverzekering",
+"naam": "HEMA zorgverzekering",
+"soort": "zorgverzekering",
+"herken": [
+"HEMA zorgverzekering"
+]
+},
+{
+"id": "izz",
+"naam": "IZZ",
+"soort": "zorgverzekering",
+"herken": [
+"IZZ"
+]
+},
+{
+"id": "umc-zorgverzekering",
+"naam": "UMC zorgverzekering",
+"soort": "zorgverzekering",
+"herken": [
+"UMC zorgverzekering"
+]
+},
+{
+"id": "bewuzt",
+"naam": "Bewuzt",
+"soort": "zorgverzekering",
+"herken": [
+"Bewuzt"
+]
+},
+{
+"id": "united-consumers",
+"naam": "United Consumers",
+"soort": "zorgverzekering",
+"herken": [
+"United Consumers"
+]
+},
+{
+"id": "jaaah",
+"naam": "Jaaah",
+"soort": "zorgverzekering",
+"herken": [
+"Jaaah"
+]
+},
+{
+"id": "centraal-beheer",
+"naam": "Centraal Beheer",
+"soort": "verzekering",
+"herken": [
+"Centraal Beheer"
+]
+},
+{
+"id": "nationale-nederlanden",
+"naam": "Nationale-Nederlanden",
+"soort": "verzekering",
+"herken": [
+"Nationale-Nederlanden"
+]
+},
+{
+"id": "asr",
+"naam": "a.s.r.",
+"soort": "verzekering",
+"herken": [
+"asr schadeverzekering",
+"asr"
+]
+},
+{
+"id": "aegon",
+"naam": "Aegon",
+"soort": "verzekering",
+"herken": [
+"Aegon"
+]
+},
+{
+"id": "allianz",
+"naam": "Allianz",
+"soort": "verzekering",
+"herken": [
+"Allianz"
+]
+},
+{
+"id": "reaal",
+"naam": "Reaal",
+"soort": "verzekering",
+"herken": [
+"Reaal"
+]
+},
+{
+"id": "inshared",
+"naam": "InShared",
+"soort": "verzekering",
+"herken": [
+"InShared"
+]
+},
+{
+"id": "achmea",
+"naam": "Achmea",
+"soort": "verzekering",
+"herken": [
+"Achmea"
+]
+},
+{
+"id": "dela",
+"naam": "DELA",
+"soort": "verzekering",
+"herken": [
+"DELA"
+]
+},
+{
+"id": "monuta",
+"naam": "Monuta",
+"soort": "verzekering",
+"herken": [
+"Monuta"
+]
+},
+{
+"id": "yarden",
+"naam": "Yarden",
+"soort": "verzekering",
+"herken": [
+"Yarden"
+]
+},
+{
+"id": "ardanta",
+"naam": "Ardanta",
+"soort": "verzekering",
+"herken": [
+"Ardanta"
+]
+},
+{
+"id": "anwb-verzekeren",
+"naam": "ANWB Verzekeren",
+"soort": "verzekering",
+"herken": [
+"ANWB Verzekeren"
+]
+},
+{
+"id": "allsecur",
+"naam": "Allsecur",
+"soort": "verzekering",
+"herken": [
+"Allsecur"
+]
+},
+{
+"id": "klaverblad",
+"naam": "Klaverblad",
+"soort": "verzekering",
+"herken": [
+"Klaverblad"
+]
+},
+{
+"id": "de-goudse",
+"naam": "De Goudse",
+"soort": "verzekering",
+"herken": [
+"De Goudse"
+]
+},
+{
+"id": "tvm",
+"naam": "TVM",
+"soort": "verzekering",
+"herken": [
+"TVM"
+]
+},
+{
+"id": "unigarant",
+"naam": "Unigarant",
+"soort": "verzekering",
+"herken": [
+"Unigarant"
+]
+},
+{
+"id": "anwb",
+"naam": "ANWB",
+"soort": "abonnement",
+"herken": [
+"ANWB"
+]
+},
+{
+"id": "netflix",
+"naam": "Netflix",
+"soort": "abonnement",
+"herken": [
+"Netflix"
+]
+},
+{
+"id": "videoland",
+"naam": "Videoland",
+"soort": "abonnement",
+"herken": [
+"Videoland"
+]
+},
+{
+"id": "spotify",
+"naam": "Spotify",
+"soort": "abonnement",
+"herken": [
+"Spotify"
+]
+},
+{
+"id": "npo-plus",
+"naam": "NPO Plus",
+"soort": "abonnement",
+"herken": [
+"NPO Plus"
+]
+},
+{
+"id": "disney-plus",
+"naam": "Disney Plus",
+"soort": "abonnement",
+"herken": [
+"Disney Plus"
+]
+},
+{
+"id": "nlziet",
+"naam": "NLZiet",
+"soort": "abonnement",
+"herken": [
+"NLZiet"
+]
+},
+{
+"id": "viaplay",
+"naam": "Viaplay",
+"soort": "abonnement",
+"herken": [
+"Viaplay"
+]
+},
+{
+"id": "hbo-max",
+"naam": "HBO Max",
+"soort": "abonnement",
+"herken": [
+"HBO Max"
+]
+},
+{
+"id": "de-telegraaf",
+"naam": "De Telegraaf",
+"soort": "abonnement",
+"herken": [
+"De Telegraaf"
+]
+},
+{
+"id": "ad",
+"naam": "AD",
+"soort": "abonnement",
+"herken": [
+"AD"
+]
+},
+{
+"id": "de-volkskrant",
+"naam": "de Volkskrant",
+"soort": "abonnement",
+"herken": [
+"volkskrant"
+]
+},
+{
+"id": "nrc",
+"naam": "NRC",
+"soort": "abonnement",
+"herken": [
+"NRC"
+]
+},
+{
+"id": "trouw",
+"naam": "Trouw",
+"soort": "abonnement",
+"herken": [
+"Trouw"
+]
+},
+{
+"id": "libelle",
+"naam": "Libelle",
+"soort": "abonnement",
+"herken": [
+"Libelle"
+]
+},
+{
+"id": "margriet",
+"naam": "Margriet",
+"soort": "abonnement",
+"herken": [
+"Margriet"
+]
+},
+{
+"id": "plus-magazine",
+"naam": "Plus Magazine",
+"soort": "abonnement",
+"herken": [
+"Plus Magazine"
+]
+},
+{
+"id": "kro-ncrv",
+"naam": "KRO-NCRV",
+"soort": "abonnement",
+"herken": [
+"KRO-NCRV"
+]
+},
+{
+"id": "omroep-max",
+"naam": "Omroep MAX",
+"soort": "abonnement",
+"herken": [
+"Omroep MAX"
+]
+},
+{
+"id": "avrotros",
+"naam": "AVROTROS",
+"soort": "abonnement",
+"herken": [
+"AVROTROS"
+]
+},
+{
+"id": "bnnvara",
+"naam": "BNNVARA",
+"soort": "abonnement",
+"herken": [
+"BNNVARA"
+]
+},
+{
+"id": "eo",
+"naam": "EO",
+"soort": "abonnement",
+"herken": [
+"EO"
+]
+},
+{
+"id": "consumentenbond",
+"naam": "Consumentenbond",
+"soort": "abonnement",
+"herken": [
+"Consumentenbond"
+]
+},
+{
+"id": "vereniging-eigen-huis",
+"naam": "Vereniging Eigen Huis",
+"soort": "abonnement",
+"herken": [
+"Vereniging Eigen Huis"
+]
+},
+{
+"id": "ns",
+"naam": "NS",
+"soort": "abonnement",
+"herken": [
+"NS"
+]
+},
+{
+"id": "basic-fit",
+"naam": "Basic-Fit",
+"soort": "abonnement",
+"herken": [
+"Basic-Fit"
+]
+},
+{
+"id": "bolcom-select",
+"naam": "Bol.com Select",
+"soort": "abonnement",
+"herken": [
+"Bol.com Select"
+]
+},
+{
+"id": "thuisbezorgd",
+"naam": "Thuisbezorgd",
+"soort": "abonnement",
+"herken": [
+"Thuisbezorgd"
+]
+},
+{
+"id": "picnic",
+"naam": "Picnic",
+"soort": "abonnement",
+"herken": [
+"Picnic"
+]
+},
+{
+"id": "hellofresh",
+"naam": "HelloFresh",
+"soort": "abonnement",
+"herken": [
+"HelloFresh"
+]
+},
+{
+"id": "staatsbosbeheer",
+"naam": "Staatsbosbeheer",
+"soort": "abonnement",
+"herken": [
+"Staatsbosbeheer"
+]
+},
+{
+"id": "natuurmonumenten",
+"naam": "Natuurmonumenten",
+"soort": "abonnement",
+"herken": [
+"Natuurmonumenten"
+]
+},
+{
+"id": "bibliotheek",
+"naam": "Bibliotheek",
+"soort": "abonnement",
+"herken": [
+"Bibliotheek"
+]
+},
+{
+"id": "rode-kruis-nederland",
+"naam": "Rode Kruis Nederland",
+"soort": "abonnement",
+"herken": [
+"Rode Kruis Nederland"
+]
+},
+{
+"id": "nationale-postcode-loterij",
+"naam": "Nationale Postcode Loterij",
+"soort": "loterij",
+"herken": [
+"Nationale Postcode Loterij"
+]
+},
+{
+"id": "vriendenloterij",
+"naam": "VriendenLoterij",
+"soort": "loterij",
+"herken": [
+"vriendenloterij",
+"bankgiro loterij"
+]
+},
+{
+"id": "staatsloterij",
+"naam": "Staatsloterij",
+"soort": "loterij",
+"herken": [
+"staatsloterij",
+"nederlandse loterij"
+]
+},
+{
+"id": "lotto",
+"naam": "Lotto",
+"soort": "loterij",
+"herken": [
+"Lotto"
+]
+},
+{
+"id": "lot-of-happiness",
+"naam": "Lot of Happiness",
+"soort": "loterij",
+"herken": [
+"Lot of Happiness"
+]
+},
+{
+"id": "kwf-kankerbestrijding",
+"naam": "KWF Kankerbestrijding",
+"soort": "goeddoel",
+"herken": [
+"KWF Kankerbestrijding"
+]
+},
+{
+"id": "hartstichting",
+"naam": "Hartstichting",
+"soort": "goeddoel",
+"herken": [
+"Hartstichting"
+]
+},
+{
+"id": "unicef",
+"naam": "Unicef",
+"soort": "goeddoel",
+"herken": [
+"Unicef"
+]
+},
+{
+"id": "rode-kruis",
+"naam": "Rode Kruis",
+"soort": "goeddoel",
+"herken": [
+"Rode Kruis"
+]
+},
+{
+"id": "artsen-zonder-grenzen",
+"naam": "Artsen zonder Grenzen",
+"soort": "goeddoel",
+"herken": [
+"Artsen zonder Grenzen"
+]
+},
+{
+"id": "wereld-natuur-fonds",
+"naam": "Wereld Natuur Fonds",
+"soort": "goeddoel",
+"herken": [
+"Wereld Natuur Fonds"
+]
+},
+{
+"id": "amnesty-international",
+"naam": "Amnesty International",
+"soort": "goeddoel",
+"herken": [
+"Amnesty International"
+]
+},
+{
+"id": "leger-des-heils",
+"naam": "Leger des Heils",
+"soort": "goeddoel",
+"herken": [
+"Leger des Heils"
+]
+},
+{
+"id": "oxfam-novib",
+"naam": "Oxfam Novib",
+"soort": "goeddoel",
+"herken": [
+"Oxfam Novib"
+]
+},
+{
+"id": "dierenbescherming",
+"naam": "Dierenbescherming",
+"soort": "goeddoel",
+"herken": [
+"Dierenbescherming"
+]
+},
+{
+"id": "greenpeace",
+"naam": "Greenpeace",
+"soort": "goeddoel",
+"herken": [
+"Greenpeace"
+]
+},
+{
+"id": "longfonds",
+"naam": "Longfonds",
+"soort": "goeddoel",
+"herken": [
+"Longfonds"
+]
+},
+{
+"id": "alzheimer-nederland",
+"naam": "Alzheimer Nederland",
+"soort": "goeddoel",
+"herken": [
+"Alzheimer Nederland"
+]
+},
+{
+"id": "reumafonds",
+"naam": "Reumafonds",
+"soort": "goeddoel",
+"herken": [
+"Reumafonds"
+]
+},
+{
+"id": "nierstichting",
+"naam": "Nierstichting",
+"soort": "goeddoel",
+"herken": [
+"Nierstichting"
+]
+},
+{
+"id": "cliniclowns",
+"naam": "CliniClowns",
+"soort": "goeddoel",
+"herken": [
+"CliniClowns"
+]
+},
+{
+"id": "kika",
+"naam": "KiKa",
+"soort": "goeddoel",
+"herken": [
+"KiKa"
+]
+},
+{
+"id": "cordaid",
+"naam": "Cordaid",
+"soort": "goeddoel",
+"herken": [
+"Cordaid"
+]
+},
+{
+"id": "kerk-in-actie",
+"naam": "Kerk in Actie",
+"soort": "goeddoel",
+"herken": [
+"Kerk in Actie"
+]
+},
+{
+"id": "diabetes-fonds",
+"naam": "Diabetes Fonds",
+"soort": "goeddoel",
+"herken": [
+"Diabetes Fonds"
+]
+},
+{
+"id": "epilepsiefonds",
+"naam": "Epilepsiefonds",
+"soort": "goeddoel",
+"herken": [
+"Epilepsiefonds"
+]
+},
+{
+"id": "zonnebloem",
+"naam": "Zonnebloem",
+"soort": "goeddoel",
+"herken": [
+"Zonnebloem"
+]
+},
+{
+"id": "war-child",
+"naam": "War Child",
+"soort": "goeddoel",
+"herken": [
+"War Child"
+]
+},
+{
+"id": "sos-kinderdorpen",
+"naam": "SOS Kinderdorpen",
+"soort": "goeddoel",
+"herken": [
+"SOS Kinderdorpen"
+]
+},
+{
+"id": "plan-international",
+"naam": "Plan International",
+"soort": "goeddoel",
+"herken": [
+"Plan International"
+]
+},
+{
+"id": "stichting-vluchteling",
+"naam": "Stichting Vluchteling",
+"soort": "goeddoel",
+"herken": [
+"Stichting Vluchteling"
+]
+},
+{
+"id": "vogelbescherming",
+"naam": "Vogelbescherming",
+"soort": "goeddoel",
+"herken": [
+"Vogelbescherming"
+]
+},
+{
+"id": "woningcorporatie",
+"naam": "Woningcorporatie",
+"soort": "wonen",
+"herken": [
+"woningstichting",
+"woonstichting",
+"wonen limburg",
+"vestia",
+"ymere",
+"eigen haard",
+"de alliantie",
+"portaal",
+"woonbron",
+"havensteder",
+"mitros",
+"stadgenoot",
+"rochdale",
+"woonzorg nederland",
+"habion"
+]
+},
+{
+"id": "gemeentelijke-belastingen",
+"naam": "Gemeentelijke belastingen",
+"soort": "gemeente",
+"herken": [
+"gemeente",
+"gbtwente",
+"cocensus",
+"belastingsamenwerking",
+"bsgr",
+"sabewa",
+"gblt",
+"bghu",
+"svhw",
+"hefpunt",
+"noordelijk belastingkantoor",
+"munitax",
+"rbg"
+]
+},
+{
+"id": "waterschap",
+"naam": "Waterschap",
+"soort": "gemeente",
+"herken": [
+"waterschap",
+"hoogheemraadschap"
+]
+},
+{
+"id": "cak",
+"naam": "CAK",
+"soort": "zorg",
+"herken": [
+"cak eigen bijdrage",
+"het cak"
+]
+},
+{
+"id": "thuiszorg",
+"naam": "Thuiszorg",
+"soort": "zorg",
+"herken": [
+"thuiszorg",
+"buurtzorg",
+"wijkverpleging",
+"careyn",
+"cordaan",
+"omring",
+"evean",
+"zuidzorg",
+"tzorg"
+]
+},
+{
+"id": "alarmering",
+"naam": "Alarmering",
+"soort": "zorg",
+"herken": [
+"personenalarmering",
+"eurocross"
+]
+},
+{
+"id": "maaltijdservice",
+"naam": "Maaltijdservice",
+"soort": "zorg",
+"herken": [
+"Maaltijdservice"
+]
+},
+{
+"id": "tafeltje-dekje",
+"naam": "Tafeltje Dekje",
+"soort": "zorg",
+"herken": [
+"Tafeltje Dekje"
+]
+},
+{
+"id": "apetito",
+"naam": "Apetito",
+"soort": "zorg",
+"herken": [
+"Apetito"
+]
+},
+{
+"id": "uitgekookt",
+"naam": "Uitgekookt",
+"soort": "zorg",
+"herken": [
+"Uitgekookt"
+]
+},
+{
+"id": "valys",
+"naam": "Valys",
+"soort": "zorg",
+"herken": [
+"Valys"
+]
+},
+{
+"id": "regiotaxi",
+"naam": "Regiotaxi",
+"soort": "zorg",
+"herken": [
+"Regiotaxi"
+]
+},
+{
+"id": "ing",
+"naam": "ING",
+"soort": "bank",
+"herken": [
+"ING"
+]
+},
+{
+"id": "rabobank",
+"naam": "Rabobank",
+"soort": "bank",
+"herken": [
+"Rabobank"
+]
+},
+{
+"id": "abn-amro",
+"naam": "ABN AMRO",
+"soort": "bank",
+"herken": [
+"ABN AMRO"
+]
+},
+{
+"id": "asn-bank",
+"naam": "ASN Bank",
+"soort": "bank",
+"herken": [
+"asn bank",
+"sns",
+"regiobank"
+]
+},
+{
+"id": "triodos",
+"naam": "Triodos",
+"soort": "bank",
+"herken": [
+"Triodos"
+]
+},
+{
+"id": "knab",
+"naam": "Knab",
+"soort": "bank",
+"herken": [
+"Knab"
+]
+},
+{
+"id": "bunq",
+"naam": "bunq",
+"soort": "bank",
+"herken": [
+"bunq"
+]
+},
+{
+"id": "belastingdienst",
+"naam": "Belastingdienst",
+"soort": "overig",
+"herken": [
+"belastingdienst"
+]
+},
+{
+"id": "svb",
+"naam": "SVB",
+"soort": "overig",
+"herken": [
+"sociale verzekeringsbank"
+]
+},
+{
+"id": "uwv",
+"naam": "UWV",
+"soort": "overig",
+"herken": [
+"UWV"
+]
+}
+]
+}

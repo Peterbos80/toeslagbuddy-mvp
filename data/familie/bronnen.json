@@ -62,26 +62,6 @@
    "url": "https://www.rijksoverheid.nl/themas/klimaat-milieu-en-natuur/energie-thuis/salderingsregeling"
   },
   {
-   "id": "ro-erven",
-   "onderwerp": "erven",
-   "url": "https://www.rijksoverheid.nl/onderwerpen/erven"
-  },
-  {
-   "id": "ro-overlijden",
-   "onderwerp": "overlijden",
-   "url": "https://www.rijksoverheid.nl/onderwerpen/overlijden"
-  },
-  {
-   "id": "ro-zorgverzekering",
-   "onderwerp": "zorgverzekering",
-   "url": "https://www.rijksoverheid.nl/onderwerpen/zorgverzekering"
-  },
-  {
-   "id": "ro-curatele",
-   "onderwerp": "volmacht",
-   "url": "https://www.rijksoverheid.nl/onderwerpen/curatele-bewind-en-mentorschap"
-  },
-  {
    "id": "bd-erf-vrijstelling",
    "onderwerp": "erfbelasting",
    "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/vrijstelling-erfbelasting"
@@ -272,39 +252,59 @@
    "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/pensioen/wat-is-een-nabestaandenpensioen"
   },
   {
-   "id": "ro-zorgverzekering-overstappen",
+   "id": "bd-ib-termijn",
+   "onderwerp": "overlijden",
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/inkomstenbelasting-wanneer-moet-de-aangifte-voor-overledene-binnen-zijn"
+  },
+  {
+   "id": "ro-erven",
+   "onderwerp": "erven",
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/erven"
+  },
+  {
+   "id": "ro-overlijden",
+   "onderwerp": "overlijden",
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden"
+  },
+  {
+   "id": "ro-zorgverzekering",
    "onderwerp": "zorgverzekering",
-   "url": "https://www.rijksoverheid.nl/onderwerpen/zorgverzekering/vraag-en-antwoord/wanneer-kan-ik-overstappen-naar-een-andere-zorgverzekeraar"
-  },
-  {
-   "id": "ro-paspoort",
-   "onderwerp": "documenten",
-   "url": "https://www.rijksoverheid.nl/onderwerpen/paspoort-en-identiteitskaart/vraag-en-antwoord/hoe-lang-is-mijn-paspoort-of-identiteitskaart-geldig"
-  },
-  {
-   "id": "ro-rijbewijs-75",
-   "onderwerp": "documenten",
-   "url": "https://www.rijksoverheid.nl/onderwerpen/rijbewijs/vraag-en-antwoord/rijbewijs-verlengen-75-jaar-of-ouder"
-  },
-  {
-   "id": "ro-mentorschap",
-   "onderwerp": "volmacht",
-   "url": "https://www.rijksoverheid.nl/onderwerpen/curatele-bewind-en-mentorschap/vraag-en-antwoord/wat-is-het-verschil-tussen-curatele-bewind-en-mentorschap"
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering"
   },
   {
    "id": "ro-anw",
    "onderwerp": "anw",
-   "url": "https://www.rijksoverheid.nl/onderwerpen/algemene-nabestaandenwet-anw"
+   "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/algemene-nabestaandenwet-anw"
+  },
+  {
+   "id": "ro-anw-recht",
+   "onderwerp": "anw",
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/algemene-nabestaandenwet-anw/wanneer-heb-ik-recht-op-een-nabestaandenuitkering-anw-uitkering"
+  },
+  {
+   "id": "ro-familie-zorg",
+   "onderwerp": "hub",
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid"
   },
   {
    "id": "ro-mantelzorg",
    "onderwerp": "mantelzorg",
-   "url": "https://www.rijksoverheid.nl/onderwerpen/mantelzorg"
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/mantelzorg"
   },
   {
-   "id": "ro-zorgverlof",
-   "onderwerp": "mantelzorg",
-   "url": "https://www.rijksoverheid.nl/onderwerpen/zorgverlof"
+   "id": "ro-paspoort",
+   "onderwerp": "documenten",
+   "url": "https://www.rijksoverheid.nl/themas/migratie-en-reizen/paspoort-en-identiteitskaart"
+  },
+  {
+   "id": "ro-rijbewijs",
+   "onderwerp": "documenten",
+   "url": "https://www.rijksoverheid.nl/themas/verkeer-en-vervoer/rijbewijs"
+  },
+  {
+   "id": "ro-curatele",
+   "onderwerp": "volmacht",
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/curatele-bewind-en-mentorschap"
   }
  ],
  "nietOpgehaald": [

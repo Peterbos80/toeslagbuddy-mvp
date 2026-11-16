@@ -1,0 +1,87 @@
+{
+ "id": "erfbelasting-2026",
+ "titel": "Erfbelasting 2026: vrijstellingen en tarieven",
+ "jaar": 2026,
+ "geldigVanaf": "2026-01-01",
+ "geldigTot": "2026-12-31",
+ "gecontroleerdOp": "2026-11-16",
+ "status": "bevestigd",
+ "instantie": "Belastingdienst",
+ "controleerBij": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/hulpmiddel-erfbelasting-berekenen",
+ "bedragen": {
+  "vrijPartner": {
+   "waarde": 828035,
+   "bron": "bd-erf-vrijstelling",
+   "omschrijving": "Vrijstelling echtgenoot, geregistreerde partner of samenwonende partner"
+  },
+  "vrijKind": {
+   "waarde": 26230,
+   "bron": "bd-erf-vrijstelling",
+   "omschrijving": "Vrijstelling kind, pleegkind of stiefkind"
+  },
+  "vrijKleinkind": {
+   "waarde": 26230,
+   "bron": "bd-erf-vrijstelling",
+   "omschrijving": "Vrijstelling kleinkind"
+  },
+  "vrijKindBeperking": {
+   "waarde": 78671,
+   "bron": "bd-erf-vrijstelling",
+   "omschrijving": "Vrijstelling kind met een beperking (voorwaarden)"
+  },
+  "vrijOuder": {
+   "waarde": 62110,
+   "bron": "bd-erf-vrijstelling",
+   "omschrijving": "Vrijstelling ouder (ouders samen)"
+  },
+  "vrijOverig": {
+   "waarde": 2769,
+   "bron": "bd-erf-vrijstelling",
+   "omschrijving": "Vrijstelling andere erfgenaam"
+  },
+  "schijfgrens": {
+   "waarde": 158669,
+   "bron": "bd-erf-tarieven",
+   "omschrijving": "Grens tussen het lage en het hoge tarief"
+  }
+ },
+ "tarieven": {
+  "partnerKind": {
+   "laag": 0.1,
+   "hoog": 0.2,
+   "bron": "bd-erf-tarieven"
+  },
+  "kleinkind": {
+   "laag": 0.18,
+   "hoog": 0.36,
+   "bron": "bd-erf-tarieven"
+  },
+  "overig": {
+   "laag": 0.3,
+   "hoog": 0.4,
+   "bron": "bd-erf-tarieven"
+  }
+ },
+ "feiten": [
+  {
+   "tekst": "Trek de vrijstelling eerst van uw erfenis af",
+   "bron": "bd-erf-tarieven"
+  },
+  {
+   "tekst": "10%",
+   "bron": "bd-erf-tarieven"
+  },
+  {
+   "tekst": "18%",
+   "bron": "bd-erf-tarieven"
+  },
+  {
+   "tekst": "36%",
+   "bron": "bd-erf-tarieven"
+  },
+  {
+   "tekst": "40%",
+   "bron": "bd-erf-tarieven"
+  }
+ ]
+}

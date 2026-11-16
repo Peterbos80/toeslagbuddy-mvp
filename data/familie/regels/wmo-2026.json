@@ -1,0 +1,28 @@
+{
+ "id": "wmo-2026",
+ "titel": "Eigen bijdrage Wmo 2026",
+ "jaar": 2026,
+ "geldigVanaf": "2026-01-01",
+ "geldigTot": "2026-12-31",
+ "gecontroleerdOp": "2026-11-16",
+ "status": "bevestigd",
+ "instantie": "CAK",
+ "controleerBij": "https://www.hetcak.nl/wet-maatschappelijke-ondersteuning/krijg-hulp-ondersteuning/eigen-bijdrage-wmo/",
+ "bedragen": {
+  "abonnementstarief": {
+   "waarde": 21.8,
+   "bron": "cak-wmo-bijdrage",
+   "omschrijving": "Eigen bijdrage Wmo per maand (maximum)"
+  }
+ },
+ "feiten": [
+  {
+   "tekst": "minimaal één van u heeft de AOW-leeftijd",
+   "bron": "cak-wmo-bijdrage"
+  },
+  {
+   "tekst": "U betaalt in dat geval alléén voor beschermd wonen of de Wet langdurige zorg",
+   "bron": "cak-wmo-bijdrage"
+  }
+ ]
+}
