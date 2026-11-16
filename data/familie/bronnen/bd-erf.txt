@@ -1,6 +1,6 @@
 Bron: https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/erfbelasting
 Titel: Erfbelasting | Belastingdienst
-Opgehaald: 2026-11-16T19:41:23.219Z
+Opgehaald: 2026-11-16T19:45:41.316Z
 
 # Erfbelasting
 
