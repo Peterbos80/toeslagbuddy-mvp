@@ -1,0 +1,950 @@
+{
+ "bijgewerkt": "2026-11-16T19:41:23.219Z",
+ "links": [
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/aangifte_doen/praktische_informatie/burgerservicenummer/burgerservicenummer",
+   "tekst": "Hoe regel ik een burgerservicenummer vanuit het buitenland?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten",
+   "tekst": "Aftrek zorgkosten",
+   "via": "bd-zorgkosten-verhoging"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/",
+   "tekst": "Aftrek zorgkosten",
+   "via": "bd-zorgkosten-verhoging"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/aangifte_doen_om_zorgkosten_af_te_trekken",
+   "tekst": "Aangifte doen om zorgkosten af te trekken",
+   "via": "bd-zorgkosten-verhoging"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/hoe_berekent_u_uw_aftrek",
+   "tekst": "Hoe berekent u uw aftrek?",
+   "via": "bd-zorgkosten-verhoging"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/hoe_berekent_u_uw_aftrek/",
+   "tekst": "Hoe berekent u uw aftrek?",
+   "via": "bd-zorgkosten-verhoging"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/hoe_berekent_u_uw_aftrek/drempelbedrag_berekenen",
+   "tekst": "Drempelbedrag berekenen",
+   "via": "bd-zorgkosten-verhoging"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/hoe_berekent_u_uw_aftrek/drempelbedrag_berekenen/",
+   "tekst": "Drempelbedrag berekenen",
+   "via": "bd-zorgkosten-drempel"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/hoe_berekent_u_uw_aftrek/drempelbedrag_berekenen/drempelbedrag-2021",
+   "tekst": "Drempelbedrag 2021",
+   "via": "bd-zorgkosten-drempel"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/hoe_berekent_u_uw_aftrek/drempelbedrag_berekenen/drempelbedrag-2022",
+   "tekst": "Drempelbedrag 2022",
+   "via": "bd-zorgkosten-drempel"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/hoe_berekent_u_uw_aftrek/drempelbedrag_berekenen/drempelbedrag-2023",
+   "tekst": "Drempelbedrag 2023",
+   "via": "bd-zorgkosten-drempel"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/hoe_berekent_u_uw_aftrek/drempelbedrag_berekenen/drempelbedrag-2024",
+   "tekst": "Drempelbedrag 2024",
+   "via": "bd-zorgkosten-drempel"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/hoe_berekent_u_uw_aftrek/drempelbedrag_berekenen/drempelbedrag-2025",
+   "tekst": "Drempelbedrag 2025",
+   "via": "bd-zorgkosten-drempel"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/overzicht_zorgkosten",
+   "tekst": "Overzicht zorgkosten",
+   "via": "bd-zorgkosten-verhoging"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/voor_wie_mag_u_zorgkosten_aftrekken",
+   "tekst": "Voor wie mag u zorgkosten aftrekken?",
+   "via": "bd-zorgkosten-verhoging"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/voorwaarden_aftrek_zorgkosten",
+   "tekst": "Voorwaarden aftrek zorgkosten",
+   "via": "bd-zorgkosten-verhoging"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/tegemoetkoming_specifieke_zorgkosten",
+   "tekst": "Tegemoetkoming specifieke zorgkosten",
+   "via": "bd-zorgkosten-verhoging"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/toeslagen/hoe_werken_toeslagen/kan_ik_toeslag_krijgen/inkomen/deel-van-het-jaar-een-toeslagpartner/10-procent-regeling-overlijden",
+   "tekst": "Lees wanneer u precies om de 10%-regeling kunt vragen en hoe u dat doet.",
+   "via": "bd-toeslagen-inkomen"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/toeslagen/hoe_werken_toeslagen/partner/toeslagpartner",
+   "tekst": "toeslagpartner",
+   "via": "bd-toeslagen-naaste"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/toeslagen/hoe_werken_toeslagen/uitbetaling_toeslagen/berekening/wat_is_een_voorschotbeschikking",
+   "tekst": "voorschotbeschikking",
+   "via": "bd-toeslagen-naaste"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/ondernemen/onderneming_wijzigen_of_beeindigen/u_overlijdt/u_overlijdt",
+   "tekst": "Lees welke belastingzaken u moet regelen bij overlijden van een ondernemer",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/winst/inkomstenbelasting/inkomstenbelasting_voor_ondernemers/fiscale_reserves/oudedagsreserve",
+   "tekst": "Afrekenen oudedagsreserve na overlijden",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/winst/inkomstenbelasting/inkomstenbelasting_voor_ondernemers/ondernemersaftrek/zelfstandigenaftrek1/verrekenen_niet_gerealiseerde_zelfstandigenaftrek",
+   "tekst": "Verrekenen zelfstandigenaftrek na overlijden",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/themaoverstijgend/brochures_en_publicaties/erf-en-schenkbelasting-en-de-bedrijfsopvolgingsregeling",
+   "tekst": "Brochures BOR",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/themaoverstijgend/programmas_en_formulieren/aangifte-niet-voldoen-aan-het-voortzettingsvereiste-pdf",
+   "tekst": "Formulier 'Niet voldoen aan voortzettingsvereiste'",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/themaoverstijgend/programmas_en_formulieren/formulier_bezwaar_definitieve_berekening",
+   "tekst": "Bezwaar definitieve berekening toeslag",
+   "via": "bd-toeslagen-definitief"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/betalenenontvangen/content/ik-ben-erfgenaam-van-iemand-met-een-belastingschuld-wat-kan-ik-doen",
+   "tekst": "Ik ben erfgenaam van iemand met een belastingschuld - wat kan ik doen?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/betalenenontvangen/content/ik-heb-een-aanslag-erfbelasting-ontvangen-kan-ik-uitstel-van-betaling-krijgen",
+   "tekst": "Kan ik uitstel van betaling of een betalingsregeling aanvragen?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/bezwaar-en-beroep/content/bezwaar-maken-tegen-aanslag-erfbelasting",
+   "tekst": "Hoe maak ik bezwaar tegen mijn aanslag erfbelasting?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/contact-met-dienst-toeslagen/contact-met-dienst-toeslagen",
+   "tekst": "Contact",
+   "via": "bd-toeslagen-naaste"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/contact-met-dienst-toeslagen/content/bellen",
+   "tekst": "BelastingTelefoon",
+   "via": "bd-toeslagen-definitief"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/contact/content/contact-telefoonnummer-nabestaanden",
+   "tekst": "BelastingTelefoon voor nabestaanden",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/",
+   "tekst": "Erfbelasting",
+   "via": "bd-erf-minder"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content-2022/tarieven-erfbelasting-2022",
+   "tekst": "Tarieven erfbelasting 2022",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content-2022/vrijstelling-erfbelasting-2022",
+   "tekst": "Vrijstellingen erfbelasting 2022",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/aangifte_erfbelasting_wijzigen",
+   "tekst": "Kan ik mijn aangifte erfbelasting nog wijzigen?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/aangifte-erfbelasting-doen-op-papier",
+   "tekst": "Kan ik aangifte erfbelasting doen op papier?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/aangifte-erfbelasting-doen-welke-gegevens-nodig",
+   "tekst": "Alle gegevens om aangifte erfbelasting te doen op een rij",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/aangifte-erfbelasting-oude-jaren",
+   "tekst": "Aangifte erfbelasting 2021 of eerder",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/aangifte-tweetrapsmaking",
+   "tekst": "Ik erf iets via een tweetrapsmaking - Hoe doe ik aangifte erfbelasting?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/bedrijf-overnemen-door-schenking-of-erfenis",
+   "tekst": "Ik erf een bedrijf. Hoe zit dat precies?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/belastingrente-over-de-aanslag-erfbelasting",
+   "tekst": "Betaal ik belastingrente over de aanslag erfbelasting?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/berekening-waarde-verhuurde-of-verpachte-woning",
+   "tekst": "Berekening waarde verhuurde of verpachte woning",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/berekening-waarde-vruchtgebruik-blote-eigendom-periodieke-uitkeringen",
+   "tekst": "Berekening waarde van vruchtgebruik, blote eigendom en periodieke uitkeringen",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/erfbelasting_wanneer_doe_ik_aangifte",
+   "tekst": "Moet ik aangifte erfbelasting doen?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/erfbelasting_wie_erft_er",
+   "tekst": "Wie erft er?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/erfbelasting-betalen-met-kunst",
+   "tekst": "Erfbelasting betalen met kunst",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/erfenis-nalaten",
+   "tekst": "Wat kan ik tijdens mijn leven al regelen?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/erfrecht",
+   "tekst": "Erfrecht",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/hoe-kom-ik-aan-een-kopie-van-de-aanslag-erfbelasting",
+   "tekst": "Kan ik een kopie krijgen van de aanslag erfbelasting?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/hulpmiddel-erfbelasting-berekenen",
+   "tekst": "Hoeveel erfbelasting moet ik betalen?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/ik-heb-een-erfenis-gekregen-uit-nederland-en-woon-in-het-buitenland-waar-moet-ik-aangifte-erfbelasting-doen",
+   "tekst": "Ik woon in het buitenland en krijg een erfenis uit Nederland",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/ik-heb-een-erfenis-uit-het-buitenland-waar-betaal-ik-erfbelasting",
+   "tekst": "Ik krijg een erfenis van iemand uit het buitenland",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/ik-voldoe-niet-meer-aan-het-voortzettingsvereiste-bor",
+   "tekst": "Een geërfd bedrijf niet meer voortzetten",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/in-4-stappen-aangifte-doen-erfbelasting",
+   "tekst": "Online aangifte - hoe doe ik dat?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/kan-ik-een-kopie-krijgen-van-mijn-aangifte-erfbelasting",
+   "tekst": "Hoe kom ik aan een afdruk van de aangifte erfbelasting?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/legaat-vrij-van-recht",
+   "tekst": "Wat is een legaat vrij van recht?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/lijfrente-of-pensioen-na-overlijden-partner-betaal-ik-erfbelasting",
+   "tekst": "Ik krijg door het overlijden van mijn partner een lijfrente of pensioen. Betaal ik erfbelasting?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/nalaten-aan-een-goed-doel-wie-betaalt-erfbelasting",
+   "tekst": "Ik laat iets na aan een goed doel, betaalt het goede doel erfbelasting?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/partners-voor-de-erfbelasting",
+   "tekst": "Wie zijn partners voor de erfbelasting?",
+   "via": "bd-erf-tarieven"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/rekeningnummer-erfbelasting",
+   "tekst": "Wat is het rekeningnummer voor de erfbelasting?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/relatie-met-overledene",
+   "tekst": "Lees meer over de relatie met de overledene",
+   "via": "bd-erf-tarieven"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/tarieven-erfbelasting-2023",
+   "tekst": "Tarieven erfbelasting 2023",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/tarieven-erfbelasting-2024",
+   "tekst": "Tarieven erfbelasting 2024",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/tarieven-erfbelasting-2025",
+   "tekst": "Tarieven erfbelasting 2025",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/uitstel-aangifte-erfbelasting",
+   "tekst": "Kan ik uitstel aanvragen voor het doen van aangifte erfbelasting?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/voorlopige-aanslag-erfbelasting-aanvragen",
+   "tekst": "Kan ik alvast erfbelasting betalen via een voorlopige aanslag?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/vrijstelling-erfbelasting-2023",
+   "tekst": "Vrijstellingen erfbelasting 2023",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/vrijstelling-erfbelasting-2024",
+   "tekst": "Vrijstellingen erfbelasting 2024",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/vrijstelling-erfbelasting-2025",
+   "tekst": "Vrijstellingen erfbelasting 2025",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/waarde-erfenis-voor-erfbelasting",
+   "tekst": "Hoe bepaal ik de waarde van de erfenis?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/wanneer-krijg-ik-een-reactie-op-mijn-aangifte-erfbelasting",
+   "tekst": "Wanneer krijg ik een reactie op mijn aangifte erfbelasting?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/wanneer-moet-mijn-aangifte-erfbelasting-binnen-zijn",
+   "tekst": "Wanneer moet ik uiterlijk aangifte erfbelasting doen?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/wat-gebeurt-er-als-ik-geen-aangifte-doe-of-te-laat-of-onvolledig",
+   "tekst": "Wat als ik geen aangifte erfbelasting doe? Of te laat, of onvolledig?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/welke-begrafeniskosten-en-crematiekosten-mag-ik-aftrekken",
+   "tekst": "Mag ik uitvaartkosten aftrekken?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/wettelijke-verdeling",
+   "tekst": "De wettelijke verdeling",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/wie-doet-aangifte-erfbelasting",
+   "tekst": "Wie doet de aangifte erfbelasting?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/home/content/inloggen-mijn-belastingdienst",
+   "tekst": "Aangifte erfbelasting 2022 - 2026",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/huurtoeslag/content/wie-telt-als-medebewoner",
+   "tekst": "medebewoner",
+   "via": "bd-toeslagen-naaste"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/content/uitkering-kapitaalverzekering-eigen-woning-overlijden-fiscale-partner",
+   "tekst": "Uitkering kapitaalverzekering na overlijden fiscale partner",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/",
+   "tekst": "Na een overlijden",
+   "via": "bd-nabestaandenmachtiging"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/checklist/bij-overlijden-checklist-nabestaanden",
+   "tekst": "Vul de checklist nabestaanden in",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/aangifte-inkomstenbelasting-gedaan-voor-overledene-wanneer-bericht",
+   "tekst": "Ik heb aangifte gedaan, wanneer krijg ik bericht?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/belasting-betalen-over-postuum-loon-of-uitkering-na-overlijden",
+   "tekst": "Uitbetaling van werkgever na overlijden",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/een-voorlopige-aanslag-stoppen-of-wijzigen-bij-een-overlijden",
+   "tekst": "Wat als de overledene een voorlopige aanslag kreeg?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/erfbelasting-ik-erf-een-koopwoning-wat-nu",
+   "tekst": "Ik erf een koopwoning - wat nu?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/erfenis-aanvaarden-of-verwerpen-keuze-doorgeven",
+   "tekst": "Erfenis aanvaarden of verwerpen - moet ik mijn keuze doorgeven?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/hoe-gebruik-ik-een-nabestaandenmachtiging",
+   "tekst": "Hoe gebruik ik een nabestaandenmachtiging?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/hoe-geef-ik-de-contactpersoon-namens-de-nabestaanden-door",
+   "tekst": "Hoe geef ik een contactpersoon namens de nabestaanden door?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/ik-heb-aangifte-inkomenstenbelasting-gedaan-voor-de-overledene-wanneer-krijg-ik-geld-terug",
+   "tekst": "Ik krijg geld terug, wanneer hoor ik iets?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/ik-wil-de-gegevens-wijzigen-van-de-contactpersoon-bij-overlijden",
+   "tekst": "Hoe verander ik de gegevens van de contactpersoon?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/inkomstenbelasting-fiscale-partner-hoe-aangifte-doen-na-overlijden",
+   "tekst": "Ik ben fiscale partner van de overledene - hoe doe ik aangifte?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/inkomstenbelasting-hoe-aangifte-doen-voor-overledene",
+   "tekst": "Lees hoe u aangifte inkomstenbelasting voor de overledene doet",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/inkomstenbelasting-moet-ik-aangifte-doen-voor-overledene",
+   "tekst": "Moet ik aangifte inkomstenbelasting doen voor de overledene?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/inkomstenbelasting-stappenplan-invullen-f-formulier",
+   "tekst": "Wat is het aangifteformulier F en hoe vul ik het in?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/inkomstenbelasting-uitstel-vragen-voor-aangifte-overledene",
+   "tekst": "Kan ik uitstel krijgen voor de aangifte?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/inkomstenbelasting-waar-aan-denken-als-ik-mijn-belastingaangifte-doe-na-een-erfenis",
+   "tekst": "Wat betekent een erfenis voor mijn aangifte inkomstenbelasting?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/inkomstenbelasting-wanneer-moet-de-aangifte-voor-overledene-binnen-zijn",
+   "tekst": "Wanneer moet de aangifte binnen zijn?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/inkomstenbelasting-wie-doet-de-aangifte-na-overlijden",
+   "tekst": "Wie doet de aangifte?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/moet-ik-een-overlijden-doorgeven-aan-de-belastingdienst",
+   "tekst": "Moet ik een overlijden doorgeven?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/nabestaandenmachtiging-belastingdienst-voor-wie",
+   "tekst": "Wie kan een nabestaandenmachtiging krijgen?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/nabestaandenmachtiging-regelen-in-3-stappen",
+   "tekst": "Hoe krijg ik een nabestaandenmachtiging?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/praktische-hulp-na-een-overlijden",
+   "tekst": "Praktische hulp na een overlijden",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/teruggave-voor-overledene-geld-terugkrijgen",
+   "tekst": "Ik verwacht een teruggave voor de overledene - hoe krijg ik het geld terug?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/scheiden/content/samen-of-apart-belastingaangifte-doen",
+   "tekst": "Samen of apart belastingaangifte doen",
+   "via": "bd-toeslagen-definitief"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/schenken/content/heeft-een-schenking-gevolgen-voor-de-erfenis-die-ik-nalaat",
+   "tekst": "Wanneer is een schenking deel van de erfenis?",
+   "via": "bd-erf"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen-na-een-overlijden/",
+   "tekst": "Toeslagen na een overlijden",
+   "via": "bd-toeslagen-naaste"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen-na-een-overlijden/content/erfenis-ontvangen-wat-betekent-dat-voor-mijn-toeslag",
+   "tekst": "Ik krijg een erfenis – wat betekent dat voor mijn toeslag?",
+   "via": "bd-toeslagen-naaste"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen-na-een-overlijden/content/medebewoner-overleden-huurtoeslag",
+   "tekst": "Mijn medebewoner is overleden - wat betekent dat voor de huurtoeslag?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen-na-een-overlijden/content/overleden-kind-toeslagen",
+   "tekst": "Wat gebeurt er met mijn toeslagen als mijn kind is overleden?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen-na-een-overlijden/content/uitbetalen-toeslagen-erfgenamen-na-overlijden-niet-op-geblokkeerde-rekening",
+   "tekst": "Wat als de rekening van de overledene is geblokkeerd?",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen-na-een-overlijden/content/vermogen-voor-toeslagen-na-overlijden-partner",
+   "tekst": "Ga na hoe hoog het vermogen voor u alleen mag zijn om toeslag te krijgen",
+   "via": "bd-toeslagen-partner"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/app-toeslagen",
+   "tekst": "app Toeslagen",
+   "via": "bd-toeslagen-inkomen"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/hulpmiddel-proefberekening-toeslagen",
+   "tekst": "proefberekening",
+   "via": "bd-toeslagen-partner"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/inloggen-op-mijn-toeslagen",
+   "tekst": "Inloggen op Mijn toeslagen",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/privacyverklaring-toeslagen",
+   "tekst": "Privacyverklaring",
+   "via": "bd-na-overlijden"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/toeslagpartner",
+   "tekst": "toeslagpartners",
+   "via": "bd-toeslagen-partner"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/wat-is-mijn-toetsingsinkomen",
+   "tekst": "hulpmiddel Bereken het toetsingsinkomen",
+   "via": "bd-toeslagen-inkomen"
+  },
+  {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/toeslagen",
+   "tekst": "",
+   "via": "bd-toeslagen-naaste"
+  },
+  {
+   "url": "https://www.hetcak.nl/publish/library/41/proces_wmo_voor_website_v3_kleiner.jpg",
+   "tekst": "Klik voor een vergroting (afbeelding: proces_wmo_voor_website_v3_kleiner.jpg)",
+   "via": "cak-wmo-bijdrage"
+  },
+  {
+   "url": "https://www.hetcak.nl/uw-situatie/ik-heb-een-persoonsgebonden-budget/pgb-wmo-beschermd-wonen/",
+   "tekst": "Lees meer over een pgb beschermd wonen",
+   "via": "cak-wmo-bijdrage"
+  },
+  {
+   "url": "https://www.hetcak.nl/uw-situatie/ik-woon-in-een-zorginstelling/",
+   "tekst": "Ik woon in een zorginstelling",
+   "via": "cak-wlz-instelling"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/aftrek-beschikbaar-inkomen/",
+   "tekst": "aftrek beschikbaar inkomen",
+   "via": "cak-wlz-hoog"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/aftrek-pensioengerechtigde-leeftijd/",
+   "tekst": "aftrek (niet-)pensioengerechtigde leeftijd",
+   "via": "cak-wlz-hoog"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/aftrek-zorgverzekeringswet-beschikking/",
+   "tekst": "aftrek Zorgverzekeringswet",
+   "via": "cak-wlz-hoog"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/compensatieouderentoeslag/",
+   "tekst": "compensatie vervallen ouderentoeslag",
+   "via": "cak-wlz-hoog"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/eigen-bijdrage-betalen-vanaf-18-jaar/",
+   "tekst": "hetcak.nl/jongeren",
+   "via": "cak-wlz-2026"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/korting-15-inkomen-arbeid/",
+   "tekst": "inkomsten uit tegenwoordige arbeid",
+   "via": "cak-wlz-hoog"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/korting-niet-pensioengerechtigd/",
+   "tekst": "hetcak.nl/korting",
+   "via": "cak-wlz-2026"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/partner-eigen-bijdrage/",
+   "tekst": "partner voor de eigen bijdrage heeft",
+   "via": "cak-wmo-bijdrage"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/toetsbedrag-vermogen/",
+   "tekst": "toetsbedrag",
+   "via": "cak-wlz-hoog"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/voorwaarden-aanpassing-hoge-eigen/",
+   "tekst": "Lees meer over de voorwaarden voor de hoge eigen bijdrage.",
+   "via": "cak-wlz-aanpassen"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/voorwaarden-aanpassing-lage-eigen/",
+   "tekst": "Lees meer over de voorwaarden voor de lage eigen bijdrage",
+   "via": "cak-wlz-aanpassen"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/vragen-over-de-eigen-bijdrage/",
+   "tekst": "Vragen over de eigen bijdrage",
+   "via": "cak-wmo-bijdrage"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/wanneer-vrijstelling-lage-eigen-bijdrage/",
+   "tekst": "vrijstelling",
+   "via": "cak-wlz-aanpassen"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/zak-kleedgeld/",
+   "tekst": "zak- en kleedgeld",
+   "via": "cak-wlz-hoog"
+  },
+  {
+   "url": "https://www.hetcak.nl/veelgestelde-vragen/eigen-bijdrage/zit-ggz-instelling-hiervoor-eigen/",
+   "tekst": "Lees meer over wonen in een GGZ-instelling",
+   "via": "cak-wlz-instelling"
+  },
+  {
+   "url": "https://www.hetcak.nl/wet-maatschappelijke-ondersteuning/",
+   "tekst": "Wet maatschappelijke ondersteuning (Wmo)",
+   "via": "cak-wmo-wijziging"
+  },
+  {
+   "url": "https://www.hetcak.nl/wet-maatschappelijke-ondersteuning/beschermd-wonen-wmo/",
+   "tekst": "beschermd wonen en de Wmo",
+   "via": "cak-wmo-bijdrage"
+  },
+  {
+   "url": "https://www.hetcak.nl/wet-maatschappelijke-ondersteuning/krijg-hulp-ondersteuning/eigen-bijdrage-wmo/vraag/",
+   "tekst": "Waarom moet ik een eigen bijdrage betalen?",
+   "via": "cak-wmo-bijdrage"
+  },
+  {
+   "url": "https://www.hetcak.nl/wet-maatschappelijke-ondersteuning/laag-inkomen-eigen-bijdrage-betalen/",
+   "tekst": "mogelijk geen eigen bijdrage te betalen",
+   "via": "cak-wmo-bijdrage"
+  },
+  {
+   "url": "https://www.hetcak.nl/wet-maatschappelijke-ondersteuning/nieuw-wmo/hulp-ondersteuning/vraag-hulp-ondersteuning/",
+   "tekst": "Hoe vraag ik hulp of ondersteuning aan?",
+   "via": "cak-wmo-bijdrage"
+  },
+  {
+   "url": "https://www.hetcak.nl/zelf-regelen/aanpassing-eigen-bijdrage-wlz-bw/",
+   "tekst": "Aanpassing eigen bijdrage aanvragen",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.hetcak.nl/zelf-regelen/eigen-bijdrage-rekenhulp/",
+   "tekst": "Eigen bijdrage berekenen",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.hetcak.nl/zelf-regelen/rekenhulp-aanpassing-eigen-bijdrage/",
+   "tekst": "Rekenhulp aanpassing eigen bijdrage",
+   "via": "cak-wlz-aanpassen"
+  },
+  {
+   "url": "https://www.hetcak.nl/zelf-regelen/vrijstelling-lage-eigen-bijdrage/",
+   "tekst": "vrijstelling",
+   "via": "cak-wlz-2026"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/",
+   "tekst": "Wet langdurige zorg (Wlz)",
+   "via": "cak-wmo-wijziging"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/binnenkort-18-jaar/",
+   "tekst": "Ik word binnenkort 18 jaar",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/eigen-bijdrage-wlz-betalen/",
+   "tekst": "Alles over betalen",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/eigen-bijdrage-wlz-betalen/betalen-via-uitkering-aow/",
+   "tekst": "hetcak.nl/betalen-via-aow",
+   "via": "cak-wlz-2026"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/er-verandert-iets/",
+   "tekst": "Alles over als er iets verandert",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/er-verandert-iets/aow-veranderen-svb/",
+   "tekst": "AOW voor ongehuwden",
+   "via": "cak-wlz-2026"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/iemand-overleden/",
+   "tekst": "Er is iemand overleden",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/moeite-met-betalen/",
+   "tekst": "Ik kan de eigen bijdrage niet betalen",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/nieuw-in-wlz/",
+   "tekst": "Ik ben nieuw in de Wlz",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/nieuws-wlz/",
+   "tekst": "Nieuws over de Wlz",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/nieuws-wlz/digid-machtigen-mogelijk/",
+   "tekst": "Iemand machtigen met DigiD is nu mogelijk",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/nieuws-wlz/nieuwe-opzet-informatie-wlz/",
+   "tekst": "Nieuwe opzet informatie Wlz",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/nieuws-wlz/wlz-beschermd-wonen-veranderingen-2027/",
+   "tekst": "Wlz en beschermd wonen: wat verandert er in 2027?",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/uitleg-eigen-bijdrage-wlz/",
+   "tekst": "Alles over de eigen bijdrage Wlz",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/uitleg-eigen-bijdrage-wlz/lage-of-hoge-eigen-bijdrage/",
+   "tekst": "Lees meer over de lage en hoge eigen bijdrage",
+   "via": "cak-wlz-2026"
+  },
+  {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/vertegenwoordiger/",
+   "tekst": "Ik regel de zaken voor iemand",
+   "via": "cak-wlz"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/actueel/nieuws?size=n_10_n&filters%5B0%5D%5Bfield%5D=topic&filters%5B0%5D%5Bvalues%5D%5B0%5D=Overlijden&filters%5B0%5D%5Btype%5D=all",
+   "tekst": "Nieuws",
+   "via": "ro-overlijden"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/actueel/nieuws/2024/10/08/consultatie-wetsvoorstel-bestemming-lichamen-van-overledenen-van-start",
+   "tekst": "Consultatie Wetsvoorstel bestemming lichamen van overledenen van start Jaarlijks overlijden in Nederland zo’n 170.000 mensen. Het is van groot belang dat het lichaam van een overledene op een waardige ... 08-10-2024 9:00 Lees verder",
+   "via": "ro-overlijden"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/actueel/nieuws/2025/06/30/verbeteringen-toeslagenstelsel",
+   "tekst": "Verbeteringen toeslagenstelsel Het kabinet neemt maatregelen om het toeslagenstelsel op de korte termijn te verbeteren. Door bijvoorbeeld de aanvraagtermijn van ... 30-06-2025 15:00 Lees verder",
+   "via": "ro-zorgverzekering"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/actueel/nieuws/2026/09/25/wetsvoorstel-bestemming-lichamen-overledenen-naar-raad-van-state",
+   "tekst": "Wetsvoorstel bestemming lichamen overledenen naar Raad van State Jaarlijks overlijden in Nederland zo’n 170.000 mensen. Het is belangrijk dat we lichamen van een overledene op een waardige en ... 25-09-2026 16:00 Lees verder",
+   "via": "ro-overlijden"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/documenten/videos/2024/11/28/zorgverzekering-en-zorgtoeslag",
+   "tekst": "Past uw zorgverzekering nog bij u? Bekijk een video over de zorgverzekering voor 2025. Waar moet u aan denken? Bijvoorbeeld als u overstapt naar een andere zorgverzekeraar. Beeld: © Ministerie van Volksgezondheid, Welzijn en Sport / In Between, Inclusia, Ministerie van Volksgezondheid, Welzijn en Sport Lees verder",
+   "via": "ro-zorgverzekering"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/documenten/vraag-en-antwoord/geestelijke-gezondheidszorg/vergoeding-zorg-en-behandeling-beschermd-wonen",
+   "tekst": "eigen bijdrage voor beschermd wonen",
+   "via": "ro-wmo"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/erven",
+   "tekst": "Erven Bekijk wat u moet weten over erven als er iemand overlijdt. Beeld: © Hollandse Hoogte / Sabine Joosten Lees verder",
+   "via": "ro-overlijden"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/erven/vraag-en-antwoord/erven/erfenis-aanvaarden",
+   "tekst": "Moet ik een erfenis aanvaarden?",
+   "via": "ro-erven"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/erven/vraag-en-antwoord/erven/erven-wat-moet-ik-regelen",
+   "tekst": "Erfenis krijgen: maak een overzicht van wat u moet weten en regelen",
+   "via": "ro-erven"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/erven/vraag-en-antwoord/erven/waar-kan-ik-opvragen-of-een-overleden-familielid-een-testament-had",
+   "tekst": "Waar kan ik opvragen of een overleden familielid een testament had?",
+   "via": "ro-erven"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/erven/vraag-en-antwoord/erven/wat-is-de-wettelijke-verdeling-bij-erfrecht",
+   "tekst": "Wat is de wettelijke verdeling bij erfrecht?",
+   "via": "ro-erven"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/erven/vraag-en-antwoord/erven/wat-is-een-verklaring-van-erfrecht-en-wanneer-heb-ik-deze-nodig",
+   "tekst": "Wanneer heb ik een verklaring van erfrecht nodig?",
+   "via": "ro-erven"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/erven/vraag-en-antwoord/overlijden/checklist-bij-overlijden",
+   "tekst": "Overlijden van een naaste: wat moet ik regelen? Nabestaanden moeten aangifte doen van overlijden, de uitvaart regelen en de administratie afwikkelen. Beantwoord 10 vragen voor een overzicht. Beeld: © Hollandse Hoogte / EyeEm GmbH Lees verder",
+   "via": "ro-erven"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/erven/vraag-en-antwoord/overlijden/overlijden-hoe-bereid-ik-me-voor-op-mijn-eigen-overlijden",
+   "tekst": "Voorbereiden op overlijden: wat moet ik regelen? Wilt u uw nalatenschap regelen of de zorg tijdens uw laatste levensfase vastleggen? Beantwoord de 6 vragen voor een overzicht. Beeld: © Hollandse Hoogte / Patricia Rehe Lees verder",
+   "via": "ro-erven"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden",
+   "tekst": "Overlijden Onderwerp",
+   "via": "ro-erven"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord",
+   "tekst": "Vraag en antwoord",
+   "via": "ro-overlijden"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/aangifte-geboorte-en-naamskeuze-kind/registratie-levenloos-geboren-kind",
+   "tekst": "Wat moet ik doen om mijn levenloos geboren kind te registreren in de Basisregistratie Personen (BRP)?",
+   "via": "ro-overlijden"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/erven/erven-wat-moet-ik-regelen",
+   "tekst": "Erven: wat moet ik regelen? Maak een persoonlijk overzicht. Beeld: © Hollandse Hoogte / Rainer Berg Lees verder",
+   "via": "ro-overlijden"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/ouderlijk-gezag/wie-krijgt-het-gezag-over-mijn-kind-als-ik-kom-te-overlijden",
+   "tekst": "Wie krijgt het gezag over mijn kind als ik kom te overlijden?",
+   "via": "ro-overlijden"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/overlijden/checklist-bij-overlijden",
+   "tekst": "Overlijden: maak een overzicht van wat u moet weten en regelen",
+   "via": "ro-overlijden"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/overlijden/overlijden-hoe-bereid-ik-me-voor-op-mijn-eigen-overlijden",
+   "tekst": "Voorbereiden op overlijden: wat moet ik regelen? Maak een persoonlijk overzicht. Beeld: © Hollandse Hoogte / Patricia Rehe Lees verder",
+   "via": "ro-overlijden"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/pensioen/wat-is-een-nabestaandenpensioen",
+   "tekst": "Wat is een nabestaandenpensioen?",
+   "via": "ro-overlijden"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/verpleeghuizen-en-zorginstellingen",
+   "tekst": "Verpleeghuizen en zorginstellingen Onderwerp",
+   "via": "ro-wlz"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/kan-ik-zorgtoeslag-krijgen",
+   "tekst": "Kan ik zorgtoeslag krijgen?",
+   "via": "ro-zorgverzekering"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/misverstanden-zorgverzekering",
+   "tekst": "Welke misverstanden zijn er rond de zorgverzekering? Lees hoe het zit met vergoedingen, eigen risico, zorgpremie, zorgtoeslag, overstappen en de zorgrekening.",
+   "via": "ro-zorgverzekering"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/klimaat-milieu-en-natuur/energie-thuis/salderingsregeling/vraag-en-antwoord/energie-thuis/heb-ik-een-vergunning-nodig-om-zonnepanelen-op-mijn-dak-te-plaatsen",
+   "tekst": "Heb ik een vergunning nodig om zonnepanelen op mijn dak te plaatsen?",
+   "via": "ro-salderen"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/klimaat-milieu-en-natuur/energie-thuis/salderingsregeling/vraag-en-antwoord/energie-thuis/krijg-ik-subsidie-voor-zonnepanelen",
+   "tekst": "Krijg ik subsidie voor zonnepanelen?",
+   "via": "ro-salderen"
+  }
+ ]
+}

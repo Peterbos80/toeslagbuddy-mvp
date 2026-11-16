@@ -1,0 +1,387 @@
+{
+ "bijgewerkt": "2026-11-16T19:41:23.219Z",
+ "bronnen": {
+  "cak-wlz-2026": {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/wlz-in-2026/",
+   "onderwerp": "wlz",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "De Wlz in 2026 | CAK",
+   "hash": "be0c3e8f35cbc854376fba8f339ce41b9099225926423e7760296ef72dcd6d22",
+   "tekens": 9829,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "cak-wlz-laag": {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/uitleg-eigen-bijdrage-wlz/berekening-lage-eigen-bijdrage/",
+   "onderwerp": "wlz",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Hoe berekent het CAK de lage eigen bijdrage? | CAK",
+   "hash": "9acf7aa5d2cf8f61d2df56010eba8fc8b7655b2c44d9c783a5cb2a26c59455fc",
+   "tekens": 2995,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "cak-wlz-hoog": {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/uitleg-eigen-bijdrage-wlz/berekening-hoge-eigen-bijdrage/",
+   "onderwerp": "wlz",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Hoe berekent het CAK de hoge eigen bijdrage? | CAK",
+   "hash": "971fbd92482c6fe7372f077f9500d925312d7ff21580a36978c2b34f81bed8cf",
+   "tekens": 4851,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "cak-wlz-gegevens": {
+   "url": "https://www.hetcak.nl/zorg-vanuit-de-wlz/welke-gegevens-bepaalt-cak-eigen",
+   "onderwerp": "wlz",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "http-404",
+   "gewijzigd": false
+  },
+  "cak-wlz-aanpassen": {
+   "url": "https://www.hetcak.nl/zelf-regelen/aanpassing-eigen-bijdrage-wlz-beschermd/",
+   "onderwerp": "wlz",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Aanpassing van de eigen bijdrage Wlz en beschermd wonen | CAK",
+   "hash": "a461eead73d2940bce3e615ea6a791205a5ca8ed413512218286d030f9157514",
+   "tekens": 7121,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "cak-wlz-instelling": {
+   "url": "https://www.hetcak.nl/uw-situatie/ik-woon-in-een-zorginstelling/woon-zorginstelling",
+   "onderwerp": "wlz",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Ik woon in een zorginstelling, zoals een verpleeghuis of een instelling voor gehandicapten | CAK",
+   "hash": "071277372d455a79d38ba6a1457d09606345adf8ec945846ccd2dccb5756c9e4",
+   "tekens": 2079,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "cak-wlz": {
+   "url": "https://www.hetcak.nl/regelingen/zorg-vanuit-de-wlz",
+   "onderwerp": "wlz",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Zorg vanuit de Wlz | CAK",
+   "hash": "b8c7434b8895802773b30a7d921b91fb72dbba349bded54b350b454668d1d1eb",
+   "tekens": 1744,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "cak-wmo-bijdrage": {
+   "url": "https://www.hetcak.nl/wet-maatschappelijke-ondersteuning/krijg-hulp-ondersteuning/eigen-bijdrage-wmo/",
+   "onderwerp": "wmo",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Mijn eigen bijdrage | CAK",
+   "hash": "644e3b7a3158f28103b19b68b73aa32552a644b9b0b118a665cd8cf77fefe1de",
+   "tekens": 9972,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "cak-wmo-wijziging": {
+   "url": "https://www.hetcak.nl/over-cak/nieuws/2025/eigen-bijdrage-wmo-afhankelijk-inkomen/",
+   "onderwerp": "wmo",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Wetsvoorstel aanpassen eigen bijdrage Wmo per 2027 naar de Tweede Kamer | CAK",
+   "hash": "748c4611ffa423fc0a84524f2df2d049469139473bea47455adb36ceffadbb74",
+   "tekens": 1906,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "ro-wlz": {
+   "url": "https://www.rijksoverheid.nl/onderwerpen/verpleeghuizen-en-zorginstellingen/vraag-en-antwoord/eigen-bijdrage-wlz",
+   "onderwerp": "wlz",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Hoeveel eigen bijdrage voor zorg uit de Wet langdurige zorg (Wlz) betaal ik? | Rijksoverheid.nl",
+   "hash": "d3aa33c24f75a519c2f67a525218b7b22c7c713c347c6690ffa732241c55529a",
+   "tekens": 2112,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "ro-wmo": {
+   "url": "https://www.rijksoverheid.nl/onderwerpen/zorg-en-ondersteuning-thuis/vraag-en-antwoord/eigen-bijdrage-wmo-2015",
+   "onderwerp": "wmo",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Betaal ik een eigen bijdrage voor ondersteuning uit de Wmo? | Rijksoverheid.nl",
+   "hash": "05ff158a726b798fc4606cc887e6a5f2c4d853c0aa9fa2df4dcfd028b43060bd",
+   "tekens": 2505,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "ro-wmo-2027": {
+   "url": "https://www.rijksoverheid.nl/actueel/nieuws/2025/03/14/invulling-van-de-inkomens--en-vermogensafhankelijke-eigen-bijdrage-in-de-wmo-per-1-januari-2027",
+   "onderwerp": "wmo",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Invulling van de inkomens- en vermogensafhankelijke eigen bijdrage in de Wmo per 1 januari 2027 | Rijksoverheid.nl",
+   "hash": "33fb52bfbc801b8a9415ef6865403bc5f07aebd3d75f5fed82b3bbdd8c14b913",
+   "tekens": 2458,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "ro-salderen": {
+   "url": "https://www.rijksoverheid.nl/themas/klimaat-milieu-en-natuur/energie-thuis/salderingsregeling",
+   "onderwerp": "salderen",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Salderingsregeling stopt in 2027 | Rijksoverheid.nl",
+   "hash": "d0e0603270dd92e55160402c5aef527c8fdf0ab411a944362adec20bf7c3fa7e",
+   "tekens": 4050,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "ro-erven": {
+   "url": "https://www.rijksoverheid.nl/onderwerpen/erven",
+   "onderwerp": "erven",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Erven | Rijksoverheid.nl",
+   "hash": "cff2f5950fb6bf2ed9dd88f52ffa9496608aac96b43106d2a256b0bd3de03d17",
+   "tekens": 828,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "ro-overlijden": {
+   "url": "https://www.rijksoverheid.nl/onderwerpen/overlijden",
+   "onderwerp": "overlijden",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Overlijden | Rijksoverheid.nl",
+   "hash": "585dd01176ee2ef00a2dd42224a2df9a05ccf589e44360c76c88a0791af2f6a3",
+   "tekens": 1163,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "ro-zorgverzekering": {
+   "url": "https://www.rijksoverheid.nl/onderwerpen/zorgverzekering",
+   "onderwerp": "zorgverzekering",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Zorgverzekering | Rijksoverheid.nl",
+   "hash": "f96632e945305bfff80e5a1b50dd99a8bd83115a69970b2bdabd17ac83803219",
+   "tekens": 1372,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "ro-levenstestament": {
+   "url": "https://www.rijksoverheid.nl/onderwerpen/levenstestament",
+   "onderwerp": "volmacht",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "http-404",
+   "gewijzigd": false
+  },
+  "ro-curatele": {
+   "url": "https://www.rijksoverheid.nl/onderwerpen/curatele-bewind-en-mentorschap",
+   "onderwerp": "volmacht",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Curatele, bewind en mentorschap | Rijksoverheid.nl",
+   "hash": "284ac27089bc939aaa3684cacb7388dce9552c540c0ff92d603d858978c31f1c",
+   "tekens": 977,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "bd-erf-vrijstelling": {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/vrijstelling-erfbelasting",
+   "onderwerp": "erfbelasting",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Hoeveel vrijstelling heb ik in 2026 voor de erfbelasting? | Belastingdienst",
+   "hash": "a9f4b077d443253e5ef88a9209a06aaa4843b72981b11bfe1e1d043d68b32911",
+   "tekens": 2563,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "bd-erf-tarieven": {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/tarieven-erfbelasting",
+   "onderwerp": "erfbelasting",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Tarieven erfbelasting 2026 - overzicht met percentages | Belastingdienst",
+   "hash": "8a61baf124e1111c0b3402ebaa0068ae8373cc411d3f2078e3b4e84f36a25db3",
+   "tekens": 1356,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "bd-erf-minder": {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/geen-of-minder-erfbelasting-betalen",
+   "onderwerp": "erfbelasting",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Wanneer betaal ik geen of minder erfbelasting? | Belastingdienst",
+   "hash": "9a67f71e922450d6733856b1c62bd3bac1092803dda034792047e88050e92032",
+   "tekens": 3611,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "bd-erf": {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/erfbelasting",
+   "onderwerp": "erfbelasting",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Erfbelasting | Belastingdienst",
+   "hash": "6a1e2b46c830eaf73e8d9ed49a867483461001f4e7448b638fb21ebbc9675328",
+   "tekens": 3459,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "bd-zorgkosten-drempel": {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/hoe_berekent_u_uw_aftrek/drempelbedrag_berekenen/drempelbedrag-2026",
+   "onderwerp": "zorgkosten",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Drempelbedrag specifieke zorgkosten 2026 | Belastingdienst",
+   "hash": "bf22d99cbf0b2c9ece2e7fe599e267ae0380878ebe389a327680fc0044d3c45c",
+   "tekens": 1233,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "bd-zorgkosten-verhoging": {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/relatie_familie_en_gezondheid/gezondheid/aftrek_zorgkosten/hoe_berekent_u_uw_aftrek/verhoging_specifieke_zorgkosten",
+   "onderwerp": "zorgkosten",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Verhoging specifieke zorgkosten | Belastingdienst",
+   "hash": "2be48e6ddd83aa8d7fbdf6c8e762350adfffdb2081bf13856ce4dabc332ebcec",
+   "tekens": 1591,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "bd-toeslagen-definitief": {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen-na-een-overlijden/content/definitieve-berekening-toeslagen-na-een-overlijden",
+   "onderwerp": "toeslagen-overlijden",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Definitieve berekening toeslagen als iemand is overleden | Dienst Toeslagen",
+   "hash": "3dfcb95736217ee3749496fcd891c46ad41092e24181bd057c3f06aba23f5cad",
+   "tekens": 4945,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "bd-toeslagen-partner": {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen-na-een-overlijden/content/overleden-partner-toeslagen",
+   "onderwerp": "toeslagen-overlijden",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Mijn partner is overleden - wat moet ik doen voor toeslagen? | Dienst Toeslagen",
+   "hash": "bada8765ee6b18405c25d6551752a4a4e906242416fc41ee6968626267a6cab2",
+   "tekens": 6350,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "bd-toeslagen-inkomen": {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen-na-een-overlijden/content/inkomen-toeslagen-na-overlijden-partner",
+   "onderwerp": "toeslagen-overlijden",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Het inkomen voor toeslagen als uw partner is overleden - wat moet u doen? | Dienst Toeslagen",
+   "hash": "fc5dcab734200197b570fa41cf04ea01a0149f26a70e23b5684dfd1c61357d83",
+   "tekens": 3292,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "bd-toeslagen-naaste": {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen-na-een-overlijden/content/overleden-naaste-toeslag",
+   "onderwerp": "toeslagen-overlijden",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Wat gebeurt er met de toeslag van mijn overleden naaste? | Dienst Toeslagen",
+   "hash": "072ab0ff418bb82466fc7c8b735ab996a0b39562d65b4de5b1d8bf4567fb316c",
+   "tekens": 3978,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "bd-nabestaandenmachtiging": {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/wat-is-een-nabestaandenmachtiging",
+   "onderwerp": "overlijden",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Wat is een nabestaandenmachtiging? | Belastingdienst",
+   "hash": "5498603f32ee0a6a472738690350d644cb4d12f4c66be5c84336a64e95d50a94",
+   "tekens": 2521,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "bd-na-overlijden": {
+   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/na-een-overlijden",
+   "onderwerp": "overlijden",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "ok",
+   "titel": "Na een overlijden | Belastingdienst",
+   "hash": "f4eb74b0b3c3bc2d9b4cda116471f4915f77600348c41622c12ace62d396150a",
+   "tekens": 2814,
+   "opgehaald": "2026-11-16T19:41:23.219Z",
+   "gewijzigd": false,
+   "gewijzigdOp": null
+  },
+  "svb-anw": {
+   "url": "https://www.svb.nl/nl/anw",
+   "onderwerp": "anw",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "robots",
+   "gewijzigd": false
+  },
+  "svb-overlijden-aow": {
+   "url": "https://www.svb.nl/nl/aow/overlijden",
+   "onderwerp": "aow",
+   "gecontroleerd": "2026-11-16T19:41:23.219Z",
+   "status": "geblokkeerd",
+   "gewijzigd": false
+  }
+ },
+ "sites": {
+  "www.hetcak.nl": {
+   "status": "ok",
+   "reden": ""
+  },
+  "www.rijksoverheid.nl": {
+   "status": "ok",
+   "reden": ""
+  },
+  "www.belastingdienst.nl": {
+   "status": "ok",
+   "reden": ""
+  },
+  "www.svb.nl": {
+   "status": "geblokkeerd",
+   "reden": "robots.txt gaf HTTP 403"
+  }
+ }
+}
