@@ -14,7 +14,8 @@
 6. **AI-onderdelen** (§7): laad vóór het schrijven van AI-code de `claude-api`-skill en volg die. Gebruik de officiële Anthropic SDK, nooit zelf-geschreven HTTP-aanroepen.
 7. **Geen juridisch advies op maat.** Teksten leggen uit en rekenen standaardsituaties door. Zie §9.4 voor de doorverwijsregels.
 8. Taal in de interface: **B1-Nederlands**, warm maar zakelijk, geen jargon zonder uitleg. De doelgroep zit in een zware periode.
-9. **Vormgeving (§3A) is een harde eis.** Het product moet er uitzonderlijk mooi uitzien. Een fase is pas af als de visuele checklist in §3A.9 helemaal "ja" is en de eigenaar de schermafbeeldingen heeft goedgekeurd.
+9. **Autopilot (§16) is een harde eis.** De eigenaar besteedt maximaal **1 uur per week**. Alles wat niet in dat uur past, moet automatisch gaan of mag niet bestaan. Bouw nooit iets dat handwerk van de eigenaar vraagt buiten het wekelijkse uur.
+10. **Vormgeving (§3A) is een harde eis.** Het product moet er uitzonderlijk mooi uitzien. Een fase is pas af als de visuele checklist in §3A.9 helemaal "ja" is en de eigenaar de schermafbeeldingen heeft goedgekeurd.
 
 ---
 
@@ -647,7 +648,7 @@ Verwerkersregister en DPIA bijwerken: `docs/verwerkingsregister.md` en een nieuw
    - maart–april (aangifte);
    - Week van de Mantelzorg (november);
    - steeds een gids en een nieuwsbrief.
-3. **Partners:** zelfstandige uitvaartondernemers (M11), en mantelzorgsteunpunten die het gratis aanbevelen (bijvoorbeeld een gratis jaar voor families via een steunpunt-code).
+3. **Partners, volledig zelfbediening:** uitvaartondernemers en mantelzorgsteunpunten vinden `/familie/partner/` via zoekverkeer, melden zich aan, betalen of krijgen een steunpunt-code, en downloaden zelf hun materiaal. **Geen** acquisitie door de eigenaar en **geen** ongevraagde e-mails (veel uitvaartondernemers zijn eenmanszaken; daarvoor geldt opt-in).
 4. **Familie nodigt familie uit:** elk dossier heeft gemiddeld 3–4 leden. Elk lid ziet het product en kan later een eigen dossier starten voor een andere ouder of schoonouder.
 5. **Social:** hergebruik `social/render.js` voor korte uitlegkaarten ("3 dingen die veranderen op 1 januari voor je ouders").
 
@@ -662,9 +663,8 @@ Verwerkersregister en DPIA bijwerken: `docs/verwerkingsregister.md` en een nieuw
   - "Zet me op de wachtlijst";
   - "Reserveer nu met 50% korting op het eerste jaar" (€39,50 via Mollie, terugbetaalbaar tot de start).
 - Rekenhulp M7.1 (verpleeghuis) en de checklist na overlijden: live, gratis, om zoekverkeer te meten.
-- Vragenlijst van 5 vragen na aanmelding ("Wat is nu het lastigst?").
-- **Door de eigenaar:** 10 gesprekken met regelaars en 10 met zelfstandige uitvaartondernemers. Interviewgids in `docs/familieregie/interviewgids.md` (maakt de bouwagent).
-- **Doorgaan als:** ≥ 150 wachtlijst-aanmeldingen en ≥ 20 reserveringen **of** ≥ 3 uitvaartondernemers die een intentieverklaring tekenen. Anders: bijsturen op wat de gesprekken leren.
+- Vragenlijst van 5 vragen na aanmelding ("Wat is nu het lastigst?"). **In plaats van gesprekken door de eigenaar:** de antwoorden en de zoektermen waarmee mensen binnenkomen worden automatisch samengevat in het weekbericht (§16.3).
+- **Doorgaan als:** ≥ 150 wachtlijst-aanmeldingen en ≥ 20 reserveringen binnen 8 weken. Anders: de bouwagent stelt op basis van de antwoorden een bijsturing voor; de eigenaar kiest in zijn wekelijkse uur.
 
 ### Fase 1: MVP
 
@@ -694,8 +694,8 @@ Verwerkersregister en DPIA bijwerken: `docs/verwerkingsregister.md` en een nieuw
 
 ### Fase 4
 
-- M11 (partnerportaal) en M12.
-- **Acceptatie:** partner kan in 5 minuten een uitnodiging maken; partner ziet aantoonbaar geen dossierinhoud (RLS-test).
+- M11 (partnerportaal, volledig zelfbediening: aanmelden, betalen, huisstijl uploaden, materiaal downloaden) en M12.
+- **Acceptatie:** partner meldt zich aan en maakt een eerste uitnodiging zonder enige handeling van de eigenaar; partner ziet aantoonbaar geen dossierinhoud (RLS-test).
 
 ---
 
@@ -726,10 +726,11 @@ Privacyvriendelijk meten (geen trackers van derden; eigen tellers zonder persoon
 | Gratis → betaald | ≥ 4% |
 | Leden per dossier | ≥ 2,5 |
 | Actief na 90 dagen | ≥ 60% |
-| Partners | ≥ 5 |
-| Omzet per maand | ≥ €2.000 (op weg naar €10.000 na 12–24 maanden) |
+| Partners (zelfbediening) | ≥ 2 |
+| Omzet per maand | ≥ €1.000 (op weg naar €10.000 na 24–36 maanden, §16.6) |
+| Tijd eigenaar per week | ≤ 60 minuten (gemeten in het weekbericht) |
 
-**Stoppen of omgooien** als na 6 maanden live minder dan 100 betalende dossiers én minder dan 3 partners zijn bereikt. Kijk dan eerst of de gratis rekenhulpen wél veel verkeer trekken; dan kan het verdienmodel anders (bijvoorbeeld werkgevers).
+**Stoppen of omgooien** als na 9 maanden live minder dan 75 betalende dossiers zijn bereikt. Kijk dan eerst of de gratis rekenhulpen wél veel verkeer trekken; dan kan het verdienmodel anders (bijvoorbeeld werkgevers).
 
 ---
 
@@ -737,6 +738,76 @@ Privacyvriendelijk meten (geen trackers van derden; eigen tellers zonder persoon
 
 1. Definitieve naam en domein. Familieregie.nl is bezet; voorstel **Regelkring** (regelkring.nl, vrij op 16-11-2026; zie onderzoek §4). Eigen domein vanaf de start, of eerst `/familie/` op deze site? Houd de productnaam in één constante (`src/familie/merk.js`), zodat een naamswissel één wijziging is.
 2. Mollie-account aanmaken (gratis, kosten per transactie).
-3. Wie voert de gesprekken in fase 0 (§12)? Dit is het belangrijkste werk dat niet te automatiseren is.
+3. Eenmalige opstart van ~4–6 uur (§16.5): akkoord?
 4. Akkoord met de prijzen in §10 als startpunt?
 5. Wil je Vlaanderen later meenemen? Dan maakt de bouwagent de regels nu al per land (`regels/nl/`, later `regels/be-vl/`).
+
+---
+
+## 16. Autopilot: draaien met maximaal 1 uur per week
+
+De eigenaar besteedt **maximaal 1 uur per week**. Dat uur is alleen voor **beslissen en goedkeuren**, nooit voor uitvoeren. Al het andere doen agents en automatische processen. Waar iets niet veilig te automatiseren is, valt het **veilig uit** (het product toont dan "controleer bij …") in plaats van fout te gaan.
+
+### 16.1 Wat automatisch gaat
+
+| Taak | Hoe | Wat de eigenaar ziet |
+|---|---|---|
+| **Regels en bedragen bijhouden** | Maandelijkse GitHub Action `familie-regels.yml` met een Claude-agent: controleert per regel de officiële bron-URL, vergelijkt met `data/familie/regels/`, en opent bij een wijziging een **pull request** met de nieuwe waarden, de bron, een citaat van de bronpagina en bijgewerkte tests. Begin december extra controle (alles wat op 1 januari verandert). | PR's in het weekbericht; goedkeuren = mergen op GitHub (ook op de telefoon) |
+| **Veilig uitvallen** | Is een regel na `gecontroleerdOp` + 400 dagen niet opnieuw bevestigd, dan zet de code hem automatisch op `te-controleren`: de rekenhulp toont dan uitleg en de link naar de instantie, maar rekent niet. | Melding in het weekbericht |
+| **Klantvragen** | Hulpchat en e-mailadres worden beantwoord door een **hulpagent** (Claude, Edge Function `familie-hulp`) met als enige kennis: de gidsen, de regels, de veelgestelde vragen en de account-/betaalstatus van de vrager. Over betalen, opzeggen, terugbetalen, inloggen en "hoe werkt…" antwoordt hij **direct**. Over geld van de ouder, juridische vragen, klachten of verdriet antwoordt hij met uitleg + doorverwijzing (§9.4) en zet hij de vraag **in de wachtrij voor de eigenaar**, met een conceptantwoord. | Wachtrij met concepten in het weekbericht; versturen = één klik |
+| **Terugbetalen en opzeggen** | Zelfbediening in de app. Vaste regels: binnen 14 dagen na eerste betaling automatisch volledig terug; Afwikkeling binnen 14 dagen als er nog geen brieven zijn gemaakt. Mollie-terugbetaling via de API. | Aantallen in het weekbericht |
+| **AVG-verzoeken** | Inzage en export: knop in de app (JSON + PDF). Verwijderen: knop in de app, met bevestiging en directe uitvoering. Verzoeken per e-mail beantwoordt de hulpagent met de juiste knop. | Alleen uitzonderingen in de wachtrij |
+| **Content en zoekverkeer** | Wekelijkse agent (GitHub Action `familie-content.yml`) maakt **maximaal 1 gids per week** als pull request: alleen over onderwerpen uit de lijst in §11, alleen met officiële bronnen, met een rekenhulp of checklist erin, en geen gezondheids- of juridisch advies op maat. Een controlescript weigert de PR als er een bewering zonder bron in staat. Kwaliteit boven aantal: geen massaproductie. | PR in het weekbericht; goedkeuren = mergen |
+| **Social** | Bestaande `social/render.js` + `social/post.js` maken van elke goedgekeurde gids automatisch 2 uitlegkaarten en plannen ze in. | Niets |
+| **Nieuwsbrief** | Maandelijks automatisch uit goedgekeurde gidsen en de wijzigingsradar (M3); alleen aan mensen met opt-in; via Brevo. | Niets |
+| **Facturen en btw** | Mollie maakt facturen; een maandelijks script zet omzet en btw per periode klaar als CSV voor de boekhouding. | Eén bestand per kwartaal |
+| **Bewaking** | Uptime-check, foutmeldingen (Edge Functions, betalingen), kosten van AI per dag, mislukte Actions. Alleen bij **echte storingen** direct een melding naar de telefoon van de eigenaar; al het andere in het weekbericht. | Alleen echte storingen tussendoor |
+| **Opruimen en bewaartermijnen** | Dagelijkse functie (§5). | Niets |
+| **Datalek** | Automatische detectie van afwijkingen (ongewone downloads, mislukte RLS-pogingen) → directe melding naar de telefoon. Draaiboek `docs/datalekprocedure.md` met kant-en-klare teksten voor de AP-melding en de gebruikers. | Alleen bij een incident (zeldzaam; dan geldt de wettelijke 72-uurstermijn) |
+| **Afhankelijkheden en veiligheid** | Dependabot en een wekelijkse Action die `npm run check` draait; een agent repareert simpele breuken als PR. | PR in het weekbericht |
+
+### 16.2 Agents: veiligheidsregels
+
+- Agents maken **altijd een pull request of een concept**, nooit een directe wijziging aan regels, content of berichten aan gebruikers. Uitzondering: de hulpagent mag direct antwoorden op de vaste, veilige onderwerpen uit §16.1.
+- Elke agent heeft een **kostenplafond** per run en per maand (in de workflow), en stopt netjes als dat is bereikt.
+- Agents krijgen alleen de rechten die ze nodig hebben: de regel-agent alleen lezen op het web en schrijven in een branch; de hulpagent alleen de gegevens van de vrager zelf, nooit van andere dossiers.
+- Volg voor alle AI-code de `claude-api`-skill (§7).
+
+### 16.3 Het wekelijkse uur: één bericht, één ritueel
+
+Elke **maandagochtend** krijgt de eigenaar één e-mail, en dezelfde pagina in `/familie/beheer/` (alleen voor de eigenaar, met passkey). Opbouw, in volgorde van belang:
+
+1. **Moet jij beslissen** (verwacht 30–40 min):
+   - PR's met regelwijzigingen (met citaat van de bron en de test-uitkomst);
+   - PR met de gids van de week;
+   - wachtrij klantvragen met conceptantwoorden.
+2. **Cijfers** (5 min): bezoekers, aanmeldingen, betalende dossiers, opzeggingen, omzet, AI-kosten, en de belangrijkste zoektermen en antwoorden uit de vragenlijsten.
+3. **Gezondheid** (5 min): storingen, fouten, mislukte Actions; alles groen of een korte uitleg.
+4. **Voorstel van de agent** (5–10 min): één verbetering voor de komende week op basis van de cijfers (bijvoorbeeld "de rekenhulp verpleeghuis heeft veel bezoekers maar weinig aanmeldingen; voorstel: …"). Ja = de bouwagent pakt het op; nee = niets.
+
+Alles wat de eigenaar niet behandelt, schuift door naar volgende week. **Niets breekt** als de eigenaar een week overslaat: regels vallen veilig uit, klantvragen krijgen een automatische ontvangstbevestiging met een termijn van 7 dagen, en de site blijft werken.
+
+### 16.4 Wat bewust niet in het product komt (te veel handwerk)
+
+- Geen telefonische ondersteuning en geen chat met een mens. Wel een duidelijke hulpagent, uitgebreide hulp en antwoord per e-mail binnen 7 dagen.
+- Geen actieve verkoop aan partners, geen beurzen, geen ongevraagde e-mails.
+- Geen persoonlijke begeleiding of maatwerk.
+- Geen eigen beoordeling van individuele brieven door de eigenaar: de AI-uitleg met citaten en de knop "Klopt / Klopt niet" vervangt dat.
+- Geen Vlaanderen tot het Nederlandse deel zonder ingrijpen draait.
+
+### 16.5 Eenmalige opstart door de eigenaar (~4–6 uur, één keer)
+
+1. Domeinnaam registreren.
+2. Mollie-account aanmaken en koppelen (KvK-gegevens van het bestaande bedrijf).
+3. Secrets zetten in GitHub en Supabase (`ANTHROPIC_API_KEY`, `MOLLIE_API_KEY`, `BREVO_API_KEY`), via de instellingen, nooit in de chat.
+4. De DPIA (`docs/familieregie/dpia.md`, voorbereid door de bouwagent) lezen en ondertekenen.
+5. Passkey instellen voor `/familie/beheer/`.
+6. Telefoonmeldingen voor echte storingen aanzetten.
+
+### 16.6 Eerlijk: wat 1 uur per week kost aan groei
+
+- Zonder actieve partnerwerving en zonder gesprekken met klanten komt **bijna alle groei uit zoekverkeer** (rekenhulpen en gidsen) en uit families die elkaar uitnodigen. Zoekverkeer bouwt langzaam op: reken op **6–12 maanden** voordat het serieus wordt.
+- Verwachting: **€10.000 per maand na 24–36 maanden**, niet na 12–24. De kans dat het lukt is kleiner dan met een eigenaar die zelf verkoopt; het risico is ook kleiner, omdat de kosten heel laag blijven.
+- **Rekensom zonder partners (aannames):** 900 familieabonnementen × gemiddeld ~€7,25 per maand ≈ €6.500, plus 35 losse afwikkelingen × €99 ≈ €3.500, samen ~€10.000 per maand.
+- Wil de eigenaar later sneller groeien, dan is het meest effectieve extra uur: één keer per maand een korte mail van de eigenaar aan mantelzorgsteunpunten die zelf contact zochten via `/familie/partner/`.
+

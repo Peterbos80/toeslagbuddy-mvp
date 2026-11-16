@@ -132,7 +132,7 @@ Conclusie: het doel is een **klein stukje van een grote, groeiende markt**. Het 
 - Afwikkeling is **gratis** voor families die minstens 6 maanden abonnee waren. Dat beloont blijven, en de nalatenschapsmodule wordt zo een reden om eerder te beginnen.
 - Later mogelijk: werkgevers die het als arbeidsvoorwaarde aanbieden (SER en SCP vragen werkgevers om mantelzorgers te steunen). Niet nodig voor de €10k.
 - **Kosten bij die omvang (aanname):** Supabase Pro ~$25/maand, AI ~€0,05–0,30 per brief, Mollie ~€0,29 per iDEAL-betaling, domein ~€10/jaar. Marge boven 85%.
-- **Termijn:** 12–24 maanden. Gratis rekenhulpen trekken zoekverkeer; partners en mantelzorgsteunpunten brengen families. Partnerwerving is mensenwerk van de eigenaar.
+- **Termijn:** 12–24 maanden **als de eigenaar zelf partners werft**. De eigenaar wil echter **maximaal 1 uur per week** besteden en alles automatisch laten lopen. Dan vervalt actieve partnerwerving en komt de groei uit zoekverkeer en uitnodigingen binnen families. Reken dan op **24–36 maanden**, met ~900 familieabonnementen en ~35 losse afwikkelingen per maand. Zie ontwerp §16.
 
 ---
 
