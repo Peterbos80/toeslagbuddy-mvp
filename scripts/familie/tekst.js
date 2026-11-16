@@ -34,7 +34,7 @@ export function htmlNaarTekst(html) {
     .replace(/ ?\| ?\n/g, '\n')
     .replace(/\n /g, '\n')
     .replace(/ \n/g, '\n')
-    .replace(/\n{3,}/g, '\n\n')
+    .replace(/\n[ \t]*(?:\n[ \t]*)+/g, '\n\n')
     .trim();
 }
 
