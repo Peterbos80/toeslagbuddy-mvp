@@ -21,6 +21,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: familie-bronnen
@@ -44,6 +45,29 @@ jobs:
           [[ "$ALLEEN" =~ ^[a-z0-9,-]+$ ]] && args+=(--alleen "$ALLEEN")
           [[ "$ONTDEK" != "false" ]] && args+=(--ontdek)
           node scripts/familie/bronnen.js "${args[@]}"
+      - name: Regels controleren tegen de bronnen
+        id: check
+        run: |
+          node scripts/familie/regelcheck.js --json > /tmp/check.json
+          cat /tmp/check.json
+          n=$(node -e "console.log(require('/tmp/check.json').bevindingen.length)")
+          echo "bevindingen=$n" >> "$GITHUB_OUTPUT"
+      # Klopt een bedrag of zin niet meer met de officiële bron, dan krijgt de
+      # eigenaar één melding (issue). De site rekent dan niet met die regel zodra
+      # hij ouder is dan 400 dagen (veilig uitvallen); tot die tijd: controleren.
+      - name: Melding bij een afwijking
+        if: steps.check.outputs.bevindingen != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          titel="Familie: regel wijkt af van de officiële bron"
+          body=$(node -e "
+            const c = require('/tmp/check.json');
+            console.log('De wekelijkse controle vond ' + c.bevindingen.length + ' afwijking(en). Controleer de bron en pas data/familie/regels/ aan.\n');
+            for (const b of c.bevindingen) console.log('- **' + (b.regel || '') + '** ' + (b.sleutel || '') + ': ' + (b.bericht || JSON.stringify(b)));
+          ")
+          bestaand=$(gh issue list --state open --search "$titel in:title" --json number --jq '.[0].number' || true)
+          if [ -n "$bestaand" ]; then gh issue comment "$bestaand" --body "$body"; else gh issue create --title "$titel" --body "$body"; fi
       - name: Bewaren in git
         run: |
           git config user.name "github-actions[bot]"

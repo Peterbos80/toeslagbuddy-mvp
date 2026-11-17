@@ -10,6 +10,7 @@ import { weekOverzicht, dagReeks } from '../deals/historie.js';
 import { plaats } from '../deals/vluchten.js';
 import { grafiekData, grafiekMeerSvg, weekTabel, PERIODES } from '../deals/grafiek.js';
 import { esc, euroTekst, procentTekst, datumTekst, tijdTekst, maandTekst, sparklineSvg, grafiekSvg, kortingBadge, kaartHtml, initialen, kleurVan, vluchtResultaat, ouderdom } from '../deals/deals-weergave.js';
+import { uitlegVideo } from './layout.js';
 
 const SUBNAV = [
   ['/deals/', 'Deals'],
@@ -88,6 +89,7 @@ ${kaarten.map((d) => kaartHtml(d, nu)).join('\n')}
 <div><h3>Nep-kortingen ontmaskerd</h3><p>Noemt een winkel een hoge ‘van’-prijs, maar was het product de afgelopen 30 dagen al even goedkoop? Dan zie je een waarschuwing.</p></div>
 <div><h3>Jij kiest de drempel</h3><p>Volg een product en kies zelf hoeveel procent onder de gangbare prijs het moet zijn. <a href="/deals/jagers/">Zet een jager aan</a>.</p></div>
 </div>
+${uitlegVideo('besparen')}
 <p class="disclosure">Sommige links zijn partnerlinks: koop je iets, dan krijgen wij een kleine vergoeding. Dat verandert niets aan de volgorde: die hangt alleen af van de echte korting, de versheid en de betrouwbaarheid van de winkel. Er zijn geen betaalde plaatsen. <a href="/deals/over/#partnerlinks">Meer uitleg</a></p>
 </section>`;
 }

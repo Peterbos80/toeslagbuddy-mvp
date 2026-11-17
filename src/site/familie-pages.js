@@ -5,7 +5,7 @@ import { join, dirname } from 'node:path';
 import { mkdirSync, writeFileSync, readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import config from '../../site.config.js';
-import { esc, icoon } from './layout.js';
+import { esc, icoon, uitlegVideo } from './layout.js';
 import { MERK } from '../familie/merk.js';
 import { FASES } from '../familie/checklist.js';
 import { RELATIES } from '../familie/erfbelasting.js';
@@ -120,6 +120,7 @@ function landing() {
 <div class="f-stap"><h3>Lees een bankafschrift in</h3><p>De regelkamer vindt zelf de vaste lasten en abonnementen. Het bestand blijft op je eigen apparaat.</p></div>
 <div class="f-stap"><h3>Nodig de familie uit</h3><p>Verdeel de taken. Elke week zie je wat er speelt en wie wat doet.</p></div>
 </div>
+${uitlegVideo('familie')}
 </section>
 
 <section class="f-sectie" aria-labelledby="wat-zit-erin">
@@ -284,7 +285,7 @@ ${veldEuro('bedrag', 'Wat krijgt deze erfgenaam?', '')}
 </div>`,
       uitleg: `
 <h2>Vrijstellingen en tarieven in ${e.jaar}</h2>
-<div class="tabel-scroll"><table class="f-tabel"><thead><tr><th>Je bent</th><th class="getal">Vrijstelling</th><th class="getal">Tot ${b(e, 'schijfgrens', 0)}</th><th class="getal">Daarboven</th></tr></thead><tbody>
+<div class="tabel-scroll" tabindex="0" role="region" aria-label="Vrijstellingen en tarieven erfbelasting"><table class="f-tabel"><thead><tr><th>Je bent</th><th class="getal">Vrijstelling</th><th class="getal">Tot ${b(e, 'schijfgrens', 0)}</th><th class="getal">Daarboven</th></tr></thead><tbody>
 <tr><td>Partner</td><td class="getal">${b(e, 'vrijPartner', 0)}</td><td class="getal">10%</td><td class="getal">20%</td></tr>
 <tr><td>Kind, stiefkind of pleegkind</td><td class="getal">${b(e, 'vrijKind', 0)}</td><td class="getal">10%</td><td class="getal">20%</td></tr>
 <tr><td>Kleinkind</td><td class="getal">${b(e, 'vrijKleinkind', 0)}</td><td class="getal">18%</td><td class="getal">36%</td></tr>
@@ -323,7 +324,7 @@ ${veldEuro('kostenZonderVerhoging', 'Kosten voor genees- en heelkundige hulp', '
       uitleg: `
 <h2>Zo werkt de aftrek</h2>
 <p>Zorgkosten die niet zijn vergoed, mag je aftrekken voor zover ze boven een drempel komen. De drempel hangt af van het drempelinkomen. Niet alle zorgkosten tellen mee; de Belastingdienst heeft een overzicht van wat wel en niet aftrekbaar is.</p>
-<div class="tabel-scroll"><table class="f-tabel"><thead><tr><th>Drempelinkomen (zonder partner)</th><th>Drempel</th></tr></thead><tbody>
+<div class="tabel-scroll" tabindex="0" role="region" aria-label="Drempel zorgkosten"><table class="f-tabel"><thead><tr><th>Drempelinkomen (zonder partner)</th><th>Drempel</th></tr></thead><tbody>
 <tr><td>tot en met ${b(z, 'grensLaagAlleen', 0)}</td><td>${b(z, 'drempelMinAlleen', 0)}</td></tr>
 <tr><td>tot en met ${b(z, 'grensHoog', 0)}</td><td>1,65% van het drempelinkomen</td></tr>
 <tr><td>daarboven</td><td>${b(z, 'drempelVastHoog', 0)} + 5,75% van het bedrag boven ${b(z, 'grensHoog', 0)}</td></tr></tbody></table></div>

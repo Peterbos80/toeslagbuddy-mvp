@@ -78,6 +78,12 @@ export default {
       tekst: 'Laat je aangifte en toeslagen controleren, zodat je niet hoeft terug te betalen.',
       knop: 'Bekijk hulp bij aangifte',
     },
+    boekhouden: {
+      url: '',
+      titel: 'Boekhouding die je inkomen bijhoudt',
+      tekst: 'Met een boekhoudprogramma zie je elke maand je winst. Zo schat je je jaarinkomen voor je toeslagen beter.',
+      knop: 'Bekijk boekhoudprogramma’s',
+    },
     kinderopvang: {
       url: '',
       titel: 'Kinderopvang vergelijken',

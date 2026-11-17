@@ -113,7 +113,7 @@ Het hart van het product. Een **regelmotor** (`src/familie/termijnen.js`) zet pr
 | Document | Paspoort/ID verloopt; rijbewijs 75+ met medische keuring (CBR) | Rijksoverheid, CBR |
 | Zorg | Herindicatie Wmo; CAK-bijdrage na verhuizing naar zorginstelling; verzoek om herberekening als inkomen/vermogen fors daalde | gemeente, CAK |
 | Post | Termijn uit een brief (bezwaar 6 weken, betaaltermijn), uit M5 | brief zelf |
-| Wetswijziging | Wmo-eigen bijdrage inkomens- en vermogensafhankelijk per 1-1-2027; einde salderen per 1-1-2027; aftrekpost CVO afgebouwd 2026–2028 | Rijksoverheid, Staatsblad |
+| Wetswijziging | Wmo-eigen bijdrage inkomensafhankelijk (uitgesteld: niet per 1-1-2027, Eerste en Tweede Kamer moeten nog instemmen); einde salderen per 1-1-2027; aftrekpost CVO afgebouwd 2026–2028 | Rijksoverheid, Staatsblad |
 | Overlijden | Zie M10 | |
 
 - Elke termijn heeft: datum, wat er moet gebeuren (één zin), waarom (link naar regel + bron), wie (rol of persoon), status.
@@ -177,7 +177,7 @@ Het onderdeel dat ruzie voorkomt.
    - wat er gebeurt na verkoop van het huis.
 
    Regels en bedragen in `data/familie/regels/wlz-<jaar>.json`. Met de knop "Bevestig bij het CAK" (link naar de officiële rekenhulp).
-2. **Eigen bijdrage Wmo** 2026 (abonnementstarief) en vanaf 2027 (inkomens- en vermogensafhankelijk), zodra de regels officieel zijn gepubliceerd. Tot dan: uitleg met de status `te-controleren`.
+2. **Eigen bijdrage Wmo** 2026 (abonnementstarief) en de voorgestelde inkomensafhankelijke bijdrage (uitgesteld; niet per 1-1-2027), zodra de regels officieel zijn vastgesteld. Tot dan: uitleg met de status `te-controleren`.
 3. **Toeslagen voor je ouder:** hergebruik `src/calc/toeslagen.js` (huurtoeslag, zorgtoeslag), met ouderenspecifieke uitleg.
 4. **Aftrek specifieke zorgkosten:** welke kosten tellen mee, met drempel. Regels uit Belastingdienst-bronnen.
 5. **Zonnepanelen na 1-1-2027:** wat verandert er voor je ouder, met een eenvoudige berekening (zelfverbruik, terugleververgoeding, terugleverkosten). Alleen invoer die mensen zelf kennen (jaaropwek, jaarverbruik, contractvoorwaarden); geen verkooppraat.
@@ -420,7 +420,7 @@ De eigenaar wil dat het product er **super mooi** uitziet. Dat is een harde eis,
 │  [Geld]  [Contracten 11]  [Contacten 7]  [Documenten 9] │
 │  ───────────────────────────────────────────────────── │
 │  Logboek november: 6 uitgaven · € 412,30 · 1 zonder bon │
-│  Verandert binnenkort: Wmo-bijdrage per 1-1-2027  →     │
+│  Verandert binnenkort: einde salderen per 1-1-2027 →     │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -635,7 +635,7 @@ Verwerkersregister en DPIA bijwerken: `docs/verwerkingsregister.md` en een nieuw
 1. **Gratis rekenhulpen en gidsen** (M7, `/familie/gids/`) op zoekvragen met hoge intentie, bijvoorbeeld:
    - eigen bijdrage verpleeghuis berekenen;
    - huis verkopen verpleeghuis CAK;
-   - Wmo eigen bijdrage 2027;
+   - Wmo eigen bijdrage (inkomensafhankelijk, uitgesteld; datum nog onbekend);
    - volmacht ouders bank;
    - administratie ouders regelen;
    - wat regelen na overlijden;

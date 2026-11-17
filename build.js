@@ -10,7 +10,7 @@ import { pages as pagesNl, nieuws } from './src/site/pages.js';
 import { pagesEn } from './src/site/pages-en.js';
 import { koppel } from './src/site/talen.js';
 import { forms } from './src/site/forms.js';
-import { layout, advertentie, nieuwsbrief, esc, icoon } from './src/site/layout.js';
+import { layout, advertentie, nieuwsbrief, esc, icoon, partnerBlok, uitlegVideo } from './src/site/layout.js';
 import { robotsTxt, llmsTxt, vingerafdruk, sleutelGeldig } from './src/site/vindbaar.js';
 import { teksten } from './src/i18n/i18n.js';
 import { bouwDeals } from './src/site/deals-pages.js';
@@ -108,7 +108,38 @@ ${o('deals', '/deals/', 'label', 'Echte deals, eerlijk berekend', 'We vergelijke
 ${o('pro', '/pro/', 'koffer', 'Voor bewindvoerders en budgetcoaches', 'Controleer in één keer voor al je cliënten of ze toeslagen missen of moeten terugbetalen.', 'Naar Professionals')}
 ${o('pro', '/zzp-toeslagen/', 'grafiek', 'Toeslagbewaker voor zzp’ers', 'Wisselend inkomen? Zie per maand of je toeslagen nog kloppen en voorkom terugbetalen.', 'Naar Zzp')}
 </div>
+${uitlegVideo('toeslagen')}
 </section>`;
+}
+
+// Verdienen, eerlijk: een partnerblok op de informatiepagina waar het bij het
+// onderwerp past. Een blok verschijnt alleen als de partnerlink is ingevuld
+// in site.config.js; rekenhulpen tonen partners pas na de uitkomst.
+// Familie krijgt nooit partnerlinks: dat onderdeel leeft van abonnementen.
+const PARTNER_OP = {
+  '/toeslagen-aow/': 'zorgverzekering',
+  '/toeslagen-2027/': 'zorgverzekering',
+  '/regelingen-laag-inkomen/': 'energie',
+  '/toeslagen-student/': 'internet',
+  '/toeslagen-alleenstaande-ouder/': 'kinderopvang',
+  '/toeslag-terugbetalen/': 'belastinghulp',
+  '/toetsingsinkomen/': 'belastinghulp',
+  '/zzp-toeslagen/': 'boekhouden',
+};
+// Doorverwijzen binnen de eigen site: [onderdeel, url, icoon, kop, tekst, knop]
+const KRUIS_OP = {
+  '/toeslagen-aow/': ['familie', '/familie/', 'familie', 'Regel je de zaken van je ouders?', 'Houd termijnen, brieven en uitgaven samen bij in één gedeelde regelkamer. Gratis te proberen.', 'Bekijk Familie'],
+  '/toeslagpartner/': ['familie', '/familie/checklist/na-overlijden/', 'kaars', 'Partner overleden?', 'De checklist na een overlijden zet alle stappen en termijnen op een rij, ook voor de toeslagen.', 'Naar de checklist'],
+  '/regelingen-laag-inkomen/': ['deals', '/deals/', 'label', 'Ook besparen op aankopen?', 'We vergelijken de prijs van vandaag met wat een product meestal kost. Zo zie je of een korting echt is.', 'Bekijk Besparen'],
+  '/zorgverzekering-overstappen/': ['familie', '/familie/gids/', 'document', 'Regel je de zorgverzekering voor je ouders?', 'In de gidsen lees je wat er verandert bij een verhuizing naar het verpleeghuis en wat het kost.', 'Lees de gidsen'],
+  '/toeslag-terugbetalen/': ['pro', '/zzp-toeslagen/', 'grafiek', 'Wisselend inkomen als zzp’er?', 'De toeslagbewaker laat per maand zien of je voorschot nog klopt.', 'Naar Zzp'],
+};
+function verdienHtml(page, body) {
+  if (page.taal !== 'nl') return '';
+  const partner = PARTNER_OP[page.slug] && !body.includes('class="partner"') ? partnerBlok(PARTNER_OP[page.slug]) : '';
+  const k = KRUIS_OP[page.slug];
+  const kruis = k ? `<aside class="kruis o-${k[0]}"><span class="o-ico">${icoon(k[2], 'groot')}</span><div><h3>${esc(k[3])}</h3><p>${esc(k[4])}</p><a class="knop-licht" href="${k[1]}">${esc(k[5])} →</a></div></aside>` : '';
+  return partner + kruis;
 }
 
 const sitemap = [];
@@ -140,6 +171,7 @@ ${page.calc ? `<section class="rekenkaart" id="${page.anker || 'rekenhulp'}" ari
 ${home && page.taal === 'nl' ? onderdelenHtml() : ''}
 ${advertentie('slotInhoud', page)}
 ${body}
+${verdienHtml(page, body)}
 ${faqHtml(page.faq, S)}
 ${page.taal === 'nl' ? nieuwsbrief(page) : ''}
 ${advertentie('slotOnder', page)}

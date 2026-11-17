@@ -39,7 +39,12 @@ const ga = (pad) => {
 function context() {
   const r = route();
   const dossier = state.dossiers.find((d) => d.id === r.dossierId) || null;
-  const data = dossier ? (state.data[dossier.id] = { ...legeData(), ...state.data[dossier.id] }) : null;
+  // Hetzelfde object houden: acties die nog een oudere ctx vasthouden, schrijven dan niet in het niets
+  let data = null;
+  if (dossier) {
+    data = state.data[dossier.id] ||= {};
+    for (const [k, v] of Object.entries(legeData())) if (!(k in data)) data[k] = v;
+  }
   return {
     state,
     dossier,

@@ -310,7 +310,8 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--m
 .onderdelen { margin: 72px 0 0; }
 .onderdelen > h2 { margin-top: 0; }
 .onderdelen > p { color: var(--zacht); max-width: 60ch; margin: 0 0 24px; }
-.onderdelen-raster { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.onderdelen-raster { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 600px) { .onderdelen-raster { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .onderdeel { --o: var(--goud); --o-licht: var(--goud-licht); position: relative; display: flex; flex-direction: column; gap: 8px; background: var(--vlak); border: 1px solid var(--lijn); border-radius: var(--radius); padding: 24px; text-decoration: none; color: var(--tekst); box-shadow: var(--schaduw); transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease); min-height: 220px; }
 .onderdeel:hover { transform: translateY(-4px); box-shadow: var(--schaduw-hoog); border-color: var(--lijn-sterk); color: var(--tekst); }
 .onderdeel.o-familie { --o: var(--accent); --o-licht: var(--accent-licht); }
@@ -385,3 +386,26 @@ header.site nav.sub .wrap { flex-wrap: nowrap; }
 .db-accent { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: #f2cf8a; font-style: italic; font-weight: 500; }
 .deals-hero-deco { display: none; }
 .deals-sub { display: none; }   /* het submenu staat nu in de kop van de site */
+
+/* Doorverwijzing naar een ander onderdeel van de site (onder een artikel) */
+.kruis { --o: var(--goud); --o-licht: var(--goud-licht); display: flex; gap: 18px; align-items: flex-start; background: var(--vlak); border: 1px solid var(--lijn); border-radius: var(--radius); padding: 22px; margin: 24px 0; }
+.kruis.o-familie { --o: var(--accent); --o-licht: var(--accent-licht); }
+.kruis.o-deals { --o: var(--pruim); --o-licht: var(--pruim-licht); }
+.kruis.o-pro { --o: var(--blauw); --o-licht: var(--blauw-licht); }
+.kruis .o-ico { flex: none; width: 52px; height: 52px; border-radius: 16px; background: var(--o-licht); color: var(--o); display: grid; place-items: center; }
+.kruis .o-ico svg { width: 28px; height: 28px; }
+.kruis h3 { margin: 0 0 4px; font-size: 1.2rem; }
+.kruis p { margin: 0 0 12px; color: var(--zacht); }
+@media (max-width: 520px) { .kruis { flex-direction: column; gap: 12px; } }
+
+/* Lange webadressen als linktekst mogen afbreken (mobiel) */
+main a[href^="http"] { overflow-wrap: anywhere; }
+
+/* Uitlegvideo (motion graphics met ondertitels) */
+.uitlegvideo { margin: 32px 0 0; }
+.uitlegvideo .uv-beeld { border-radius: var(--radius-l); overflow: hidden; background: var(--vlak-2); box-shadow: var(--schaduw-hoog); aspect-ratio: 16 / 9; border: 1px solid var(--lijn); }
+.uitlegvideo video { width: 100%; height: 100%; display: block; }
+.uitlegvideo figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; margin-top: 10px; color: var(--zacht); font-size: .92rem; }
+.uitlegvideo details summary { cursor: pointer; color: var(--merk); font-weight: 600; }
+.uitlegvideo details p { margin: 8px 0 0; color: var(--tekst); max-width: 70ch; }
+.onderdelen .uitlegvideo { max-width: 860px; margin-left: auto; margin-right: auto; }

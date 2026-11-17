@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import config from '../../site.config.js';
 import { JAAR, GECONTROLEERD_OP } from '../calc/params.js';
 import { teksten } from '../i18n/i18n.js';
@@ -147,6 +148,24 @@ ${velden
 <button class="knop" type="submit">${esc(knop)}</button>
 <p class="formulier-status" role="status" aria-live="polite"></p>
 </form>`;
+}
+
+// Uitlegvideo (motion graphics, scripts/video/uitleg.js). Alleen als de video
+// er is; met poster, ingebrande ondertitels en de volledige tekst eronder.
+let uitlegManifest = null;
+export function uitlegVideo(id, { kop = '' } = {}) {
+  if (uitlegManifest === null) {
+    try {
+      uitlegManifest = JSON.parse(readFileSync(new URL('../../public/video/uitleg/manifest.json', import.meta.url), 'utf8'));
+    } catch {
+      uitlegManifest = {};
+    }
+  }
+  const v = uitlegManifest[id];
+  if (!v) return '';
+  const duur = `${Math.floor(v.duur / 60)}:${String(Math.round(v.duur % 60)).padStart(2, '0')}`;
+  return `<figure class="uitlegvideo">${kop}<div class="uv-beeld"><video controls preload="none" playsinline poster="${esc(v.poster)}" aria-label="${esc(v.titel)} (video, ${duur})"><source src="${esc(v.src)}" type="video/mp4">${v.vtt ? `<track kind="captions" srclang="nl" label="Nederlands" src="${esc(v.vtt)}">` : ''}</video></div>
+<figcaption><span>${esc(v.titel)} · ${duur}${v.stem ? '' : ' · met ondertitels, zonder geluid'}</span><details><summary>Lees de tekst</summary><p>${esc(v.transcript)}</p></details></figcaption></figure>`;
 }
 
 // Partnerblok in de pagina zelf (niet alleen na een berekening)
