@@ -15,10 +15,11 @@ import { fileURLToPath } from 'node:url';
 import { spawn, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
-import { VIDEOS, STIJL, ondertitels, schatDuur } from './uitleg-scenes.js';
+import { VIDEOS, STIJL, STIJL_FILM, ondertitels, schatDuur } from './uitleg-scenes.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const UIT = join(ROOT, 'public/video/uitleg');
+const BEELDEN = join(ROOT, 'data/video/beelden');
 const FFMPEG = process.env.FFMPEG || 'ffmpeg';
 const FPS = 25;
 const PAUZE = 0.7; // stilte na elke scène
@@ -40,47 +41,82 @@ export function plan(video, stemMap) {
     const wav = stemMap ? join(stemMap, `${sleutel(video, i)}.wav`) : null;
     const gesproken = wav && existsSync(wav) ? duurVan(wav) : null;
     const duur = Math.round(((gesproken ?? schatDuur(s.tekst)) + PAUZE) * 100) / 100;
-    return { ...s, wav: gesproken ? wav : null, duur, ondertitels: ondertitels(s.ondertitel || s.tekst, duur - PAUZE / 2) };
+    return { ...s, wav: gesproken ? wav : null, clip: clipVoor(video, i), duur, ondertitels: ondertitels(s.ondertitel || s.tekst, duur - PAUZE / 2) };
   });
 }
 
-const vingerafdruk = (video, scenes) => createHash('sha256').update(JSON.stringify([STIJL, video, scenes.map((s) => [s.duur, !!s.wav])])).digest('hex').slice(0, 12);
+const bestandHash = (p) => (p ? createHash('sha256').update(readFileSync(p)).digest('hex').slice(0, 12) : null);
+const vingerafdruk = (video, scenes) => createHash('sha256').update(JSON.stringify([STIJL, STIJL_FILM, video, scenes.map((s) => [s.duur, !!s.wav, bestandHash(s.clip)])])).digest('hex').slice(0, 12);
+
+// AI-beeld bij een scène (scripts/video/ai-beelden.js), als het er is
+export function clipVoor(video, i, map = BEELDEN) {
+  if (!video.scenes[i].film) return null;
+  const c = join(map, `${video.id}-${i + 1}.mp4`);
+  return existsSync(c) ? c : null;
+}
+
+const MP4 = ['-c:v', 'libx264', '-preset', 'medium', '-crf', '23', '-pix_fmt', 'yuv420p', '-r', String(FPS)];
+
+// Eén scène → een los MP4-deel. Met een AI-beeld: de pagina wordt met een
+// doorzichtige achtergrond vastgelegd (PNG) en over het beeld gelegd.
+async function renderScene(pagina, s, start, deel) {
+  const film = !!s.clip;
+  await pagina.evaluate(([html, film]) => {
+    document.body.classList.toggle('film', film);
+    document.getElementById('scene').innerHTML = `<div class="scene">${html}</div>`;
+  }, [s.beeld, film]);
+  const invoer = film
+    ? ['-stream_loop', '-1', '-i', s.clip, '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'png', '-i', '-']
+    : ['-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-'];
+  // Langzaam inzoomen geeft het beeld wat leven, ook als de clip kort is
+  const filter = film
+    ? ['-filter_complex', `[0:v]scale=1408:792:force_original_aspect_ratio=increase,crop=1408:792,fps=${FPS},trim=duration=${s.duur},setpts=PTS-STARTPTS,scale=w='1280+128*t/${s.duur}':h=-2:eval=frame,crop=1280:720,setsar=1[bg];[1:v]format=rgba[ov];[bg][ov]overlay=0:0:shortest=1,format=yuv420p[v]`, '-map', '[v]']
+    : [];
+  const ff = spawn(FFMPEG, ['-y', '-loglevel', 'error', ...invoer, ...filter, ...MP4, deel], { stdio: ['pipe', 'inherit', 'inherit'] });
+  const klaar = new Promise((ok, fout) => ff.on('close', (c) => (c === 0 ? ok() : fout(new Error(`ffmpeg stopte met ${c}`)))));
+  const frames = Math.round(s.duur * FPS);
+  for (let f = 0; f < frames; f++) {
+    const t = f / FPS;
+    const tekst = (s.ondertitels.find((o) => t >= o.van && t < o.tot) || s.ondertitels.at(-1)).tekst;
+    await pagina.evaluate(([lokaal, totaal, tekst]) => {
+      const scene = document.getElementById('scene');
+      for (const a of document.getAnimations()) {
+        a.pause();
+        a.currentTime = (scene.contains(a.effect.target) ? lokaal : totaal) * 1000;
+      }
+      const ot = document.getElementById('ot');
+      ot.hidden = false;
+      if (ot.textContent !== tekst) ot.textContent = tekst;
+    }, [t, start + t, tekst]);
+    const beeld = film ? await pagina.screenshot({ type: 'png', omitBackground: true }) : await pagina.screenshot({ type: 'jpeg', quality: 92 });
+    if (!ff.stdin.write(beeld)) await new Promise((r) => ff.stdin.once('drain', r));
+  }
+  ff.stdin.end();
+  await klaar;
+}
 
 async function render(browser, basis, video, scenes, bestand) {
   const pagina = await (await browser.newContext({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1 })).newPage();
   await pagina.goto(basis + '/404.html');
   const kleurTekst = { familie: '#9c4a26', besparen: '#6f3a73', toeslagen: '#7a5a12' }[video.id] || '#1f6b5a';
-  await pagina.setContent(`<!doctype html><html lang="nl"><head><meta charset="utf-8"><base href="${basis}/"><style>${STIJL}</style></head>
-<body style="--k:${video.kleur};--kt:${kleurTekst}"><div class="decor"></div><div class="decor twee"></div><div class="merk"><span>€</span>ToeslagBuddy</div><main id="scene"></main><p class="ondertitel" id="ot" hidden></p></body></html>`);
+  await pagina.setContent(`<!doctype html><html lang="nl"><head><meta charset="utf-8"><base href="${basis}/"><style>${STIJL}${STIJL_FILM}</style></head>
+<body style="--k:${video.kleur};--kt:${kleurTekst}"><div class="scrim"></div><div class="decor"></div><div class="decor twee"></div><div class="merk"><span>€</span>ToeslagBuddy</div><p class="ai-label">Beelden gemaakt met AI</p><main id="scene"></main><p class="ondertitel" id="ot" hidden></p></body></html>`);
   await pagina.evaluate(() => document.fonts.ready);
-  const ff = spawn(FFMPEG, ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-', '-c:v', 'libx264', '-preset', 'medium', '-crf', '24', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', bestand], { stdio: ['pipe', 'inherit', 'inherit'] });
-  const klaar = new Promise((ok, fout) => ff.on('close', (c) => (c === 0 ? ok() : fout(new Error(`ffmpeg stopte met ${c}`)))));
+  const tmp = join(tmpdir(), `uitleg-${video.id}-${process.pid}`);
+  mkdirSync(tmp, { recursive: true });
+  const delen = [];
   let globaal = 0;
-  for (const s of scenes) {
-    await pagina.evaluate((html) => {
-      document.getElementById('scene').innerHTML = `<div class="scene">${html}</div>`;
-    }, s.beeld);
-    const frames = Math.round(s.duur * FPS);
-    for (let f = 0; f < frames; f++) {
-      const t = f / FPS;
-      const tekst = (s.ondertitels.find((o) => t >= o.van && t < o.tot) || s.ondertitels.at(-1)).tekst;
-      await pagina.evaluate(([lokaal, totaal, tekst]) => {
-        const scene = document.getElementById('scene');
-        for (const a of document.getAnimations()) {
-          a.pause();
-          a.currentTime = (scene.contains(a.effect.target) ? lokaal : totaal) * 1000;
-        }
-        const ot = document.getElementById('ot');
-        ot.hidden = false;
-        if (ot.textContent !== tekst) ot.textContent = tekst;
-      }, [t, globaal + t, tekst]);
-      const jpg = await pagina.screenshot({ type: 'jpeg', quality: 92 });
-      if (!ff.stdin.write(jpg)) await new Promise((r) => ff.stdin.once('drain', r));
-    }
+  for (const [i, s] of scenes.entries()) {
+    const deel = join(tmp, `${i}.mp4`);
+    await renderScene(pagina, s, globaal, deel);
+    delen.push(deel);
     globaal += s.duur;
   }
-  ff.stdin.end();
-  await klaar;
+  const lijst = join(tmp, 'delen.txt');
+  writeFileSync(lijst, delen.map((d) => `file '${d}'`).join('\n'));
+  const r = spawnSync(FFMPEG, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', lijst, '-c', 'copy', '-movflags', '+faststart', bestand], { stdio: 'inherit' });
+  rmSync(tmp, { recursive: true, force: true });
+  if (r.status !== 0) throw new Error('ffmpeg (delen samenvoegen) mislukt');
   await pagina.context().close();
   return globaal;
 }
@@ -161,6 +197,7 @@ async function main() {
         vtt: `/video/uitleg/${video.id}.vtt`,
         duur: Math.round(duur * 10) / 10,
         stem: metStem ? stem || 'piper' : null,
+        ai: scenes.some((x) => x.clip),
         transcript: video.scenes.map((x) => x.ondertitel || x.tekst).join(' '),
         hash,
       };

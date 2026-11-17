@@ -13,10 +13,14 @@ on:
         description: 'Alles opnieuw maken, ook als er niets is veranderd'
         type: boolean
         default: false
+      ai_max:
+        description: 'Maximaal aantal nieuwe AI-beelden (Veo) in deze run; 0 = geen'
+        default: '12'
   push:
     paths:
       - scripts/video/uitleg-scenes.js
       - scripts/video/uitleg.js
+      - data/video/beelden/*.mp4
 
 permissions:
   contents: write
@@ -45,6 +49,20 @@ jobs:
         with:
           path: ~/.cache/piper
           key: piper-stemmen-v1
+      # Filmische AI-beelden met Veo (Gemini API). Alleen als de eigenaar het
+      # geheim GEMINI_API_KEY heeft ingesteld; elke prompt kost één keer geld,
+      # daarna staat de clip in git. Zonder sleutel blijven de video's zoals ze zijn.
+      - name: Met de hand toegevoegde beelden verkleinen
+        run: node scripts/video/ai-beelden.js --verklein
+      - name: AI-beelden (Veo)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          AI_MAX: ${{ github.event.inputs.ai_max }}
+        run: |
+          max="${AI_MAX:-12}"
+          [[ "$max" =~ ^[0-9]+$ ]] || max=12
+          [ "$max" = "0" ] && { echo "AI-beelden overgeslagen"; exit 0; }
+          node scripts/video/ai-beelden.js --max "$max"
       - name: Voice-over (Piper)
         run: |
           python -m pip install -q piper-tts==1.8.0
@@ -63,7 +81,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/video/uitleg
+          git add public/video/uitleg data/video/beelden
           git diff --cached --quiet && { echo "Niets veranderd"; exit 0; }
           git commit -m "Uitlegvideo's bijgewerkt $(date -u +%F)"
           for i in 1 2 3 4; do

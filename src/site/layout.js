@@ -165,7 +165,7 @@ export function uitlegVideo(id, { kop = '' } = {}) {
   if (!v) return '';
   const duur = `${Math.floor(v.duur / 60)}:${String(Math.round(v.duur % 60)).padStart(2, '0')}`;
   return `<figure class="uitlegvideo">${kop}<div class="uv-beeld"><video controls preload="none" playsinline poster="${esc(v.poster)}" aria-label="${esc(v.titel)} (video, ${duur})"><source src="${esc(v.src)}" type="video/mp4">${v.vtt ? `<track kind="captions" srclang="nl" label="Nederlands" src="${esc(v.vtt)}">` : ''}</video></div>
-<figcaption><span>${esc(v.titel)} · ${duur}${v.stem ? '' : ' · met ondertitels, zonder geluid'}</span><details><summary>Lees de tekst</summary><p>${esc(v.transcript)}</p></details></figcaption></figure>`;
+<figcaption><span>${esc(v.titel)} · ${duur}${v.stem ? '' : ' · met ondertitels, zonder geluid'}${v.ai ? ' · beelden gemaakt met AI' : ''}</span><details><summary>Lees de tekst</summary><p>${esc(v.transcript)}</p></details></figcaption></figure>`;
 }
 
 // Partnerblok in de pagina zelf (niet alleen na een berekening)
