@@ -1,0 +1,11 @@
+{
+ "uitleg": "Prijzen van ToeslagBuddy Familie. betalenActief gaat pas op true als Mollie is gekoppeld (zie docs/familieregie/ontwerp.md §10 en §16.5). Tot die tijd is alles gratis te gebruiken en kan niemand betalen.",
+ "betalenActief": false,
+ "proefDagen": 30,
+ "plannen": [
+  { "id": "gratis", "naam": "Gratis", "bedrag": 0, "per": "", "regel": "Voor altijd", "punten": ["Alle rekenhulpen en checklists", "De regelkamer op je eigen apparaat", "Kalender met termijnen en bronnen", "Brieven uitleggen (basis, zonder AI)"], "knop": "Open de regelkamer", "url": "/familie/app/" },
+  { "id": "familie", "naam": "Familie", "bedrag": 7.99, "per": "per maand", "regel": "of € 79 per jaar, voor de hele familie", "uit": true, "punten": ["Samen in één dossier, op elk apparaat", "Herinneringen per e-mail, elke week een familiebericht", "Brieven uitleggen met AI, in gewone taal", "Verantwoording: elke maand een overzicht voor iedereen", "Afwikkelen na een overlijden inbegrepen (na 6 maanden)"], "knop": "Probeer 30 dagen gratis", "url": "/familie/app/" },
+  { "id": "afwikkeling", "naam": "Afwikkeling", "bedrag": 99, "per": "eenmalig", "regel": "12 maanden toegang, na een overlijden", "punten": ["Stappenplan met alle termijnen", "Opzegbrieven voor alle contracten", "Erfbelasting en verdeling doorgerekend", "Boedelrekening met eindoverzicht per erfgenaam"], "knop": "Start de afwikkeling", "url": "/familie/app/" }
+ ],
+ "partner": { "bedrag": 99, "per": "per maand", "tekst": "Voor uitvaartondernemers: een nazorgportaal onder je eigen naam, voor al je families." }
+}

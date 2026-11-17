@@ -47,7 +47,7 @@ export function avatarKleur(sleutel) {
   return AVATARKLEUREN[h % AVATARKLEUREN.length];
 }
 export function initialen(naam) {
-  const delen = String(naam || '?').trim().split(/\s+/).filter(Boolean);
+  const delen = String(naam || '?').replace(/[^\p{L}\p{N}\s?-]/gu, ' ').trim().split(/\s+/).filter(Boolean);
   return ((delen[0]?.[0] || '?') + (delen.length > 1 ? delen[delen.length - 1][0] : '')).toUpperCase();
 }
 

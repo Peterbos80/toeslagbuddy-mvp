@@ -13,6 +13,7 @@ import { forms } from './src/site/forms.js';
 import { layout, advertentie, nieuwsbrief, esc, icoon } from './src/site/layout.js';
 import { teksten } from './src/i18n/i18n.js';
 import { bouwDeals } from './src/site/deals-pages.js';
+import { bouwFamilie } from './src/site/familie-pages.js';
 
 // Alle pagina's, Nederlands en Engels, met hreflang-paren en taalschakelaar
 const pages = koppel([...pagesNl, ...pagesEn]);
@@ -154,6 +155,10 @@ ${zijbalk(page.slug, S)}
 const deals = bouwDeals({ dist: DIST, versie, layout });
 for (const p of deals.paginas) if (!p.noindex) sitemap.push({ ...p, taal: 'nl' });
 
+// Familie (/familie/): pagina's, rekenhulpen en de regelkamer
+const familie = bouwFamilie({ dist: DIST, versie, layout });
+for (const p of familie.paginas) if (!p.noindex) sitemap.push({ ...p, taal: 'nl' });
+
 // 404-pagina
 writeFileSync(
   join(DIST, '404.html'),
@@ -256,7 +261,7 @@ AddType text/javascript .js
 `,
 );
 
-console.log(`✓ ${pages.length} pagina's gebouwd in dist/ (versie ${versie}), plus ${deals.paginas.length} DealBuddy-pagina's met ${deals.aantal} deals`);
+console.log(`✓ ${pages.length} pagina's gebouwd in dist/ (versie ${versie}), plus ${deals.paginas.length} DealBuddy-pagina's met ${deals.aantal} deals en ${familie.paginas.length} Familie-pagina's (${familie.regels} regels, ${familie.gidsen} gidsen)`);
 
 // security.txt (RFC 9116) moet een geldige 'Expires' hebben
 {

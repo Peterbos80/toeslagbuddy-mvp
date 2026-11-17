@@ -171,7 +171,8 @@ nav.sub a[aria-current] { color: var(--tekst); background: var(--sectie-licht); 
 footer.site { margin-top: 96px; background: var(--voet-bg); color: var(--voet-zacht); border-top: 0; padding: 56px 0 40px; font-size: .95rem; }
 footer.site .voet-top { display: grid; gap: 40px; grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 900px) { footer.site .voet-top { grid-template-columns: 260px minmax(0, 1fr); gap: 56px; } }
-footer.site .voet-merk .logo { color: #fff; }
+footer.site .voet-merk .logo { color: #fff; display: inline-flex; align-items: center; gap: 10px; padding: 0; }
+footer.site .voet-merk .logo:hover { text-decoration: none; }
 footer.site .voet-merk .logo span::after { border-color: var(--voet-bg); }
 footer.site .voet-merk p { margin: 14px 0 0; max-width: 30ch; color: var(--voet-zacht); }
 footer.site .kolommen { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 28px 24px; }
@@ -341,4 +342,14 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--m
 @media print {
   header.site, footer.site, nav.sub { display: none !important; }
   body { background: #fff; font-family: var(--font); }
+}
+
+/* Kop op smalle schermen: logo, taal en menu op één rij; sectiemenu schuift opzij */
+header.site nav.sub .wrap { flex-wrap: nowrap; }
+@media (max-width: 900px) {
+  header.site > .wrap { gap: 8px 10px; }
+  .menu-knop { padding: 8px 14px; }
+  .logo { font-size: 1.15rem; gap: 8px; }
+  .logo span { width: 34px; height: 34px; }
+  nav.sub .wrap { padding: 0 12px; }
 }

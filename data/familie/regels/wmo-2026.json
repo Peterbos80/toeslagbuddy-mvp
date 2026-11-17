@@ -23,6 +23,56 @@
   {
    "tekst": "U betaalt in dat geval alléén voor beschermd wonen of de Wet langdurige zorg",
    "bron": "cak-wmo-bijdrage"
+  },
+  {
+   "tekst": "wordt niet op 1 januari 2027 ingevoerd",
+   "bron": "ro-wmo-2027"
+  },
+  {
+   "tekst": "De Tweede en Eerste Kamer moeten de plannen nog goedkeuren",
+   "bron": "ro-wmo"
+  },
+  {
+   "tekst": "niet meer betalen dan de minimale bijdrage van € 23,60 per maand",
+   "bron": "ro-wmo-2027"
+  },
+  {
+   "tekst": "maximaal € 328 per maand",
+   "bron": "ro-wmo-2027"
+  },
+  {
+   "tekst": "Heeft u de AOW-leeftijd nog niet bereikt en voert u met minstens 1 andere persoon een huishouden? Dan hoeft u geen bijdrage te betalen",
+   "bron": "ro-wmo"
   }
- ]
+ ],
+ "plan": {
+  "status": "voorstel",
+  "tekst": "Plan van het kabinet: een eigen bijdrage die afhangt van inkomen en vermogen. De ingangsdatum is uitgesteld; de Tweede en Eerste Kamer moeten nog instemmen.",
+  "bedragen": {
+   "minimum": {
+    "waarde": 23.6,
+    "bron": "ro-wmo-2027"
+   },
+   "maximum": {
+    "waarde": 328,
+    "bron": "ro-wmo-2027"
+   },
+   "grensAlleen": {
+    "waarde": 24500,
+    "bron": "ro-wmo-2027"
+   },
+   "grensMeer": {
+    "waarde": 34000,
+    "bron": "ro-wmo-2027"
+   },
+   "maxVanafAlleen": {
+    "waarde": 61000,
+    "bron": "ro-wmo-2027"
+   },
+   "maxVanafMeer": {
+    "waarde": 70500,
+    "bron": "ro-wmo-2027"
+   }
+  }
+ }
 }
