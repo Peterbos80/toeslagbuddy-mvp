@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-en-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # Playwright 1.56 ondersteunt Ubuntu 26.04 (ubuntu-latest) nog niet
     env:
       TRANSIP_HOST: ${{ secrets.TRANSIP_HOST }}
       TRANSIP_USER: ${{ secrets.TRANSIP_USER }}

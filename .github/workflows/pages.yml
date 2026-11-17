@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   bouwen:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # Playwright 1.56 ondersteunt Ubuntu 26.04 (ubuntu-latest) nog niet
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -50,7 +50,7 @@ jobs:
 
   publiceren:
     needs: bouwen
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # Playwright 1.56 ondersteunt Ubuntu 26.04 (ubuntu-latest) nog niet
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
