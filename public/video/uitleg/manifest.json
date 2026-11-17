@@ -4,29 +4,29 @@
   "src": "/video/uitleg/familie.mp4",
   "poster": "/video/uitleg/familie.jpg",
   "vtt": "/video/uitleg/familie.vtt",
-  "duur": 64.6,
-  "stem": null,
+  "duur": 59.5,
+  "stem": "nl_NL-ronnie-medium",
   "transcript": "Regel jij de zaken van je vader of moeder? Dan weet je hoe het gaat: brieven, termijnen en rekeningen, verspreid over de hele familie. In de regelkamer zie je samen wat er speelt. Elke termijn staat in de kalender, met de bron erbij. Zo mist niemand iets. Snap je een brief niet? Plak de tekst. Je ziet meteen wat er staat, wat je moet doen en vóór wanneer. Een burgerservicenummer halen we er direct uit. Wie geld uitgeeft, legt het vast in het logboek. Elke regel blijft zichtbaar, ook als hij wordt verbeterd. Zo kan iedereen meekijken. En als het moment komt, staat het stappenplan klaar. Met alle termijnen, en een opzegbrief voor elk contract. Probeer het gratis op toeslagbuddy.nl/familie. Je gegevens blijven op je eigen apparaat.",
-  "hash": "744df682697a"
+  "hash": "4e0a05ec7a3c"
  },
  "besparen": {
   "titel": "Is die korting echt?",
   "src": "/video/uitleg/besparen.mp4",
   "poster": "/video/uitleg/besparen.jpg",
   "vtt": "/video/uitleg/besparen.vtt",
-  "duur": 47.9,
-  "stem": null,
+  "duur": 42.2,
+  "stem": "nl_NL-ronnie-medium",
   "transcript": "Vijftig procent korting. Maar was de prijs ooit echt zo hoog? Wij kijken naar de gangbare prijs: wat een product de afgelopen negentig dagen meestal kostte, bij meerdere winkels, inclusief verzendkosten. Zo zie je in één oogopslag of het een echte deal is. En met een partnerlink krijgen wij soms een kleine vergoeding. Dat staat er altijd bij, en het verandert de volgorde niet. Zoek je iets? Zet een jager aan. Die houdt de prijzen voor je in de gaten en zegt eerlijk: nu kopen, of wachten. Kijk op toeslagbuddy.nl/deals",
-  "hash": "3a1a941e2afd"
+  "hash": "156f158498e6"
  },
  "toeslagen": {
   "titel": "Mis je toeslag?",
   "src": "/video/uitleg/toeslagen.mp4",
   "poster": "/video/uitleg/toeslagen.jpg",
   "vtt": "/video/uitleg/toeslagen.vtt",
-  "duur": 28.8,
-  "stem": null,
+  "duur": 25.9,
+  "stem": "nl_NL-ronnie-medium",
   "transcript": "Veel mensen krijgen geen toeslag, terwijl ze er wel recht op hebben. Jaar na jaar. Bereken in twee minuten je zorgtoeslag, huurtoeslag, kindgebonden budget en kinderopvangtoeslag. Gratis, en zonder in te loggen. Je ziet ook of je moet terugbetalen. Zo pas je je voorschot op tijd aan. Begin op toeslagbuddy.nl",
-  "hash": "0dea34224f89"
+  "hash": "0d7ae9c00860"
  }
 }
