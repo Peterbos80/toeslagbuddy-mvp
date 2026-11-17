@@ -1,6 +1,10 @@
 import config from '../../site.config.js';
 import { JAAR, GECONTROLEERD_OP } from '../calc/params.js';
 import { teksten } from '../i18n/i18n.js';
+import { verificatie } from './vindbaar.js';
+
+// Deelafbeelding per onderdeel (scripts/og.js maakt ze)
+const OG = { familie: 'og-familie.png', deals: 'og-besparen.png', pro: 'og-pro.png', zzp: 'og-pro.png' };
 
 export const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
@@ -217,6 +221,18 @@ export function layout(page, body) {
       inLanguage: T.inLanguage,
       ...(config.instagram.account ? { sameAs: [`https://www.instagram.com/${config.instagram.account}/`] } : {}),
     },
+    ...(thuis
+      ? [{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: config.naam,
+          url: config.url + '/',
+          logo: config.url + '/og.png',
+          email: config.contactEmail,
+          description: T.site.merkregel || undefined,
+          areaServed: 'NL',
+        }]
+      : []),
     ...(kruimel.length
       ? [{
           '@context': 'https://schema.org',
@@ -259,7 +275,7 @@ export function layout(page, body) {
 ${afgeschermd(page) ? `<script src="/js/framebuster.js?v=${page.versie}"></script>\n` : ''}<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(titel)}</title>
 <meta name="description" content="${esc(page.description)}">
-<link rel="canonical" href="${url}">${alternatieven(page)}${page.noindex ? '\n<meta name="robots" content="noindex">' : ''}
+<link rel="canonical" href="${url}">${alternatieven(page)}${page.noindex ? '\n<meta name="robots" content="noindex">' : ''}${thuis ? verificatie(config) : ''}
 <meta name="theme-color" content="#faf7f2" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#111917" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
@@ -268,7 +284,7 @@ ${afgeschermd(page) ? `<script src="/js/framebuster.js?v=${page.versie}"></scrip
 <meta property="og:title" content="${esc(page.title)}">
 <meta property="og:description" content="${esc(page.description)}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="${config.url}/og.png">
+<meta property="og:image" content="${config.url}/${OG[sectie] || 'og.png'}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/manifest.webmanifest">

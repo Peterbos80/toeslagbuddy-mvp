@@ -55,5 +55,15 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Vorige stand van de pagina's onthouden (voor IndexNow)
+        run: node scripts/indexnow.js --bewaar /tmp/oud.json
+        continue-on-error: true
       - id: deployment
         uses: actions/deploy-pages@v4
+      - name: Gewijzigde pagina's melden bij zoekmachines (IndexNow)
+        run: node scripts/indexnow.js --oud /tmp/oud.json
+        continue-on-error: true

@@ -277,7 +277,7 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--m
 .keuze input:focus-visible + label { outline: 2px solid var(--merk); outline-offset: 2px; }
 .stap h3 { font-size: 1.3rem; }
 .stap h3 span { background: var(--tekst); color: var(--bg); font-family: var(--font); font-weight: 700; }
-.voortgang-tekst { color: var(--zacht); font-size: .9rem; letter-spacing: .04em; text-transform: uppercase; }
+.voortgang-tekst { color: var(--zacht); font-size: .9rem; font-weight: 600; }
 .voortgang .balk { height: 6px; background: var(--vlak-2); }
 .voortgang .balk i { background: var(--merk-vast); transition: width .35s var(--ease); }
 .chip { border: 1px solid var(--lijn-sterk); font-weight: 600; min-height: 40px; }
@@ -353,3 +353,35 @@ header.site nav.sub .wrap { flex-wrap: nowrap; }
   .logo span { width: 34px; height: 34px; }
   nav.sub .wrap { padding: 0 12px; }
 }
+
+/* ── Besparen (/deals/): zelfde familie als de rest van de site ──
+   De oude paars-roze neonkleuren zijn vervangen door pruim met terracotta
+   en goud; knoppen en links zijn het groen van de hele site. */
+.deals-pagina {
+  --db-1: #6f3a73; --db-2: #c2643a; --db-3: #d9a441; --db-diep: #2b1a2e;
+  --db-licht: #f1e6f1; --db-glas: rgb(255 255 255 / 86%); --db-rand: #e4ded3;
+  --db-goed: #2f6f47; --db-goed-licht: #e3f0e7; --db-let: #7a5a12; --db-let-licht: #fbf1da; --db-fout: #a8322a; --db-fout-licht: #fae4e1;
+  --merk: #1f6b5a; --merk-donker: #154d41; --merk-licht: #e2efea;
+  --grad: var(--merk-vast);
+  --db-schaduw: var(--schaduw);
+}
+@media (prefers-color-scheme: dark) {
+  .deals-pagina {
+    --db-1: #d3a3d6; --db-2: #e59670; --db-3: #e3b65c; --db-diep: #ece8e0;
+    --db-licht: #2e1f30; --db-glas: rgb(24 34 31 / 90%); --db-rand: #2a3633;
+    --db-goed: #86c59a; --db-goed-licht: #1b3023; --db-let: #ecc97f; --db-let-licht: #33290f; --db-fout: #ff9b8f; --db-fout-licht: #3d1a17;
+    --merk: #76c9b1; --merk-donker: #a3ddca; --merk-licht: #17322b;
+  }
+}
+.deals-pagina .knop, .deals-pagina .knop:hover { box-shadow: none; }
+.deals-pagina .knop-licht { background: var(--vlak); color: var(--tekst); border: 1.5px solid var(--lijn-sterk); }
+.deals-pagina .knop-licht:hover { background: var(--vlak-2); }
+.deals-pagina .chip[aria-pressed='true'] { box-shadow: none; }
+.deals-hero { border-radius: var(--radius-l); box-shadow: var(--schaduw-hoog);
+  background: radial-gradient(110% 130% at 100% 0%, rgb(194 100 58 / 55%) 0%, transparent 55%), radial-gradient(90% 120% at 0% 100%, rgb(111 58 115 / 70%) 0%, transparent 60%), linear-gradient(135deg, #1e1420, #3b2140 60%, #4a2a22); }
+.deals-hero .intro, .teller { color: #f3ebe4; }
+.db-merk { font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: .8rem; }
+.db-logo { background: #d9a441; color: #2b1a2e; box-shadow: none; }
+.db-accent { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: #f2cf8a; font-style: italic; font-weight: 500; }
+.deals-hero-deco { display: none; }
+.deals-sub { display: none; }   /* het submenu staat nu in de kop van de site */

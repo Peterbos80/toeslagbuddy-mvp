@@ -11,6 +11,7 @@ import { pagesEn } from './src/site/pages-en.js';
 import { koppel } from './src/site/talen.js';
 import { forms } from './src/site/forms.js';
 import { layout, advertentie, nieuwsbrief, esc, icoon } from './src/site/layout.js';
+import { robotsTxt, llmsTxt, vingerafdruk, sleutelGeldig } from './src/site/vindbaar.js';
 import { teksten } from './src/i18n/i18n.js';
 import { bouwDeals } from './src/site/deals-pages.js';
 import { bouwFamilie } from './src/site/familie-pages.js';
@@ -103,7 +104,7 @@ function onderdelenHtml() {
 <p>ToeslagBuddy helpt je met alles rond geld en regelzaken. Onafhankelijk, in gewone taal, en je gegevens blijven van jou.</p>
 <div class="onderdelen-raster">
 ${o('familie', '/familie/', 'familie', 'Samen de zaken van je ouders regelen', 'Eén gedeelde regelkamer voor de familie: termijnen, brieven, geld en afspraken. Tot en met de afwikkeling na een overlijden.', 'Naar Familie', 'Nieuw')}
-${o('deals', '/deals/', 'label', 'Echte deals, eerlijk berekend', 'We vergelijken de prijs van vandaag met wat een product meestal kost, inclusief verzendkosten. Met bewijs.', 'Naar Deals')}
+${o('deals', '/deals/', 'label', 'Echte deals, eerlijk berekend', 'We vergelijken de prijs van vandaag met wat een product meestal kost, inclusief verzendkosten. Met bewijs.', 'Naar Besparen')}
 ${o('pro', '/pro/', 'koffer', 'Voor bewindvoerders en budgetcoaches', 'Controleer in één keer voor al je cliënten of ze toeslagen missen of moeten terugbetalen.', 'Naar Professionals')}
 ${o('pro', '/zzp-toeslagen/', 'grafiek', 'Toeslagbewaker voor zzp’ers', 'Wisselend inkomen? Zie per maand of je toeslagen nog kloppen en voorkom terugbetalen.', 'Naar Zzp')}
 </div>
@@ -179,7 +180,7 @@ writeFileSync(
 ${sitemap
   .map((p) => {
     const s = p.slug;
-    const prioriteit = s === '/' || s === '/en/' ? '1.0' : s.includes('berekenen') || (p.taal !== 'nl' && p.calc) ? '0.9' : '0.6';
+    const prioriteit = s === '/' || s === '/en/' ? '1.0' : s.includes('berekenen') || (p.taal !== 'nl' && p.calc) || s === '/familie/' || s === '/deals/' || s.startsWith('/familie/rekenhulp/') ? '0.9' : '0.6';
     // Bij een vertaling: beide talen plus x-default (Nederlands)
     const alt = p.hreflang
       ? [...Object.entries(p.hreflang), ['x-default', p.hreflang.nl]].map(([t, u]) => `<xhtml:link rel="alternate" hreflang="${t}" href="${config.url}${u}"/>`).join('')
@@ -190,7 +191,14 @@ ${sitemap
 </urlset>
 `,
 );
-writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${config.url}/sitemap.xml\n`);
+writeFileSync(join(DIST, 'robots.txt'), robotsTxt(config));
+// llms.txt: wegwijzer voor AI-zoekmachines; IndexNow-sleutel; vingerafdruk per pagina
+writeFileSync(join(DIST, 'llms.txt'), llmsTxt(config, sitemap, { gecontroleerd: params.GECONTROLEERD_OP }));
+if (sleutelGeldig(config.vindbaar?.indexnowSleutel)) writeFileSync(join(DIST, `${config.vindbaar.indexnowSleutel}.txt`), config.vindbaar.indexnowSleutel);
+writeFileSync(
+  join(DIST, 'inhoud.json'),
+  JSON.stringify({ paginas: Object.fromEntries(sitemap.map((p) => [p.slug, vingerafdruk(readFileSync(join(DIST, p.slug, 'index.html'), 'utf8'))])) }),
+);
 
 // Eigen RSS-feed met het nieuws
 {

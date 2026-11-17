@@ -59,7 +59,7 @@ if (doel) {
       status.textContent = `${nieuw.length} regel(s) geïmporteerd.`;
       toon();
     } catch {
-      status.textContent = 'Dit bestand kan ik niet lezen. Kies een export van DealBuddy.';
+      status.textContent = 'Dit bestand kan ik niet lezen. Kies een export van ToeslagBuddy Besparen.';
     }
     e.target.value = '';
   });

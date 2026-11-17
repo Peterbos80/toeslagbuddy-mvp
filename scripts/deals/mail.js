@@ -3,7 +3,7 @@
 // de ontvanger komt alleen uit de omgeving (DEALS_EMAIL) en staat nergens anders.
 import { dagReeks, weekOverzicht } from '../../src/deals/historie.js';
 
-export const AFZENDER = { name: 'DealBuddy', email: 'deals@toeslagbuddy.nl' };
+export const AFZENDER = { name: 'ToeslagBuddy Besparen', email: 'deals@toeslagbuddy.nl' };
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const eur = (n) => (n === null || n === undefined ? '–' : `€ ${Number(n).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
 const pct = (k) => (k === null || k === undefined ? '–' : `${Math.round(k * 100)}%`);
@@ -77,15 +77,15 @@ function tekstBlok(m, siteUrl) {
 // Eén mail (digest) voor alle nieuwe deals van deze ronde
 export function maakMeldingMail(meldingen, { naar, siteUrl = 'https://www.toeslagbuddy.nl' }) {
   const eerste = meldingen[0].deal;
-  const onderwerp = schoonOnderwerp(meldingen.length === 1 ? `DealBuddy: ${eerste.titel} nu ${pct(eerste.echteKorting)} onder de gangbare prijs` : `DealBuddy: ${meldingen.length} deals met bewijs`);
+  const onderwerp = schoonOnderwerp(meldingen.length === 1 ? `ToeslagBuddy: ${eerste.titel} nu ${pct(eerste.echteKorting)} onder de gangbare prijs` : `ToeslagBuddy: ${meldingen.length} deals met bewijs`);
   const html = `<!doctype html><html lang="nl"><body style="margin:0;background:#f7f5fb;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#1d2521">
 <div style="max-width:680px;margin:0 auto;padding:24px">
-<p style="font-weight:900;color:#4c1d95;margin:0 0 16px">% DealBuddy</p>
+<p style="font-weight:900;color:#4c1d95;margin:0 0 16px">% ToeslagBuddy Besparen</p>
 <p style="margin:0 0 18px">We vonden ${meldingen.length === 1 ? 'een deal' : `${meldingen.length} deals`} die past bij je alarm, met genoeg bewijs: gemeten bij meerdere winkels, over een langere periode, inclusief verzendkosten.</p>
 ${meldingen.map((m) => dealBlok(m, siteUrl)).join('\n')}
 <p style="font-size:12px;color:#56615b">Prijzen kunnen veranderen; controleer altijd de prijs in de winkel. Je krijgt deze mail omdat je alarmen hebt ingesteld in data/deals/alarmen.json. Stoppen: haal je alarm daar weg of zet het geheim DEALS_EMAIL uit.</p>
 </div></body></html>`;
-  const tekst = `DealBuddy\n\n${meldingen.map((m) => tekstBlok(m, siteUrl)).join('\n\n---\n\n')}\n\nPrijzen kunnen veranderen; controleer altijd de prijs in de winkel.`;
+  const tekst = `ToeslagBuddy Besparen\n\n${meldingen.map((m) => tekstBlok(m, siteUrl)).join('\n\n---\n\n')}\n\nPrijzen kunnen veranderen; controleer altijd de prijs in de winkel.`;
   return { sender: AFZENDER, to: [{ email: naar }], subject: onderwerp, htmlContent: html, textContent: tekst, tags: ['dealbuddy'] };
 }
 
@@ -111,8 +111,8 @@ ${r.bewijs ? `<p style="margin:0 0 6px;font-size:13px;color:#56615b">Bewijs: ${r
     sender: AFZENDER,
     to: [{ email: naar }],
     subject: onderwerp,
-    htmlContent: `<!doctype html><html lang="nl"><body style="margin:0;background:#f7f5fb;font-family:system-ui,sans-serif;color:#1d2521"><div style="max-width:640px;margin:0 auto;padding:24px"><p style="font-weight:900;color:#4c1d95">% DealBuddy – je jagers</p>${items.map(blok).join('')}<p style="font-size:12px;color:#56615b">Je krijgt deze mail omdat je een jager met mail hebt aangezet op toeslagbuddy.nl/deals/jagers/. Je account en jagers verwijder je op die pagina.</p></div></body></html>`,
-    textContent: `DealBuddy – je jagers\n\n${tekst}`,
+    htmlContent: `<!doctype html><html lang="nl"><body style="margin:0;background:#f7f5fb;font-family:system-ui,sans-serif;color:#1d2521"><div style="max-width:640px;margin:0 auto;padding:24px"><p style="font-weight:900;color:#4c1d95">% ToeslagBuddy Besparen – je jagers</p>${items.map(blok).join('')}<p style="font-size:12px;color:#56615b">Je krijgt deze mail omdat je een jager met mail hebt aangezet op toeslagbuddy.nl/deals/jagers/. Je account en jagers verwijder je op die pagina.</p></div></body></html>`,
+    textContent: `ToeslagBuddy Besparen – je jagers\n\n${tekst}`,
     tags: ['dealbuddy-jager'],
   };
 }

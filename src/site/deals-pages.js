@@ -19,17 +19,17 @@ const SUBNAV = [
   ['/deals/over/', 'Zo werkt het'],
 ];
 const START = 'parfum';
-const KRUIMEL = (slugPad, naam, tussen = []) => [['/', 'Home'], ['/deals/', 'Deals'], ...tussen, [slugPad, naam]];
+const KRUIMEL = (slugPad, naam, tussen = []) => [['/', 'Home'], ['/deals/', 'Besparen'], ...tussen, [slugPad, naam]];
 
 function subnav(actief) {
-  return `<nav class="deals-sub" aria-label="DealBuddy-menu">${SUBNAV.map(([u, n]) => `<a href="${u}"${u === actief ? ' aria-current="page"' : ''}>${n}</a>`).join('')}</nav>`;
+  return `<nav class="deals-sub" aria-label="Besparen-menu">${SUBNAV.map(([u, n]) => `<a href="${u}"${u === actief ? ' aria-current="page"' : ''}>${n}</a>`).join('')}</nav>`;
 }
 
-const merk = '<span class="db-merk" aria-hidden="true"><span class="db-logo">%</span>DealBuddy</span>';
+const merk = '<span class="db-merk" aria-hidden="true"><span class="db-logo">%</span>Besparen</span>';
 
 function demoBanner(status) {
   if (!status.demo) return '';
-  return `<p class="demo-banner" role="note"><strong>Demo-gegevens.</strong> De winkels, merken en prijzen hieronder zijn verzonnen, zodat je kunt zien hoe DealBuddy werkt. Echte bronnen gaan aan zodra de partneraccounts er zijn. <a href="/deals/over/#bronnen">Meer over de bronnen</a></p>`;
+  return `<p class="demo-banner" role="note"><strong>Demo-gegevens.</strong> De winkels, merken en prijzen hieronder zijn verzonnen, zodat je kunt zien hoe ToeslagBuddy Besparen werkt. Echte bronnen gaan aan zodra de partneraccounts er zijn. <a href="/deals/over/#bronnen">Meer over de bronnen</a></p>`;
 }
 
 function verouderd(status, nu) {
@@ -82,7 +82,7 @@ ${cats.map(([k, n], i) => `${i === 1 || (i === 0 && k !== START) ? `<button type
 ${kaarten.map((d) => kaartHtml(d, nu)).join('\n')}
 </div>
 <section class="deals-uitleg">
-<h2>Waarom DealBuddy anders is</h2>
+<h2>Waarom Besparen anders is</h2>
 <div class="uitleg-raster">
 <div><h3>Altijd inclusief verzending</h3><p>Een lage prijs met hoge verzendkosten is geen deal. Wij rekenen met de totaalprijs en houden rekening met gratis verzending vanaf een bepaald bedrag.</p></div>
 <div><h3>Nep-kortingen ontmaskerd</h3><p>Noemt een winkel een hoge ‘van’-prijs, maar was het product de afgelopen 30 dagen al even goedkoop? Dan zie je een waarschuwing.</p></div>
@@ -281,7 +281,7 @@ function overPagina({ status, winkels }) {
   const rij = (b) => `<tr><th scope="row">${esc(b.label)}</th><td>${b.actief ? (b.status === 'ok' ? '<span class="badge badge-echt">aan</span>' : '<span class="badge badge-let">fout</span>') : '<span class="badge badge-geen">uit</span>'}</td><td>${b.actief ? b.aantal : '–'}</td></tr>`;
   return `
 <section class="deals-hero deals-hero-klein">${merk}
-<h1>Zo werkt DealBuddy</h1>
+<h1>Zo werkt Besparen</h1>
 <p class="intro">Eerlijk over hoe we prijzen vinden, wat ‘gangbaar’ betekent en waar we aan verdienen.</p>
 ${subnav('/deals/over/')}</section>
 <div class="tekst-blok">
@@ -312,7 +312,7 @@ ${subnav('/deals/over/')}</section>
 <li>Geen captcha’s omzeilen, geen wisselende IP-adressen, geen inloggen, geen betaalmuren.</li>
 </ul>
 <h2 id="optout">Bent u een winkel?</h2>
-<p>Wilt u niet dat DealBuddy uw prijzen toont? Blokkeer <code>DealBuddyBot</code> in uw robots.txt, of mail ons op <a href="mailto:info@toeslagbuddy.nl?subject=DealBuddy%20opt-out">info@toeslagbuddy.nl</a> met uw domein. We zetten het op onze opt-outlijst; de jager slaat het dan direct over en we verwijderen uw prijzen bij de volgende ronde. Klopt een prijs niet? Mail ons, dan passen we het aan.</p>
+<p>Wilt u niet dat ToeslagBuddy Besparen uw prijzen toont? Blokkeer <code>DealBuddyBot</code> in uw robots.txt, of mail ons op <a href="mailto:info@toeslagbuddy.nl?subject=Besparen%20opt-out">info@toeslagbuddy.nl</a> met uw domein. We zetten het op onze opt-outlijst; de jager slaat het dan direct over en we verwijderen uw prijzen bij de volgende ronde. Klopt een prijs niet? Mail ons, dan passen we het aan.</p>
 <h2 id="partnerlinks">Partnerlinks</h2>
 <p>Sommige links naar winkels zijn partnerlinks (affiliate). Koopt u via zo’n link, dan krijgen wij een kleine vergoeding van de winkel. U betaalt niets extra. Partnerlinks staan erbij aangegeven. De volgorde van de deals hangt <strong>nooit</strong> af van een vergoeding: alleen van de echte korting, de versheid van de prijs en de betrouwbaarheid van de winkel.</p>
 <h2>Privacy</h2>
@@ -340,7 +340,7 @@ export function bouwDeals({ dist, versie, layout, map = DATA }) {
     paginas.push({ slug: pad, ...page });
   };
 
-  schrijf('/deals/', { title: 'Deals onder de gangbare prijs – DealBuddy', h1: 'Deals', kort: 'Deals', description: 'Echte deals op parfum, elektronica, huis, speelgoed en vliegtickets. We vergelijken met de gangbare prijs van 90 dagen, inclusief verzendkosten.', script: ['deals-lijst.js', 'deals-live.js'], kruimel: [['/', 'Home'], ['/deals/', 'Deals']] }, hubPagina({ deals: index.deals, status, nu }));
+  schrijf('/deals/', { title: 'Deals onder de gangbare prijs – ToeslagBuddy Besparen', h1: 'Deals', kort: 'Deals', description: 'Echte deals op parfum, elektronica, huis, speelgoed en vliegtickets. We vergelijken met de gangbare prijs van 90 dagen, inclusief verzendkosten.', script: ['deals-lijst.js', 'deals-live.js'], kruimel: [['/', 'Home'], ['/deals/', 'Deals']] }, hubPagina({ deals: index.deals, status, nu }));
   for (const { deal, ov } of index.producten) {
     const pad = `/deals/p/${deal.paginaSlug}/`;
     const record = producten.get(deal.id);
@@ -362,10 +362,10 @@ export function bouwDeals({ dist, versie, layout, map = DATA }) {
     writeFileSync(join(dist, bpad, 'grafiek.png'), grafiekPng(grafiekData(record, nu)));
     schrijf(bpad, { title: `Bewijs: ${deal.titel}`, h1: `Bewijs: ${deal.titel}`, description: `Alle gemeten prijzen van ${deal.titel}, per winkel en per week.`, kruimel: KRUIMEL(bpad, 'Bewijs', [[pad, deal.titel]]), noindex: true }, bewijsPagina({ deal, ov, nu, record }));
   }
-  schrijf('/deals/vluchten/', { title: 'Goedkope vliegtickets onder de gangbare prijs – DealBuddy', h1: 'Vliegtickets', kort: 'Vliegtickets', description: 'Prijskalender per route: zie per vertrekdag de laagste prijs en wat een vlucht normaal kost. Van Amsterdam, Eindhoven en Rotterdam.', script: ['deals-vluchten.js'], kruimel: KRUIMEL('/deals/vluchten/', 'Vliegtickets') }, vluchtenPagina({ routes: index.routes, status, nu }));
-  schrijf('/deals/volglijst/', { title: 'Mijn volglijst – DealBuddy', h1: 'Mijn volglijst', description: 'Je gevolgde producten en routes met de prijs van nu tegenover jouw drempel.', script: ['deals-volglijst.js'], noindex: true, kruimel: KRUIMEL('/deals/volglijst/', 'Volglijst') }, volglijstPagina({ status }));
-  schrijf('/deals/jagers/', { title: 'Mijn jagers: persoonlijke prijsagenten – DealBuddy', h1: 'Mijn jagers', description: 'Zeg in gewone woorden wat je zoekt. Je jager zoekt in alle bronnen en zegt eerlijk: nu kopen of wachten.', script: ['deals-jagers.js', 'deals-account.js'], kruimel: KRUIMEL('/deals/jagers/', 'Mijn jagers') }, jagersPagina({ status }));
-  schrijf('/deals/over/', { title: 'Zo werkt DealBuddy: bronnen, bot en partnerlinks', h1: 'Zo werkt DealBuddy', kort: 'Zo werkt het', description: 'Hoe DealBuddy de gangbare prijs berekent, nep-kortingen herkent, welke bronnen aan staan en hoe onze bot zich gedraagt.', kruimel: KRUIMEL('/deals/over/', 'Zo werkt het') }, overPagina({ status, winkels }));
+  schrijf('/deals/vluchten/', { title: 'Goedkope vliegtickets onder de gangbare prijs – ToeslagBuddy Besparen', h1: 'Vliegtickets', kort: 'Vliegtickets', description: 'Prijskalender per route: zie per vertrekdag de laagste prijs en wat een vlucht normaal kost. Van Amsterdam, Eindhoven en Rotterdam.', script: ['deals-vluchten.js'], kruimel: KRUIMEL('/deals/vluchten/', 'Vliegtickets') }, vluchtenPagina({ routes: index.routes, status, nu }));
+  schrijf('/deals/volglijst/', { title: 'Mijn volglijst – ToeslagBuddy Besparen', h1: 'Mijn volglijst', description: 'Je gevolgde producten en routes met de prijs van nu tegenover jouw drempel.', script: ['deals-volglijst.js'], noindex: true, kruimel: KRUIMEL('/deals/volglijst/', 'Volglijst') }, volglijstPagina({ status }));
+  schrijf('/deals/jagers/', { title: 'Mijn jagers: persoonlijke prijsagenten – ToeslagBuddy Besparen', h1: 'Mijn jagers', description: 'Zeg in gewone woorden wat je zoekt. Je jager zoekt in alle bronnen en zegt eerlijk: nu kopen of wachten.', script: ['deals-jagers.js', 'deals-account.js'], kruimel: KRUIMEL('/deals/jagers/', 'Mijn jagers') }, jagersPagina({ status }));
+  schrijf('/deals/over/', { title: 'Zo werkt Besparen: bronnen, bot en partnerlinks', h1: 'Zo werkt Besparen', kort: 'Zo werkt het', description: 'Hoe ToeslagBuddy Besparen de gangbare prijs berekent, nep-kortingen herkent, welke bronnen aan staan en hoe onze bot zich gedraagt.', kruimel: KRUIMEL('/deals/over/', 'Zo werkt het') }, overPagina({ status, winkels }));
 
   // Publieke data voor de browser
   const dataDir = join(dist, 'deals/data');

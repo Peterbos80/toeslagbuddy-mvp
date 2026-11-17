@@ -29,7 +29,7 @@ a.f-kaart:hover { transform: translateY(-3px); box-shadow: var(--schaduw-hoog); 
 a.f-kaart .f-meer { display: inline-flex; gap: 6px; align-items: center; margin-top: 16px; font-weight: 700; color: var(--merk); }
 
 /* ── Hero ── */
-.f-hero { display: grid; gap: 48px; align-items: center; padding: 56px 0 24px; }
+.f-hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; align-items: center; padding: 56px 0 24px; }
 @media (min-width: 980px) { .f-hero { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); padding: 72px 0 40px; } }
 .f-hero h1 { font-size: clamp(2.4rem, 5.4vw, 3.9rem); line-height: 1.04; letter-spacing: -.025em; margin: 0 0 20px; }
 .f-hero h1 em { font-style: italic; font-weight: 500; color: var(--accent-tekst); }
@@ -37,6 +37,7 @@ a.f-kaart .f-meer { display: inline-flex; gap: 6px; align-items: center; margin-
 .f-hero .vertrouwen { margin: 24px 0 0; }
 .f-hero-beeld { position: relative; }
 .f-hero-beeld::before { content: ''; position: absolute; inset: -6% -8% -10% 6%; border-radius: 42% 58% 55% 45% / 48% 42% 58% 52%; background: var(--accent-licht); z-index: 0; }
+@media (max-width: 979px) { .f-hero-beeld::before { inset: -4% 0 -6% 0; } }
 .f-hero-beeld > * { position: relative; z-index: 1; }
 
 /* ── Miniatuur van de regelkamer (ook in de app zelf: 'Deze week') ── */

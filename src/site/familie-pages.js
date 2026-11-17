@@ -570,10 +570,26 @@ function stijl() {
   return { taal: 'nl', css: ['familie'], bodyKlasse: 'familie-pagina', zonderHulp: true, sectie: 'toeslagen', zonderSub: true, slug: '/stijl/', title: 'Stijl: het ontwerpsysteem', description: 'Het ontwerpsysteem van ToeslagBuddy: kleuren, letters, iconen en onderdelen.', h1: 'Stijl', kort: 'Stijl', kruimel: [], html, noindex: true };
 }
 
+// Gestructureerde gegevens per soort pagina, zodat zoekmachines en
+// AI-assistenten begrijpen wat de pagina is. Geen verzonnen beoordelingen.
+function schemasVoor(p) {
+  const url = config.url + p.slug;
+  const uitgever = { '@type': 'Organization', name: config.naam, url: config.url + '/' };
+  const gecontroleerd = Object.values(REGELS).map((r) => r.gecontroleerdOp).filter(Boolean).sort().pop();
+  if (p.slug === '/familie/') {
+    return [{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: MERK.naam, url, applicationCategory: 'LifestyleApplication', operatingSystem: 'Alle', inLanguage: 'nl-NL', description: p.description, offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' }, publisher: uitgever }];
+  }
+  if (/^\/familie\/checklist\/.+/.test(p.slug)) {
+    return [{ '@context': 'https://schema.org', '@type': 'Article', headline: p.h1, description: p.description, url, mainEntityOfPage: url, inLanguage: 'nl-NL', dateModified: gecontroleerd, author: uitgever, publisher: uitgever, image: config.url + '/og-familie.png' }];
+  }
+  return [];
+}
+
 export function bouwFamilie({ dist, versie, layout }) {
   const paginas = [landing(), ...rekenhulpen(), checklist(), ...gidsen(), ...overige(), app(), stijl()];
   for (const p of paginas) {
     p.versie = versie;
+    p.schemas = [...(p.schemas || []), ...schemasVoor(p)];
     const faq = p.faq && p.faq.length ? `<section class="faq f-sectie" style="max-width:820px"><h2>Veelgestelde vragen</h2>${p.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><div><p>${a}</p></div></details>`).join('')}</section>` : '';
     const dir = join(dist, p.slug);
     mkdirSync(dir, { recursive: true });

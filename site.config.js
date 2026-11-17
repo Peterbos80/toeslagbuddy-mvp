@@ -24,6 +24,16 @@ export default {
     email: 'info@toeslagbuddy.nl',
   },
 
+  // Vindbaarheid. De IndexNow-sleutel is openbaar (hij staat als bestand op de
+  // site): daarmee melden we gewijzigde pagina's na elke publicatie bij Bing,
+  // Yandex, Seznam en Naver. Voor Google en Bing Webmaster Tools: plak hier
+  // de verificatiecode uit je eigen account (alleen de code, niet de hele tag).
+  vindbaar: {
+    indexnowSleutel: '32a0a0b283390f0207c2e4ff52850c18',
+    google: '', // Search Console → HTML-tag → de waarde van content="…"
+    bing: '', // Bing Webmaster Tools → de waarde van content="…"
+  },
+
   // Statistieken zonder cookies (geen cookiebanner nodig).
   // Vul bijvoorbeeld je Plausible-domein in, of je GoatCounter-code.
   analytics: {

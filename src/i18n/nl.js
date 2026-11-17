@@ -25,7 +25,7 @@ export default {
     secties: [
       ['toeslagen', '/', 'Toeslagen'],
       ['familie', '/familie/', 'Familie'],
-      ['deals', '/deals/', 'Deals'],
+      ['deals', '/deals/', 'Besparen'],
       ['pro', '/pro/', 'Professionals'],
       ['zzp', '/zzp-toeslagen/', 'Zzp'],
       ['nieuws', '/nieuws/', 'Nieuws'],
@@ -91,7 +91,7 @@ export default {
       ['/alle-regelingen/', 'Alle regelingen'],
       ['/zzp-toeslagen/', 'Zzp'],
       ['/pro/', 'Voor professionals'],
-      ['/deals/', 'Deals'],
+      ['/deals/', 'Besparen'],
     ],
     // [kop, [[url, tekst, taal van het doel (optioneel)]]]
     footer: [
@@ -131,12 +131,12 @@ export default {
         ['/familie/gids/', 'Gidsen voor mantelzorgers'],
         ['/familie/prijzen/', 'Prijzen'],
       ]],
-      ['Deals', [
+      ['Besparen', [
         ['/deals/', 'Deals onder de gangbare prijs'],
         ['/deals/vluchten/', 'Goedkope vliegtickets'],
         ['/deals/jagers/', 'Mijn jagers'],
         ['/deals/volglijst/', 'Mijn volglijst'],
-        ['/deals/over/', 'Zo werkt DealBuddy'],
+        ['/deals/over/', 'Zo werkt Besparen'],
       ]],
       ['ToeslagBuddy', [
         ['/over/', 'Over ons'],

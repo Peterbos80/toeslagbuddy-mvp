@@ -70,7 +70,7 @@ test('meld met Brevo: ontvanger uit env, afzender deals@, ge-escaped, tekstversi
     assert.equal(url, 'https://api.brevo.com/v3/smtp/email');
     assert.equal(opties.headers['api-key'], 'sleutel');
     assert.deepEqual(body.to, [{ email: 'eigenaar@voorbeeld.nl' }]);
-    assert.deepEqual(body.sender, { name: 'DealBuddy', email: 'deals@toeslagbuddy.nl' });
+    assert.deepEqual(body.sender, { name: 'ToeslagBuddy Besparen', email: 'deals@toeslagbuddy.nl' });
     assert.ok(!/[\r\n]/.test(body.subject));
     assert.match(body.subject, /31% onder de gangbare prijs/);
     assert.ok(!body.htmlContent.includes('<script>x'), 'titel ge-escaped');
@@ -152,7 +152,7 @@ test('mail: onderwerp zonder CR/LF, digest van meerdere deals, PNG-grafiek', () 
   const deal = { soort: 'product', id: '1', titel: 'A', winkel: 'W', totaal: 1, gangbaar: 2, laagste30: 2, echteKorting: 0.5, pagina: '/deals/p/a/', winkelsGezien: 2 };
   const bewijs = { winkels: [], weken: [], dagen: 40, bronnen: ['x'] };
   const m = maakMeldingMail([{ deal, bewijs, regels: [{ type: 'categorie', waarde: 'parfum' }] }, { deal: { ...deal, id: '2', titel: 'B' }, bewijs, regels: [{ type: 'zoekterm', waarde: 'b' }] }], { naar: 'x@voorbeeld.nl' });
-  assert.equal(m.subject, 'DealBuddy: 2 deals met bewijs');
+  assert.equal(m.subject, 'ToeslagBuddy: 2 deals met bewijs');
   const png = grafiekPng({ vandaag: '2026-11-08', gangbaar: 10, laagste30: 9, beste: { totaal: 8 }, winkels: [{ kleur: 0, punten: [{ datum: '2026-10-01', totaal: 10 }, { datum: '2026-11-08', totaal: 8 }] }] });
   assert.deepEqual([...png.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
   assert.ok(png.length > 500);
