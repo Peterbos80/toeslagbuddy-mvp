@@ -1,0 +1,92 @@
+name: AI-beelden maken (gratis, Kaggle)
+
+# Maakt de filmische AI-beelden onder de uitlegvideo's met het open-source
+# model Wan 2.1 op de gratis GPU van Kaggle (30 uur per week). Kost niets.
+# Nodig: de geheimen KAGGLE_USERNAME en KAGGLE_KEY (of KAGGLE_API_TOKEN).
+# Na afloop start "Uitlegvideo's maken" vanzelf en wordt de site opnieuw
+# gepubliceerd. Alleen ontbrekende of gewijzigde beelden worden gemaakt;
+# met de hand toegevoegde clips (data/video/beelden) blijven staan.
+
+on:
+  workflow_dispatch:
+    inputs:
+      max:
+        description: 'Maximaal aantal beelden in deze run'
+        default: '10'
+  push:
+    paths:
+      - scripts/video/uitleg-scenes.js
+      - scripts/video/kaggle/beelden.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ai-beelden
+  cancel-in-progress: false
+
+jobs:
+  maken:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 355
+    env:
+      KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+      KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+      KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Geheimen aanwezig?
+        id: sleutel
+        run: |
+          if [ -n "$KAGGLE_USERNAME" ] && { [ -n "$KAGGLE_KEY" ] || [ -n "$KAGGLE_API_TOKEN" ]; }; then
+            echo "ok=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "Geen Kaggle-geheimen ingesteld: niets te doen. Zie docs/ai-video-gratis.md."
+            echo "ok=0" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Klaarzetten
+        id: klaar
+        if: steps.sleutel.outputs.ok == '1'
+        env:
+          MAX: ${{ github.event.inputs.max }}
+        run: |
+          max="${MAX:-10}"; [[ "$max" =~ ^[0-9]+$ ]] || max=10
+          node scripts/video/kaggle-beelden.js voorbereid --gebruiker "$KAGGLE_USERNAME" --map /tmp/kernel --max "$max"
+      - name: Op Kaggle draaien en wachten
+        if: steps.sleutel.outputs.ok == '1' && steps.klaar.outputs.aantal != '0'
+        run: |
+          python -m pip install -q kaggle
+          id="$KAGGLE_USERNAME/toeslagbuddy-ai-beelden"
+          kaggle kernels push -p /tmp/kernel
+          sleep 90
+          for i in $(seq 1 330); do
+            s=$(kaggle kernels status "$id" 2>&1 | tr 'A-Z' 'a-z' || true)
+            echo "$(date -u +%H:%M) $s"
+            case "$s" in
+              *complete*) break ;;
+              *error*|*cancel*) echo "Kaggle meldt een fout; de uitvoer wordt toch opgehaald voor het logboek." ; break ;;
+            esac
+            sleep 60
+          done
+          mkdir -p /tmp/uit
+          kaggle kernels output "$id" -p /tmp/uit || true
+          ls -la /tmp/uit
+          cat /tmp/uit/log.json 2>/dev/null || true
+      - name: Verwerken en bewaren
+        if: steps.sleutel.outputs.ok == '1' && steps.klaar.outputs.aantal != '0'
+        run: |
+          sudo apt-get install -y ffmpeg > /dev/null
+          node scripts/video/kaggle-beelden.js verwerk --uit /tmp/uit
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/video/beelden
+          git diff --cached --quiet && { echo "Geen nieuwe beelden"; exit 0; }
+          git commit -m "AI-beelden gemaakt (Wan 2.1 op Kaggle) $(date -u +%F)"
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((i * 5))
+          done
+          exit 1

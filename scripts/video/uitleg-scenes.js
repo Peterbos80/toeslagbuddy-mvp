@@ -117,12 +117,17 @@ ${regel('grafiek', 'goud', 'Prijs zakt meestal in januari', 'op basis van 90 dag
     scenes: [
       {
         tekst: 'Veel mensen krijgen geen toeslag, terwijl ze er wel recht op hebben. Jaar na jaar.',
-        film: 'Seen from behind, a young couple at a kitchen table in the morning with a laptop and a few paper bills, a child\'s drawing on the fridge, natural light, slow dolly.',
+        film: 'A Dutch woman in her thirties sits at a kitchen table in the evening with a laptop and a small pile of paper bills, she rubs her forehead and looks worried at the bills, warm lamp light, medium shot from the side, natural candid moment.',
         beeld: `<div class="titel"><p class="etiket in">ToeslagBuddy</p><h1 class="in" style="animation-delay:.3s">Mis je <em>geld</em> waar je recht op hebt?</h1></div>`,
       },
       {
         tekst: 'Bereken in twee minuten je zorgtoeslag, huurtoeslag, kindgebonden budget en kinderopvangtoeslag. Gratis, en zonder in te loggen.',
         beeld: `<div class="tegels">${[['zorg', 'Zorgtoeslag'], ['huis', 'Huurtoeslag'], ['familie', 'Kindgebonden budget'], ['hart', 'Kinderopvangtoeslag']].map(([i, n], k) => `<div class="tegel in" style="animation-delay:${0.3 + k * 0.3}s">${ico(i)}<b>${n}</b></div>`).join('')}</div>`,
+      },
+      {
+        tekst: 'Binnen twee minuten zie je waar je recht op hebt. Soms is dat meer dan je dacht.',
+        film: 'The same Dutch woman in her thirties types on her laptop at the kitchen table, reads the screen, then her face lights up with a relieved, genuinely happy smile, she leans back in her chair and lets out a breath of relief, medium shot from the side, natural candid moment, warm lamp light.',
+        beeld: `<div class="uitkomst-pil in" style="animation-delay:1.6s">${ico('vink')}<span><small>Zorgtoeslag en huurtoeslag</small><b>+ € 1.540 per jaar</b></span></div><p class="voorbeeld in" style="animation-delay:1.8s">Voorbeeld, verzonnen bedrag</p>`,
       },
       {
         tekst: 'Je ziet ook of je moet terugbetalen. Zo pas je je voorschot op tijd aan.',
@@ -142,7 +147,7 @@ ${regel('waarschuwing', 'rood', 'Huurtoeslag', 'voorschot te hoog: pas het aan',
 
 // Vaste aanvulling op elke filmprompt (scripts/video/ai-beelden.js)
 export const FILM_STIJL = 'Photorealistic live-action footage, cinematic 35mm film look, shallow depth of field, natural warm colour grading, smooth steady camera, set in the Netherlands. No on-screen text, no logos, no subtitles.';
-export const NEGATIEF = 'text, letters, words, captions, subtitles, watermark, logo, brand names, government emblem, flags, police, close-up of faces, person talking to camera, distorted hands, extra fingers, deformed bodies, cartoon, illustration, 3d render, low quality';
+export const NEGATIEF = 'text, letters, words, captions, subtitles, watermark, logo, brand names, government emblem, flags, police, person talking to camera, looking into the camera, plastic skin, distorted hands, extra fingers, deformed bodies, cartoon, illustration, 3d render, low quality';
 
 // Stijl van de scènes (1280 × 720). Kleuren en lettertypen van de site.
 export const STIJL = `
@@ -236,6 +241,11 @@ body.film .ondertitel { background: rgb(0 0 0 / 62%); }
 body.film .ai-label { display: block; }
 .ai-label { display: none; position: absolute; right: 28px; top: 34px; font-size: 13px; font-weight: 700; letter-spacing: .06em; color: rgb(255 255 255 / 88%); background: rgb(0 0 0 / 38%); border-radius: 99px; padding: 6px 12px; }
 body:not(.film) .scrim { display: none; }
+.uitkomst-pil { position: absolute; left: 80px; bottom: 150px; display: flex; gap: 14px; align-items: center; background: #fff; color: #1c2826; border-radius: 22px; padding: 16px 22px; box-shadow: 0 24px 50px -20px rgb(0 0 0 / 50%); }
+.uitkomst-pil .i { width: 34px; height: 34px; color: #2f6f47; background: #e3f0e7; border-radius: 12px; padding: 6px; }
+.uitkomst-pil small { display: block; color: #55625f; font-size: 15px; } .uitkomst-pil b { font-size: 30px; }
+.voorbeeld { position: absolute; left: 82px; bottom: 124px; font-size: 13px; color: rgb(255 255 255 / 80%); }
+body:not(.film) .voorbeeld { color: #55625f; }
 `;
 
 // Ondertitel in stukjes van maximaal ~90 tekens, verdeeld over de duur van de scène

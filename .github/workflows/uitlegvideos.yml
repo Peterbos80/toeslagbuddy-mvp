@@ -16,6 +16,9 @@ on:
       ai_max:
         description: 'Maximaal aantal nieuwe AI-beelden (Veo) in deze run; 0 = geen'
         default: '12'
+  workflow_run:
+    workflows: ["AI-beelden maken (gratis, Kaggle)"]
+    types: [completed]
   push:
     paths:
       - scripts/video/uitleg-scenes.js
