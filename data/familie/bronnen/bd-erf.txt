@@ -1,6 +1,6 @@
 Bron: https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/erfbelasting
 Titel: Erfbelasting | Belastingdienst
-Opgehaald: 2026-11-17T10:43:43.222Z
+Opgehaald: 2026-11-23T14:47:44.148Z
 
 # Erfbelasting
 
@@ -72,7 +72,7 @@ Lees voor
 
 - Kan ik alvast erfbelasting betalen via een voorlopige aanslag?
 
-- Wat is het rekeningnummer voor de erfbelasting?
+- Hoe kan ik erfbelasting betalen?
 
 - Betaal ik belastingrente over de aanslag erfbelasting?
 

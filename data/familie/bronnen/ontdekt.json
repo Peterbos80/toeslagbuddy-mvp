@@ -1,5 +1,5 @@
 {
- "bijgewerkt": "2026-11-16T19:45:41.316Z",
+ "bijgewerkt": "2026-11-23T14:47:44.148Z",
  "links": [
   {
    "url": "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/aangifte_doen/praktische_informatie/burgerservicenummer/burgerservicenummer",
@@ -369,7 +369,7 @@
   {
    "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/contact/content/contact-telefoonnummer-nabestaanden",
    "tekst": "BelastingTelefoon voor nabestaanden",
-   "via": "bd-10-procent"
+   "via": "bd-ib-termijn"
   },
   {
    "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/contact/content/digid-aanvragen-digid-machtigen",
@@ -503,7 +503,7 @@
   },
   {
    "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/erfbelasting/content/rekeningnummer-erfbelasting",
-   "tekst": "Wat is het rekeningnummer voor de erfbelasting?",
+   "tekst": "Hoe kan ik erfbelasting betalen?",
    "via": "bd-erf"
   },
   {
@@ -584,7 +584,7 @@
   {
    "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/",
    "tekst": "Na een overlijden",
-   "via": "bd-machtiging-gebruik"
+   "via": "bd-ib-termijn"
   },
   {
    "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/checklist/bij-overlijden-checklist-nabestaanden",
@@ -638,17 +638,12 @@
   },
   {
    "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/inkomstenbelasting-uitstel-vragen-voor-aangifte-overledene",
-   "tekst": "Kan ik uitstel krijgen voor de aangifte?",
-   "via": "bd-na-overlijden"
+   "tekst": "Lees hoe u uitstel aanvraagt voor de aangifte inkomstenbelasting voor een overledene.",
+   "via": "bd-ib-termijn"
   },
   {
    "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/inkomstenbelasting-waar-aan-denken-als-ik-mijn-belastingaangifte-doe-na-een-erfenis",
    "tekst": "Wat betekent een erfenis voor mijn aangifte inkomstenbelasting?",
-   "via": "bd-na-overlijden"
-  },
-  {
-   "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/na-een-overlijden/content/inkomstenbelasting-wanneer-moet-de-aangifte-voor-overledene-binnen-zijn",
-   "tekst": "Wanneer moet de aangifte binnen zijn?",
    "via": "bd-na-overlijden"
   },
   {
@@ -734,12 +729,12 @@
   {
    "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/inloggen-op-mijn-toeslagen",
    "tekst": "Inloggen op Mijn toeslagen",
-   "via": "bd-zorgkosten-voorwaarden"
+   "via": "bd-ib-termijn"
   },
   {
    "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/privacyverklaring-toeslagen",
    "tekst": "Privacyverklaring",
-   "via": "bd-10-procent"
+   "via": "bd-ib-termijn"
   },
   {
    "url": "https://www.belastingdienst.nl/wps/wcm/connect/nl/toeslagen/content/toeslagpartner",
@@ -982,6 +977,11 @@
    "via": "cak-wlz"
   },
   {
+   "url": "https://www.rijksoverheid.nl/actueel/nieuws?size=n_10_n&filters%5B0%5D%5Bfield%5D=topic&filters%5B0%5D%5Bvalues%5D%5B0%5D=Algemene%20nabestaandenwet%20%28Anw%29&filters%5B0%5D%5Btype%5D=all",
+   "tekst": "Nieuws",
+   "via": "ro-anw"
+  },
+  {
    "url": "https://www.rijksoverheid.nl/actueel/nieuws?size=n_10_n&filters%5B0%5D%5Bfield%5D=topic&filters%5B0%5D%5Bvalues%5D%5B0%5D=Overlijden&filters%5B0%5D%5Btype%5D=all",
    "tekst": "Nieuws",
    "via": "ro-overlijden"
@@ -1012,9 +1012,39 @@
    "via": "ro-wmo"
   },
   {
-   "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/algemene-nabestaandenwet-anw",
-   "tekst": "Algemene nabestaandenwet (Anw) Onderwerp",
-   "via": "ro-nabestaandenpensioen"
+   "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen",
+   "tekst": "Belastingen, uitkeringen en toeslagen",
+   "via": "ro-anw"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/algemene-nabestaandenwet-anw/vraag-en-antwoord",
+   "tekst": "Vraag en antwoord",
+   "via": "ro-anw"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/algemene-nabestaandenwet-anw/vraag-en-antwoord/algemene-nabestaandenwet-anw/hoe-hoog-is-de-anw-uitkering",
+   "tekst": "Hoe hoog is de Anw-uitkering?",
+   "via": "ro-anw"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/algemene-nabestaandenwet-anw/vraag-en-antwoord/algemene-nabestaandenwet-anw/wanneer-heb-ik-recht-op-een-nabestaandenuitkering-anw-uitkering",
+   "tekst": "Wanneer heb ik recht op een nabestaandenuitkering (Anw-uitkering)?",
+   "via": "ro-anw"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/algemene-nabestaandenwet-anw/vraag-en-antwoord/algemene-nabestaandenwet-anw/wanneer-heb-ik-recht-op-een-wezenuitkering",
+   "tekst": "Wanneer hebben kinderen recht op een wezenuitkering?",
+   "via": "ro-anw"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/algemene-nabestaandenwet-anw/vraag-en-antwoord/algemene-nabestaandenwet-anw/wanneer-stopt-mijn-anw-uitkering",
+   "tekst": "Wanneer stopt mijn nabestaandenuitkering?",
+   "via": "ro-anw"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/algemene-nabestaandenwet-anw/vraag-en-antwoord/pensioen/wat-is-een-nabestaandenpensioen",
+   "tekst": "Wat is een nabestaandenpensioen?",
+   "via": "ro-anw"
   },
   {
    "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/belasting-betalen",
@@ -1022,14 +1052,24 @@
    "via": "ro-verklaring-erfrecht"
   },
   {
-   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/erven",
-   "tekst": "Erven Bekijk wat u moet weten over erven als er iemand overlijdt. Beeld: © Hollandse Hoogte / Sabine Joosten Lees verder",
-   "via": "ro-overlijden"
+   "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderbijslag",
+   "tekst": "Kinderbijslag",
+   "via": "ro-familie-zorg"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/kinderopvangtoeslag",
+   "tekst": "Kinderopvangtoeslag",
+   "via": "ro-familie-zorg"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/belastingen-uitkeringen-en-toeslagen/uitkering-meenemen-naar-buitenland",
+   "tekst": "Uitkering meenemen naar buitenland Onderwerp",
+   "via": "ro-anw"
   },
   {
    "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/erven/vraag-en-antwoord/erven/erven-wat-moet-ik-regelen",
    "tekst": "Erfenis krijgen: maak een overzicht van wat u moet weten en regelen",
-   "via": "ro-verklaring-erfrecht"
+   "via": "ro-erven"
   },
   {
    "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/erven/vraag-en-antwoord/erven/kunnen-minderjarige-kinderen-erven",
@@ -1072,24 +1112,19 @@
    "via": "ro-erven"
   },
   {
-   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden",
-   "tekst": "Overlijden",
-   "via": "ro-nabestaandenpensioen"
-  },
-  {
    "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord",
    "tekst": "Vraag en antwoord",
-   "via": "ro-nabestaandenpensioen"
+   "via": "ro-anw-recht"
   },
   {
-   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/aangifte-geboorte-en-naamskeuze-kind/registratie-levenloos-geboren-kind",
-   "tekst": "Wat moet ik doen om mijn levenloos geboren kind te registreren in de Basisregistratie Personen (BRP)?",
-   "via": "ro-overlijden"
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/algemene-nabestaandenwet-anw/hoe-hoog-is-de-anw-uitkering",
+   "tekst": "Hoe hoog is de Anw-uitkering?",
+   "via": "ro-anw-recht"
   },
   {
-   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/algemene-nabestaandenwet-anw/wanneer-heb-ik-recht-op-een-nabestaandenuitkering-anw-uitkering",
-   "tekst": "Wanneer heb ik recht op een nabestaandenuitkering (Anw-uitkering)?",
-   "via": "ro-nabestaandenpensioen"
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/algemene-nabestaandenwet-anw/wanneer-stopt-mijn-anw-uitkering",
+   "tekst": "Wanneer stopt mijn nabestaandenuitkering?",
+   "via": "ro-anw-recht"
   },
   {
    "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/erven/erven-wat-moet-ik-regelen",
@@ -1103,8 +1138,8 @@
   },
   {
    "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/overlijden/overlijden-hoe-bereid-ik-me-voor-op-mijn-eigen-overlijden",
-   "tekst": "Eigen overlijden: maak een overzicht van wat u moet weten en regelen",
-   "via": "ro-checklist-overlijden"
+   "tekst": "Voorbereiden op overlijden: wat moet ik regelen? Maak een persoonlijk overzicht. Beeld: © Hollandse Hoogte / Patricia Rehe Lees verder",
+   "via": "ro-overlijden"
   },
   {
    "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/pensioen/kan-ik-mijn-opgebouwde-pensioen-omzetten-naar-een-partnerpensioen-of-een-ouderdomspensioen",
@@ -1117,9 +1152,19 @@
    "via": "ro-nabestaandenpensioen"
   },
   {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/uitkering-meenemen-naar-buitenland/wat-moet-ik-regelen-voor-mijn-uitkering-als-ik-ga-emigreren",
+   "tekst": "Kan ik mijn uitkering meenemen als ik ga emigreren?",
+   "via": "ro-anw-recht"
+  },
+  {
+   "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/overlijden/vraag-en-antwoord/zwangerschap-en-geboorte/registratie-levenloos-geboren-kind",
+   "tekst": "Wat moet ik doen om mijn levenloos geboren kind te registreren in de Basisregistratie Personen (BRP)?",
+   "via": "ro-overlijden"
+  },
+  {
    "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/verpleeghuizen-en-zorginstellingen",
-   "tekst": "Verpleeghuizen en zorginstellingen Onderwerp",
-   "via": "ro-wlz"
+   "tekst": "Verpleeghuizen en zorginstellingen",
+   "via": "ro-familie-zorg"
   },
   {
    "url": "https://www.rijksoverheid.nl/themas/familie-zorg-en-gezondheid/zorgverzekering/vraag-en-antwoord/zorgverzekering/kan-ik-zorgtoeslag-krijgen",
@@ -1140,11 +1185,6 @@
    "url": "https://www.rijksoverheid.nl/themas/klimaat-milieu-en-natuur/energie-thuis/salderingsregeling/vraag-en-antwoord/energie-thuis/krijg-ik-subsidie-voor-zonnepanelen",
    "tekst": "Krijg ik subsidie voor zonnepanelen?",
    "via": "ro-salderen"
-  },
-  {
-   "url": "https://www.rijksoverheid.nl/themas/werk/arbeidsovereenkomst-en-cao",
-   "tekst": "Arbeidsovereenkomst en cao In arbeidsovereenkomsten en cao's staan afspraken over arbeidsvoorwaarden. Bijvoorbeeld over loon, toeslagen en werktijden. Beeld: © Hollandse Hoogte Lees verder",
-   "via": "ro-zorgverlof"
   }
  ]
 }
