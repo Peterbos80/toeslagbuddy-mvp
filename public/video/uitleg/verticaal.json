@@ -5,8 +5,8 @@
   "poster": "/video/uitleg/familie-verticaal.jpg",
   "breedte": 1080,
   "hoogte": 1920,
-  "duur": 60.1,
-  "stem": "nl_NL-ronnie-medium",
+  "duur": 53,
+  "stem": "chatterbox (32/32), referentie nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
    {
@@ -40,7 +40,7 @@
     "platform": "Pixabay"
    }
   ],
-  "hash": "7e72b5ca278e"
+  "hash": "5dbb49df14b7"
  },
  "besparen": {
   "titel": "Is die korting echt?",
@@ -48,8 +48,8 @@
   "poster": "/video/uitleg/besparen-verticaal.jpg",
   "breedte": 1080,
   "hoogte": 1920,
-  "duur": 42.2,
-  "stem": "nl_NL-ronnie-medium",
+  "duur": 39.7,
+  "stem": "chatterbox (32/32), referentie nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
    {
@@ -65,7 +65,7 @@
     "platform": "Pixabay"
    }
   ],
-  "hash": "96c72ec94a57"
+  "hash": "b0a3a2b701f1"
  },
  "toeslagen": {
   "titel": "Mis je toeslag?",
@@ -73,8 +73,8 @@
   "poster": "/video/uitleg/toeslagen-verticaal.jpg",
   "breedte": 1080,
   "hoogte": 1920,
-  "duur": 32.1,
-  "stem": "nl_NL-ronnie-medium",
+  "duur": 31.3,
+  "stem": "chatterbox (32/32), referentie nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
    {
@@ -90,7 +90,7 @@
     "platform": "Pixabay"
    }
   ],
-  "hash": "2a0c660c05cd"
+  "hash": "95a5131528f1"
  },
  "pro": {
   "titel": "Alle cliënten in één keer gecontroleerd",
@@ -98,8 +98,8 @@
   "poster": "/video/uitleg/pro-verticaal.jpg",
   "breedte": 1080,
   "hoogte": 1920,
-  "duur": 31.5,
-  "stem": "nl_NL-ronnie-medium",
+  "duur": 32.7,
+  "stem": "chatterbox (32/32), referentie nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
    {
@@ -121,7 +121,7 @@
     "platform": "Pixabay"
    }
   ],
-  "hash": "fd81054cf98e"
+  "hash": "d282befa9b73"
  },
  "zzp": {
   "titel": "Toeslagbewaker voor zzp’ers",
@@ -129,8 +129,8 @@
   "poster": "/video/uitleg/zzp-verticaal.jpg",
   "breedte": 1080,
   "hoogte": 1920,
-  "duur": 26,
-  "stem": "nl_NL-ronnie-medium",
+  "duur": 26.6,
+  "stem": "chatterbox (32/32), referentie nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
    {
@@ -146,7 +146,7 @@
     "platform": "Pixabay"
    }
   ],
-  "hash": "2772ee62c138"
+  "hash": "1061b620daa8"
  },
  "zorgtoeslag": {
   "titel": "Zorgtoeslag in 1 minuut",
@@ -154,8 +154,8 @@
   "poster": "/video/uitleg/zorgtoeslag-verticaal.jpg",
   "breedte": 1080,
   "hoogte": 1920,
-  "duur": 22.8,
-  "stem": "nl_NL-ronnie-medium",
+  "duur": 22.3,
+  "stem": "chatterbox (32/32), referentie nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
    {
@@ -165,7 +165,7 @@
     "platform": "Pixabay"
    }
   ],
-  "hash": "e78a1470dc68"
+  "hash": "cb7fca2e7399"
  },
  "verpleeghuis": {
   "titel": "Wat kost het verpleeghuis?",
@@ -173,8 +173,8 @@
   "poster": "/video/uitleg/verpleeghuis-verticaal.jpg",
   "breedte": 1080,
   "hoogte": 1920,
-  "duur": 39.3,
-  "stem": "nl_NL-ronnie-medium",
+  "duur": 36.2,
+  "stem": "chatterbox (32/32), referentie nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
    {
@@ -190,7 +190,7 @@
     "platform": "Pixabay"
    }
   ],
-  "hash": "60c21671a0e9"
+  "hash": "7f9287fd61a5"
  },
  "na-overlijden": {
   "titel": "Na een overlijden: wat moet er geregeld?",
@@ -198,8 +198,8 @@
   "poster": "/video/uitleg/na-overlijden-verticaal.jpg",
   "breedte": 1080,
   "hoogte": 1920,
-  "duur": 25.6,
-  "stem": "nl_NL-ronnie-medium",
+  "duur": 24.8,
+  "stem": "chatterbox (32/32), referentie nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
    {
@@ -215,6 +215,6 @@
     "platform": "Pixabay"
    }
   ],
-  "hash": "85bb69bc0bd7"
+  "hash": "d8c48e51cd54"
  }
 }
