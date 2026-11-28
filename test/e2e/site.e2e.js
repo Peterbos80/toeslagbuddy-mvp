@@ -125,7 +125,7 @@ test('mobiel: menu werkt en geen horizontaal scrollen op alle pagina’s', async
   await ctx.close();
 });
 
-test('toegankelijkheid (axe): geen ernstige problemen op alle pagina’s', async () => {
+test('toegankelijkheid (axe, WCAG 2.2 AA en best practices): geen problemen op alle pagina’s', async () => {
   // Meet het eindbeeld (zonder in-vliegende animaties). bypassCSP: de strikte
   // CSP blokkeert anders het inladen van axe zelf.
   const ctx = await s.browser.newContext({ reducedMotion: 'reduce', bypassCSP: true });
@@ -134,8 +134,8 @@ test('toegankelijkheid (axe): geen ernstige problemen op alle pagina’s', async
   for (const pad of await paginas()) {
     await p.goto(s.basis + pad);
     await p.addScriptTag({ content: axeBron });
-    const r = await p.evaluate(async () => (await window.axe.run(document, { runOnly: ['wcag2a', 'wcag2aa'] })).violations);
-    for (const v of r.filter((v) => ['serious', 'critical'].includes(v.impact))) {
+    const r = await p.evaluate(async () => (await window.axe.run(document, { runOnly: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa', 'best-practice'] })).violations);
+    for (const v of r) {
       problemen.push(`${pad}: ${v.id} – ${v.help} (${v.nodes.length}×) ${v.nodes[0]?.target}`);
     }
   }

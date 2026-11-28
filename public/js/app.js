@@ -98,7 +98,7 @@ function partnerBlokken(calc) {
     .map((k) => PARTNERS[k])
     .filter(Boolean)
     .map(
-      (p) => `<aside class="partner"><p class="partner-label">Partnerlink</p><h4>${esc(p.titel)}</h4><p>${esc(p.tekst)}</p>
+      (p) => `<aside class="partner" aria-label="Partnerlink"><p class="partner-label">Partnerlink</p><h4>${esc(p.titel)}</h4><p>${esc(p.tekst)}</p>
 <a class="knop-licht" href="${esc(p.url)}" rel="sponsored nofollow noopener" target="_blank">${esc(p.knop)} →</a></aside>`,
     )
     .join('');
@@ -278,7 +278,7 @@ ${tips ? `<div class="resultaat tips"><h3>${T.ookKrijgen}</h3><ul>${tips}</ul></
 <ul class="uitleg"><li>Verwachte jaarwinst: ${euro(r.jaarwinst)}</li>
 <li>Na ondernemersaftrek en mkb-winstvrijstelling: ${euro(r.belastbareWinst)}</li>
 <li>Verwacht toetsingsinkomen${d.partner ? ' (met partner)' : ''}: <strong>${euro(r.verwachtInkomen)}</strong> – opgegeven: ${euro(d.opgegevenInkomen)}</li></ul>
-<div class="tabel-scroll"><table class="overzicht"><thead><tr><th></th><th>Voorschot/jaar</th><th>Verwacht recht</th><th>Verschil</th></tr></thead><tbody>${rijen}</tbody></table></div>
+<div class="tabel-scroll" tabindex="0" role="region" aria-label="Overzicht per toeslag"><table class="overzicht"><thead><tr><td></td><th>Voorschot/jaar</th><th>Verwacht recht</th><th>Verschil</th></tr></thead><tbody>${rijen}</tbody></table></div>
 ${r.status === 'goed' ? '' : `<p><strong>Advies:</strong> geef in <a href="https://www.toeslagen.nl" target="_blank" rel="noopener">Mijn toeslagen</a> een inkomen van <strong>${euro(r.adviesInkomen)}</strong> op (je schatting plus 5% marge).</p>`}
 <p><button type="button" class="knop-licht" data-ics>📅 Zet een maandelijkse herinnering in mijn agenda</button></p>
 <p class="subtiel">Automatisch vanuit je boekhouding? <a href="/zzp-toeslagen/#wachtlijst">Zet je op de wachtlijst</a>.</p></div>`;
@@ -454,7 +454,7 @@ function stappenplan(form) {
     voortgang.querySelector('.voortgang-tekst').textContent = T.stapVan(i + 1, stappen.length);
     voortgang.querySelector('i').style.width = `${((i + 1) / stappen.length) * 100}%`;
     if (focus) {
-      const kop = stappen[i].querySelector('h3');
+      const kop = stappen[i].querySelector('h2, h3');
       kop.tabIndex = -1;
       kop.focus();
     }

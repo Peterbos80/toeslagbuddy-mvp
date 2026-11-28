@@ -141,7 +141,7 @@ function verdienHtml(page, body) {
   if (page.taal !== 'nl') return '';
   const partner = PARTNER_OP[page.slug] && !body.includes('class="partner"') ? partnerBlok(PARTNER_OP[page.slug]) : '';
   const k = KRUIS_OP[page.slug];
-  const kruis = k ? `<aside class="kruis o-${k[0]}"><span class="o-ico">${icoon(k[2], 'groot')}</span><div><h3>${esc(k[3])}</h3><p>${esc(k[4])}</p><a class="knop-licht" href="${k[1]}">${esc(k[5])} →</a></div></aside>` : '';
+  const kruis = k ? `<aside class="kruis o-${k[0]}" aria-label="Ook handig"><span class="o-ico">${icoon(k[2], 'groot')}</span><div><h3>${esc(k[3])}</h3><p>${esc(k[4])}</p><a class="knop-licht" href="${k[1]}">${esc(k[5])} →</a></div></aside>` : '';
   return partner + kruis;
 }
 

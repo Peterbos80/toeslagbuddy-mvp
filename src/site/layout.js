@@ -183,7 +183,7 @@ export function uitlegVideo(id, { kop = '' } = {}) {
 export function partnerBlok(sleutel) {
   const p = config.partners[sleutel];
   if (!p || !p.url) return '';
-  return `<aside class="partner"><p class="partner-label">Partnerlink</p><h4>${esc(p.titel)}</h4><p>${esc(p.tekst)}</p>
+  return `<aside class="partner" aria-label="Partnerlink"><p class="partner-label">Partnerlink</p><h4>${esc(p.titel)}</h4><p>${esc(p.tekst)}</p>
 <a class="knop-licht" href="${esc(p.url)}" rel="sponsored nofollow noopener" target="_blank">${esc(p.knop)} →</a></aside>`;
 }
 
@@ -229,7 +229,12 @@ function alternatieven(page) {
   return [...Object.entries(h), ['x-default', h.nl]].map(([taal, slug]) => `\n<link rel="alternate" hreflang="${taal}" href="${config.url}${slug}">`).join('');
 }
 
+const TABEL_SCROLL = /<div class="tabel-scroll">/g;
+const TABEL_SCROLL_A11Y = '<div class="tabel-scroll" tabindex="0" role="region" aria-label="Tabel (scroll opzij voor alle kolommen)">';
+
 export function layout(page, body) {
+  let tabelNr = 0;
+  body = body.replace(TABEL_SCROLL, () => TABEL_SCROLL_A11Y.replace('aria-label="Tabel', `aria-label="Tabel ${++tabelNr}`));
   const taal = page.taal || 'nl';
   const T = teksten(taal);
   const S = T.site;

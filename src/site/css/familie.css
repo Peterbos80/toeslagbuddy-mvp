@@ -45,7 +45,7 @@ a.f-kaart .f-meer { display: inline-flex; gap: 6px; align-items: center; margin-
 .f-demo-kop { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 4px 16px; border-bottom: 1px solid var(--lijn); }
 .f-demo-kop strong { font-family: var(--font-kop); font-size: 1.25rem; font-weight: 560; }
 .f-demo-kop small { display: block; color: var(--zacht); font-size: .85rem; }
-.f-demo h4 { font-family: var(--font); font-size: .78rem; letter-spacing: .09em; text-transform: uppercase; color: var(--zacht); margin: 18px 4px 8px; }
+.f-demo h4, .f-demo .f-demo-kop { font-family: var(--font); font-size: .78rem; letter-spacing: .09em; text-transform: uppercase; color: var(--zacht); margin: 18px 4px 8px; }
 .f-avatars { display: flex; }
 .f-avatar { width: 34px; height: 34px; border-radius: 50%; display: inline-grid; place-items: center; font-size: .78rem; font-weight: 700; color: #fff; background: var(--a, var(--merk-vast)); border: 2px solid var(--vlak); margin-left: -8px; flex: 0 0 auto; }
 .f-avatar:first-child { margin-left: 0; }
@@ -342,3 +342,4 @@ a.fa-tegel:hover { border-color: var(--lijn-sterk); transform: translateY(-2px);
   .f-regel { grid-template-columns: auto 1fr; }
   .f-regel > .f-pil { grid-column: 2; justify-self: start; }
 }
+.f-kaart h2.f-kaart-kop { font-size: 1.2rem; margin: 10px 0 6px; }

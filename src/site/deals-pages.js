@@ -79,6 +79,7 @@ ${cats.map(([k, n], i) => `${i === 1 || (i === 0 && k !== START) ? `<button type
 <ol class="live-lijst" data-live-lijst aria-live="polite"></ol>
 </section>
 <p class="geen-resultaat" data-leeg hidden>Geen deals gevonden met deze keuze. Zet de schuif lager of kies een andere categorie.</p>
+<h2 class="verborgen-tekst">Alle deals</h2>
 <div class="deal-raster" data-raster>
 ${kaarten.map((d) => kaartHtml(d, nu)).join('\n')}
 </div>

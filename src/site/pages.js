@@ -134,7 +134,7 @@ ${nieuws.items.length ? `<h2>Laatste nieuws over toeslagen</h2>${nieuwsLijst(nie
     partner: 'zorgverzekering',
     body: () => `
 <h2>Zorgtoeslag ${JAAR} in het kort</h2>
-<div class="tabel-scroll"><table><thead><tr><th></th><th scope="col">Alleenstaand</th><th scope="col">Met toeslagpartner</th></tr></thead><tbody>
+<div class="tabel-scroll"><table><thead><tr><td></td><th scope="col">Alleenstaand</th><th scope="col">Met toeslagpartner</th></tr></thead><tbody>
 <tr><th scope="row">Maximale zorgtoeslag per maand</th><td>${euro(Math.floor(zorgtoeslag({ inkomen: 0 }).perJaar / 12))}</td><td>${euro(Math.floor(zorgtoeslag({ inkomen: 0, partner: true }).perJaar / 12))}</td></tr>
 <tr><th scope="row">Maximaal inkomen</th><td>${euro(Z.maxInkomenAlleen)}</td><td>${euro(Z.maxInkomenPartner)}</td></tr>
 <tr><th scope="row">Maximaal vermogen</th><td>${euro(Z.vermogensgrensAlleen)}</td><td>${euro(Z.vermogensgrensPartner)}</td></tr>
@@ -768,7 +768,7 @@ ${proTool(false)}
 </form>
 ${codeStap('pa')}
 </div>
-<aside class="pro-voordelen"><h2>Dit krijg je ${config.pro.proefDagen} dagen gratis</h2><ul>
+<aside class="pro-voordelen" aria-label="Wat je krijgt"><h2>Dit krijg je ${config.pro.proefDagen} dagen gratis</h2><ul>
 <li>Onbeperkt cliëntenlijsten controleren</li><li>Gemiste toeslagen en terugbetalingsrisico’s per cliënt</li><li>Actielijst voor Excel en een rapport voor je dossier</li><li>Je team uitnodigen (tot 5 personen)</li><li>Cliëntgegevens blijven op je eigen computer</li></ul>
 <p>Al een account? <a href="/pro/inloggen/">Inloggen</a></p></aside>
 </div>`,

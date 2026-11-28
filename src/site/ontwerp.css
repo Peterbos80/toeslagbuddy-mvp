@@ -282,8 +282,8 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--m
 .keuze label:hover { border-color: var(--tekst); transform: none; }
 .keuze input:checked + label { border-color: var(--merk); background: var(--merk-licht); color: var(--merk-donker); box-shadow: inset 0 0 0 1px var(--merk); }
 .keuze input:focus-visible + label { outline: 2px solid var(--merk); outline-offset: 2px; }
-.stap h3 { font-size: 1.3rem; }
-.stap h3 span { background: var(--tekst); color: var(--bg); font-family: var(--font); font-weight: 700; }
+.stap h2 { font-size: 1.3rem; }
+.stap h2 span { background: var(--tekst); color: var(--bg); font-family: var(--font); font-weight: 700; }
 .voortgang-tekst { color: var(--zacht); font-size: .9rem; font-weight: 600; }
 .voortgang .balk { height: 6px; background: var(--vlak-2); }
 .voortgang .balk i { background: var(--merk-vast); transition: width .35s var(--ease); }
@@ -453,3 +453,6 @@ body.spiekbriefje .resultaat { break-inside: avoid; }
   header.site > .wrap > .groter-knop { display: none; }
   nav.hoofd .groter-knop.in-menu { display: flex; align-items: center; justify-content: flex-start; gap: 10px; margin-top: 10px; padding: 12px 14px; border-radius: 14px; font-size: 1rem; min-height: 48px; }
 }
+.stap h2 { font-family: var(--font-kop); }
+video:focus-visible, .tabel-scroll:focus-visible { outline: 3px solid var(--merk); outline-offset: 3px; }
+.uitlegvideo .uv-beeld:focus-within { outline: 3px solid var(--merk); outline-offset: 3px; }

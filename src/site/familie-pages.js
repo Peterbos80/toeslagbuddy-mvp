@@ -74,7 +74,7 @@ const avatar = (init, kleur, klasse = '') => `<span class="f-avatar${klasse ? ` 
 // De miniatuur van de regelkamer (verzonnen familie)
 const demoKaart = () => `<div class="f-demo" aria-label="Voorbeeld van de regelkamer met een verzonnen familie">
 <div class="f-demo-kop"><div><strong>Pa (Henk, 84)</strong><small>Familie De Vries · 4 leden</small></div><div class="f-avatars">${avatar('MV', '#b4532b')}${avatar('RV', '#2f5d8a')}${avatar('PV', '#6f3a73')}${avatar('H', '#2f6b5e')}</div></div>
-<h4>Deze week</h4>
+<p class="f-demo-kop">Deze week</p>
 <div class="f-regel"><span class="f-stip rood">${icoon('brief')}</span><span><b>Brief CAK: bezwaar kan tot 12 januari</b><span class="f-sub">Eigen bijdrage 2027 · € 1.282,09 per maand</span></span><span class="f-pil nu">over 6 dagen</span></div>
 <div class="f-regel"><span class="f-stip">${icoon('zorg')}</span><span><b>Zorgverzekering voor volgend jaar kiezen</b><span class="f-sub">Marieke doet dit</span></span>${avatar('MV', '#b4532b', 'klein')}</div>
 <div class="f-regel"><span class="f-stip blauw">${icoon('zon')}</span><span><b>Zonnepanelen: salderen stopt op 1 januari</b><span class="f-sub">Bekijk het energiecontract</span></span><span class="f-pil let">over 46 dagen</span></div>
@@ -418,7 +418,7 @@ function gidsen() {
     kort: 'Gidsen',
     kruimel: KRUIMEL(hub, 'Gidsen'),
     html: `<div class="hero"><p class="f-etiket">Gidsen</p><h1>Regelzaken voor je ouders, in gewone taal</h1><p class="intro">Korte uitleg met de kern bovenaan. Elke gids verwijst naar de officiële bron en naar een rekenhulp of checklist.</p></div>
-<div class="f-gidsen">${GIDSEN.map((g) => `<a class="f-kaart" href="${hub}${g.slug}/"><span class="f-ico">${icoon(g.icoon, 'groot')}</span><h3>${esc(g.kort)}</h3><p>${esc(g.kern[0])}</p><span class="f-meer">Lees de gids ${icoon('pijl', 'klein')}</span></a>`).join('\n')}</div>`,
+<div class="f-gidsen">${GIDSEN.map((g) => `<a class="f-kaart" href="${hub}${g.slug}/"><span class="f-ico">${icoon(g.icoon, 'groot')}</span><h2 class="f-kaart-kop">${esc(g.kort)}</h2><p>${esc(g.kern[0])}</p><span class="f-meer">Lees de gids ${icoon('pijl', 'klein')}</span></a>`).join('\n')}</div>`,
   });
   const artikelen = GIDSEN.map((g) => {
     const slug = `${hub}${g.slug}/`;
@@ -454,6 +454,7 @@ function overige() {
     kort: 'Prijzen',
     kruimel: KRUIMEL('/familie/prijzen/', 'Prijzen'),
     html: `<div class="hero"><p class="f-etiket">Prijzen</p><h1>Begin gratis. Betaal pas als de familie meedoet.</h1><p class="intro">Eén abonnement voor de hele familie, niet per persoon. Maandelijks opzegbaar, met twee klikken.</p></div>
+<h2 class="verborgen-tekst">Abonnementen</h2>
 ${prijzenHtml()}
 ${accounts ? '' : '<p class="f-controleer" style="margin-top:24px"><strong>Eerlijk over waar we staan.</strong> Samenwerken op meerdere apparaten en herinneringen per e-mail werken met een account. Accounts gaan binnenkort open. Tot die tijd werkt de regelkamer volledig op je eigen apparaat, en deel je het dossier met de familie als versleuteld bestand.</p>'}
 <section class="f-sectie"><h2>Waarom kost dit geld?</h2><p class="f-lead">Omdat we niet aan je gegevens willen verdienen. Geen reclame, geen verkoop van gegevens, geen commissie voor doorverwijzingen. Het abonnement betaalt de servers, de controles van de regels en de ontwikkeling.</p>

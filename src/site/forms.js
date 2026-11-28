@@ -135,18 +135,18 @@ export const forms = {
   alles: inTaal(() =>
     formulier(
       'alles',
-      `<div class="stap"><h3><span>1</span> ${F.stap1}</h3>
+      `<div class="stap"><h2><span>1</span> ${F.stap1}</h2>
 ${janee('partner', F.partner, 'nee', F.partnerHintAlles)}
 ${getal('leeftijd', F.leeftijd, { min: 16, max: 120, waarde: '' })}
 ${vinkje('aow', F.aowAlles)}
 </div>
-<div class="stap"><h3><span>2</span> ${F.stap2}</h3>
+<div class="stap"><h2><span>2</span> ${F.stap2}</h2>
 ${bedrag('inkomen', F.inkomenAlles, { hint: F.inkomenHint, placeholder: F.phInkomen, required: true })}
 ${bedrag('vermogen', F.vermogen, { hint: F.vermogenHint, placeholder: '0' })}
 ${vinkje('uitkering', F.uitkering)}
 ${vinkje('langdurigLaag', F.langdurigLaag)}
 </div>
-<div class="stap"><h3><span>3</span> ${F.stap3}</h3>
+<div class="stap"><h2><span>3</span> ${F.stap3}</h2>
 ${janee('huurt', F.huurt, 'ja', F.huurtHint)}
 <div data-toon-bij="huurt">
 ${bedrag('kaleHuur', F.kaleHuur, { hint: F.kaleHuurKortHint, placeholder: F.phHuur })}
@@ -154,7 +154,7 @@ ${getal('medebewoners', F.medebewoners, { hint: F.medebewonersHint, min: 0, max:
 ${bedrag('inkomenMedebewoners', F.inkomenMedebewoners, { placeholder: '0' })}
 </div>
 </div>
-<div class="stap"><h3><span>4</span> ${F.stap4}</h3>
+<div class="stap"><h2><span>4</span> ${F.stap4}</h2>
 ${kinderen()}
 <div data-toon-bij-kinderen>
 ${janee('gebruiktOpvang', F.gebruiktOpvang, 'nee')}
@@ -174,17 +174,17 @@ ${janee('gebruiktOpvang', F.gebruiktOpvang, 'nee')}
       .join('');
     return formulier(
       'zzp',
-      `<div class="stap"><h3><span>1</span> Je winst tot nu toe</h3>
+      `<div class="stap"><h2><span>1</span> Je winst tot nu toe</h2>
 ${bedrag('winstTotNu', 'Winst dit jaar tot nu toe', { hint: 'Omzet min kosten, zoals in je boekhouding (Moneybird, e-Boekhouden, Jortt…).', placeholder: '18.000', required: true })}
 <div class="veld"><label for="${m}">Over welke periode?</label><select id="${m}" name="maand" class="kort" style="max-width:220px">${opties}</select></div>
 ${bedrag('verwachteJaarwinst', 'Of: verwachte winst over het hele jaar (optioneel)', { hint: 'Weet je dat je nog grote opdrachten krijgt of juist een rustige periode hebt? Vul dan je eigen schatting in.', placeholder: '' })}
 ${vinkje('urencriterium', 'Ik werk minimaal 1.225 uur per jaar aan mijn bedrijf (urencriterium)', '', true)}
 ${bedrag('ander', 'Ander inkomen dit jaar (optioneel)', { hint: 'Bijvoorbeeld loon uit een baan naast je bedrijf.', placeholder: '0' })}
 </div>
-<div class="stap"><h3><span>2</span> Wat heb je opgegeven bij Toeslagen?</h3>
+<div class="stap"><h2><span>2</span> Wat heb je opgegeven bij Toeslagen?</h2>
 ${bedrag('opgegevenInkomen', 'Inkomen dat nu in Mijn toeslagen staat', { hint: 'Staat in Mijn toeslagen of op je laatste beschikking. Met partner: jullie samen.', placeholder: '25.000', required: true })}
 </div>
-<div class="stap"><h3><span>3</span> Je situatie</h3>
+<div class="stap"><h2><span>3</span> Je situatie</h2>
 ${janee('partner', 'Heb je een toeslagpartner?', 'nee')}
 <div data-toon-bij="partner">${bedrag('partnerInkomen', 'Verwacht inkomen partner dit jaar', { placeholder: '0' })}</div>
 ${janee('huurt', 'Huur je een zelfstandige woning?', 'ja')}

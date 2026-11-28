@@ -91,8 +91,8 @@ input.kort { max-width: 140px; }
 .vinkje .hint { flex-basis: 100%; }
 .stap { border-top: 1px solid var(--lijn); padding-top: 4px; }
 .stap:first-child { border-top: 0; }
-.stap h3 { display: flex; align-items: center; gap: 10px; margin: 16px 0 14px; }
-.stap h3 span { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--merk); color: #fff; font-size: 0.9rem; }
+.stap h2 { display: flex; align-items: center; gap: 10px; margin: 16px 0 14px; }
+.stap h2 span { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--merk); color: #fff; font-size: 0.9rem; }
 .kids { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
 .kids label { font-weight: 500 !important; font-size: 0.9rem; }
 .kids select { width: 170px; }
@@ -235,7 +235,7 @@ textarea { font: 0.85rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; wid
 .voortgang .balk i { display: block; height: 100%; background: var(--merk); border-radius: 99px; transition: width .25s; }
 .stap-knoppen { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 8px; }
 .stap-knoppen .knop, .stap-knoppen .knop-licht { width: auto; min-height: 50px; }
-.stap h3:focus { outline: none; }
+.stap h2:focus { outline: none; }
 .hulp { margin: 40px 0 0; background: var(--vlak); border: 1px solid var(--lijn); border-left: 5px solid var(--merk); border-radius: var(--radius); padding: 16px 20px; }
 .hulp h2 { margin: 0 0 6px; font-size: 1.15rem; }
 .hulp ul { margin: 0; padding-left: 20px; }

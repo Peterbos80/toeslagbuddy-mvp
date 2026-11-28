@@ -5,7 +5,7 @@ import { zorgtoeslag, huurtoeslag, kindgebondenBudget, euro as euroNl } from '..
 import { teksten } from '../i18n/i18n.js';
 
 function tabel(kop, rijen) {
-  return `<div class="tabel-scroll"><table><thead><tr>${kop.map((k) => `<th scope="col">${k}</th>`).join('')}</tr></thead>
+  return `<div class="tabel-scroll"><table><thead><tr>${kop.map((k) => (k ? `<th scope="col">${k}</th>` : '<td></td>')).join('')}</tr></thead>
 <tbody>${rijen.map((r) => `<tr>${r.map((c, i) => (i === 0 ? `<th scope="row">${c}</th>` : `<td>${c}</td>`)).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
 

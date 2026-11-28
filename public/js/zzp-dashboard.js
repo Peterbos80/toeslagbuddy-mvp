@@ -53,7 +53,7 @@ function toon() {
     )
     .join('');
   sectie.querySelector('[data-overzicht]').innerHTML = lijst.length
-    ? `<div class="tabel-scroll"><table><thead><tr><th>Datum</th><th>Winst tot dan</th><th>Verwacht inkomen</th><th>Opgegeven</th><th>Verschil toeslag/jaar</th></tr></thead><tbody>${rijen}</tbody></table></div>`
+    ? `<div class="tabel-scroll" tabindex="0" role="region" aria-label="Je bewaarde checks"><table><thead><tr><th>Datum</th><th>Winst tot dan</th><th>Verwacht inkomen</th><th>Opgegeven</th><th>Verschil toeslag/jaar</th></tr></thead><tbody>${rijen}</tbody></table></div>`
     : '<p class="subtiel">Nog niets bewaard. Doe de check hierboven en klik op “Bewaar deze check”.</p>';
 }
 
