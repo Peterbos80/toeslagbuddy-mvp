@@ -1,0 +1,220 @@
+{
+ "familie": {
+  "titel": "Samen de zaken van je ouders regelen",
+  "src": "/video/uitleg/familie-verticaal.mp4",
+  "poster": "/video/uitleg/familie-verticaal.jpg",
+  "breedte": 1080,
+  "hoogte": 1920,
+  "duur": 60.1,
+  "stem": "nl_NL-ronnie-medium",
+  "ai": false,
+  "credits": [
+   {
+    "fotograaf": "Coverr-Free-Footage",
+    "fotograafUrl": "https://pixabay.com/users/Coverr-Free-Footage-1281706/",
+    "url": "https://pixabay.com/videos/id-8256/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "Amorn_mimi",
+    "fotograafUrl": "https://pixabay.com/users/Amorn_mimi-27759397/",
+    "url": "https://pixabay.com/videos/id-124254/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "chayka1270",
+    "fotograafUrl": "https://pixabay.com/users/chayka1270-5469348/",
+    "url": "https://pixabay.com/videos/id-9490/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "Sidibe_KaGaks",
+    "fotograafUrl": "https://pixabay.com/users/Sidibe_KaGaks-7142499/",
+    "url": "https://pixabay.com/videos/id-27331/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "Amorn_mimi",
+    "fotograafUrl": "https://pixabay.com/users/Amorn_mimi-27759397/",
+    "url": "https://pixabay.com/videos/id-186535/",
+    "platform": "Pixabay"
+   }
+  ],
+  "hash": "7e72b5ca278e"
+ },
+ "besparen": {
+  "titel": "Is die korting echt?",
+  "src": "/video/uitleg/besparen-verticaal.mp4",
+  "poster": "/video/uitleg/besparen-verticaal.jpg",
+  "breedte": 1080,
+  "hoogte": 1920,
+  "duur": 42.2,
+  "stem": "nl_NL-ronnie-medium",
+  "ai": false,
+  "credits": [
+   {
+    "fotograaf": "Matthias_Groeneveld",
+    "fotograafUrl": "https://pixabay.com/users/Matthias_Groeneveld-4535957/",
+    "url": "https://pixabay.com/videos/id-63970/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "elchao",
+    "fotograafUrl": "https://pixabay.com/users/elchao-230475/",
+    "url": "https://pixabay.com/videos/id-736/",
+    "platform": "Pixabay"
+   }
+  ],
+  "hash": "96c72ec94a57"
+ },
+ "toeslagen": {
+  "titel": "Mis je toeslag?",
+  "src": "/video/uitleg/toeslagen-verticaal.mp4",
+  "poster": "/video/uitleg/toeslagen-verticaal.jpg",
+  "breedte": 1080,
+  "hoogte": 1920,
+  "duur": 32.1,
+  "stem": "nl_NL-ronnie-medium",
+  "ai": false,
+  "credits": [
+   {
+    "fotograaf": "RainMeditateHub",
+    "fotograafUrl": "https://pixabay.com/users/RainMeditateHub-51172146/",
+    "url": "https://pixabay.com/videos/id-293083/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "conte_public",
+    "fotograafUrl": "https://pixabay.com/users/conte_public-41658361/",
+    "url": "https://pixabay.com/videos/id-209854/",
+    "platform": "Pixabay"
+   }
+  ],
+  "hash": "2a0c660c05cd"
+ },
+ "pro": {
+  "titel": "Alle cliënten in één keer gecontroleerd",
+  "src": "/video/uitleg/pro-verticaal.mp4",
+  "poster": "/video/uitleg/pro-verticaal.jpg",
+  "breedte": 1080,
+  "hoogte": 1920,
+  "duur": 31.5,
+  "stem": "nl_NL-ronnie-medium",
+  "ai": false,
+  "credits": [
+   {
+    "fotograaf": "tolomedia43",
+    "fotograafUrl": "https://pixabay.com/users/tolomedia43-22510349/",
+    "url": "https://pixabay.com/videos/id-87146/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "chuduyen215",
+    "fotograafUrl": "https://pixabay.com/users/chuduyen215-13161249/",
+    "url": "https://pixabay.com/videos/id-27092/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "MuhammadAhmad10",
+    "fotograafUrl": "https://pixabay.com/users/MuhammadAhmad10-46165548/",
+    "url": "https://pixabay.com/videos/id-349094/",
+    "platform": "Pixabay"
+   }
+  ],
+  "hash": "fd81054cf98e"
+ },
+ "zzp": {
+  "titel": "Toeslagbewaker voor zzp’ers",
+  "src": "/video/uitleg/zzp-verticaal.mp4",
+  "poster": "/video/uitleg/zzp-verticaal.jpg",
+  "breedte": 1080,
+  "hoogte": 1920,
+  "duur": 26,
+  "stem": "nl_NL-ronnie-medium",
+  "ai": false,
+  "credits": [
+   {
+    "fotograaf": "Yulia_Repnikova",
+    "fotograafUrl": "https://pixabay.com/users/Yulia_Repnikova-13742627/",
+    "url": "https://pixabay.com/videos/id-263221/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "Josh_Malic",
+    "fotograafUrl": "https://pixabay.com/users/Josh_Malic-16268690/",
+    "url": "https://pixabay.com/videos/id-64215/",
+    "platform": "Pixabay"
+   }
+  ],
+  "hash": "2772ee62c138"
+ },
+ "zorgtoeslag": {
+  "titel": "Zorgtoeslag in 1 minuut",
+  "src": "/video/uitleg/zorgtoeslag-verticaal.mp4",
+  "poster": "/video/uitleg/zorgtoeslag-verticaal.jpg",
+  "breedte": 1080,
+  "hoogte": 1920,
+  "duur": 22.8,
+  "stem": "nl_NL-ronnie-medium",
+  "ai": false,
+  "credits": [
+   {
+    "fotograaf": "Life-Of-Vids",
+    "fotograafUrl": "https://pixabay.com/users/Life-Of-Vids-1282862/",
+    "url": "https://pixabay.com/videos/id-197/",
+    "platform": "Pixabay"
+   }
+  ],
+  "hash": "e78a1470dc68"
+ },
+ "verpleeghuis": {
+  "titel": "Wat kost het verpleeghuis?",
+  "src": "/video/uitleg/verpleeghuis-verticaal.mp4",
+  "poster": "/video/uitleg/verpleeghuis-verticaal.jpg",
+  "breedte": 1080,
+  "hoogte": 1920,
+  "duur": 39.3,
+  "stem": "nl_NL-ronnie-medium",
+  "ai": false,
+  "credits": [
+   {
+    "fotograaf": "Amorn_mimi",
+    "fotograafUrl": "https://pixabay.com/users/Amorn_mimi-27759397/",
+    "url": "https://pixabay.com/videos/id-229069/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "Coverr-Free-Footage",
+    "fotograafUrl": "https://pixabay.com/users/Coverr-Free-Footage-1281706/",
+    "url": "https://pixabay.com/videos/id-10822/",
+    "platform": "Pixabay"
+   }
+  ],
+  "hash": "60c21671a0e9"
+ },
+ "na-overlijden": {
+  "titel": "Na een overlijden: wat moet er geregeld?",
+  "src": "/video/uitleg/na-overlijden-verticaal.mp4",
+  "poster": "/video/uitleg/na-overlijden-verticaal.jpg",
+  "breedte": 1080,
+  "hoogte": 1920,
+  "duur": 25.6,
+  "stem": "nl_NL-ronnie-medium",
+  "ai": false,
+  "credits": [
+   {
+    "fotograaf": "adege",
+    "fotograafUrl": "https://pixabay.com/users/adege-4994132/",
+    "url": "https://pixabay.com/videos/id-17869/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "SYG_Anime",
+    "fotograafUrl": "https://pixabay.com/users/SYG_Anime-7158719/",
+    "url": "https://pixabay.com/videos/id-130645/",
+    "platform": "Pixabay"
+   }
+  ],
+  "hash": "85bb69bc0bd7"
+ }
+}

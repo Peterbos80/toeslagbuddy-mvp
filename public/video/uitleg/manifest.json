@@ -4,7 +4,7 @@
   "src": "/video/uitleg/familie.mp4",
   "poster": "/video/uitleg/familie.jpg",
   "vtt": "/video/uitleg/familie.vtt",
-  "duur": 59.3,
+  "duur": 60.1,
   "stem": "nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
@@ -27,27 +27,27 @@
     "platform": "Pixabay"
    },
    {
-    "fotograaf": "LisaRedfern",
-    "fotograafUrl": "https://pixabay.com/users/LisaRedfern-910282/",
-    "url": "https://pixabay.com/videos/id-19685/",
+    "fotograaf": "Sidibe_KaGaks",
+    "fotograafUrl": "https://pixabay.com/users/Sidibe_KaGaks-7142499/",
+    "url": "https://pixabay.com/videos/id-27331/",
     "platform": "Pixabay"
    },
    {
-    "fotograaf": "Matthias_Groeneveld",
-    "fotograafUrl": "https://pixabay.com/users/Matthias_Groeneveld-4535957/",
-    "url": "https://pixabay.com/videos/id-20267/",
+    "fotograaf": "Amorn_mimi",
+    "fotograafUrl": "https://pixabay.com/users/Amorn_mimi-27759397/",
+    "url": "https://pixabay.com/videos/id-186535/",
     "platform": "Pixabay"
    }
   ],
   "transcript": "Regel jij de zaken van je vader of moeder? Dan weet je hoe het gaat: brieven, termijnen en rekeningen, verspreid over de hele familie. In de regelkamer zie je samen wat er speelt. Elke termijn staat in de kalender, met de bron erbij. Zo mist niemand iets. Snap je een brief niet? Plak de tekst. Je ziet meteen wat er staat, wat je moet doen en vóór wanneer. Een burgerservicenummer halen we er direct uit. Wie geld uitgeeft, legt het vast in het logboek. Elke regel blijft zichtbaar, ook als hij wordt verbeterd. Zo kan iedereen meekijken. En als het moment komt, staat het stappenplan klaar. Met alle termijnen, en een opzegbrief voor elk contract. Probeer het gratis op toeslagbuddy.nl/familie. Je gegevens blijven op je eigen apparaat.",
-  "hash": "cacf8fcbdcac"
+  "hash": "cd35b661a833"
  },
  "besparen": {
   "titel": "Is die korting echt?",
   "src": "/video/uitleg/besparen.mp4",
   "poster": "/video/uitleg/besparen.jpg",
   "vtt": "/video/uitleg/besparen.vtt",
-  "duur": 42.5,
+  "duur": 42.2,
   "stem": "nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
@@ -62,23 +62,17 @@
     "fotograafUrl": "https://pixabay.com/users/elchao-230475/",
     "url": "https://pixabay.com/videos/id-736/",
     "platform": "Pixabay"
-   },
-   {
-    "fotograaf": "chayka1270",
-    "fotograafUrl": "https://pixabay.com/users/chayka1270-5469348/",
-    "url": "https://pixabay.com/videos/id-11987/",
-    "platform": "Pixabay"
    }
   ],
   "transcript": "Vijftig procent korting. Maar was de prijs ooit echt zo hoog? Wij kijken naar de gangbare prijs: wat een product de afgelopen negentig dagen meestal kostte, bij meerdere winkels, inclusief verzendkosten. Zo zie je in één oogopslag of het een echte deal is. En met een partnerlink krijgen wij soms een kleine vergoeding. Dat staat er altijd bij, en het verandert de volgorde niet. Zoek je iets? Zet een jager aan. Die houdt de prijzen voor je in de gaten en zegt eerlijk: nu kopen, of wachten. Kijk op toeslagbuddy.nl/deals",
-  "hash": "bebe8671feb8"
+  "hash": "1c7e9c5dc535"
  },
  "toeslagen": {
   "titel": "Mis je toeslag?",
   "src": "/video/uitleg/toeslagen.mp4",
   "poster": "/video/uitleg/toeslagen.jpg",
   "vtt": "/video/uitleg/toeslagen.vtt",
-  "duur": 32.3,
+  "duur": 32.1,
   "stem": "nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
@@ -96,14 +90,14 @@
    }
   ],
   "transcript": "Veel mensen krijgen geen toeslag, terwijl ze er wel recht op hebben. Jaar na jaar. Bereken in twee minuten je zorgtoeslag, huurtoeslag, kindgebonden budget en kinderopvangtoeslag. Gratis, en zonder in te loggen. Binnen twee minuten zie je waar je recht op hebt. Soms is dat meer dan je dacht. Je ziet ook of je moet terugbetalen. Zo pas je je voorschot op tijd aan. Begin op toeslagbuddy.nl",
-  "hash": "feac960c6045"
+  "hash": "58dc381557eb"
  },
  "pro": {
   "titel": "Alle cliënten in één keer gecontroleerd",
   "src": "/video/uitleg/pro.mp4",
   "poster": "/video/uitleg/pro.jpg",
   "vtt": "/video/uitleg/pro.vtt",
-  "duur": 31.8,
+  "duur": 31.5,
   "stem": "nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
@@ -127,21 +121,21 @@
    }
   ],
   "transcript": "Als bewindvoerder of budgetcoach wil je dat elke cliënt krijgt waar hij recht op heeft. Maar alles per cliënt narekenen kost uren. Zet je cliëntenlijst erin. De controle draait in je eigen browser, dus de gegevens blijven bij jou. Binnen een minuut zie je wie geld misloopt, wie een te hoog voorschot heeft, en welke regeling nog kan worden aangevraagd. Probeer het 7 dagen gratis op toeslagbuddy.nl/pro",
-  "hash": "08041b627a10"
+  "hash": "26d02ddedd25"
  },
  "zzp": {
   "titel": "Toeslagbewaker voor zzp’ers",
   "src": "/video/uitleg/zzp.mp4",
   "poster": "/video/uitleg/zzp.jpg",
   "vtt": "/video/uitleg/zzp.vtt",
-  "duur": 26.1,
+  "duur": 26,
   "stem": "nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
    {
-    "fotograaf": "jamescheney82",
-    "fotograafUrl": "https://pixabay.com/users/jamescheney82-2913757/",
-    "url": "https://pixabay.com/videos/id-92480/",
+    "fotograaf": "Yulia_Repnikova",
+    "fotograafUrl": "https://pixabay.com/users/Yulia_Repnikova-13742627/",
+    "url": "https://pixabay.com/videos/id-263221/",
     "platform": "Pixabay"
    },
    {
@@ -152,14 +146,14 @@
    }
   ],
   "transcript": "Als zzp’er schommelt je winst. En daarmee je toeslag. Een te hoog voorschot merk je pas als je moet terugbetalen. Vul je winst tot nu toe in. Je ziet meteen of je voorschot nog klopt, en welk jaarinkomen je beter kunt opgeven. Zo voorkom je een terugvordering. Probeer het gratis op toeslagbuddy.nl/zzp-toeslagen",
-  "hash": "9dd09d561785"
+  "hash": "54186bed98b9"
  },
  "zorgtoeslag": {
   "titel": "Zorgtoeslag in 1 minuut",
   "src": "/video/uitleg/zorgtoeslag.mp4",
   "poster": "/video/uitleg/zorgtoeslag.jpg",
   "vtt": "/video/uitleg/zorgtoeslag.vtt",
-  "duur": 22.9,
+  "duur": 22.8,
   "stem": "nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
@@ -171,7 +165,7 @@
    }
   ],
   "transcript": "Heb je een zorgverzekering en een niet te hoog inkomen? Dan krijg je misschien zorgtoeslag. Vul je inkomen en je situatie in. In een minuut zie je wat je per maand krijgt, en wat je moet doen om het aan te vragen. Gratis en zonder inloggen. Op toeslagbuddy.nl/zorgtoeslag-berekenen",
-  "hash": "a1f0ae841c55"
+  "hash": "36c9569e6bb5"
  },
  "verpleeghuis": {
   "titel": "Wat kost het verpleeghuis?",
@@ -196,14 +190,14 @@
    }
   ],
   "transcript": "Gaat je vader of moeder naar een verpleeghuis? Dan betaalt hij of zij een eigen bijdrage aan het CAK. Hoe hoog, hangt af van inkomen en vermogen. Onze rekenhulp gebruikt de rekenmethode van het CAK. In 2026 is de lage eigen bijdrage minimaal € 212,60 en maximaal € 1.115,80 per maand. Je ziet stap voor stap hoe het is berekend. Het CAK stelt de bijdrage vast. Reken het na op toeslagbuddy.nl/familie",
-  "hash": "edd9be257451"
+  "hash": "ccca78eb1f82"
  },
  "na-overlijden": {
   "titel": "Na een overlijden: wat moet er geregeld?",
   "src": "/video/uitleg/na-overlijden.mp4",
   "poster": "/video/uitleg/na-overlijden.jpg",
   "vtt": "/video/uitleg/na-overlijden.vtt",
-  "duur": 25.5,
+  "duur": 25.6,
   "stem": "nl_NL-ronnie-medium",
   "ai": false,
   "credits": [
@@ -214,13 +208,13 @@
     "platform": "Pixabay"
    },
    {
-    "fotograaf": "Elbo",
-    "fotograafUrl": "https://pixabay.com/users/Elbo-1088615/",
-    "url": "https://pixabay.com/videos/id-48702/",
+    "fotograaf": "SYG_Anime",
+    "fotograafUrl": "https://pixabay.com/users/SYG_Anime-7158719/",
+    "url": "https://pixabay.com/videos/id-130645/",
     "platform": "Pixabay"
    }
   ],
   "transcript": "Als een ouder overlijdt, komt er veel tegelijk op je af. En sommige dingen hebben een termijn. De checklist zet alles op volgorde, tot en met de aangifte erfbelasting: binnen 20 maanden na het overlijden. Vink af wat klaar is, samen met de familie. Gratis op toeslagbuddy.nl/familie",
-  "hash": "c8a124369b3f"
+  "hash": "c652bb05f065"
  }
 }
