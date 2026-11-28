@@ -96,7 +96,7 @@ export const pages = [
     anker: 'check',
     body: () => `
 <h2>Alle toeslagen en regelingen op een rij</h2>
-<p>Duizenden huishoudens laten elk jaar geld liggen, simpelweg omdat ze niet weten dat ze recht hebben op een toeslag. Met ToeslagBuddy check je alles in één keer.</p>
+<p>Veel mensen laten elk jaar geld liggen. Ze weten niet dat ze recht hebben op een toeslag. Hier check je alles in één keer.</p>
 ${kaartenAlle}
 ${nieuws.items.length ? `<h2>Laatste nieuws over toeslagen</h2>${nieuwsLijst(nieuws.items.slice(0, 3))}<p><a href="/nieuws/">Meer nieuws →</a></p>` : ''}
 <h2>Wat is er veranderd in ${JAAR}?</h2>
@@ -114,7 +114,7 @@ ${nieuws.items.length ? `<h2>Laatste nieuws over toeslagen</h2>${nieuwsLijst(nie
 <li><strong>In gewone taal</strong> – geen ambtelijke termen, wel uitleg bij elke vraag.</li>
 </ul>`,
     faq: [
-      ['Hoeveel toeslag krijg ik?', 'Dat hangt af van je inkomen, vermogen, huur, gezinssituatie en kinderen. Met de toeslagen-check bovenaan deze pagina zie je in 2 minuten een indicatie van alle toeslagen samen.'],
+      ['Hoeveel toeslag krijg ik?', 'Dat hangt af van je inkomen, je spaargeld, je huur en je gezin. Doe de check bovenaan deze pagina. Dan zie je in 2 minuten wat je ongeveer krijgt.'],
       ['Is deze berekening officieel?', 'Nee. ToeslagBuddy is een onafhankelijke rekenhulp. De berekening is gebaseerd op de officiële rekenregels, maar alleen Dienst Toeslagen stelt vast hoeveel je echt krijgt. Vraag je toeslag altijd aan via toeslagen.nl.'],
       ['Moet ik inloggen met DigiD?', 'Niet voor deze berekening. Voor het aanvragen van een toeslag bij Dienst Toeslagen heb je wel DigiD nodig.'],
       ['Wat gebeurt er met mijn gegevens?', 'Niets. De berekening draait volledig in je browser. Je antwoorden worden niet naar ons of iemand anders verstuurd.'],

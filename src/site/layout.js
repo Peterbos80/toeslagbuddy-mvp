@@ -348,7 +348,7 @@ ${S.hulp}
 </main>
 <footer class="site"><div class="wrap">
 <div class="voet-top">
-<div class="voet-merk">${logo}<p>${S.merkregel}</p></div>
+<div class="voet-merk">${logo}<p>${S.merkregel}</p>${S.hulplijnen ? `<p class="hulplijnen">${S.hulplijnen}</p>` : ''}</div>
 <div class="kolommen">${S.footer.map(([kop, links]) => `<div><h2>${kop}</h2><ul>${links.map(voetLink).join('')}</ul></div>`).join('')}</div>
 </div>
 ${config.instagram.account ? `<p>${S.instagram(`https://www.instagram.com/${esc(config.instagram.account)}/`, esc(config.instagram.account))}</p>` : ''}

@@ -18,9 +18,10 @@
   --vlak: #ffffff;
   --vlak-2: #f3eee6;
   --tekst: #1c2826;
-  --zacht: #55625f;
+  --zacht: #48544f;             /* hints en bijschriften: ≥ 7:1 */
   --lijn: #e4ded3;
   --lijn-sterk: #b9b0a1;
+  --veld-rand: #8a8173;          /* rand van invoervelden: ≥ 3:1 (WCAG 1.4.11) */
   --merk: #1f6b5a;
   --merk-donker: #154d41;
   --merk-licht: #e2efea;
@@ -70,6 +71,7 @@
     --zacht: #a9b4b0;
     --lijn: #2a3633;
     --lijn-sterk: #55635f;
+    --veld-rand: #6b7975;
     --merk: #76c9b1;
     --merk-donker: #a3ddca;
     --merk-licht: #17322b;
@@ -208,12 +210,12 @@ footer.site .bedrijf a, footer.site .disclaimer a, footer.site p > a { padding: 
 /* ── 6. Knoppen ── */
 .knop, .knop-licht, .knop-stil { font-family: var(--font); font-weight: 700; border-radius: 14px; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; line-height: 1.2; text-align: center; transition: background .15s var(--ease), transform .15s var(--ease), box-shadow .15s var(--ease), border-color .15s var(--ease); }
 .knop { background: var(--merk-vast); color: #fff; box-shadow: 0 1px 0 rgb(255 255 255 / 18%) inset, 0 8px 20px -10px color-mix(in srgb, var(--merk-vast) 80%, transparent); padding: 13px 24px; overflow: visible; }
-.knop:hover { background: var(--merk-vast-hover); color: #fff; transform: translateY(-1px); box-shadow: 0 1px 0 rgb(255 255 255 / 18%) inset, 0 12px 24px -10px color-mix(in srgb, var(--merk-vast) 90%, transparent); }
+.knop:hover { background: var(--merk-vast-hover); color: #fff; box-shadow: 0 1px 0 rgb(255 255 255 / 18%) inset, 0 12px 24px -10px color-mix(in srgb, var(--merk-vast) 90%, transparent); }
 .knop:active { transform: translateY(0); }
 .knop::after { display: none !important; }
 .knop.groot { font-size: 1.15rem; padding: 16px 30px; border-radius: 16px; }
 .knop-licht { background: var(--vlak); color: var(--tekst); border: 1px solid var(--lijn-sterk); padding: 11px 18px; }
-.knop-licht:hover { background: var(--vlak-2); border-color: var(--tekst); color: var(--tekst); transform: translateY(-1px); }
+.knop-licht:hover { background: var(--vlak-2); border-color: var(--tekst); color: var(--tekst); }
 .knop-stil { background: none; border: 0; color: var(--merk); padding: 11px 12px; cursor: pointer; font-size: 1rem; text-decoration: underline; text-underline-offset: 3px; }
 .knop-stil:hover { color: var(--merk-donker); background: var(--vlak-2); }
 .knop[disabled], .knop-licht[disabled] { opacity: .55; cursor: not-allowed; transform: none; }
@@ -272,7 +274,7 @@ aside.zij li a:hover { text-decoration: underline; }
 .pro-tabs button[aria-selected='true'] { background: var(--tekst); color: var(--bg); }
 
 /* ── 8. Formulieren ── */
-input, select, textarea { font-family: var(--font); border: 1.5px solid var(--lijn-sterk); border-radius: var(--radius-s); background: var(--vlak); min-height: 48px; transition: border-color .15s var(--ease), box-shadow .15s var(--ease); }
+input, select, textarea { font-family: var(--font); border: 1.5px solid var(--veld-rand); border-radius: var(--radius-s); background: var(--vlak); min-height: 48px; transition: border-color .15s var(--ease), box-shadow .15s var(--ease); }
 input:hover, select:hover, textarea:hover { border-color: var(--zacht); }
 input:focus, select:focus, textarea:focus { outline: none; border-color: var(--merk); box-shadow: 0 0 0 4px color-mix(in srgb, var(--merk) 22%, transparent); }
 .rekenhulp legend, .rekenhulp label, .rekenhulp .label, .aanvraag label { font-weight: 700; }
@@ -428,3 +430,11 @@ main .speler-titel, main .speler-label, main .voortgang-tekst, main .privacy-noo
 .kruimel a { display: inline-block; padding: 12px 4px; margin: -12px -4px; }
 .chip, nav.hoofd a { min-height: 44px; }
 nav.hoofd a, .chip { display: inline-flex; align-items: center; }
+
+/* Volgende stap na een uitkomst: gratis zelf aanvragen, waarschuwing voor bureaus */
+.volgende { margin-top: 18px; padding: 16px 18px; border-radius: var(--radius-s); background: var(--merk-licht); border: 1px solid color-mix(in srgb, var(--merk) 30%, transparent); font-size: 1rem; }
+.volgende p { margin: 0; }
+.volgende p + p { margin-top: 8px; }
+.volgende-let { color: var(--tekst); }
+.hulplijnen { margin-top: 10px; font-size: .95rem; color: var(--voet-tekst); } .hulplijnen a { color: var(--voet-tekst); font-weight: 700; }
+.knop:hover, .knop-licht:hover { transform: none; } /* niet verschuiven: voorkomt trillen als de muis op de rand staat */

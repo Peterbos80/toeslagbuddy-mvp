@@ -474,6 +474,39 @@ document.querySelectorAll('form[data-calc]').forEach((form) => {
   const inkomenVeld = form.querySelector('[name=inkomen]');
   if (vooraf && inkomenVeld) inkomenVeld.value = vooraf;
 
+  // Antwoorden onthouden tot het tabblad dicht gaat (sessionStorage, alleen
+  // op dit apparaat): per ongeluk herladen kost dan geen werk.
+  const sleutel = `tb-invoer-${form.dataset.calc}`;
+  const bewaar = () => {
+    try {
+      sessionStorage.setItem(sleutel, JSON.stringify([...new FormData(form)].filter(([, v]) => typeof v === 'string')));
+    } catch {
+      /* opslag uit: dan onthouden we niets */
+    }
+  };
+  if (!vooraf) {
+    let opgeslagen = null;
+    try {
+      opgeslagen = JSON.parse(sessionStorage.getItem(sleutel) || 'null');
+    } catch {
+      opgeslagen = null;
+    }
+    // Twee rondes: velden die pas verschijnen na een keuze (bijv. leeftijd per kind)
+    if (Array.isArray(opgeslagen)) {
+      for (let ronde = 0; ronde < 2; ronde++) {
+        for (const [naam, waarde] of opgeslagen) {
+          for (const el of form.querySelectorAll(`[name="${CSS.escape(naam)}"]`)) {
+            if (el.type === 'radio' || el.type === 'checkbox') el.checked = el.value === waarde;
+            else el.value = waarde;
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        }
+      }
+    }
+  }
+  form.addEventListener('input', bewaar);
+  form.addEventListener('change', bewaar);
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (render(form, { focus: true })) form.nextElementSibling.scrollIntoView({ behavior: 'smooth', block: 'start' });

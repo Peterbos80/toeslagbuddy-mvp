@@ -1,0 +1,285 @@
+[
+ {
+  "persona": "Henk (71, AOW, slecht zicht, telefoon met grote tekst)",
+  "taken": [
+   {
+    "doel": "Weten of hij zorgtoeslag krijgt en hoeveel",
+    "gelukt": true,
+    "mislukt": null,
+    "handelingen": 4,
+    "seconden": 19.6,
+    "fouten": [],
+    "paginas": {
+     "/": {
+      "kleinsteTekst": 18,
+      "kleineDoelen": [],
+      "breedte": 320,
+      "viewport": 320,
+      "kb": 374,
+      "leesbaarheid": 50
+     },
+     "/zorgtoeslag-berekenen/": {
+      "kleinsteTekst": 18,
+      "kleineDoelen": [],
+      "breedte": 320,
+      "viewport": 320,
+      "kb": 375,
+      "leesbaarheid": 59
+     }
+    }
+   }
+  ]
+ },
+ {
+  "persona": "Ilse (36, alleenstaande moeder, weinig tijd, telefoon)",
+  "taken": [
+   {
+    "doel": "In één keer al haar toeslagen zien",
+    "gelukt": true,
+    "mislukt": null,
+    "handelingen": 10,
+    "seconden": 2,
+    "fouten": [],
+    "paginas": {
+     "/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [
+       "a \"Student\" 86×40",
+       "a \"Alleenstaande ouder\" 172×40",
+       "a \"AOW\" 67×40",
+       "a \"Zzp\" 56×40",
+       "a \"Alleen huurtoeslag\" 159×40"
+      ],
+      "breedte": 390,
+      "viewport": 390,
+      "kb": 374,
+      "leesbaarheid": 50
+     }
+    }
+   },
+   {
+    "doel": "Na per ongeluk herladen niet opnieuw beginnen",
+    "gelukt": true,
+    "mislukt": null,
+    "handelingen": 2,
+    "seconden": 0.6,
+    "fouten": [],
+    "paginas": {
+     "/zorgtoeslag-berekenen/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [],
+      "breedte": 390,
+      "viewport": 390,
+      "kb": 375,
+      "leesbaarheid": 59
+     }
+    }
+   }
+  ]
+ },
+ {
+  "persona": "Sanne (21, student, telefoon)",
+  "taken": [
+   {
+    "doel": "Huurtoeslag voor haar studio uitrekenen",
+    "gelukt": true,
+    "mislukt": null,
+    "handelingen": 4,
+    "seconden": 0.9,
+    "fouten": [],
+    "paginas": {
+     "/toeslagen-student/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [],
+      "breedte": 390,
+      "viewport": 390,
+      "kb": 313,
+      "leesbaarheid": 68
+     },
+     "/huurtoeslag-berekenen/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [],
+      "breedte": 390,
+      "viewport": 390,
+      "kb": 317,
+      "leesbaarheid": 67
+     }
+    }
+   }
+  ]
+ },
+ {
+  "persona": "Karin (54, mantelzorger voor haar moeder, laptop)",
+  "taken": [
+   {
+    "doel": "Weten wat het verpleeghuis haar moeder gaat kosten",
+    "gelukt": true,
+    "mislukt": null,
+    "handelingen": 4,
+    "seconden": 1.1,
+    "fouten": [],
+    "paginas": {
+     "/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [],
+      "breedte": 1280,
+      "viewport": 1280,
+      "kb": 374,
+      "leesbaarheid": 53
+     },
+     "/familie/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [],
+      "breedte": 1280,
+      "viewport": 1280,
+      "kb": 293,
+      "leesbaarheid": 67
+     },
+     "/familie/rekenhulp/verpleeghuis/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [],
+      "breedte": 1280,
+      "viewport": 1280,
+      "kb": 325,
+      "leesbaarheid": 76
+     }
+    }
+   },
+   {
+    "doel": "Na het overlijden van haar vader weten wat eerst moet",
+    "gelukt": true,
+    "mislukt": null,
+    "handelingen": 1,
+    "seconden": 0.4,
+    "fouten": [],
+    "paginas": {
+     "/familie/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [],
+      "breedte": 1280,
+      "viewport": 1280,
+      "kb": 293,
+      "leesbaarheid": 67
+     },
+     "/familie/checklist/na-overlijden/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [],
+      "breedte": 1280,
+      "viewport": 1280,
+      "kb": 282,
+      "leesbaarheid": 61
+     }
+    }
+   }
+  ]
+ },
+ {
+  "persona": "Dani (29, zzp, wisselend inkomen, laptop)",
+  "taken": [
+   {
+    "doel": "Zien of zijn toeslagvoorschot nog klopt",
+    "gelukt": true,
+    "mislukt": null,
+    "handelingen": 8,
+    "seconden": 1.8,
+    "fouten": [],
+    "paginas": {
+     "/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [],
+      "breedte": 1280,
+      "viewport": 1280,
+      "kb": 374,
+      "leesbaarheid": 53
+     },
+     "/zzp-toeslagen/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [],
+      "breedte": 1280,
+      "viewport": 1280,
+      "kb": 389,
+      "leesbaarheid": 74
+     }
+    }
+   }
+  ]
+ },
+ {
+  "persona": "Mo (34, vader, wil geen nepkorting, telefoon)",
+  "taken": [
+   {
+    "doel": "Zien of een koptelefoon nu echt goedkoper is",
+    "gelukt": true,
+    "mislukt": null,
+    "handelingen": 3,
+    "seconden": 0.9,
+    "fouten": [],
+    "paginas": {
+     "/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [
+       "a \"Student\" 86×40",
+       "a \"Alleenstaande ouder\" 172×40",
+       "a \"AOW\" 67×40",
+       "a \"Zzp\" 56×40",
+       "a \"Alleen huurtoeslag\" 159×40"
+      ],
+      "breedte": 390,
+      "viewport": 390,
+      "kb": 374,
+      "leesbaarheid": 50
+     },
+     "/deals/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [
+       "input \"0\" 316×36"
+      ],
+      "breedte": 390,
+      "viewport": 390,
+      "kb": 430,
+      "leesbaarheid": 68
+     }
+    }
+   }
+  ]
+ },
+ {
+  "persona": "Fatima (45, bewindvoerder, 60 cliënten, laptop)",
+  "taken": [
+   {
+    "doel": "De demo van de bulkcheck bekijken",
+    "gelukt": true,
+    "mislukt": null,
+    "handelingen": 2,
+    "seconden": 0.7,
+    "fouten": [],
+    "paginas": {
+     "/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [],
+      "breedte": 1440,
+      "viewport": 1440,
+      "kb": 374,
+      "leesbaarheid": 53
+     },
+     "/pro/": {
+      "kleinsteTekst": 14.88,
+      "kleineDoelen": [],
+      "breedte": 1440,
+      "viewport": 1440,
+      "kb": 333,
+      "leesbaarheid": 52
+     },
+     "/pro/check/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [],
+      "breedte": 1440,
+      "viewport": 1440,
+      "kb": 277,
+      "leesbaarheid": 53
+     }
+    }
+   }
+  ]
+ }
+]

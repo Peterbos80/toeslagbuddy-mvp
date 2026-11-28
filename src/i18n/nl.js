@@ -32,6 +32,7 @@ export default {
       ['nieuws', '/nieuws/', 'Nieuws'],
     ],
     sectiemenu: 'Menu van dit onderdeel',
+    hulplijnen: 'Geen overheid. Gratis hulp: BelastingTelefoon <a href="tel:08000543">0800 0543</a> · Geldfit <a href="tel:08008115">0800 8115</a>',
     merkregel: 'Geld- en regelzaken, helder gemaakt. Onafhankelijk, in gewone taal.',
     // Knop rechts in de kop, per onderdeel: [url, tekst]
     kopActie: {
@@ -206,7 +207,7 @@ export default {
     ja: 'Ja',
     nee: 'Nee',
     bereken: 'Bereken',
-    privacy: '🔒 Je gegevens blijven op je eigen apparaat. We slaan niets op.',
+    privacy: '🔒 Je gegevens blijven op je eigen apparaat. We sturen niets door. Je antwoorden blijven alleen staan tot je dit tabblad sluit.',
     inkomenHint: 'Je toetsingsinkomen is meestal je bruto jaarinkomen, inclusief vakantiegeld. Heb je een toeslagpartner? Tel jullie inkomens op. <a href="/toetsingsinkomen/">Hulp nodig?</a>',
     vermogenHint: 'Spaargeld en beleggingen op 1 januari, min schulden. Weet je het niet precies? Laat leeg als het weinig is.',
     kinderen: 'Hoeveel kinderen jonger dan 18 heb je?',
@@ -312,7 +313,7 @@ export default {
     gekopieerd: 'Link gekopieerd ✓',
     perMaand: 'per maand',
     perJaarIndicatie: (bedrag, jaar) => `${bedrag} per jaar (indicatie ${jaar})`,
-    aanvragen: '<p class="volgende"><strong>Volgende stap:</strong> vraag aan via <a href="https://www.toeslagen.nl" rel="noopener" target="_blank">Mijn toeslagen</a> met je DigiD. <a href="/toeslagen-aanvragen/">Zo werkt het</a>.</p>',
+    aanvragen: '<div class="volgende"><p><strong>Volgende stap:</strong> vraag het zelf aan via <a href="https://www.toeslagen.nl" rel="noopener" target="_blank">Mijn toeslagen</a> met je DigiD. Dat is <strong>gratis</strong> en duurt een paar minuten. <a href="/toeslagen-aanvragen/">Zo werkt het</a>.</p><p class="volgende-let">Betaal geen bureau om het voor je te doen. Wij vragen nooit om je DigiD of BSN. Hulp nodig? Bel gratis de BelastingTelefoon: <a href="tel:08000543">0800 0543</a>.</p></div>',
     rekenhuur: 'Rekenhuur',
     bovenGrens: ' (je huur is hoger dan de grens, er wordt tot de grens gerekend)',
     basishuur: 'Basishuur (betaal je zelf)',

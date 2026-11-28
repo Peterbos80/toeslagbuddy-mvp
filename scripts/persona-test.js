@@ -100,6 +100,15 @@ export const PERSONAS = [
         ],
         gelukt: async (p) => /Kindgebonden budget/.test(await p.locator('[data-result]').first().innerText()),
       },
+      {
+        doel: 'Na per ongeluk herladen niet opnieuw beginnen',
+        start: '/zorgtoeslag-berekenen/',
+        stappen: [
+          ['Inkomen invullen', (p) => p.locator('form[data-calc] [name=inkomen]').fill('26000')],
+          ['Pagina herladen', (p) => p.reload()],
+        ],
+        gelukt: async (p) => (await p.locator('form[data-calc] [name=inkomen]').inputValue()) === '26000',
+      },
     ],
   },
   {
