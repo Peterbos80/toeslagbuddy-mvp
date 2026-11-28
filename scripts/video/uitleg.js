@@ -353,6 +353,7 @@ async function main() {
         credits,
         transcript: video.scenes.map((x) => x.ondertitel || x.tekst).join(' '),
         hash,
+        gemaakt: new Date().toISOString().slice(0, 10),
       };
       writeFileSync(manifestPad, JSON.stringify(manifest, null, 1) + '\n');
       console.log(`✓ ${id}: ${klaar}`);

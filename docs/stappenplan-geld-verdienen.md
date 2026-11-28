@@ -12,6 +12,20 @@ Dit plan zet alles op een rij wat jij zelf moet doen, in een vaste volgorde. Het
 - **Advertenties leveren weinig op.** Bij 15.000 bezoekers per maand is dat ongeveer € 50 tot € 150 per maand. Het meeste geld komt van abonnementen (Familie, Pro) en daarna van partnerlinks.
 - **Met 1 uur per week groeit het langzaam.** Het Familie-ontwerp rekent daarom op 24 tot 36 maanden om bij € 10.000 per maand te komen, niet 12 tot 24 (zie [familieregie/ontwerp.md](familieregie/ontwerp.md) §16.6).
 
+## Nu meteen: de 5 acties die het meeste opleveren (ongeveer 60 minuten)
+
+*Toegevoegd op 28 november 2026. De techniek is klaar: elke pagina is vindbaar (sitemap, IndexNow, gestructureerde gegevens, video-resultaten, titels die Google niet afkapt). Wat nog ontbreekt kan alleen jij doen, want het gaat om accounts op jouw naam.*
+
+| # | Actie | Tijd | Waarom nu |
+|---|---|---|---|
+| 1 | **Google Search Console** aanmelden en de code in `vindbaar.google` zetten (stap 3 hieronder). Daarna de sitemap indienen: `https://www.toeslagbuddy.nl/sitemap.xml`. | 10 min | Zonder dit weet je niet of Google de site kent, en duurt indexeren veel langer. |
+| 2 | **Bing Webmaster Tools**: kies "Importeren uit Google Search Console". Code in `vindbaar.bing`. | 5 min | Bing voedt ook ChatGPT-zoeken, Copilot en DuckDuckGo. |
+| 3 | **KvK-gegevens** in `bedrijf` zetten (stap 1). | 5 min | Wettelijk verplicht, en partnernetwerken en AdSense keuren je zonder af. |
+| 4 | **Daisycon** (of TradeTracker) aanmelden en een **zorgverzekering-vergelijker** als partner aanvragen. De link in `partners.zorgverzekering.url`. | 20 min | Tot en met 31 december stappen ruim een miljoen mensen over; per overstap betalen vergelijkers vaak tientallen euro's. De pagina [/zorgverzekering-overstappen/](https://www.toeslagbuddy.nl/zorgverzekering-overstappen/) staat klaar, met de echte bedragen voor 2027, en de seizoensbalk op alle toeslagpagina's stuurt bezoekers erheen. |
+| 5 | **GoatCounter** (gratis, geen cookiebanner nodig): code in `analytics.goatcounterCode`. | 5 min | Dan zie je welke pagina's bezoekers en kliks opleveren. |
+
+Stuur de codes en links gerust naar Claude in een sessie: ze zijn niet geheim, en Claude zet ze erin en controleert de site.
+
 ## Hoe je dingen in de site zet (vanaf je telefoon)
 
 Bijna elke stap eindigt met: "zet een code in `site.config.js`". Dat gaat zo:

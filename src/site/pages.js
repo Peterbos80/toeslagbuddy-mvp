@@ -88,7 +88,7 @@ export const pages = [
   // ───────────────────────────── HOME ─────────────────────────────
   {
     slug: '/',
-    title: `Toeslagen berekenen ${JAAR} – check al je toeslagen in 2 minuten | ToeslagBuddy`,
+    title: `Toeslagen berekenen ${JAAR} in 2 minuten | ToeslagBuddy`,
     description: `Bereken gratis en anoniem al je toeslagen voor ${JAAR}: zorgtoeslag, huurtoeslag, kindgebonden budget, kinderopvangtoeslag en kinderbijslag. Met de nieuwste bedragen en regels.`,
     h1: `Op welke toeslagen heb jij recht in ${JAAR}?`,
     intro: 'Tik drie antwoorden aan en zie meteen bij welke toeslagen je een kans maakt. Daarna reken je precies uit hoeveel je krijgt: zorgtoeslag, huurtoeslag en geld voor je kinderen.',
@@ -614,7 +614,7 @@ ${alleCheckLink}`,
   {
     slug: '/toeslag-terugbetalen/',
     kort: 'Terugbetalen voorkomen',
-    title: 'Toeslag terugbetalen? Zo voorkom je het (en wat als het toch moet)',
+    title: 'Toeslag terugbetalen? Zo voorkom je het',
     description: 'Waarom moet je toeslag terugbetalen en hoe voorkom je het? Tips om je voorschot goed in te stellen, en wat je kunt doen als je moet terugbetalen.',
     h1: 'Toeslag terugbetalen voorkomen',
     intro: 'Een terugvordering van honderden of duizenden euro’s is een flinke klap. Met deze tips voorkom je het.',
@@ -678,7 +678,7 @@ ${alleCheckLink}`,
   {
     slug: '/pro/',
     kort: 'Voor bewindvoerders',
-    title: 'ToeslagBuddy Pro – toeslagencheck voor bewindvoerders en budgetcoaches',
+    title: 'ToeslagBuddy Pro – toeslagencheck voor bewindvoerders',
     description: 'Controleer in één keer voor al je cliënten of ze alle toeslagen en regelingen krijgen, en waar een terugvordering dreigt. Cliëntgegevens blijven op je eigen computer.',
     h1: 'Alle cliënten in één keer gecontroleerd op toeslagen',
     intro: 'Voor bewindvoerders, budgetcoaches en schuldhulpverleners. Zet je cliëntenlijst erin en zie binnen een minuut wie geld misloopt, wie een te hoog voorschot heeft en welke regeling van de gemeente nog kan worden aangevraagd.',
@@ -996,7 +996,7 @@ ${privacyKnoppen}
   {
     slug: '/zzp-toeslagen/',
     kort: 'Toeslagen voor zzp’ers',
-    title: `Toeslagen voor zzp'ers ${JAAR} – voorkom terugbetalen met de toeslagbewaker`,
+    title: `Toeslagen voor zzp'ers ${JAAR} – voorkom terugbetalen`,
     description: 'Wisselende winst? Check in 2 minuten of je toeslagvoorschot nog klopt, hoeveel je gaat terugbetalen of bijkrijgen, en welk inkomen je moet opgeven.',
     h1: 'Toeslagbewaker voor zzp’ers',
     intro: 'Als zzp’er schommelt je winst, en daarmee je toeslag. Vul je winst tot nu toe in en zie of je voorschot nog klopt, vóórdat je een terugvordering krijgt.',
@@ -1055,8 +1055,8 @@ ${alleCheckLink}`,
   {
     slug: '/zorgverzekering-overstappen/',
     kort: `Zorgverzekering ${VOLGEND}`,
-    title: `Zorgverzekering ${VOLGEND} overstappen – zo bespaar je (en houd je je zorgtoeslag)`,
-    description: `Overstappen van zorgverzekering voor ${VOLGEND}: wanneer, hoe opzeggen, wat er met je zorgtoeslag gebeurt en hoe je honderden euro's bespaart. Stappenplan in gewone taal.`,
+    title: `Zorgverzekering overstappen ${VOLGEND}: zo bespaar je`,
+    description: `Zorgverzekering 2027: gemiddeld € 173 per maand, eigen risico € 400. Overstappen kan tot en met 31 december. Zo bespaar je en houd je je zorgtoeslag.`,
     h1: `Zorgverzekering ${VOLGEND}: overstappen en besparen`,
     intro: `Elk jaar kun je tot en met 31 december overstappen naar een andere zorgverzekering. Je zorgtoeslag verandert daar niet door, maar je premie wel.`,
     body: ({ config }) => `
@@ -1077,15 +1077,30 @@ ${partnerBlok('zorgverzekering')}
 <li><strong>Eigen risico:</strong> je kunt het eigen risico vaak in termijnen betalen. Kies alleen een hoger vrijwillig eigen risico als je dat bedrag in één keer kunt missen.</li>
 </ol>
 
-<h2>Wat gaat de zorgpremie kosten in ${VOLGEND}?</h2>
-<p>Volgens de ramingen van Prinsjesdag stijgt de gemiddelde premie in ${VOLGEND}. Daarom gaat ook de zorgtoeslag omhoog: naar verwachting tot ongeveer € 140 per maand voor alleenstaanden. De echte premies zie je vanaf 12 november bij de verzekeraars. <a href="/toeslagen-2027/">Alles over toeslagen ${VOLGEND}</a>.</p>
+<h2>Wat kost de zorgverzekering in 2027?</h2>
+<p class="bijgewerkt-op">Bijgewerkt op 28 november 2026, nadat alle verzekeraars hun premies bekend hadden gemaakt.</p>
+<table>
+<thead><tr><td></td><th scope="col">2026</th><th scope="col">2027</th></tr></thead>
+<tbody>
+<tr><th scope="row">Gemiddelde basispremie per maand</th><td>€&nbsp;158</td><td>ongeveer €&nbsp;173</td></tr>
+<tr><th scope="row">Verplicht eigen risico per jaar</th><td>€&nbsp;385</td><td>€&nbsp;400</td></tr>
+<tr><th scope="row">Maximale zorgtoeslag per maand (alleenstaand)</th><td>€&nbsp;129</td><td>ongeveer €&nbsp;140</td></tr>
+</tbody>
+</table>
+<p>De premie stijgt dus meer dan de zorgtoeslag. Het verschil tussen de goedkoopste en de duurste basisverzekering is volgens vergelijkingssites ruim € 600 per jaar, voor dezelfde basisdekking. Juist dit jaar loont vergelijken dus.</p>
+<p><small>Bronnen: eigen risico en verwachte zorgtoeslag: Rijksoverheid (Prinsjesdag, 15 september 2026). Gemiddelde premie: ongewogen gemiddelde van alle polissen, berekend door vergelijkingssites; het kabinet rekende met € 169. De definitieve zorgtoeslag voor 2027 staat op toeslagen.nl. <a href="/toeslagen-2027/">Alles over toeslagen ${VOLGEND}</a>.</small></p>
+
+<h2>Te laat? Dan heb je tot 1 februari</h2>
+<p>Heb je je oude verzekering zelf vóór 1 januari opgezegd, dan heb je tot en met 31 januari ${VOLGEND} om een nieuwe af te sluiten. Die gaat dan met terugwerkende kracht in op 1 januari. Zeg je niet op, dan loopt je oude verzekering gewoon door: je bent nooit onverzekerd.</p>
 
 <h2>Check ook je zorgtoeslag</h2>
 <p>Veel mensen die hun zorgverzekering vergelijken, blijken ook recht te hebben op zorgtoeslag – en krijgen het nog niet. <a href="/zorgtoeslag-berekenen/">Bereken je zorgtoeslag</a> in 1 minuut.</p>
 ${partnerBlok('zorgverzekering')}
 ${alleCheckLink}`,
     faq: [
-      [`Tot wanneer kan ik overstappen van zorgverzekering?`, `Tot en met 31 december ${JAAR}. Je nieuwe verzekering gaat dan in op 1 januari ${VOLGEND}.`],
+      [`Tot wanneer kan ik overstappen van zorgverzekering?`, `Tot en met 31 december ${JAAR}. Je nieuwe verzekering gaat dan in op 1 januari ${VOLGEND}. Heb je je oude verzekering zelf vóór 1 januari opgezegd, dan heb je tot 1 februari om een nieuwe af te sluiten.`],
+      ['Hoe hoog is het eigen risico in 2027?', `€ 400 per jaar, € 15 meer dan in 2026. Je kunt het bij de meeste verzekeraars in termijnen betalen.`],
+      ['Wat kost een zorgverzekering in 2027?', `Gemiddeld ongeveer € 173 per maand voor de basisverzekering. De goedkoopste en de duurste schelen ruim € 600 per jaar.`],
       ['Moet ik mijn oude zorgverzekering zelf opzeggen?', 'Meestal niet. Als je vóór 1 januari overstapt, zegt je nieuwe verzekeraar je oude basisverzekering voor je op.'],
       ['Verandert mijn zorgtoeslag als ik overstap?', 'Nee. Je zorgtoeslag hangt af van je inkomen en vermogen, niet van je verzekeraar of je premie.'],
       ['Kan ik overstappen als ik een betalingsachterstand heb?', 'Niet altijd: bij een betalingsachterstand kan je verzekeraar het opzeggen weigeren. Vraag je gemeente om hulp; schuldhulp is gratis.'],
@@ -1095,7 +1110,7 @@ ${alleCheckLink}`,
   {
     slug: '/alle-regelingen/',
     kort: 'Alle regelingen',
-    title: `Alle toeslagen en regelingen in Nederland (${JAAR}) – compleet overzicht`,
+    title: `Alle toeslagen en regelingen ${JAAR} – compleet overzicht`,
     description: `Overzicht van ${regelingen.length} toeslagen, uitkeringen, belastingkortingen en regelingen van Dienst Toeslagen, SVB, UWV, DUO, Belastingdienst en gemeenten. Filter op jouw situatie.`,
     h1: 'Alle toeslagen en regelingen in Nederland',
     intro: 'Van zorgtoeslag tot kwijtschelding: hier staat alles waar je in Nederland recht op kunt hebben. Kies je situatie om te filteren.',

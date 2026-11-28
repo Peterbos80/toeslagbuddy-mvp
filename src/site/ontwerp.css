@@ -597,3 +597,9 @@ body.spiekbriefje .js-balk { animation: none; }
 .balken .balk-kindgebondenBudget b { background: var(--goud); }
 .balken .balk-kinderopvangtoeslag b { background: var(--pruim); }
 .balken .balk-kinderbijslag b { background: var(--accent); }
+
+/* Seizoensbalk: wat nu telt (wisselt vanzelf met de datum) */
+.seizoen { background: var(--goud-licht); border-bottom: 1px solid color-mix(in srgb, var(--goud) 45%, transparent); }
+.seizoen .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 18px; padding-top: 10px; padding-bottom: 10px; }
+.seizoen p { margin: 0; color: var(--tekst); }
+.seizoen a { font-weight: 800; color: var(--merk-donker); white-space: nowrap; min-height: 44px; display: inline-flex; align-items: center; }

@@ -463,7 +463,7 @@ ${accounts ? '' : '<p class="f-controleer" style="margin-top:24px"><strong>Eerli
   });
   const partner = pagina({
     slug: '/familie/partner/',
-    title: 'Nazorg voor uitvaartondernemers: de regelkamer onder je eigen naam',
+    title: 'Nazorg voor uitvaartondernemers onder je eigen naam',
     description: 'Geef families na de uitvaart een digitale nazorgomgeving onder je eigen naam: checklist met termijnen, opzegbrieven, erfbelasting en een boedelrekening. Zelf aanmelden, geen verkoopgesprek.',
     h1: 'Voor uitvaartondernemers',
     kort: 'Voor partners',

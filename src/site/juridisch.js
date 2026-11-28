@@ -293,7 +293,7 @@ ${gegevensLijst(config)}
   {
     slug: '/pro/beveiliging/',
     kort: 'Beveiliging',
-    title: 'Beveiligingsfactsheet ToeslagBuddy Pro – voor bewindvoerders en kantoren',
+    title: 'Beveiliging van ToeslagBuddy Pro – factsheet voor kantoren',
     description: 'Waar staan de gegevens van ToeslagBuddy Pro, wat blijft lokaal en hoe is het beveiligd? Factsheet voor bewindvoerders, budgetcoaches en schuldhulpverleners.',
     h1: 'Beveiliging van ToeslagBuddy Pro',
     intro: 'Voor kantoren die willen weten waar gegevens staan en hoe ze worden beschermd. Handig voor je privacyfunctionaris, je dossier of een audit.',

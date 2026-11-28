@@ -5,6 +5,7 @@ import { JAAR, GECONTROLEERD_OP } from '../calc/params.js';
 import { teksten } from '../i18n/i18n.js';
 import { verificatie } from './vindbaar.js';
 import { ogAfbeelding, OG_MAAT } from './og.js';
+import { seizoen } from './seizoen.js';
 
 // Deelafbeelding: de eigen afbeelding van de pagina (dist/og/, gemaakt door
 // scripts/og-paginas.js) als die er al is, anders die van het onderdeel
@@ -175,7 +176,22 @@ export function uitlegVideo(id, { kop = '' } = {}) {
   const v = uitlegManifest[id];
   if (!v) return '';
   const duur = `${Math.floor(v.duur / 60)}:${String(Math.round(v.duur % 60)).padStart(2, '0')}`;
-  return `<figure class="uitlegvideo">${kop}<div class="uv-beeld"><video controls preload="none" playsinline poster="${esc(v.poster)}" aria-label="${esc(v.titel)} (video, ${duur})"><source src="${esc(v.src)}" type="video/mp4">${v.vtt ? `<track kind="captions" srclang="nl" label="Nederlands" src="${esc(v.vtt)}">` : ''}</video></div>
+  // VideoObject: zo kan de video in Google (video-resultaten) en in AI-antwoorden verschijnen
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: v.titel,
+    description: v.transcript.length > 300 ? `${v.transcript.slice(0, 297).replace(/\s+\S*$/, '')}…` : v.transcript,
+    thumbnailUrl: `${config.url}${v.poster}`,
+    contentUrl: `${config.url}${v.src}`,
+    uploadDate: v.gemaakt || GECONTROLEERD_OP,
+    duration: `PT${Math.floor(v.duur / 60)}M${Math.round(v.duur % 60)}S`,
+    inLanguage: 'nl',
+    transcript: v.transcript,
+    publisher: { '@type': 'Organization', name: config.naam, url: config.url },
+  };
+  return `<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, '\\u003c')}</script>
+<figure class="uitlegvideo">${kop}<div class="uv-beeld"><video controls preload="none" playsinline poster="${esc(v.poster)}" aria-label="${esc(v.titel)} (video, ${duur})"><source src="${esc(v.src)}" type="video/mp4">${v.vtt ? `<track kind="captions" srclang="nl" label="Nederlands" src="${esc(v.vtt)}">` : ''}</video></div>
 <figcaption><span>${esc(v.titel)} · ${duur}${v.stem ? '' : ' · met ondertitels, zonder geluid'}${v.ai ? ' · beelden gemaakt met AI' : ''}${v.credits?.length ? ` · beelden: ${v.credits.map((c) => `<a href="${esc(c.url)}" rel="noopener">${esc(c.fotograaf)}</a> (${esc(c.platform || 'Pexels')})`).join(', ')}` : ''}</span><details><summary>Lees de tekst</summary><p>${esc(v.transcript)}</p></details></figcaption></figure>`;
 }
 
@@ -205,6 +221,14 @@ export function partnersJson() {
 
 // Bij welk onderdeel van de site hoort een pagina? Bepaalt het actieve
 // menu-item, het sectiemenu en de accentkleur (body.sectie-…).
+// Seizoensbalk (src/site/seizoen.js) op de toeslag- en zzp-pagina's in het Nederlands
+const ZONDER_SEIZOEN = ['/privacy/', '/disclaimer/', '/colofon/', '/contact/', '/toegankelijkheid/', '/over/', '/stijl/', '/bronnen/'];
+function seizoenHtml(page) {
+  const z = seizoen();
+  if (!z || page.taal === 'en' || afgeschermd(page) || !['toeslagen', 'zzp'].includes(sectieVan(page)) || ZONDER_SEIZOEN.includes(page.slug) || z.url.replace(/#.*/, '') === page.slug) return '';
+  return `<aside class="seizoen" aria-label="Nu belangrijk"><div class="wrap"><p>${z.tekst}</p><a href="${z.url}">${z.knop} →</a></div></aside>\n`;
+}
+
 export function sectieVan(page) {
   if (page.sectie) return page.sectie;
   const s = page.slug || '';
@@ -240,7 +264,8 @@ export function layout(page, body) {
   const S = T.site;
   const url = config.url + page.slug;
   const thuis = page.slug === T.home;
-  const titel = thuis ? page.title : `${page.title} | ${config.naam}`;
+  // Merknaam alleen erachter als de titel dan niet afgekapt wordt in Google (± 60 tekens)
+  const titel = thuis || page.title.includes(config.naam) || page.title.length + config.naam.length + 3 > 60 ? page.title : `${page.title} | ${config.naam}`;
   const kruimel = page.kruimel || (thuis ? [] : [[T.home, S.home], [page.slug, page.kort || page.h1]]);
   const wissel = page.wissel || teksten(S.wissel.naar).home;
   const sectie = sectieVan(page);
@@ -344,7 +369,7 @@ ${actie && !page.zonderKopActie ? `<a class="kop-actie" href="${actie[0]}">${act
 <nav class="sub" aria-label="${S.sectiemenu}"><div class="wrap">${sub.map(([u, n]) => `<a href="${u}"${u === page.slug ? ' aria-current="page"' : ''}>${n}</a>`).join('')}</div></nav>` : ''}
 </header>
 <main id="main">
-<div class="wrap">
+${seizoenHtml(page)}<div class="wrap">
 ${!page.calc && (afgeschermd(page) || page.script) ? `<noscript><p class="geen-js">${S.geenJsAlgemeen}</p></noscript>\n` : ''}${kruimel.length ? `<nav class="kruimel" aria-label="${S.kruimelpad}">${kruimel.map(([u, n], i) => (i < kruimel.length - 1 ? `<a href="${u}">${esc(n)}</a> › ` : esc(n))).join('')}</nav>` : ''}
 ${body}
 ${page.zonderHulp ? '' : `<aside class="hulp" aria-label="${S.hulpLabel}">
