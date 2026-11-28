@@ -1,7 +1,7 @@
 // Stockvideo's van Pexels: welke scènes, welke video en welk bestand.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { wensen, nogTeZoeken, kiesVideo, kiesBestand, credit, zoek, zoekHash } from '../scripts/video/stock-beelden.js';
+import { wensen, nogTeZoeken, kiesVideo, kiesBestand, credit, zoek, zoekHash, zoekPixabay, vanPixabay } from '../scripts/video/stock-beelden.js';
 import { nogTeMaken } from '../scripts/video/ai-beelden.js';
 import { bronVan } from '../scripts/video/uitleg.js';
 
@@ -53,8 +53,25 @@ test('zoeken: sleutel in de Authorization-header, nooit in het adres', async () 
   await assert.rejects(zoek('x', { sleutel: 's', haal: async () => ({ ok: false, status: 401, text: async () => 'nee' }) }), /Pexels 401/);
 });
 
-test('label in de video: maker bij Pexels, anders "gemaakt met AI"', () => {
-  const index = { 'f-1': { bron: 'pexels', fotograaf: 'An de Vries', fotograafUrl: 'u', url: 'v' } };
+test('label in de video: maker en platform bij stock, anders "gemaakt met AI"', () => {
+  const index = { 'f-1': { bron: 'pexels', fotograaf: 'An de Vries', fotograafUrl: 'u', url: 'v' }, 'f-3': { bron: 'pixabay', fotograaf: 'Bo', fotograafUrl: 'u', url: 'w' } };
   assert.equal(bronVan('f-1', index).label, 'Beelden: An de Vries / Pexels');
+  assert.equal(bronVan('f-3', index).label, 'Beelden: Bo / Pixabay');
+  assert.equal(bronVan('f-3', index).credit.platform, 'Pixabay');
   assert.equal(bronVan('f-2', index).label, 'Beelden gemaakt met AI');
+});
+
+const hit = { id: 42, pageURL: 'https://pixabay.com/videos/keuken-42/', duration: 18, user: 'maker', user_id: 7, videos: { large: { url: 'https://cdn.example/l.mp4', width: 3840, height: 2160 }, medium: { url: 'https://cdn.example/m.mp4', width: 1920, height: 1080 }, small: { url: 'https://cdn.example/s.mp4', width: 1280, height: 720 }, tiny: { url: 'https://cdn.example/t.mp4', width: 640, height: 360 } } };
+
+test('Pixabay: zelfde vorm als Pexels, 4K overgeslagen, sleutel nooit in een foutmelding', async () => {
+  const v = vanPixabay(hit);
+  assert.equal(v.url, 'https://pixabay.com/videos/keuken-42/');
+  assert.deepEqual(v.user, { name: 'maker', url: 'https://pixabay.com/users/maker-7/' });
+  const k = kiesVideo([v]);
+  assert.equal(k.bestand.link, 'https://cdn.example/m.mp4');
+  let adres;
+  const r = await zoekPixabay('woman laptop', { sleutel: 'GEHEIM', haal: async (u) => { adres = u; return { ok: true, json: async () => ({ hits: [hit] }) }; } });
+  assert.equal(r[0].id, 42);
+  assert.match(adres, /^https:\/\/pixabay\.com\/api\/videos\/\?key=GEHEIM&q=woman%20laptop&video_type=film&safesearch=true/);
+  await assert.rejects(zoekPixabay('x', { sleutel: 'GEHEIM', haal: async () => ({ ok: false, status: 400, text: async () => '[ERROR 400] Invalid API key GEHEIM' }) }), (e) => /Pixabay 400/.test(e.message) && !e.message.includes('GEHEIM'));
 });

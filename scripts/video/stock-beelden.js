@@ -1,13 +1,14 @@
-// Echte stockvideo's van Pexels onder de uitlegvideo's (gratis, ook voor
-// commercieel gebruik, zonder watermerk). Per scène proberen we de
+// Echte stockvideo's van Pixabay of Pexels onder de uitlegvideo's (gratis, ook
+// voor commercieel gebruik, zonder watermerk). Per scène proberen we de
 // zoektermen uit `stock` in uitleg-scenes.js en kiezen de best passende
 // liggende HD-clip. De maker staat erbij (index.json → in de video en op de site).
 //
-//   PEXELS_API_KEY=… node scripts/video/stock-beelden.js [--alleen familie] [--droog]
+//   PIXABAY_API_KEY=… node scripts/video/stock-beelden.js [--alleen familie] [--droog]
+//   (of PEXELS_API_KEY=…; Pexels gaat voor als beide er zijn)
 //
 // - Alleen scènes zonder clip, of waarvan de zoektermen veranderden.
 // - Met de hand toegevoegde clips (geen regel in index.json) blijven staan.
-// - Een clip afkeuren: zet het Pexels-id in index.json → "afgekeurd" en
+// - Een clip afkeuren: zet "<bron>:<id>" (bijv. "pixabay:12345") in index.json → "afgekeurd" en
 //   verwijder het bestand; de volgende run kiest een andere.
 import { mkdirSync, writeFileSync, readFileSync, existsSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
@@ -18,6 +19,9 @@ import { VIDEOS } from './uitleg-scenes.js';
 import { MAP, clipNaam } from './ai-beelden.js';
 
 const API = 'https://api.pexels.com/videos/search';
+const PIXABAY = 'https://pixabay.com/api/videos/';
+export const STOCK = ['pexels', 'pixabay'];
+const NAAM = { pexels: 'Pexels', pixabay: 'Pixabay' };
 const FFMPEG = process.env.FFMPEG || 'ffmpeg';
 
 export const zoekHash = (termen) => createHash('sha256').update(JSON.stringify(termen)).digest('hex').slice(0, 12);
@@ -30,7 +34,7 @@ export function wensen(videos = VIDEOS) {
 
 // Ontbreekt, of eerder door ons via Pexels gekozen met andere zoektermen
 export function nogTeZoeken(lijst, index, bestaat = (naam) => existsSync(join(MAP, `${naam}.mp4`))) {
-  return lijst.filter((w) => !bestaat(w.naam) || (index[w.naam]?.bron === 'pexels' && index[w.naam].hash !== w.hash));
+  return lijst.filter((w) => !bestaat(w.naam) || (STOCK.includes(index[w.naam]?.bron) && index[w.naam].hash !== w.hash));
 }
 
 // Beste bestand van één video: liggend, 1280–1920 breed, mp4
@@ -57,6 +61,21 @@ export function credit(v) {
   return { id: v.id, url: v.url, fotograaf: v.user?.name || 'Pexels', fotograafUrl: v.user?.url || 'https://www.pexels.com' };
 }
 
+// Pixabay-resultaat in dezelfde vorm als Pexels, zodat de keuze gelijk werkt
+export function vanPixabay(h) {
+  const v = h.videos || {};
+  const groot = v.large?.width ? v.large : v.medium || {};
+  const bestanden = ['large', 'medium', 'small'].map((k) => v[k]).filter((f) => f?.url && f.width).map((f) => ({ file_type: 'video/mp4', width: f.width, height: f.height, link: f.url }));
+  return { id: h.id, width: groot.width || 0, height: groot.height || 0, duration: h.duration, url: h.pageURL, user: { name: h.user, url: `https://pixabay.com/users/${encodeURIComponent(h.user)}-${h.user_id}/` }, video_files: bestanden };
+}
+
+export async function zoekPixabay(term, { sleutel, haal = fetch }) {
+  const url = `${PIXABAY}?key=${encodeURIComponent(sleutel)}&q=${encodeURIComponent(term.slice(0, 100))}&video_type=film&safesearch=true&per_page=30`;
+  const r = await haal(url);
+  if (!r.ok) throw new Error(`Pixabay ${r.status}: ${(await r.text()).slice(0, 160).replaceAll(sleutel, '…')}`);
+  return ((await r.json()).hits || []).map(vanPixabay);
+}
+
 export async function zoek(term, { sleutel, haal = fetch }) {
   const url = `${API}?query=${encodeURIComponent(term)}&orientation=landscape&size=medium&per_page=30`;
   const r = await haal(url, { headers: { Authorization: sleutel } });
@@ -79,30 +98,32 @@ async function main() {
     const i = process.argv.indexOf(n);
     return i > -1 ? process.argv[i + 1] : null;
   };
-  const sleutel = process.env.PEXELS_API_KEY;
+  const bron = process.env.PEXELS_API_KEY ? 'pexels' : process.env.PIXABAY_API_KEY ? 'pixabay' : null;
+  const sleutel = process.env.PEXELS_API_KEY || process.env.PIXABAY_API_KEY;
+  const zoekBij = bron === 'pexels' ? zoek : zoekPixabay;
   const alleen = arg('--alleen');
   mkdirSync(MAP, { recursive: true });
   const indexPad = join(MAP, 'index.json');
   const index = existsSync(indexPad) ? JSON.parse(readFileSync(indexPad, 'utf8')) : {};
   const afgekeurd = index.afgekeurd || [];
   const lijst = nogTeZoeken(wensen().filter((w) => !alleen || w.naam.startsWith(`${alleen}-`)), index);
-  console.log(`${lijst.length} stockbeelden te zoeken`);
+  console.log(`${lijst.length} stockbeelden te zoeken${bron ? ` bij ${NAAM[bron]}` : ''}`);
   if (process.argv.includes('--droog') || !lijst.length) {
     for (const w of lijst) console.log(`- ${w.naam}: ${w.termen.join(' | ')}`);
     return;
   }
   if (!sleutel) {
-    console.log('Geen PEXELS_API_KEY: geen stockbeelden gezocht.');
+    console.log('Geen PIXABAY_API_KEY of PEXELS_API_KEY: geen stockbeelden gezocht.');
     return;
   }
   // Niet twee keer dezelfde clip in de video's
-  const gebruikt = Object.values(index).filter((x) => x?.bron === 'pexels').map((x) => x.id);
+  const gebruikt = Object.values(index).filter((x) => STOCK.includes(x?.bron)).map((x) => `${x.bron}:${x.id}`);
   let n = 0;
   for (const w of lijst) {
     try {
       let keuze = null;
       for (const term of w.termen) {
-        keuze = kiesVideo(await zoek(term, { sleutel }), { afgekeurd, gebruikt });
+        keuze = kiesVideo(await zoekBij(term, { sleutel }), { afgekeurd: afgekeurd.filter((a) => String(a).startsWith(`${bron}:`)).map((a) => Number(String(a).split(':')[1])), gebruikt: gebruikt.filter((g) => g.startsWith(`${bron}:`)).map((g) => Number(g.split(':')[1])) });
         if (keuze) break;
       }
       if (!keuze) {
@@ -115,14 +136,14 @@ async function main() {
       writeFileSync(ruw, Buffer.from(await r.arrayBuffer()));
       verwerk(ruw, join(MAP, `${w.naam}.mp4`), keuze.video.duration);
       rmSync(ruw, { force: true });
-      index[w.naam] = { bron: 'pexels', hash: w.hash, ...credit(keuze.video), gemaakt: new Date().toISOString().slice(0, 10) };
-      gebruikt.push(keuze.video.id);
+      index[w.naam] = { bron, hash: w.hash, ...credit(keuze.video), gemaakt: new Date().toISOString().slice(0, 10) };
+      gebruikt.push(`${bron}:${keuze.video.id}`);
       writeFileSync(indexPad, JSON.stringify(index, null, 1) + '\n');
       n++;
       console.log(`✓ ${w.naam}: ${keuze.video.url} (${credit(keuze.video).fotograaf})`);
     } catch (e) {
       console.log(`✗ ${w.naam}: ${e.message}`);
-      if (/Pexels (401|403)/.test(e.message)) break;
+      if (/(Pexels|Pixabay) (400|401|403|429)/.test(e.message)) break;
     }
   }
   console.log(`${n} stockbeelden gekozen`);

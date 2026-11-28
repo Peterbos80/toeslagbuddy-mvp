@@ -36,7 +36,7 @@ function duurVan(wav) {
   return Number.isFinite(d) ? d : null;
 }
 
-// Waar komt een clip vandaan? Pexels (met de maker) of AI (Veo, Kaggle, Flow)
+// Waar komt een clip vandaan? Stock (Pixabay/Pexels, met de maker) of AI (Veo, Kaggle, Flow)
 let beeldIndex = null;
 export function bronVan(naam, index = null) {
   if (!index) {
@@ -44,7 +44,8 @@ export function bronVan(naam, index = null) {
     index = beeldIndex;
   }
   const r = index[naam];
-  if (r?.bron === 'pexels') return { soort: 'pexels', label: `Beelden: ${r.fotograaf} / Pexels`, credit: { fotograaf: r.fotograaf, fotograafUrl: r.fotograafUrl, url: r.url } };
+  const platform = { pexels: 'Pexels', pixabay: 'Pixabay' }[r?.bron];
+  if (platform) return { soort: 'stock', label: `Beelden: ${r.fotograaf} / ${platform}`, credit: { fotograaf: r.fotograaf, fotograafUrl: r.fotograafUrl, url: r.url, platform } };
   return { soort: 'ai', label: 'Beelden gemaakt met AI' };
 }
 
@@ -212,7 +213,7 @@ async function main() {
         duur: Math.round(duur * 10) / 10,
         stem: metStem ? stem || 'piper' : null,
         ai: scenes.some((x) => x.clip && x.bron?.soort === 'ai'),
-        credits: [...new Map(scenes.filter((x) => x.bron?.soort === 'pexels').map((x) => [x.bron.credit.url, x.bron.credit])).values()],
+        credits: [...new Map(scenes.filter((x) => x.bron?.soort === 'stock').map((x) => [x.bron.credit.url, x.bron.credit])).values()],
         transcript: video.scenes.map((x) => x.ondertitel || x.tekst).join(' '),
         hash,
       };

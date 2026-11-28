@@ -39,7 +39,7 @@ export function wensen(videos = VIDEOS) {
 // hand toegevoegd (bijv. gemaakt in Google Flow): die laten we altijd staan,
 // net als een gekozen stockvideo (bron 'pexels').
 export function nogTeMaken(lijst, index, bestaat = (naam) => existsSync(join(MAP, `${naam}.mp4`))) {
-  return lijst.filter((w) => !bestaat(w.naam) || (index[w.naam] && index[w.naam].bron !== 'pexels' && index[w.naam].hash !== w.hash));
+  return lijst.filter((w) => !bestaat(w.naam) || (index[w.naam] && !['pexels', 'pixabay'].includes(index[w.naam].bron) && index[w.naam].hash !== w.hash));
 }
 
 // Kies een videomodel uit de modellenlijst van de API. Voorkeur: stabiele
