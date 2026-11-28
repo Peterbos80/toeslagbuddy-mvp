@@ -20,14 +20,14 @@ export const VIDEOS = [
       {
         tekst: 'Regel jij de zaken van je vader of moeder? Dan weet je hoe het gaat: brieven, termijnen en rekeningen, verspreid over de hele familie.',
         film: 'A wooden kitchen table in a cosy Dutch home covered with a messy pile of unopened envelopes and letters, a cup of tea beside them, soft morning light through the window, slow dolly-in.',
-        stock: ['letters on kitchen table', 'opening mail at home', 'pile of envelopes'],
+        stock: ['letter table', 'mail envelope', 'paperwork desk', 'envelope'],
         beeld: `<div class="titel smal"><p class="etiket in">ToeslagBuddy Familie</p><h1 class="in" style="animation-delay:.3s">Samen de zaken van je <em>ouders</em> regelen</h1></div>
 <div class="stapel">${['CAK', 'Belastingdienst', 'Zorgverzekeraar', 'Gemeente', 'Pensioenfonds'].map((a, i) => `<div class="brief val" style="--r:${(i - 2) * 6}deg;animation-delay:${0.8 + i * 0.35}s">${ico('brief')}<b>${a}</b><i></i><i></i><i class="kort"></i></div>`).join('')}</div>`,
       },
       {
         tekst: 'In de regelkamer zie je samen wat er speelt. Elke termijn staat in de kalender, met de bron erbij. Zo mist niemand iets.',
         film: 'Over-the-shoulder shot from behind of an adult daughter and her elderly father sitting side by side at a kitchen table, looking together at a tablet, their faces not visible, warm afternoon light, gentle slow push-in.',
-        stock: ['daughter elderly father tablet', 'senior man daughter laptop', 'elderly parent adult child home'],
+        stock: ['elderly tablet', 'grandfather tablet', 'senior laptop', 'elderly laptop'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">De regelkamer</p><h2 class="in" style="animation-delay:.2s">Iedereen ziet <em>hetzelfde</em></h2>
 <div class="avatars in" style="animation-delay:.5s"><span style="background:#c2643a">S</span><span style="background:#2f5d8a">M</span><span style="background:#6f3a73">J</span></div></div>
 ${kaart(`<p class="kop">Deze week</p>
@@ -38,7 +38,7 @@ ${regel('taak', 'groen', 'Paspoort verlengen', 'Sanne pakt dit op', 'klaar', 1.4
       {
         tekst: 'Snap je een brief niet? Plak de tekst. Je ziet meteen wat er staat, wat je moet doen en vóór wanneer. Een burgerservicenummer halen we er direct uit.',
         film: 'Close-up of two hands holding a printed letter with blurred, unreadable lines next to a smartphone on a wooden table, shallow depth of field, slow gentle camera drift.',
-        stock: ['reading a letter worried', 'woman reading letter at home', 'reading mail kitchen'],
+        stock: ['reading letter', 'letter hand', 'reading document', 'paperwork'],
         beeld: `<div class="twee"><div class="papier in">${ico('brief')}<p><b>Betreft: eigen bijdrage Wlz</b></p><p>U betaalt een eigen bijdrage van <mark>€ 212,60 per maand</mark>.</p><p>Burgerservicenummer: <s class="lak">●●●●●●●●●</s></p><p>U kunt <mark>binnen 6 weken</mark> bezwaar maken.</p></div>
 ${kaart(`<p class="kop">Wat staat er?</p>
 ${regel('euro', 'goud', '€ 212,60 per maand', 'Eigen bijdrage verpleeghuis', '', 0.8)}
@@ -48,7 +48,7 @@ ${regel('klok', 'rood', 'Bezwaar vóór 15 december', '6 weken na de datum van d
       {
         tekst: 'Wie geld uitgeeft, legt het vast in het logboek. Elke regel blijft zichtbaar, ook als hij wordt verbeterd. Zo kan iedereen meekijken.',
         film: 'Close-up of hands tucking a small paper receipt into a notebook on a kitchen counter, a bag of groceries softly out of focus behind, warm light, slow motion.',
-        stock: ['paying bills at home', 'receipt notebook', 'writing in notebook kitchen'],
+        stock: ['bill paying', 'receipt', 'budget notebook', 'writing notebook'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Logboek</p><h2 class="in" style="animation-delay:.2s">Geld van je ouder, <em>open</em> voor iedereen</h2></div>
 ${kaart(`<p class="kop">November</p>
 ${[['Boodschappen', '42,50', 'Sanne'], ['Apotheek', '18,20', 'Mark'], ['Kapper', '24,00', 'Sanne'], ['Taxi naar ziekenhuis', '31,75', 'Joke']].map(([w, b, d], i) => `<div class="rij in" style="animation-delay:${0.5 + i * 0.35}s"><span>${w}<small>${d}</small></span><b>€ ${b}</b></div>`).join('')}
@@ -57,7 +57,7 @@ ${[['Boodschappen', '42,50', 'Sanne'], ['Apotheek', '18,20', 'Mark'], ['Kapper',
       {
         tekst: 'En als het moment komt, staat het stappenplan klaar. Met alle termijnen, en een opzegbrief voor elk contract.',
         film: 'A calm, sunlit Dutch living room with an empty armchair, a reading lamp and green plants, sheer curtains moving softly in a breeze, peaceful and respectful mood, very slow pan.',
-        stock: ['sunny living room', 'empty armchair window light', 'cozy living room curtains'],
+        stock: ['living room sunlight', 'armchair window', 'living room', 'curtain window'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Na een overlijden</p><h2 class="in" style="animation-delay:.2s">Rust, als het <em>nodig</em> is</h2></div>
 ${kaart(`<p class="kop">Stappenplan</p>
 ${['Overlijden aangeven bij de gemeente', 'Uitvaart regelen', 'Contracten opzeggen of overzetten', 'Aangifte erfbelasting: 20 maanden'].map((t, i) => `<div class="vink in" style="animation-delay:${0.5 + i * 0.4}s"><span class="${i < 2 ? 'aan' : ''}">${i < 2 ? ico('vink') : ''}</span>${t}</div>`).join('')}`, 'rustig')}</div>`,
@@ -105,7 +105,7 @@ ${kaart(`<p class="kop">Koptelefoon met ruisonderdrukking</p>
       {
         tekst: 'Zoek je iets? Zet een jager aan. Die houdt de prijzen voor je in de gaten en zegt eerlijk: nu kopen, of wachten.',
         film: 'A cardboard parcel standing on the doorstep of a Dutch brick terraced house with a green front door, light drizzle, soft daylight, slow motion.',
-        stock: ['package delivery doorstep', 'parcel at front door', 'delivery box door'],
+        stock: ['package delivery', 'parcel door', 'delivery box', 'parcel'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Jager</p><h2 class="in" style="animation-delay:.2s">Nu kopen of <em>wachten</em>?</h2></div>
 ${kaart(`${regel('zoek', 'blauw', 'Robotstofzuiger met dweilfunctie', 'onder € 300', '', 0.4)}
 ${regel('grafiek', 'goud', 'Prijs zakt meestal in januari', 'op basis van 90 dagen', '', 0.9)}
@@ -126,7 +126,7 @@ ${regel('grafiek', 'goud', 'Prijs zakt meestal in januari', 'op basis van 90 dag
       {
         tekst: 'Veel mensen krijgen geen toeslag, terwijl ze er wel recht op hebben. Jaar na jaar.',
         film: 'A Dutch woman in her thirties sits at a kitchen table in the evening with a laptop and a small pile of paper bills, she rubs her forehead and looks worried at the bills, warm lamp light, medium shot from the side, natural candid moment.',
-        stock: ['woman worried bills', 'stressed woman paperwork kitchen', 'woman calculating bills'],
+        stock: ['woman bill', 'stress paperwork', 'woman worried laptop', 'woman paperwork'],
         beeld: `<div class="titel"><p class="etiket in">ToeslagBuddy</p><h1 class="in" style="animation-delay:.3s">Mis je <em>geld</em> waar je recht op hebt?</h1></div>`,
       },
       {
@@ -136,7 +136,7 @@ ${regel('grafiek', 'goud', 'Prijs zakt meestal in januari', 'op basis van 90 dag
       {
         tekst: 'Binnen twee minuten zie je waar je recht op hebt. Soms is dat meer dan je dacht.',
         film: 'The same Dutch woman in her thirties types on her laptop at the kitchen table, reads the screen, then her face lights up with a relieved, genuinely happy smile, she leans back in her chair and lets out a breath of relief, medium shot from the side, natural candid moment, warm lamp light.',
-        stock: ['woman laptop happy relieved', 'woman smiling at laptop home', 'happy woman laptop kitchen'],
+        stock: ['woman laptop happy', 'woman laptop smiling', 'happy laptop', 'woman laptop success'],
         beeld: `<div class="uitkomst-pil in" style="animation-delay:1.6s">${ico('vink')}<span><small>Zorgtoeslag en huurtoeslag</small><b>+ € 1.540 per jaar</b></span></div><p class="voorbeeld in" style="animation-delay:1.8s">Voorbeeld, verzonnen bedrag</p>`,
       },
       {
@@ -154,8 +154,155 @@ ${regel('waarschuwing', 'rood', 'Huurtoeslag', 'voorschot te hoog: pas het aan',
       },
     ],
   },
+  {
+    id: 'pro',
+    titel: 'Alle cliënten in één keer gecontroleerd',
+    kleur: '#2f5d8a',
+    kleurTekst: '#2f5d8a',
+    scenes: [
+      {
+        tekst: 'Als bewindvoerder of budgetcoach wil je dat elke cliënt krijgt waar hij recht op heeft. Maar alles per cliënt narekenen kost uren.',
+        film: 'An office desk of a Dutch financial counsellor with stacks of client folders, a laptop and a cup of coffee, late afternoon light, slow dolly-in.',
+        stock: ['office paperwork', 'office desk document', 'office folder', 'office desk'],
+        beeld: `<div class="titel smal"><p class="etiket in">ToeslagBuddy Pro</p><h1 class="in" style="animation-delay:.3s">Alle cliënten in <em>één keer</em> gecontroleerd</h1></div>`,
+      },
+      {
+        tekst: 'Zet je cliëntenlijst erin. De controle draait in je eigen browser, dus de gegevens blijven bij jou.',
+        film: 'A professional woman at an office desk uploading a spreadsheet on her laptop, seen from the side, natural light, slow push-in.',
+        stock: ['woman laptop office', 'office computer woman', 'office laptop'],
+        beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Privé</p><h2 class="in" style="animation-delay:.2s">Gegevens blijven <em>bij jou</em></h2></div>
+${kaart(`<p class="kop">Cliëntenlijst</p>
+${regel('upload', 'blauw', 'clienten-november.xlsx', '48 cliënten ingelezen', '', 0.5)}
+${regel('slot', 'groen', 'Controle in je eigen browser', 'Er gaat niets naar een server', '', 1.0)}`)}</div>`,
+      },
+      {
+        tekst: 'Binnen een minuut zie je wie geld misloopt, wie een te hoog voorschot heeft, en welke regeling nog kan worden aangevraagd.',
+        film: 'Close-up of hands holding a printed report with charts next to a laptop on an office desk, shallow depth of field, slow drift.',
+        stock: ['report office', 'document laptop', 'business report', 'chart paper'],
+        beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Actielijst</p><h2 class="in" style="animation-delay:.2s">Wie heeft <em>nu</em> aandacht nodig?</h2></div>
+${kaart(`${regel('euro', 'goud', 'Cliënt 12: mist zorgtoeslag', 'Aanvragen kan nog', 'actie', 0.5)}
+${regel('waarschuwing', 'rood', 'Cliënt 31: voorschot te hoog', 'Terugvordering dreigt', 'actie', 0.9)}
+${regel('vink', 'groen', '46 cliënten in orde', 'Geen actie nodig', '', 1.3)}`)}</div>`,
+      },
+      {
+        tekst: 'Probeer het zeven dagen gratis op toeslagbuddy punt n l, schuine streep pro.',
+        ondertitel: 'Probeer het 7 dagen gratis op toeslagbuddy.nl/pro',
+        beeld: `<div class="slot"><span class="logo in">€</span><h2 class="in" style="animation-delay:.25s">7 dagen <em>gratis</em> proberen</h2><p class="url in" style="animation-delay:.6s">toeslagbuddy.nl/pro</p></div>`,
+      },
+    ],
+  },
+  {
+    id: 'zzp',
+    titel: 'Toeslagbewaker voor zzp’ers',
+    kleur: '#2f5d8a',
+    kleurTekst: '#2f5d8a',
+    scenes: [
+      {
+        tekst: 'Als zzp’er schommelt je winst. En daarmee je toeslag. Een te hoog voorschot merk je pas als je moet terugbetalen.',
+        film: 'A freelance designer working at a home office desk by a window with a laptop and sketches, natural daylight, slow push-in, seen from the side.',
+        stock: ['freelancer laptop', 'home office laptop', 'man laptop home', 'man laptop'],
+        beeld: `<div class="titel smal"><p class="etiket in">Toeslagbewaker</p><h1 class="in" style="animation-delay:.3s">Wisselend inkomen, <em>zeker</em> van je toeslag</h1></div>`,
+      },
+      {
+        tekst: 'Vul je winst tot nu toe in. Je ziet meteen of je voorschot nog klopt, en welk jaarinkomen je beter kunt opgeven.',
+        film: 'Close-up of a freelancer typing numbers on a laptop next to an invoice and a calculator, warm light, shallow depth of field.',
+        stock: ['laptop calculator', 'invoice laptop', 'calculator desk', 'typing laptop'],
+        beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Per maand</p><h2 class="in" style="animation-delay:.2s">Klopt je voorschot <em>nog</em>?</h2></div>
+${kaart(`<p class="kop">Voorbeeld</p>
+<div class="rij in" style="animation-delay:.5s"><span>Winst tot nu toe</span><b>€ 31.200</b></div>
+<div class="rij in" style="animation-delay:.8s"><span>Opgegeven jaarinkomen</span><b>€ 30.000</b></div>
+<div class="rij som in" style="animation-delay:1.1s"><span>Advies</span><b>Pas aan</b></div>
+<p class="klein in" style="animation-delay:1.5s">${ico('info')} Verzonnen voorbeeld</p>`)}</div>`,
+      },
+      {
+        tekst: 'Zo voorkom je een terugvordering, en houd je geen geld op de plank liggen. Probeer het gratis op toeslagbuddy punt n l.',
+        ondertitel: 'Zo voorkom je een terugvordering. Probeer het gratis op toeslagbuddy.nl/zzp-toeslagen',
+        beeld: `<div class="slot"><span class="logo in">€</span><h2 class="in" style="animation-delay:.25s">Geen <em>verrassing</em> achteraf</h2><p class="url in" style="animation-delay:.6s">toeslagbuddy.nl/zzp-toeslagen</p></div>`,
+      },
+    ],
+  },
+  {
+    id: 'zorgtoeslag',
+    titel: 'Zorgtoeslag in 1 minuut',
+    kleur: '#d9a441',
+    kleurTekst: '#7a5a12',
+    scenes: [
+      {
+        tekst: 'Heb je een zorgverzekering en een niet te hoog inkomen? Dan krijg je misschien zorgtoeslag.',
+        film: 'A young man in a small Dutch apartment holding a health insurance letter and looking thoughtful, natural window light, medium shot from the side.',
+        stock: ['man reading letter', 'man reading paper', 'reading mail', 'man letter'],
+        beeld: `<div class="titel smal"><p class="etiket in">Zorgtoeslag</p><h1 class="in" style="animation-delay:.3s">Recht op <em>zorgtoeslag</em>?</h1></div>`,
+      },
+      {
+        tekst: 'Vul je inkomen en je situatie in. In een minuut zie je wat je per maand krijgt, en wat je moet doen om het aan te vragen.',
+        film: 'A young man sitting on a sofa using a laptop, then smiling with relief at the screen, natural light, medium shot from the side, candid moment.',
+        stock: ['man laptop happy', 'man laptop smiling', 'happy laptop sofa', 'man laptop success'],
+        beeld: `<div class="uitkomst-pil in" style="animation-delay:1.4s">${ico('zorg')}<span><small>Zorgtoeslag</small><b>Bereken het in 1 minuut</b></span></div>`,
+      },
+      {
+        tekst: 'Gratis, zonder inloggen, met de bedragen van dit jaar. Op toeslagbuddy punt n l.',
+        ondertitel: 'Gratis en zonder inloggen. Op toeslagbuddy.nl/zorgtoeslag-berekenen',
+        beeld: `<div class="slot"><span class="logo in">€</span><h2 class="in" style="animation-delay:.25s">Bereken je <em>zorgtoeslag</em></h2><p class="url in" style="animation-delay:.6s">toeslagbuddy.nl/zorgtoeslag-berekenen</p></div>`,
+      },
+    ],
+  },
+  {
+    id: 'verpleeghuis',
+    titel: 'Wat kost het verpleeghuis?',
+    kleur: '#c2643a',
+    kleurTekst: '#9c4a26',
+    scenes: [
+      {
+        tekst: 'Gaat je vader of moeder naar een verpleeghuis? Dan betaalt hij of zij een eigen bijdrage aan het CAK. Hoe hoog, hangt af van inkomen en vermogen.',
+        film: 'An adult daughter holding her elderly mother\'s hand at a table in a bright care home lounge, faces not in focus, warm gentle light, slow push-in.',
+        stock: ['elderly woman hand', 'nursing home', 'senior woman daughter', 'elderly care'],
+        beeld: `<div class="titel smal"><p class="etiket in">Familie · Rekenhulp</p><h1 class="in" style="animation-delay:.3s">Wat kost het <em>verpleeghuis</em>?</h1></div>`,
+      },
+      {
+        tekst: 'Onze rekenhulp gebruikt de rekenmethode van het CAK. In 2026 is de lage eigen bijdrage minimaal 212 euro 60 per maand, en maximaal 1.115 euro 80.',
+        ondertitel: 'Onze rekenhulp gebruikt de rekenmethode van het CAK. In 2026 is de lage eigen bijdrage minimaal € 212,60 en maximaal € 1.115,80 per maand.',
+        film: 'Close-up of hands writing figures in a notebook next to a laptop at a kitchen table, warm light, shallow depth of field.',
+        stock: ['writing notebook', 'budget calculator', 'calculator notebook', 'writing hand'],
+        beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">2026</p><h2 class="in" style="animation-delay:.2s">Lage eigen <em>bijdrage</em></h2></div>
+${kaart(`<div class="rij in" style="animation-delay:.5s"><span>Minimaal</span><b>€ 212,60</b></div>
+<div class="rij in" style="animation-delay:.8s"><span>Maximaal</span><b>€ 1.115,80</b></div>
+<p class="klein in" style="animation-delay:1.2s">${ico('bron')} Bron: CAK, gecontroleerd november 2026</p>`)}</div>`,
+      },
+      {
+        tekst: 'Je ziet stap voor stap hoe het bedrag is berekend. Het CAK stelt de bijdrage uiteindelijk zelf vast. Reken het na op toeslagbuddy punt n l, schuine streep familie.',
+        ondertitel: 'Je ziet stap voor stap hoe het is berekend. Het CAK stelt de bijdrage vast. Reken het na op toeslagbuddy.nl/familie',
+        beeld: `<div class="slot"><span class="logo in">€</span><h2 class="in" style="animation-delay:.25s">Reken het <em>zelf</em> na</h2><p class="url in" style="animation-delay:.6s">toeslagbuddy.nl/familie</p></div>`,
+      },
+    ],
+  },
+  {
+    id: 'na-overlijden',
+    titel: 'Na een overlijden: wat moet er geregeld?',
+    kleur: '#c2643a',
+    kleurTekst: '#9c4a26',
+    scenes: [
+      {
+        tekst: 'Als een ouder overlijdt, komt er veel tegelijk op je af. En sommige dingen hebben een termijn.',
+        film: 'A quiet, sunlit Dutch living room with a vase of white flowers on the table and an empty armchair by the window, peaceful and respectful, very slow pan.',
+        stock: ['white flower vase', 'flower vase window', 'white flower', 'candle flower'],
+        beeld: `<div class="titel smal"><p class="etiket in">Familie · Checklist</p><h1 class="in" style="animation-delay:.3s">Na een overlijden: <em>rust</em> en overzicht</h1></div>`,
+      },
+      {
+        tekst: 'De checklist zet alles op volgorde: van de uitvaart tot de aangifte erfbelasting. Die moet binnen twintig maanden na het overlijden.',
+        ondertitel: 'De checklist zet alles op volgorde, tot en met de aangifte erfbelasting: binnen 20 maanden na het overlijden.',
+        film: 'Close-up of a hand ticking items on a paper checklist with a pen at a wooden table, soft daylight, slow motion.',
+        stock: ['checklist', 'writing list', 'pen paper', 'writing paper'],
+        beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Stappenplan</p><h2 class="in" style="animation-delay:.2s">Alles op <em>volgorde</em></h2></div>
+${kaart(`${['Overlijden aangeven bij de gemeente', 'Uitvaart regelen', 'Contracten opzeggen of overzetten', 'Aangifte erfbelasting: 20 maanden'].map((t, i) => `<div class="vink in" style="animation-delay:${0.5 + i * 0.4}s"><span class="${i < 2 ? 'aan' : ''}">${i < 2 ? ico('vink') : ''}</span>${t}</div>`).join('')}`, 'rustig')}</div>`,
+      },
+      {
+        tekst: 'Vink af wat klaar is, samen met de familie. Gratis, op toeslagbuddy punt n l, schuine streep familie.',
+        ondertitel: 'Vink af wat klaar is, samen met de familie. Gratis op toeslagbuddy.nl/familie',
+        beeld: `<div class="slot"><span class="logo in">€</span><h2 class="in" style="animation-delay:.25s">Samen, <em>stap voor stap</em></h2><p class="url in" style="animation-delay:.6s">toeslagbuddy.nl/familie</p></div>`,
+      },
+    ],
+  },
 ];
-
 // Vaste aanvulling op elke filmprompt (scripts/video/ai-beelden.js)
 export const FILM_STIJL = 'Photorealistic live-action footage, cinematic 35mm film look, shallow depth of field, natural warm colour grading, smooth steady camera, set in the Netherlands. No on-screen text, no logos, no subtitles.';
 export const NEGATIEF = 'text, letters, words, captions, subtitles, watermark, logo, brand names, government emblem, flags, police, person talking to camera, looking into the camera, plastic skin, distorted hands, extra fingers, deformed bodies, cartoon, illustration, 3d render, low quality';

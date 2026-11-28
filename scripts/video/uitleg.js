@@ -113,7 +113,7 @@ async function renderScene(pagina, s, start, deel) {
 async function render(browser, basis, video, scenes, bestand) {
   const pagina = await (await browser.newContext({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1 })).newPage();
   await pagina.goto(basis + '/404.html');
-  const kleurTekst = { familie: '#9c4a26', besparen: '#6f3a73', toeslagen: '#7a5a12' }[video.id] || '#1f6b5a';
+  const kleurTekst = video.kleurTekst || { familie: '#9c4a26', besparen: '#6f3a73', toeslagen: '#7a5a12' }[video.id] || '#1f6b5a';
   await pagina.setContent(`<!doctype html><html lang="nl"><head><meta charset="utf-8"><base href="${basis}/"><style>${STIJL}${STIJL_FILM}</style></head>
 <body style="--k:${video.kleur};--kt:${kleurTekst}"><div class="scrim"></div><div class="decor"></div><div class="decor twee"></div><div class="merk"><span>€</span>ToeslagBuddy</div><p class="ai-label"></p><main id="scene"></main><p class="ondertitel" id="ot" hidden></p></body></html>`);
   await pagina.evaluate(() => document.fonts.ready);

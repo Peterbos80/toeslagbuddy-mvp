@@ -27,9 +27,9 @@ test('wat maken: ontbrekend of gewijzigde prompt; met de hand toegevoegde clips 
   assert.deepEqual(nogTeMaken(lijst, index, bestaat).map((w) => w.naam), ['a-2', 'a-3']);
 });
 
-test('scènes: 11 filmbeelden, elk met vaste stijl, en een andere prompt geeft een andere hash', () => {
+test('scènes: 22 filmbeelden, elk met vaste stijl, en een andere prompt geeft een andere hash', () => {
   const w = wensen();
-  assert.equal(w.length, 11);
+  assert.equal(w.length, 22);
   for (const x of w) {
     assert.match(x.prompt, /No on-screen text/);
     assert.doesNotMatch(x.prompt, /Belastingdienst|CAK|Rijksoverheid|logo of/i);

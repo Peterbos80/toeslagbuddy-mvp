@@ -21,7 +21,7 @@ test('ondertitels: hele zinnen, nooit midden in een webadres, en precies de duur
 });
 
 test('scènes: elke video heeft tekst en beeld, en zonder stem een redelijke duur', () => {
-  assert.deepEqual(VIDEOS.map((v) => v.id), ['familie', 'besparen', 'toeslagen']);
+  assert.deepEqual(VIDEOS.map((v) => v.id), ['familie', 'besparen', 'toeslagen', 'pro', 'zzp', 'zorgtoeslag', 'verpleeghuis', 'na-overlijden']);
   for (const v of VIDEOS) {
     const p = plan(v, null);
     const totaal = p.reduce((s, x) => s + x.duur, 0);

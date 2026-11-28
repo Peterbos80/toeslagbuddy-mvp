@@ -1,49 +1,4 @@
 {
- "familie-1": {
-  "bron": "pixabay",
-  "hash": "8782794dc2e7",
-  "id": 11606,
-  "url": "https://pixabay.com/videos/id-11606/",
-  "fotograaf": "XiaosKitchen",
-  "fotograafUrl": "https://pixabay.com/users/XiaosKitchen-1319509/",
-  "gemaakt": "2026-11-28"
- },
- "familie-2": {
-  "bron": "pixabay",
-  "hash": "c30f8b54bb49",
-  "id": 11283,
-  "url": "https://pixabay.com/videos/id-11283/",
-  "fotograaf": "GreenCardShow",
-  "fotograafUrl": "https://pixabay.com/users/GreenCardShow-3867243/",
-  "gemaakt": "2026-11-28"
- },
- "familie-3": {
-  "bron": "pixabay",
-  "hash": "b1813413ef9f",
-  "id": 846,
-  "url": "https://pixabay.com/videos/id-846/",
-  "fotograaf": "klimkin",
-  "fotograafUrl": "https://pixabay.com/users/klimkin-1298145/",
-  "gemaakt": "2026-11-28"
- },
- "familie-4": {
-  "bron": "pixabay",
-  "hash": "a3b400b33f2a",
-  "id": 293085,
-  "url": "https://pixabay.com/videos/id-293085/",
-  "fotograaf": "RainMeditateHub",
-  "fotograafUrl": "https://pixabay.com/users/RainMeditateHub-51172146/",
-  "gemaakt": "2026-11-28"
- },
- "familie-5": {
-  "bron": "pixabay",
-  "hash": "166d44d9c7f3",
-  "id": 20269,
-  "url": "https://pixabay.com/videos/id-20269/",
-  "fotograaf": "Matthias_Groeneveld",
-  "fotograafUrl": "https://pixabay.com/users/Matthias_Groeneveld-4535957/",
-  "gemaakt": "2026-11-28"
- },
  "besparen-1": {
   "bron": "pixabay",
   "hash": "872e8297e0de",
@@ -62,33 +17,6 @@
   "fotograafUrl": "https://pixabay.com/users/elchao-230475/",
   "gemaakt": "2026-11-28"
  },
- "besparen-4": {
-  "bron": "pixabay",
-  "hash": "d2fa3f11c063",
-  "id": 2229,
-  "url": "https://pixabay.com/videos/id-2229/",
-  "fotograaf": "Jahhoo",
-  "fotograafUrl": "https://pixabay.com/users/Jahhoo-1418773/",
-  "gemaakt": "2026-11-28"
- },
- "toeslagen-1": {
-  "bron": "pixabay",
-  "hash": "e9c2e7888f2e",
-  "id": 18244,
-  "url": "https://pixabay.com/videos/id-18244/",
-  "fotograaf": "Lirofilm",
-  "fotograafUrl": "https://pixabay.com/users/Lirofilm-154295/",
-  "gemaakt": "2026-11-28"
- },
- "toeslagen-3": {
-  "bron": "pixabay",
-  "hash": "c67c91141e40",
-  "id": 243647,
-  "url": "https://pixabay.com/videos/id-243647/",
-  "fotograaf": "xBriantcx",
-  "fotograafUrl": "https://pixabay.com/users/xBriantcx-36275440/",
-  "gemaakt": "2026-11-28"
- },
  "toeslagen-4": {
   "bron": "pixabay",
   "hash": "17492592e12d",
@@ -97,5 +25,15 @@
   "fotograaf": "conte_public",
   "fotograafUrl": "https://pixabay.com/users/conte_public-41658361/",
   "gemaakt": "2026-11-28"
- }
+ },
+ "afgekeurd": [
+  "pixabay:11606",
+  "pixabay:11283",
+  "pixabay:846",
+  "pixabay:293085",
+  "pixabay:20269",
+  "pixabay:2229",
+  "pixabay:18244",
+  "pixabay:243647"
+ ]
 }

@@ -1,7 +1,7 @@
 // Stockvideo's van Pexels: welke scènes, welke video en welk bestand.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { wensen, nogTeZoeken, kiesVideo, kiesBestand, credit, zoek, zoekHash, zoekPixabay, vanPixabay } from '../scripts/video/stock-beelden.js';
+import { past, wensen, nogTeZoeken, kiesVideo, kiesBestand, credit, zoek, zoekHash, zoekPixabay, vanPixabay } from '../scripts/video/stock-beelden.js';
 import { nogTeMaken } from '../scripts/video/ai-beelden.js';
 import { bronVan } from '../scripts/video/uitleg.js';
 
@@ -10,7 +10,7 @@ const video = (id, extra = {}) => ({ id, width: 1920, height: 1080, duration: 15
 
 test('scènes: elke filmscène heeft zoektermen', () => {
   const w = wensen();
-  assert.equal(w.length, 11);
+  assert.equal(w.length, 22);
   for (const x of w) assert.ok(x.termen.length >= 2 && x.termen.every((t) => /^[a-z ]+$/.test(t)), x.naam);
   assert.notEqual(zoekHash(['a']), zoekHash(['b']));
 });
@@ -74,4 +74,18 @@ test('Pixabay: zelfde vorm als Pexels, 4K overgeslagen, sleutel nooit in een fou
   assert.equal(r[0].id, 42);
   assert.match(adres, /^https:\/\/pixabay\.com\/api\/videos\/\?key=GEHEIM&q=woman%20laptop&video_type=film&safesearch=true/);
   await assert.rejects(zoekPixabay('x', { sleutel: 'GEHEIM', haal: async () => ({ ok: false, status: 400, text: async () => '[ERROR 400] Invalid API key GEHEIM' }) }), (e) => /Pixabay 400/.test(e.message) && !e.message.includes('GEHEIM'));
+});
+
+test('labels: elk zoekwoord (enkelvoud) moet in de Pixabay-labels staan', () => {
+  assert.equal(past('woman laptop happy', 'woman, laptop, happy, smile, home'), true);
+  assert.equal(past('woman bill', 'woman, bills, paperwork, stress'), true);
+  assert.equal(past('letter table', 'owl, bird, eyes, nature'), false);
+  assert.equal(past('elderly tablet', 'tablet, technology'), false);
+  assert.equal(past('package delivery', 'railway, track, train'), false);
+  assert.equal(past('the', 'the'), false);
+  // Pexels heeft geen labels: dan geen filter
+  assert.equal(past('wat dan ook', undefined), true);
+  const v = vanPixabay({ ...hit, tags: 'owl, bird' });
+  assert.equal(kiesVideo([v], { term: 'letter table' }), null);
+  assert.equal(kiesVideo([vanPixabay({ ...hit, tags: 'letter, table, mail' })], { term: 'letter table' }).video.id, 42);
 });

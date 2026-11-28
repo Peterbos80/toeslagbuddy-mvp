@@ -594,7 +594,8 @@ export function bouwFamilie({ dist, versie, layout }) {
     const faq = p.faq && p.faq.length ? `<section class="faq f-sectie" style="max-width:820px"><h2>Veelgestelde vragen</h2>${p.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><div><p>${a}</p></div></details>`).join('')}</section>` : '';
     const dir = join(dist, p.slug);
     mkdirSync(dir, { recursive: true });
-    writeFileSync(join(dir, 'index.html'), layout(p, p.html + faq));
+    const video = { '/familie/rekenhulp/verpleeghuis/': 'verpleeghuis', '/familie/checklist/na-overlijden/': 'na-overlijden' }[p.slug];
+    writeFileSync(join(dir, 'index.html'), layout(p, p.html + (video ? `<section class="f-sectie" style="max-width:860px">${uitlegVideo(video)}</section>` : '') + faq));
   }
   return { paginas, regels: Object.keys(REGELS).length, gidsen: GIDSEN.length };
 }

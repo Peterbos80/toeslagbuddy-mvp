@@ -142,6 +142,9 @@ function verdienHtml(page, body) {
   return partner + kruis;
 }
 
+// Uitlegvideo bovenaan de pagina van het onderwerp (scripts/video/uitleg-scenes.js)
+const VIDEO_OP = { '/pro/': 'pro', '/zzp-toeslagen/': 'zzp', '/zorgtoeslag-berekenen/': 'zorgtoeslag' };
+
 const sitemap = [];
 for (const page of pages) {
   page.versie = versie;
@@ -170,6 +173,7 @@ ${home ? '<div class="hero-buddy" data-intro></div>' : ''}
 ${page.calc ? `<section class="rekenkaart" id="${page.anker || 'rekenhulp'}" aria-label="${S.rekenhulp}">\n<noscript><p class="geen-js">${S.geenJs}</p></noscript>\n${forms[page.calc](page.taal)}\n</section>` : ''}
 ${home && page.taal === 'nl' ? onderdelenHtml() : ''}
 ${advertentie('slotInhoud', page)}
+${VIDEO_OP[page.slug] ? uitlegVideo(VIDEO_OP[page.slug]) : ''}
 ${body}
 ${verdienHtml(page, body)}
 ${faqHtml(page.faq, S)}

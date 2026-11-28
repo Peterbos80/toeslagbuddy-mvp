@@ -46,9 +46,22 @@ export function kiesBestand(video) {
 // Beste video uit de zoekresultaten. Pexels sorteert al op relevantie; wij
 // houden die volgorde aan, maar alleen liggend 16:9-achtig, 6–40 s lang, met
 // een bruikbaar bestand, nog niet gebruikt en niet afgekeurd.
-export function kiesVideo(resultaten, { afgekeurd = [], gebruikt = [] } = {}) {
+// Past een video bij de zoekterm? Pixabay zoekt ruim; daarom moet elk woord
+// van de zoekterm (enkelvoud) in de labels van de video staan. Pexels geeft
+// geen labels: daar vertrouwen we op de relevantievolgorde.
+const STOP = new Set(['a', 'an', 'the', 'at', 'on', 'in', 'of', 'with', 'and', 'to']);
+const enkel = (w) => w.toLowerCase().replace(/(ies)$/, 'y').replace(/(?<!s)s$/, '');
+export function past(term, tags) {
+  if (tags === undefined) return true;
+  const labels = new Set(String(tags).toLowerCase().split(/[,\s]+/).filter(Boolean).map(enkel));
+  const woorden = term.toLowerCase().split(/\s+/).filter((w) => w && !STOP.has(w)).map(enkel);
+  return woorden.length > 0 && woorden.every((w) => labels.has(w));
+}
+
+export function kiesVideo(resultaten, { afgekeurd = [], gebruikt = [], term = null } = {}) {
   for (const v of resultaten) {
     if (afgekeurd.includes(v.id) || gebruikt.includes(v.id)) continue;
+    if (term && !past(term, v.tags)) continue;
     if (!(v.width > v.height) || v.width / v.height < 1.6 || v.width / v.height > 1.9) continue;
     if (v.duration < 6 || v.duration > 40) continue;
     const bestand = kiesBestand(v);
@@ -66,7 +79,7 @@ export function vanPixabay(h) {
   const v = h.videos || {};
   const groot = v.large?.width ? v.large : v.medium || {};
   const bestanden = ['large', 'medium', 'small'].map((k) => v[k]).filter((f) => f?.url && f.width).map((f) => ({ file_type: 'video/mp4', width: f.width, height: f.height, link: f.url }));
-  return { id: h.id, width: groot.width || 0, height: groot.height || 0, duration: h.duration, url: h.pageURL, user: { name: h.user, url: `https://pixabay.com/users/${encodeURIComponent(h.user)}-${h.user_id}/` }, video_files: bestanden };
+  return { id: h.id, tags: h.tags || '', width: groot.width || 0, height: groot.height || 0, duration: h.duration, url: h.pageURL, user: { name: h.user, url: `https://pixabay.com/users/${encodeURIComponent(h.user)}-${h.user_id}/` }, video_files: bestanden };
 }
 
 export async function zoekPixabay(term, { sleutel, haal = fetch }) {
@@ -123,7 +136,7 @@ async function main() {
     try {
       let keuze = null;
       for (const term of w.termen) {
-        keuze = kiesVideo(await zoekBij(term, { sleutel }), { afgekeurd: afgekeurd.filter((a) => String(a).startsWith(`${bron}:`)).map((a) => Number(String(a).split(':')[1])), gebruikt: gebruikt.filter((g) => g.startsWith(`${bron}:`)).map((g) => Number(g.split(':')[1])) });
+        keuze = kiesVideo(await zoekBij(term, { sleutel }), { term, afgekeurd: afgekeurd.filter((a) => String(a).startsWith(`${bron}:`)).map((a) => Number(String(a).split(':')[1])), gebruikt: gebruikt.filter((g) => g.startsWith(`${bron}:`)).map((g) => Number(g.split(':')[1])) });
         if (keuze) break;
       }
       if (!keuze) {
