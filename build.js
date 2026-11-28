@@ -22,7 +22,10 @@ const pages = koppel([...pagesNl, ...pagesEn]);
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
 
-rmSync(DIST, { recursive: true, force: true });
+// Alles weg behalve dist/og/: de deelafbeeldingen per pagina
+// (scripts/og-paginas.js). Staan ze er al, dan verwijst een pagina er meteen
+// naar; het script maakt ze bij elke publicatie opnieuw.
+if (existsSync(DIST)) for (const f of readdirSync(DIST)) if (f !== 'og') rmSync(join(DIST, f), { recursive: true, force: true });
 mkdirSync(join(DIST, 'js'), { recursive: true });
 mkdirSync(join(DIST, 'css'), { recursive: true });
 

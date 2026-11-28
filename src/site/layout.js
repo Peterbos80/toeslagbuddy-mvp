@@ -1,11 +1,18 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import config from '../../site.config.js';
 import { JAAR, GECONTROLEERD_OP } from '../calc/params.js';
 import { teksten } from '../i18n/i18n.js';
 import { verificatie } from './vindbaar.js';
+import { ogAfbeelding, OG_MAAT } from './og.js';
 
-// Deelafbeelding per onderdeel (scripts/og.js maakt ze)
-const OG = { familie: 'og-familie.png', deals: 'og-besparen.png', pro: 'og-pro.png', zzp: 'og-pro.png' };
+// Deelafbeelding: de eigen afbeelding van de pagina (dist/og/, gemaakt door
+// scripts/og-paginas.js) als die er al is, anders die van het onderdeel
+// (public/og*.png, scripts/og.js). Draait het script pas na de build, dan zet
+// het de verwijzing alsnog om; zonder script verwijst de pagina naar de
+// afbeelding van het onderdeel en breekt er dus niets.
+const DIST = fileURLToPath(new URL('../../dist', import.meta.url));
+const inDist = (pad) => existsSync(DIST + pad);
 
 export const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
@@ -307,7 +314,9 @@ ${afgeschermd(page) ? `<script src="/js/framebuster.js?v=${page.versie}"></scrip
 <meta property="og:title" content="${esc(page.title)}">
 <meta property="og:description" content="${esc(page.description)}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="${config.url}/${OG[sectie] || 'og.png'}">
+<meta property="og:image" content="${config.url}${ogAfbeelding(page, sectie, inDist)}">
+<meta property="og:image:width" content="${OG_MAAT.breedte}">
+<meta property="og:image:height" content="${OG_MAAT.hoogte}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/manifest.webmanifest">

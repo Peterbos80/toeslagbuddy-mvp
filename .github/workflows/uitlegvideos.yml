@@ -35,7 +35,7 @@ concurrency:
 jobs:
   maken:
     runs-on: ubuntu-24.04 # Playwright 1.56 ondersteunt Ubuntu 26.04 (ubuntu-latest) nog niet
-    timeout-minutes: 40
+    timeout-minutes: 90 # liggend en verticaal (1080 × 1920 is trager)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -85,6 +85,17 @@ jobs:
         run: |
           node build.js
           args=(--stem /tmp/stem)
+          [[ "$OPNIEUW" == "true" ]] && args+=(--opnieuw)
+          node scripts/video/uitleg.js "${args[@]}"
+          ls -la public/video/uitleg
+      # Dezelfde scènes, stem en ondertitels in 9:16 (1080 × 1920) voor
+      # Instagram Reels en TikTok: public/video/uitleg/<id>-verticaal.mp4.
+      # Eigen vingerafdruk in verticaal.json: alleen opnieuw als er iets veranderde.
+      - name: Verticale video's renderen (Reels/TikTok)
+        env:
+          OPNIEUW: ${{ github.event.inputs.opnieuw }}
+        run: |
+          args=(--verticaal --stem /tmp/stem)
           [[ "$OPNIEUW" == "true" ]] && args+=(--opnieuw)
           node scripts/video/uitleg.js "${args[@]}"
           ls -la public/video/uitleg

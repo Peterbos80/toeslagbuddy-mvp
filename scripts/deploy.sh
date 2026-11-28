@@ -13,6 +13,9 @@ command -v lftp >/dev/null || { echo "lftp is niet geïnstalleerd (sudo apt inst
 
 npm test
 node build.js
+# Deelafbeelding per pagina (Playwright/Chromium nodig); zonder blijft de
+# afbeelding van het onderdeel staan
+node scripts/og-paginas.js || echo "⚠ Deelafbeeldingen per pagina overgeslagen"
 
 lftp -u "$TRANSIP_USER","$TRANSIP_PASSWORD" "sftp://$TRANSIP_HOST" <<LFTP
 set sftp:auto-confirm yes

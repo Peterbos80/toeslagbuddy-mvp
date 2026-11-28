@@ -406,21 +406,74 @@ body:not(.film) .scrim { display: none; }
 body:not(.film) .voorbeeld { color: #55625f; }
 `;
 
-// Ondertitel in stukjes van maximaal ~90 tekens, verdeeld over de duur van de scène
-export function ondertitels(tekst, duur) {
+// Verticale opmaak (9:16) voor Instagram Reels en TikTok: dezelfde scènes,
+// andere schikking. De pagina is 720 × 1280 CSS-pixels en wordt met
+// schaal 1,5 vastgelegd: 1080 × 1920 beeldpunten, scherpe letters.
+// Veilige zones: bovenaan ruimte voor het merk, onderaan (±380 px) en
+// rechts (±110 px) zitten de knoppen en het bijschrift van de app; daar staat
+// geen tekst. Ondertitels staan erboven. In filmscènes staat de clip in volle
+// breedte bovenin (geen uitvergroot middenstuk) met een vervaagde kopie als
+// achtergrond; de tekst staat eronder.
+// Staat los van STIJL zodat de liggende video's hier niet door veranderen
+// (hun vingerafdruk blijft gelijk en ze worden niet opnieuw gemaakt).
+export const STIJL_VERTICAAL = `
+html.verticaal, html.verticaal body { width: 720px; height: 1280px; }
+.verticaal .decor { width: 560px; height: 560px; right: -220px; top: -160px; }
+.verticaal .decor.twee { left: -260px; right: auto; top: auto; bottom: -200px; }
+.verticaal .merk { left: 48px; top: 52px; font-size: 26px; }
+.verticaal .merk span { width: 40px; height: 40px; font-size: 22px; }
+.verticaal .ai-label { right: 48px; top: 58px; max-width: 360px; font-size: 14px; text-align: right; }
+.verticaal .scene { padding: 140px 72px 430px 48px; flex-direction: column; justify-content: center; align-items: stretch; }
+.verticaal em { padding-right: .07em; }
+.verticaal h1 { font-size: 66px; max-width: none; }
+.verticaal h2 { font-size: 54px; }
+.verticaal .etiket { font-size: 19px; }
+.verticaal .titel.smal h1, .verticaal .tekstblok h2 { max-width: none; }
+.verticaal .twee { grid-template-columns: 1fr; gap: 34px; align-items: stretch; }
+.verticaal .kaart { padding: 26px 26px; border-radius: 26px; }
+.verticaal .kaart .kop { font-size: 16px; }
+.verticaal .regel { grid-template-columns: 52px 1fr auto; padding: 13px 0; }
+.verticaal .regel b { font-size: 23px; } .verticaal .regel small { font-size: 18px; }
+.verticaal .stip { width: 52px; height: 52px; }
+.verticaal .pil { font-size: 16px; }
+.verticaal .rij { font-size: 24px; } .verticaal .rij small { font-size: 17px; }
+.verticaal .vink { font-size: 24px; }
+.verticaal .klein { font-size: 17px; }
+.verticaal .knop { font-size: 22px; }
+.verticaal .papier { font-size: 21px; padding: 26px; }
+.verticaal .avatars { margin-top: 22px; }
+.verticaal .stapel { position: relative; right: auto; top: auto; width: 340px; height: 250px; margin: 70px auto 0; flex: none; }
+.verticaal .brief { height: 200px; }
+.verticaal .tegels { grid-template-columns: 1fr 1fr; gap: 18px; }
+.verticaal .tegel { padding: 26px 22px; } .verticaal .tegel b { font-size: 24px; }
+.verticaal .slot h2 { font-size: 58px; } .verticaal .url { font-size: 28px; overflow-wrap: anywhere; }
+.verticaal .slot ul { flex-direction: column; align-items: center; gap: 12px; }
+.verticaal .slot li { font-size: 22px; }
+.verticaal .sticker { font-size: 30px; } .verticaal .sticker b { font-size: 40px; }
+.verticaal .uitkomst-pil { left: 48px; right: 72px; bottom: 470px; }
+.verticaal .uitkomst-pil b { font-size: 30px; }
+.verticaal .voorbeeld { left: 50px; bottom: 440px; font-size: 15px; }
+.verticaal .ondertitel { left: 48px; right: 72px; bottom: 250px; transform: none; width: fit-content; max-width: none; margin: 0 auto; font-size: 31px; line-height: 1.32; padding: 12px 20px; }
+.verticaal body.film .scene { justify-content: flex-end; padding-top: 420px; }
+.verticaal body.film .scrim { background: linear-gradient(180deg, rgb(12 20 18 / 55%) 0%, rgb(12 20 18 / 0%) 9%, rgb(12 20 18 / 0%) 30%, rgb(12 20 18 / 72%) 44%, rgb(12 20 18 / 82%) 100%); }
+`;
+
+// Ondertitel in stukjes van maximaal ~90 tekens (of `max`), verdeeld over de
+// duur van de scène. De verticale video's gebruiken kortere stukjes.
+export function ondertitels(tekst, duur, { max = 90 } = {}) {
   // Zinnen splitsen na . ! ? gevolgd door een spatie (niet in 'toeslagbuddy.nl');
   // korte zinnen samen in één regel als dat past
   const zinnen = [];
   for (const z of tekst.split(/(?<=[.!?])\s+/).map((x) => x.trim()).filter(Boolean)) {
     const vorige = zinnen.at(-1);
-    if (vorige && (vorige.length < 28 || z.length < 24) && vorige.length + z.length < 78) zinnen[zinnen.length - 1] = `${vorige} ${z}`;
+    if (vorige && (vorige.length < 28 || z.length < 24) && vorige.length + z.length < max - 12) zinnen[zinnen.length - 1] = `${vorige} ${z}`;
     else zinnen.push(z);
   }
   const stukken = [];
   for (const z of zinnen) {
-    if (z.length <= 90) { stukken.push(z); continue; }
+    if (z.length <= max) { stukken.push(z); continue; }
     // Lange zin: in gelijke delen, bij voorkeur na een komma
-    const delen = Math.ceil(z.length / 80);
+    const delen = Math.ceil(z.length / (max - 10));
     const doel = z.length / delen;
     const woorden = z.split(' ');
     let huidig = '';

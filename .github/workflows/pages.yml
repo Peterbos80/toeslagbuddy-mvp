@@ -34,6 +34,11 @@ jobs:
         run: node scripts/nieuws.js
         continue-on-error: true
       - run: node build.js
+      # Eigen deelafbeelding (1200 × 630) per Nederlandse pagina in dist/og/;
+      # zet ook de og:image van die pagina's om. Vóór de tests, zodat die het
+      # eindresultaat controleren.
+      - name: Deelafbeeldingen per pagina (Open Graph)
+        run: node scripts/og-paginas.js
       - name: Instagram-afbeeldingen en video's maken
         run: |
           sudo apt-get install -y ffmpeg
