@@ -456,3 +456,56 @@ body.spiekbriefje .resultaat { break-inside: avoid; }
 .stap h2 { font-family: var(--font-kop); }
 video:focus-visible, .tabel-scroll:focus-visible { outline: 3px solid var(--merk); outline-offset: 3px; }
 .uitlegvideo .uv-beeld:focus-within { outline: 3px solid var(--merk); outline-offset: 3px; }
+
+/* Voorschotcheck: wat je nu krijgt tegenover de berekening */
+.voorschot-check { --vc: var(--goed); --vc-licht: var(--goed-licht); margin-top: 18px; padding: 20px; border-radius: var(--radius); background: var(--vlak); border: 1px solid var(--lijn); border-left: 6px solid var(--vc); }
+.voorschot-check.te-hoog { --vc: var(--rood); --vc-licht: var(--rood-licht); }
+.voorschot-check.te-laag { --vc: var(--goud); --vc-licht: var(--goud-licht); }
+.voorschot-check h3 { margin: 0 0 14px; font-size: 1.2rem; }
+.vc-rij { display: grid; grid-template-columns: minmax(8.5em, auto) 1fr auto; gap: 12px; align-items: center; margin: 8px 0; }
+.vc-label { color: var(--zacht); font-size: .95rem; }
+.vc-balk { height: 14px; border-radius: 99px; background: var(--vlak-2); overflow: hidden; }
+.vc-balk i { display: block; height: 100%; border-radius: 99px; background: var(--lijn-sterk); }
+.vc-balk i.verwacht { background: var(--vc); }
+.vc-bedrag { font-weight: 800; font-variant-numeric: tabular-nums; }
+.vc-uitkomst { margin: 14px 0 0; font-size: 1.05rem; }
+.vc-actie { margin: 8px 0 0; padding: 12px 14px; border-radius: var(--radius-s); background: var(--vc-licht); }
+@media (max-width: 420px) { .vc-rij { grid-template-columns: 1fr auto; } .vc-balk { grid-column: 1 / -1; order: 3; } }
+
+/* Snelcheck "Kan ik recht hebben?" (startpagina) */
+.snelcheck { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 0; margin: 0 0 28px; border-radius: var(--radius-l); background: var(--vlak); border: 1px solid var(--lijn); box-shadow: var(--schaduw-hoog); overflow: hidden; }
+.sc-vragen { padding: 26px 28px; }
+.snelcheck h2 { margin: 0; font-size: clamp(1.45rem, 3.2vw, 1.85rem); }
+.sc-sub { margin: 4px 0 8px; color: var(--zacht); }
+.snelcheck fieldset { border: 0; padding: 0; margin: 18px 0 0; min-width: 0; }
+.snelcheck legend { display: flex; gap: 10px; align-items: center; font-weight: 700; padding: 0; margin-bottom: 10px; }
+.sc-nr { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--merk-licht); color: var(--merk-donker); font-size: .9rem; font-weight: 800; }
+.sc-rij { display: flex; flex-wrap: wrap; gap: 8px; }
+.sc-rij > span { display: contents; }
+.sc-rij > span[hidden] { display: none; }
+.sc-keuze { position: relative; display: inline-flex; }
+.sc-keuze input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.sc-keuze span { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 10px 18px; border: 1.5px solid var(--veld-rand); border-radius: 24px; background: var(--vlak); font-weight: 600; transition: background .15s var(--ease), border-color .15s var(--ease); }
+.sc-keuze input[type=checkbox] + span::before { content: ''; width: 16px; height: 16px; border: 1.5px solid currentColor; border-radius: 4px; flex: none; }
+.sc-keuze input:hover + span { border-color: var(--tekst); }
+.sc-keuze input:checked + span { border-color: var(--merk); background: var(--merk-licht); color: var(--merk-donker); box-shadow: inset 0 0 0 1px var(--merk); }
+.sc-keuze input[type=checkbox]:checked + span::before { background: var(--merk) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat; border-color: var(--merk); }
+.sc-keuze input:focus-visible + span { outline: 3px solid var(--merk); outline-offset: 2px; }
+.sc-uitkomst { padding: 26px 28px; background: var(--merk-licht); border-left: 1px solid var(--lijn); display: flex; flex-direction: column; justify-content: center; }
+.sc-uitkomst h3 { margin: 0 0 12px; font-size: 1.2rem; }
+.sc-leeg { margin: 0; color: var(--zacht); font-size: 1.05rem; }
+.sc-lijst { list-style: none; margin: 0 0 16px; padding: 0; display: grid; gap: 8px; }
+.sc-lijst a { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 48px; padding: 10px 14px; border-radius: var(--radius-s); background: var(--vlak); color: var(--tekst); text-decoration: none; font-weight: 700; border: 1px solid var(--lijn); }
+.sc-lijst a:hover { border-color: var(--merk); }
+.sc-kans { flex: none; padding: 4px 10px; border-radius: 99px; font-size: .9rem; font-weight: 800; }
+.sc-groot .sc-kans { background: var(--goed-licht); color: var(--goed); box-shadow: inset 0 0 0 1px var(--goed); }
+.sc-misschien .sc-kans { background: var(--goud-licht); color: var(--goud-tekst); box-shadow: inset 0 0 0 1px var(--goud); }
+.sc-klein .sc-kans { background: var(--vlak-2); color: var(--zacht); }
+.sc-groot .sc-kans::before { content: '✓ '; }
+.sc-voet { margin: 4px 0 0; color: var(--zacht); font-size: .95rem; }
+.sc-uitkomst .knop { width: 100%; justify-content: center; }
+@media (max-width: 760px) {
+  .snelcheck { grid-template-columns: 1fr; }
+  .sc-vragen, .sc-uitkomst { padding: 20px; }
+  .sc-uitkomst { border-left: 0; border-top: 1px solid var(--lijn); }
+}

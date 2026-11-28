@@ -7,7 +7,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 4,
-    "seconden": 19.6,
+    "seconden": 21.4,
     "fouten": [],
     "paginas": {
      "/": {
@@ -15,15 +15,15 @@
       "kleineDoelen": [],
       "breedte": 320,
       "viewport": 320,
-      "kb": 374,
-      "leesbaarheid": 50
+      "kb": 397,
+      "leesbaarheid": 54
      },
      "/zorgtoeslag-berekenen/": {
       "kleinsteTekst": 18,
       "kleineDoelen": [],
       "breedte": 320,
       "viewport": 320,
-      "kb": 375,
+      "kb": 392,
       "leesbaarheid": 59
      }
     }
@@ -52,8 +52,8 @@
       ],
       "breedte": 390,
       "viewport": 390,
-      "kb": 374,
-      "leesbaarheid": 50
+      "kb": 397,
+      "leesbaarheid": 54
      }
     }
    },
@@ -70,7 +70,7 @@
       "kleineDoelen": [],
       "breedte": 390,
       "viewport": 390,
-      "kb": 375,
+      "kb": 392,
       "leesbaarheid": 59
      }
     }
@@ -85,7 +85,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 4,
-    "seconden": 0.9,
+    "seconden": 1,
     "fouten": [],
     "paginas": {
      "/toeslagen-student/": {
@@ -93,7 +93,7 @@
       "kleineDoelen": [],
       "breedte": 390,
       "viewport": 390,
-      "kb": 313,
+      "kb": 329,
       "leesbaarheid": 68
      },
      "/huurtoeslag-berekenen/": {
@@ -101,8 +101,26 @@
       "kleineDoelen": [],
       "breedte": 390,
       "viewport": 390,
-      "kb": 317,
+      "kb": 334,
       "leesbaarheid": 67
+     }
+    }
+   },
+   {
+    "doel": "Na een loonsverhoging zien of haar zorgtoeslag-voorschot nog klopt",
+    "gelukt": true,
+    "mislukt": null,
+    "handelingen": 3,
+    "seconden": 0.8,
+    "fouten": [],
+    "paginas": {
+     "/zorgtoeslag-berekenen/": {
+      "kleinsteTekst": 15.04,
+      "kleineDoelen": [],
+      "breedte": 390,
+      "viewport": 390,
+      "kb": 392,
+      "leesbaarheid": 59
      }
     }
    }
@@ -116,7 +134,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 4,
-    "seconden": 1.1,
+    "seconden": 1.3,
     "fouten": [],
     "paginas": {
      "/": {
@@ -124,15 +142,15 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 374,
-      "leesbaarheid": 53
+      "kb": 397,
+      "leesbaarheid": 56
      },
      "/familie/": {
-      "kleinsteTekst": 15.04,
+      "kleinsteTekst": 12.48,
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 293,
+      "kb": 300,
       "leesbaarheid": 67
      },
      "/familie/rekenhulp/verpleeghuis/": {
@@ -140,7 +158,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 325,
+      "kb": 332,
       "leesbaarheid": 76
      }
     }
@@ -150,15 +168,15 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 1,
-    "seconden": 0.4,
+    "seconden": 0.5,
     "fouten": [],
     "paginas": {
      "/familie/": {
-      "kleinsteTekst": 15.04,
+      "kleinsteTekst": 12.48,
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 293,
+      "kb": 300,
       "leesbaarheid": 67
      },
      "/familie/checklist/na-overlijden/": {
@@ -166,7 +184,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 282,
+      "kb": 289,
       "leesbaarheid": 61
      }
     }
@@ -181,7 +199,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 8,
-    "seconden": 1.8,
+    "seconden": 1.9,
     "fouten": [],
     "paginas": {
      "/": {
@@ -189,15 +207,15 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 374,
-      "leesbaarheid": 53
+      "kb": 397,
+      "leesbaarheid": 56
      },
      "/zzp-toeslagen/": {
       "kleinsteTekst": 15.04,
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 389,
+      "kb": 415,
       "leesbaarheid": 74
      }
     }
@@ -212,7 +230,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 3,
-    "seconden": 0.9,
+    "seconden": 1,
     "fouten": [],
     "paginas": {
      "/": {
@@ -226,8 +244,8 @@
       ],
       "breedte": 390,
       "viewport": 390,
-      "kb": 374,
-      "leesbaarheid": 50
+      "kb": 397,
+      "leesbaarheid": 54
      },
      "/deals/": {
       "kleinsteTekst": 15.04,
@@ -236,7 +254,7 @@
       ],
       "breedte": 390,
       "viewport": 390,
-      "kb": 430,
+      "kb": 436,
       "leesbaarheid": 68
      }
     }
@@ -251,7 +269,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 2,
-    "seconden": 0.7,
+    "seconden": 0.8,
     "fouten": [],
     "paginas": {
      "/": {
@@ -259,15 +277,15 @@
       "kleineDoelen": [],
       "breedte": 1440,
       "viewport": 1440,
-      "kb": 374,
-      "leesbaarheid": 53
+      "kb": 397,
+      "leesbaarheid": 56
      },
      "/pro/": {
       "kleinsteTekst": 14.88,
       "kleineDoelen": [],
       "breedte": 1440,
       "viewport": 1440,
-      "kb": 333,
+      "kb": 345,
       "leesbaarheid": 52
      },
      "/pro/check/": {
@@ -275,7 +293,7 @@
       "kleineDoelen": [],
       "breedte": 1440,
       "viewport": 1440,
-      "kb": 277,
+      "kb": 289,
       "leesbaarheid": 53
      }
     }

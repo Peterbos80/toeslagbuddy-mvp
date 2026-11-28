@@ -98,6 +98,25 @@ function faqHtml(faq, S) {
     .join('')}</section>`;
 }
 
+// Snelcheck "Kan ik recht hebben?" bovenaan de startpagina (public/js/snelcheck.js)
+function snelcheckHtml(taal) {
+  const T = teksten(taal).site.snelcheck;
+  const F = teksten(taal).forms;
+  const keuze = (name, value, label, type = 'radio') => `<label class="sc-keuze"><input type="${type}" name="${name}" value="${value}"><span>${label}</span></label>`;
+  return `<section class="snelcheck" aria-labelledby="sc-kop" data-snelcheck hidden>
+<div class="sc-vragen">
+<h2 id="sc-kop">${T.kop}</h2>
+<p class="sc-sub">${T.sub}</p>
+<form>
+<fieldset><legend><span class="sc-nr">1</span> ${T.partner}</legend><div class="sc-rij">${keuze('partner', 'ja', F.ja)}${keuze('partner', 'nee', F.nee)}</div></fieldset>
+<fieldset><legend><span class="sc-nr">2</span> <span data-sc-inkomen>${T.inkomen(false)}</span></legend><div class="sc-rij sc-klassen">${T.klassen.map((k, i) => keuze('klasse', i, k)).join('')}</div></fieldset>
+<fieldset><legend><span class="sc-nr">3</span> ${T.situatie}</legend><div class="sc-rij">${keuze('huurt', 'ja', T.huurt, 'checkbox')}${keuze('kinderen', 'ja', T.kinderen, 'checkbox')}<span data-sc-opvang hidden>${keuze('opvang', 'ja', T.opvang, 'checkbox')}</span></div></fieldset>
+</form>
+</div>
+<div class="sc-uitkomst" aria-live="polite" data-sc-uitkomst><p class="sc-leeg">${T.leeg}</p></div>
+</section>`;
+}
+
 // Alle onderdelen van de site in één overzicht (op de startpagina)
 function onderdelenHtml() {
   const o = (klasse, url, ico, titel, tekst, meer, nieuw = '') =>
@@ -173,6 +192,7 @@ ${home ? '<div class="hero-buddy" data-intro></div>' : ''}
 </div>
 <div class="raster">
 <div class="inhoud">
+${home ? snelcheckHtml(page.taal) : ''}
 ${page.calc ? `<section class="rekenkaart" id="${page.anker || 'rekenhulp'}" aria-label="${S.rekenhulp}">\n<noscript><p class="geen-js">${S.geenJs}</p></noscript>\n${forms[page.calc](page.taal)}\n</section>` : ''}
 ${home && page.taal === 'nl' ? onderdelenHtml() : ''}
 ${advertentie('slotInhoud', page)}

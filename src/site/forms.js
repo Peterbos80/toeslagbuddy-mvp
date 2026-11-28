@@ -87,6 +87,7 @@ export const forms = {
         janee('partner', F.partner, 'nee', F.partnerHintZorg),
         bedrag('inkomen', F.toetsingsinkomen, { hint: F.inkomenHint, placeholder: F.phInkomen, required: true }),
         bedrag('vermogen', F.vermogen, { hint: F.vermogenHint, placeholder: '0' }),
+        bedrag('voorschot', F.voorschot, { hint: F.voorschotHint, placeholder: '0' }),
       ].join('\n'),
       F.knopZorg,
     ),
@@ -104,6 +105,7 @@ export const forms = {
         vinkje('aow', F.aowHuis),
         vinkje('aangepasteWoning', F.aangepast),
         bedrag('vermogen', F.vermogenHuishouden, { hint: F.vermogenHint, placeholder: '0' }),
+        bedrag('voorschot', F.voorschot, { hint: F.voorschotHint, placeholder: '0' }),
       ].join('\n'),
       F.knopHuur,
     ),
@@ -117,6 +119,7 @@ export const forms = {
         kinderen(),
         bedrag('inkomen', F.toetsingsinkomen, { hint: F.inkomenHint, placeholder: F.phInkomenKgb, required: true }),
         bedrag('vermogen', F.vermogen, { hint: F.vermogenHint, placeholder: '0' }),
+        bedrag('voorschot', F.voorschot, { hint: F.voorschotHint, placeholder: '0' }),
       ].join('\n'),
       F.knopKgb,
     ),
@@ -125,7 +128,7 @@ export const forms = {
   kinderopvangtoeslag: inTaal(() =>
     formulier(
       'kinderopvangtoeslag',
-      [bedrag('inkomen', F.inkomenSamen, { hint: F.inkomenHint, placeholder: F.phInkomenKot, required: true }), opvang()].join('\n'),
+      [bedrag('inkomen', F.inkomenSamen, { hint: F.inkomenHint, placeholder: F.phInkomenKot, required: true }), opvang(), bedrag('voorschot', F.voorschot, { hint: F.voorschotHint, placeholder: '0' })].join('\n'),
       F.knopKot,
     ),
   ),

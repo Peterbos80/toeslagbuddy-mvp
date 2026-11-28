@@ -48,6 +48,7 @@ function lees(form) {
     taal: TAAL,
     partner: ja('partner'),
     inkomen: getal(d.inkomen),
+    voorschot: getal(d.voorschot),
     vermogen: getal(d.vermogen),
     kaleHuur: getal(d.kaleHuur),
     personen: getal(d.personen) || 1,
@@ -190,6 +191,30 @@ const RUW = {
 };
 
 const aanvragen = T.aanvragen;
+
+// Voorschotcheck: wat je nu krijgt tegenover wat je volgens de berekening krijgt.
+// Te hoog voorschot = later terugbetalen; te laag = geld laten liggen.
+const MET_VOORSCHOT = ['zorgtoeslag', 'huurtoeslag', 'kindgebondenBudget', 'kinderopvangtoeslag'];
+export function vergelijkVoorschot(nu, verwacht) {
+  const verschil = Math.round((verwacht - nu) * 100) / 100;
+  const marge = Math.max(5, verwacht * 0.05);
+  return { verschil, status: Math.abs(verschil) <= marge ? 'klopt' : verschil < 0 ? 'te-hoog' : 'te-laag' };
+}
+function voorschotBlok(calc, d) {
+  if (!MET_VOORSCHOT.includes(calc) || !(d.voorschot > 0)) return '';
+  const r = RUW[calc](d);
+  const verwacht = r && r.recht ? r.perMaand : 0;
+  const { verschil, status } = vergelijkVoorschot(d.voorschot, verwacht);
+  const max = Math.max(d.voorschot, verwacht, 1);
+  const balk = (label, bedrag, klasse) => `<div class="vc-rij"><span class="vc-label">${label}</span><span class="vc-balk"><i class="${klasse}" style="width:${Math.max(2, Math.round((bedrag / max) * 100))}%"></i></span><span class="vc-bedrag">${euro(bedrag, Number.isInteger(bedrag) ? 0 : 2)}</span></div>`;
+  const mnd = euro(Math.abs(verschil), 0);
+  const jaar = euro(Math.abs(verschil) * 12, 0);
+  const tekst = status === 'klopt' ? T.voorschotKlopt : status === 'te-hoog' ? T.voorschotTeHoog(mnd, jaar) : T.voorschotTeLaag(mnd, jaar);
+  const actie = status === 'te-hoog' ? T.voorschotTeHoogActie : status === 'te-laag' ? T.voorschotTeLaagActie : '';
+  return `<section class="voorschot-check ${status}" aria-labelledby="vc-kop"><h3 id="vc-kop">${T.voorschotKop}</h3>
+${balk(T.voorschotNu, d.voorschot, 'nu')}${balk(T.voorschotVerwacht, verwacht, 'verwacht')}
+<p class="vc-uitkomst">${tekst}</p>${actie ? `<p class="vc-actie">${actie} <a href="https://www.toeslagen.nl" rel="noopener" target="_blank">${T.voorschotLink}</a></p>` : ''}</section>`;
+}
 
 const reken = {
   zorgtoeslag(d) {
@@ -349,7 +374,7 @@ function render(form, { focus = false } = {}) {
     uit.innerHTML = `<p class="melding">${T.vulInkomen}</p>`;
     return false;
   }
-  uit.innerHTML = reken[calc](d) + partnerBlokken(calc) + (calc === 'toetsingsinkomen' ? '' : deelBlok());
+  uit.innerHTML = reken[calc](d) + voorschotBlok(calc, d) + partnerBlokken(calc) + (calc === 'toetsingsinkomen' ? '' : deelBlok());
   // Persoonlijke uitleg door een persona, direct onder de eerste uitkomst
   const eerste = uit.querySelector('.resultaat');
   if (eerste && RUW[calc]) {

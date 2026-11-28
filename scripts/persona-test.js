@@ -126,6 +126,16 @@ export const PERSONAS = [
         ],
         gelukt: async (p) => /per maand|geen huurtoeslag/i.test(await p.locator('[data-result]').innerText()),
       },
+      {
+        doel: 'Na een loonsverhoging zien of haar zorgtoeslag-voorschot nog klopt',
+        start: '/zorgtoeslag-berekenen/',
+        stappen: [
+          ['Nieuw inkomen', (p) => p.locator('form[data-calc] [name=inkomen]').fill('34000')],
+          ['Wat ze nu krijgt', (p) => p.locator('form[data-calc] [name=voorschot]').fill('120')],
+          ['Berekenen', (p) => p.locator('form[data-calc] button[type=submit]').click()],
+        ],
+        gelukt: async (p) => /te veel/.test(await p.locator('.voorschot-check').innerText()),
+      },
     ],
   },
   {

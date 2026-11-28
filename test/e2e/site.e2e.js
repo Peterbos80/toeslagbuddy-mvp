@@ -323,6 +323,54 @@ test('realistische AI-video: clips met persoonlijke ondertitels en AI-label', as
   await ctx.close();
 });
 
+test('voorschotcheck: te hoog, klopt en te laag', async () => {
+  const ctx = await s.browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+  const p = await open(ctx, s.basis + '/zorgtoeslag-berekenen/', fouten);
+  const reken = async (voorschot) => {
+    await p.locator('form[data-calc] [name=inkomen]').fill('32000');
+    await p.locator('form[data-calc] [name=voorschot]').fill(voorschot);
+    await p.locator('form[data-calc] button[type=submit]').click();
+  };
+  await reken('150');
+  const blok = p.locator('.voorschot-check');
+  await blok.waitFor();
+  assert.ok(await blok.evaluate((e) => e.classList.contains('te-hoog')));
+  assert.match(await tekst(blok), /€ 47 per maand te veel/);
+  assert.match(await tekst(blok), /€ 564 terugbetalen/);
+  await reken('103');
+  assert.ok(await p.locator('.voorschot-check.klopt').count());
+  await reken('50');
+  assert.match(await tekst(p.locator('.voorschot-check.te-laag')), /€ 53 per maand te weinig/);
+  await reken('');
+  assert.equal(await p.locator('.voorschot-check').count(), 0);
+  assert.equal(await p.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+  await ctx.close();
+});
+
+test('snelcheck: drie vragen, kansen per toeslag en de check alvast ingevuld', async () => {
+  const ctx = await s.browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+  const p = await open(ctx, s.basis + '/', fouten);
+  const sc = p.locator('[data-snelcheck]');
+  await sc.waitFor();
+  assert.match(await tekst(sc.locator('[data-sc-uitkomst]')), /eerste twee vragen/);
+  await sc.locator('label', { hasText: 'Ja' }).first().click();
+  assert.match(await tekst(sc.locator('legend', { hasText: 'verdienen jullie' })), /samen/);
+  await sc.locator('label', { hasText: 'Tot € 25.000' }).click();
+  await sc.locator('label', { hasText: 'Ik huur mijn woning' }).click();
+  const lijst = await tekst(sc.locator('.sc-lijst'));
+  assert.match(lijst, /Zorgtoeslag Grote kans/);
+  assert.match(lijst, /Huurtoeslag Grote kans/);
+  assert.doesNotMatch(lijst, /Kinderbijslag/);
+  await sc.locator('label', { hasText: 'Ik heb kinderen onder 18' }).click();
+  await sc.locator('label', { hasText: 'Mijn kind gaat naar de opvang' }).waitFor();
+  await sc.locator('[data-sc-verder]').click();
+  const check = p.locator('form[data-calc=alles]');
+  assert.equal(await check.locator('[name=partner][value=ja]').isChecked(), true);
+  assert.equal(await check.locator('[name=aantalKinderen]').inputValue(), '1');
+  assert.equal(await p.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+  await ctx.close();
+});
+
 test('geen JavaScript-fouten tijdens de tests', () => {
   assert.deepEqual(fouten, []);
 });

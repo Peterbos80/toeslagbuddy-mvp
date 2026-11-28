@@ -41,6 +41,7 @@ export const pagesEn = [
     intro: 'Answer a few simple questions. You will see straight away how much healthcare allowance, rent allowance and money for your children you may be able to get in the Netherlands.',
     calc: 'alles',
     anker: 'check',
+    script: 'snelcheck.js',
     body: () => `
 <h2>The Dutch allowances in short</h2>
 <p>The Dutch government pays <strong>allowances</strong> (toeslagen) to help people on a low or middle income with the cost of health insurance, rent and children. Many people who have just moved to the Netherlands do not know they can get them. This check calculates all of them at once.</p>

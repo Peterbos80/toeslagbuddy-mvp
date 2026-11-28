@@ -94,6 +94,7 @@ export const pages = [
     intro: 'Beantwoord een paar eenvoudige vragen. Je ziet meteen hoeveel zorgtoeslag, huurtoeslag en geld voor je kinderen je kunt krijgen.',
     calc: 'alles',
     anker: 'check',
+    script: 'snelcheck.js',
     body: () => `
 <h2>Alle toeslagen en regelingen op een rij</h2>
 <p>Veel mensen laten elk jaar geld liggen. Ze weten niet dat ze recht hebben op een toeslag. Hier check je alles in één keer.</p>

@@ -37,6 +37,7 @@ const BEREIK = {
   ander: [0, 10 * MLN],
   partnerInkomen: [0, 10 * MLN],
   opgegevenInkomen: [0, 10 * MLN],
+  voorschot: [0, 10_000],
 };
 // [minimum, maximum, omschrijving (Nederlands), heel getal?]
 export const GRENZEN = Object.fromEntries(
