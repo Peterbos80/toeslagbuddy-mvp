@@ -7,8 +7,40 @@
   "duur": 59.7,
   "stem": "nl_NL-ronnie-medium",
   "ai": false,
+  "credits": [
+   {
+    "fotograaf": "XiaosKitchen",
+    "fotograafUrl": "https://pixabay.com/users/XiaosKitchen-1319509/",
+    "url": "https://pixabay.com/videos/id-11606/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "GreenCardShow",
+    "fotograafUrl": "https://pixabay.com/users/GreenCardShow-3867243/",
+    "url": "https://pixabay.com/videos/id-11283/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "klimkin",
+    "fotograafUrl": "https://pixabay.com/users/klimkin-1298145/",
+    "url": "https://pixabay.com/videos/id-846/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "RainMeditateHub",
+    "fotograafUrl": "https://pixabay.com/users/RainMeditateHub-51172146/",
+    "url": "https://pixabay.com/videos/id-293085/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "Matthias_Groeneveld",
+    "fotograafUrl": "https://pixabay.com/users/Matthias_Groeneveld-4535957/",
+    "url": "https://pixabay.com/videos/id-20269/",
+    "platform": "Pixabay"
+   }
+  ],
   "transcript": "Regel jij de zaken van je vader of moeder? Dan weet je hoe het gaat: brieven, termijnen en rekeningen, verspreid over de hele familie. In de regelkamer zie je samen wat er speelt. Elke termijn staat in de kalender, met de bron erbij. Zo mist niemand iets. Snap je een brief niet? Plak de tekst. Je ziet meteen wat er staat, wat je moet doen en vóór wanneer. Een burgerservicenummer halen we er direct uit. Wie geld uitgeeft, legt het vast in het logboek. Elke regel blijft zichtbaar, ook als hij wordt verbeterd. Zo kan iedereen meekijken. En als het moment komt, staat het stappenplan klaar. Met alle termijnen, en een opzegbrief voor elk contract. Probeer het gratis op toeslagbuddy.nl/familie. Je gegevens blijven op je eigen apparaat.",
-  "hash": "c35fa7174b3a"
+  "hash": "99af38103eef"
  },
  "besparen": {
   "titel": "Is die korting echt?",
@@ -18,8 +50,28 @@
   "duur": 42.3,
   "stem": "nl_NL-ronnie-medium",
   "ai": false,
+  "credits": [
+   {
+    "fotograaf": "Matthias_Groeneveld",
+    "fotograafUrl": "https://pixabay.com/users/Matthias_Groeneveld-4535957/",
+    "url": "https://pixabay.com/videos/id-63970/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "elchao",
+    "fotograafUrl": "https://pixabay.com/users/elchao-230475/",
+    "url": "https://pixabay.com/videos/id-736/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "Jahhoo",
+    "fotograafUrl": "https://pixabay.com/users/Jahhoo-1418773/",
+    "url": "https://pixabay.com/videos/id-2229/",
+    "platform": "Pixabay"
+   }
+  ],
   "transcript": "Vijftig procent korting. Maar was de prijs ooit echt zo hoog? Wij kijken naar de gangbare prijs: wat een product de afgelopen negentig dagen meestal kostte, bij meerdere winkels, inclusief verzendkosten. Zo zie je in één oogopslag of het een echte deal is. En met een partnerlink krijgen wij soms een kleine vergoeding. Dat staat er altijd bij, en het verandert de volgorde niet. Zoek je iets? Zet een jager aan. Die houdt de prijzen voor je in de gaten en zegt eerlijk: nu kopen, of wachten. Kijk op toeslagbuddy.nl/deals",
-  "hash": "bce687493577"
+  "hash": "0eaefbca07c7"
  },
  "toeslagen": {
   "titel": "Mis je toeslag?",
@@ -29,7 +81,27 @@
   "duur": 32,
   "stem": "nl_NL-ronnie-medium",
   "ai": false,
+  "credits": [
+   {
+    "fotograaf": "Lirofilm",
+    "fotograafUrl": "https://pixabay.com/users/Lirofilm-154295/",
+    "url": "https://pixabay.com/videos/id-18244/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "xBriantcx",
+    "fotograafUrl": "https://pixabay.com/users/xBriantcx-36275440/",
+    "url": "https://pixabay.com/videos/id-243647/",
+    "platform": "Pixabay"
+   },
+   {
+    "fotograaf": "conte_public",
+    "fotograafUrl": "https://pixabay.com/users/conte_public-41658361/",
+    "url": "https://pixabay.com/videos/id-209854/",
+    "platform": "Pixabay"
+   }
+  ],
   "transcript": "Veel mensen krijgen geen toeslag, terwijl ze er wel recht op hebben. Jaar na jaar. Bereken in twee minuten je zorgtoeslag, huurtoeslag, kindgebonden budget en kinderopvangtoeslag. Gratis, en zonder in te loggen. Binnen twee minuten zie je waar je recht op hebt. Soms is dat meer dan je dacht. Je ziet ook of je moet terugbetalen. Zo pas je je voorschot op tijd aan. Begin op toeslagbuddy.nl",
-  "hash": "5bf08ecc9997"
+  "hash": "36419ea070f2"
  }
 }
