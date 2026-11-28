@@ -13,13 +13,13 @@
       "gastouderopvang: € 8,49",
       "Het kindgebonden budget gaat iets omhoog voor alleenstaande ouders met een inkomen tot € 29.736 en voor stellen met een inkomen tot € 39.141. Heeft iemand een hoger inkomen dan dit? Dan krijgt diegene in 2026 wat minder kindgebonden budget."
     ],
-    "gecontroleerd": "2026-11-27T14:14:32.538Z"
+    "gecontroleerd": "2026-11-28T13:30:48.107Z"
   },
   "https://wetten.overheid.nl/BWBR0051841/2026-01-01": {
     "titel": "Regeling huurtoeslaggrenzen 2026",
     "hash": "e3b0c44298fc1c14",
     "regels": [],
-    "gecontroleerd": "2026-11-27T14:14:33.313Z"
+    "gecontroleerd": "2026-11-28T13:30:49.197Z"
   },
   "https://www.rijksoverheid.nl/actueel/nieuws/2025/11/25/indexering-inkomensgrenzen-woningcorporaties-maximale-huurprijsgrenzen-en-huurtoeslagparameters-2026": {
     "titel": "Rijksoverheid – Huurtoeslagparameters 2026",
@@ -56,7 +56,7 @@
       "Toeslagpercentage kwaliteitskortings- t/m aftoppingsgrens 65%",
       "Toeslagpercentage boven aftoppingsgrens 40%"
     ],
-    "gecontroleerd": "2026-11-27T14:14:34.033Z"
+    "gecontroleerd": "2026-11-28T13:30:49.756Z"
   },
   "https://www.rijksoverheid.nl/onderwerpen/kinderopvangtoeslag/bedragen-kinderopvangtoeslag-2026": {
     "titel": "Rijksoverheid – Bedragen kinderopvangtoeslag 2026",
@@ -168,13 +168,13 @@
       "Uw kind gaat voor buitenschoolse opvang naar een gastouder. De uurprijs is € 9. We berekenen uw opvangkosten met het maximum van € 8,77. De resterende € 0,23 telt dus niet mee.",
       "U hebt 2 kinderen die naar dezelfde gastouder gaan. U betaalt geen uurprijs per kind, maar € 14 voor uw kinderen samen. Bereken dan zelf de uurprijs door € 14 te delen door 2. Dat is dan € 7 per kind. We berekenen uw opvangkosten met deze uurprijs."
     ],
-    "gecontroleerd": "2026-11-27T14:14:35.171Z"
+    "gecontroleerd": "2026-11-28T13:30:51.159Z"
   },
   "https://www.belastingdienst.nl/wps/wcm/connect/nl/kindgebonden-budget/content/hoeveel-kindgebonden-budget": {
     "titel": "Dienst Toeslagen – Hoeveel kindgebonden budget krijg ik?",
     "hash": "e3b0c44298fc1c14",
     "regels": [],
-    "gecontroleerd": "2026-11-27T14:14:35.456Z"
+    "gecontroleerd": "2026-11-28T13:30:51.607Z"
   },
   "https://www.consumentenbond.nl/toeslagen/kindgebonden-budget": {
     "titel": "Consumentenbond – Kindgebonden budget 2026",
@@ -206,7 +206,7 @@
       "€184.633 (partners)",
       "Voor 2025 was dit €141.896 (alleenstaande) en €179.429 (partners)."
     ],
-    "gecontroleerd": "2026-11-27T14:14:36.410Z"
+    "gecontroleerd": "2026-11-28T13:30:53.028Z"
   },
   "https://www.belastingdienst.nl/wps/wcm/connect/nl/zorgtoeslag/content/hoeveel-zorgtoeslag-in-2026": {
     "titel": "Dienst Toeslagen – Hoeveel zorgtoeslag krijg ik in 2026?",
@@ -218,7 +218,7 @@
     "titel": "Regeling vaststelling standaardpremie 2026",
     "hash": "e3b0c44298fc1c14",
     "regels": [],
-    "gecontroleerd": "2026-11-27T14:14:36.618Z"
+    "gecontroleerd": "2026-11-28T13:30:53.339Z"
   },
   "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/winst/inkomstenbelasting/veranderingen-inkomstenbelasting-2026/mkb-winstvrijstelling-2026": {
     "titel": "Belastingdienst – Mkb-winstvrijstelling 2026",
@@ -226,7 +226,7 @@
     "regels": [
       "In 2026 is de mkb-winstvrijstelling 12,7% van de winst, nadat u deze hebt verminderd met de ondernemersaftrek. In 2026 is de aftrek van de mkb-winstvrijstelling beperkt. Het voordeel wordt berekend met een tarief van 37,56%."
     ],
-    "gecontroleerd": "2026-11-27T14:14:36.722Z"
+    "gecontroleerd": "2026-11-28T13:30:53.491Z"
   },
   "https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/winst/inkomstenbelasting/veranderingen-inkomstenbelasting-2026/ondernemersaftrek-2026/zelfstandigenaftrek-2026": {
     "titel": "Belastingdienst – Zelfstandigenaftrek 2026",
@@ -235,6 +235,6 @@
       "De zelfstandigenaftrek wordt verhoogd met een startersaftrek van € 2.123 in de volgende situatie:",
       "Hebt u aan het begin van het kalenderjaar de AOW-leeftijd? Dan is de zelfstandigenaftrek 50% van de zelfstandigenaftrek voor ondernemers die aan het begin van het kalenderjaar de AOW-leeftijd nog niet hebben bereikt. Dit geldt ook voor de startersaftrek."
     ],
-    "gecontroleerd": "2026-11-27T14:14:36.815Z"
+    "gecontroleerd": "2026-11-28T13:30:53.639Z"
   }
 }
