@@ -9,7 +9,7 @@ import { esc, icoon, uitlegVideo } from './layout.js';
 import { MERK } from '../familie/merk.js';
 import { FASES } from '../familie/checklist.js';
 import { RELATIES } from '../familie/erfbelasting.js';
-import { euro } from '../familie/regels.js';
+import { euro, actueel } from '../familie/regels.js';
 import { GIDSEN } from './familie-gidsen.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -217,11 +217,11 @@ ${regelsJson(regelIds)}`;
 }
 
 function rekenhulpen() {
-  const w = REGELS['wlz-2026'];
+  const w = actueel(REGELS, 'wlz');
   const b = (r, k, d = 2) => euro(r.bedragen[k].waarde, d);
-  const e = REGELS['erfbelasting-2026'];
-  const z = REGELS['zorgkosten-2026'];
-  const wmo = REGELS['wmo-2026'];
+  const e = actueel(REGELS, 'erfbelasting');
+  const z = actueel(REGELS, 'zorgkosten');
+  const wmo = actueel(REGELS, 'wmo');
   return [
     rekenhulp({
       slug: '/familie/rekenhulp/verpleeghuis/',
@@ -230,7 +230,7 @@ function rekenhulpen() {
       description: `Bereken de lage en hoge eigen bijdrage voor het verpleeghuis (Wlz) in ${w.jaar}, met de rekenmethode van het CAK. Met uitleg over vermogen, spaargeld en de verkoop van het huis.`,
       h1: `Eigen bijdrage verpleeghuis berekenen`,
       intro: `Wat gaat je vader of moeder betalen voor het verpleeghuis of voor langdurige zorg thuis? We rekenen het na met de methode die het CAK zelf gebruikt voor ${w.jaar}.`,
-      regelIds: ['wlz-2026'],
+      regelIds: [w.id],
       formulier: `
 ${veldKeuze('zorg', 'Welke zorg krijgt je ouder?', [['instelling', 'Wonen in een verpleeghuis of zorginstelling'], ['vpt', 'Volledig pakket thuis'], ['mpt', 'Zorg thuis: modulair pakket of pgb']], { gekozen: 'instelling', kaarten: true })}
 ${veldKeuze('partner', 'Heeft je ouder een partner?', [['nee', 'Nee'], ['ja', 'Ja']], { gekozen: 'nee', hint: 'Getrouwd of geregistreerd partner. Het inkomen en vermogen van de partner tellen dan mee.' })}
@@ -271,7 +271,7 @@ ${veldEuro('arbeid', 'Inkomsten uit werk (als die er zijn)', 'Loon uit werk in d
       description: `Bereken de erfbelasting in ${e.jaar} en zie wie wat erft zonder testament (wettelijke verdeling). Met de vrijstellingen en tarieven van de Belastingdienst.`,
       h1: 'Erfbelasting berekenen',
       intro: `Hoeveel erfbelasting betaal je in ${e.jaar}, en wie erft wat als er geen testament is? Je ziet het per erfgenaam, met de berekening erbij.`,
-      regelIds: ['erfbelasting-2026', 'overlijden'],
+      regelIds: [e.id, 'overlijden'],
       formulier: `
 ${veldKeuze('wijze', 'Wat wil je berekenen?', [['verdeling', 'De hele erfenis, zonder testament'], ['los', 'Wat één erfgenaam betaalt']], { gekozen: 'verdeling', kaarten: true })}
 <div data-toon="verdeling">
@@ -314,7 +314,7 @@ ${veldEuro('bedrag', 'Wat krijgt deze erfgenaam?', '')}
       description: `Bereken de aftrek specifieke zorgkosten voor ${z.jaar}: de drempel bij jouw inkomen en de verhoging van 40% of 113%. Met de bedragen van de Belastingdienst.`,
       h1: 'Aftrek zorgkosten berekenen',
       intro: `Veel ouderen laten de aftrek van zorgkosten liggen. Kijk of je ouder de drempel haalt in ${z.jaar}, en wat de verhoging doet.`,
-      regelIds: ['zorgkosten-2026'],
+      regelIds: [z.id],
       formulier: `
 ${veldKeuze('partner', 'Is er het hele jaar een fiscale partner?', [['nee', 'Nee'], ['ja', 'Ja']], { gekozen: 'nee' })}
 ${veldKeuze('aow', 'AOW-leeftijd op 1 januari?', [['ja', 'Ja'], ['nee', 'Nee']], { gekozen: 'ja', hint: 'Met partner: het is genoeg als één van beiden de AOW-leeftijd heeft.' })}
@@ -371,7 +371,7 @@ ${veldEuro('terugleverkosten', 'Terugleverkosten per jaar', 'Vaste kosten die de
       description: `De eigen bijdrage voor hulp via de gemeente (Wmo) is in ${wmo.jaar} maximaal ${b(wmo, 'abonnementstarief')} per maand. Zie of je ouder moet betalen, en wat het plan voor een inkomensafhankelijke bijdrage inhoudt.`,
       h1: 'Eigen bijdrage Wmo',
       intro: `Krijgt je ouder hulp via de gemeente, zoals huishoudelijke hulp of een traplift? In ${wmo.jaar} betaal je daarvoor een vast bedrag. Er ligt een plan om dat te veranderen.`,
-      regelIds: ['wmo-2026'],
+      regelIds: [wmo.id],
       formulier: `
 ${veldKeuze('partner', 'Woont je ouder samen met een partner?', [['nee', 'Nee, alleen'], ['ja', 'Ja']], { gekozen: 'nee' })}
 <div data-toon="ja" hidden>${veldKeuze('beideAow', 'Hebben beiden de AOW-leeftijd?', [['ja', 'Ja, allebei'], ['nee', 'Nee, minstens één nog niet']], { gekozen: 'ja' })}</div>

@@ -35,6 +35,17 @@ export function regelVoor(regels, voorvoegsel, vandaag = new Date()) {
   );
 }
 
+// De regel die nu geldt voor een soort ('wlz', 'erfbelasting', …), ongeacht
+// het jaar: staat er een bestand voor het nieuwe jaar klaar, dan schakelt de
+// site op 1 januari vanzelf om. Is er (nog) niets voor vandaag, dan de
+// nieuwste; regelStatus zegt dan eerlijk dat hij gecontroleerd moet worden.
+export function actueel(regels, soort, vandaag = new Date()) {
+  const nu = regelVoor(regels, `${soort}-`, vandaag);
+  if (nu) return nu;
+  const alle = Object.values(regels).filter((r) => r.id.startsWith(`${soort}-`));
+  return alle.sort((a, b) => (b.jaar || 0) - (a.jaar || 0))[0] || regels[soort] || null;
+}
+
 // Alle bron-id's die een regel gebruikt
 export function bronnenVan(regel) {
   const uit = new Set(regel.bronnen || []);

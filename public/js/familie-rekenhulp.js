@@ -2,7 +2,7 @@
 // kernen uit src/familie en toont de uitkomst met de berekening erbij.
 // Is een regel niet (meer) bevestigd, dan rekenen we niet en verwijzen we door.
 import { h, rauw, euro, getal, leesJson, icoon } from './familie-ui.js';
-import { regelStatus } from './regels.js';
+import { regelStatus, actueel } from './regels.js';
 import { lageBijdrage, hogeBijdrage } from './wlz.js';
 import { erfbelasting, overzicht, RELATIES } from './erfbelasting.js';
 import { aftrek } from './zorgkosten.js';
@@ -20,7 +20,7 @@ function controleer(regel) {
 
 const REKEN = {
   wlz(f) {
-    const regel = R['wlz-2026'];
+    const regel = actueel(R, 'wlz');
     const inkomen = getal(f.verzamelinkomen);
     if (inkomen === null) return { fout: 'Vul het verzamelinkomen in.', veld: 'verzamelinkomen' };
     const invoer = { verzamelinkomen: inkomen, vermogen: getal(f.vermogen) || 0, partner: f.partner === 'ja', aow: f.aow === 'ja', mpt: f.zorg === 'mpt', belasting: getal(f.belasting) || 0, arbeid: getal(f.arbeid) || 0 };
@@ -44,7 +44,7 @@ ${laag.compensatieMax ? h`<p class="f-klein">Waarom een bandbreedte? Met AOW en 
   },
 
   erfbelasting(f) {
-    const regel = R['erfbelasting-2026'];
+    const regel = actueel(R, 'erfbelasting');
     if (f.wijze === 'los') {
       const bedrag = getal(f.bedrag);
       if (bedrag === null) return { fout: 'Vul in wat de erfgenaam krijgt.', veld: 'bedrag' };
@@ -73,7 +73,7 @@ ${f.partner === 'ja' && kinderen ? h`<p class="f-klein">De partner schiet de erf
   },
 
   zorgkosten(f) {
-    const regel = R['zorgkosten-2026'];
+    const regel = actueel(R, 'zorgkosten');
     const inkomen = getal(f.drempelinkomen);
     if (inkomen === null) return { fout: 'Vul het drempelinkomen in.', veld: 'drempelinkomen' };
     const r = aftrek(regel, { drempelinkomen: inkomen, partner: f.partner === 'ja', aow: f.aow === 'ja', kostenMetVerhoging: getal(f.kostenMetVerhoging) || 0, kostenZonderVerhoging: getal(f.kostenZonderVerhoging) || 0 });
@@ -99,7 +99,7 @@ ${r.onderMinimum ? h`<div class="f-controleer"><p style="margin:0">De vergoeding
   },
 
   wmo(f) {
-    const regel = R['wmo-2026'];
+    const regel = actueel(R, 'wmo');
     const tarief = regel.bedragen.abonnementstarief.waarde;
     const vrij = f.wlz === 'ja' ? 'Je ouder betaalt al een eigen bijdrage voor langdurige zorg. Dan komt er geen bijdrage voor de Wmo bij.' : f.partner === 'ja' && f.beideAow === 'nee' ? 'Minstens één van beiden heeft de AOW-leeftijd nog niet. Dan betaal je geen eigen bijdrage.' : null;
     const p = regel.plan.bedragen;
@@ -119,7 +119,7 @@ document.querySelectorAll('[data-rekenhulp]').forEach((blok) => {
   const soort = blok.dataset.rekenhulp;
   const form = blok.querySelector('form');
   const uit = blok.querySelector('[data-uitkomst]');
-  const regelId = { wlz: 'wlz-2026', erfbelasting: 'erfbelasting-2026', zorgkosten: 'zorgkosten-2026', zonnepanelen: 'salderen', wmo: 'wmo-2026' }[soort];
+  const regelId = soort === 'zonnepanelen' ? 'salderen' : actueel(R, soort)?.id;
 
   // Delen van het formulier tonen of verbergen (data-toon="waarde" hoort bij een keuze)
   const schakel = () => {

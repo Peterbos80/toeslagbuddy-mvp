@@ -1,0 +1,47 @@
+name: Jaarcheck (klaar voor het nieuwe jaar?)
+
+# Elke maandag: per onderdeel controleren of de bedragen voor het volgende
+# jaar er al zijn. Eén melding (issue) met de stand; die wordt bijgewerkt en
+# vanzelf gesloten als alles klaar is. Het bijwerken zelf doet de wekelijkse
+# AI-agent (Claude Code, geplande taak) met officiële bronnen.
+
+on:
+  schedule:
+    - cron: '41 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Stand per onderdeel
+        id: stand
+        run: |
+          node scripts/jaarcheck.js | tee /tmp/stand.md
+          node scripts/jaarcheck.js --json > /tmp/stand.json
+          echo "open=$(node -e "console.log(require('/tmp/stand.json').open)")" >> "$GITHUB_OUTPUT"
+          echo "jaar=$(node -e "console.log(require('/tmp/stand.json').jaar)")" >> "$GITHUB_OUTPUT"
+      - name: Melding bijwerken
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OPEN: ${{ steps.stand.outputs.open }}
+          JAAR: ${{ steps.stand.outputs.jaar }}
+        run: |
+          titel="Klaar voor $JAAR? (jaarcheck)"
+          nr=$(gh issue list --state open --search "$titel in:title" --json number --jq '.[0].number' || true)
+          if [ "$OPEN" = "0" ]; then
+            [ -n "$nr" ] && gh issue close "$nr" --comment "Alles is klaar voor $JAAR." || true
+            exit 0
+          fi
+          body="$(cat /tmp/stand.md)
+
+          De wekelijkse AI-agent zoekt de officiële bedragen voor $JAAR op zodra ze gepubliceerd zijn, werkt ze bij met bronvermelding en zet ze alleen online als alle tests slagen. Tot die tijd rekent de site met de bedragen van nu; na 400 dagen zonder controle rekent een Familie-rekenhulp niet meer en verwijst naar de instantie."
+          if [ -n "$nr" ]; then gh issue edit "$nr" --body "$body"; else gh issue create --title "$titel" --body "$body"; fi
