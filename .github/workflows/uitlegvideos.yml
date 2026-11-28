@@ -35,7 +35,7 @@ concurrency:
 jobs:
   maken:
     runs-on: ubuntu-24.04 # Playwright 1.56 ondersteunt Ubuntu 26.04 (ubuntu-latest) nog niet
-    timeout-minutes: 90 # liggend en verticaal (1080 × 1920 is trager)
+    timeout-minutes: 180 # liggend en verticaal (1080 × 1920 is trager)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -44,17 +44,18 @@ jobs:
           cache: npm
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.10'
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: sudo apt-get install -y ffmpeg
       - uses: actions/cache@v4
         with:
-          path: ~/.cache/piper
-          key: piper-stemmen-v1
-      # Filmische AI-beelden met Veo (Gemini API). Alleen als de eigenaar het
-      # geheim GEMINI_API_KEY heeft ingesteld; elke prompt kost één keer geld,
-      # daarna staat de clip in git. Zonder sleutel blijven de video's zoals ze zijn.
+          path: |
+            ~/.cache/piper
+            ~/.cache/huggingface
+            ~/.cache/torch
+            .tts
+          key: stemmen-v2
       - name: Met de hand toegevoegde beelden verkleinen
         run: node scripts/video/ai-beelden.js --verklein
       # Echte stockvideo's van Pixabay of Pexels (gratis, commercieel toegestaan).
@@ -74,11 +75,21 @@ jobs:
           [[ "$max" =~ ^[0-9]+$ ]] || max=12
           [ "$max" = "0" ] && { echo "AI-beelden overgeslagen"; exit 0; }
           node scripts/video/ai-beelden.js --max "$max"
-      - name: Voice-over (Piper)
+      # Natuurlijke stem: Chatterbox Multilingual (open source, MIT) spreekt de
+      # teksten in met de klankkleur van een Piper-referentie. Per fragment de
+      # beste volgens UTMOS; lukt Chatterbox niet, dan blijft Piper.
+      - name: Voice-over (natuurlijke stem)
         run: |
-          python -m pip install -q piper-tts==1.8.0
+          [ -x .tts/bin/python ] || python -m venv .tts
+          .tts/bin/pip install -q --upgrade pip wheel
+          .tts/bin/pip install -q --index-url https://download.pytorch.org/whl/cpu torch==2.6.0 torchaudio==2.6.0
+          .tts/bin/pip install -q chatterbox-tts piper-tts==1.8.0
           node scripts/video/uitleg.js --teksten /tmp/teksten.json
-          python scripts/video/uitleg_stem.py --teksten /tmp/teksten.json --map ~/.cache/piper --uit /tmp/stem
+          .tts/bin/python scripts/video/uitleg_stem.py --teksten /tmp/teksten.json --map ~/.cache/piper --uit /tmp/stem
+          mkdir -p /tmp/stem-nat
+          node scripts/video/stem_kies.js opdracht /tmp/teksten.json /tmp/stem /tmp/stem-nat
+          timeout 75m .tts/bin/python scripts/video/stem_natuurlijk.py --opdracht /tmp/stem-nat/opdracht.json --doorgaan --expressie 0.4 --cfg 0.45 || echo "Chatterbox niet (helemaal) gelukt: Piper blijft waar nodig"
+          node scripts/video/stem_kies.js kies /tmp/stem /tmp/stem-nat
       - name: Video's renderen
         env:
           OPNIEUW: ${{ github.event.inputs.opnieuw }}

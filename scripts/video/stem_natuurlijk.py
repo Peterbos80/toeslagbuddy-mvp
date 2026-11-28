@@ -63,6 +63,8 @@ def uitspraak(tekst):
 
     for kort, lang in AFKORTINGEN.items():
         tekst = re.sub(rf'\b{re.escape(kort)}\b', lang, tekst)
+    # Duizendtallen met punt (1.115) als één getal
+    tekst = re.sub(r'\b(\d{1,3})\.(\d{3})\b', lambda m: getal_als_woord(int(m.group(1) + m.group(2))), tekst)
     tekst = re.sub(r'\b\d{1,4}\b', lambda m: getal_als_woord(int(m.group())), tekst)
     return tekst
 
@@ -99,6 +101,7 @@ def main():
     ap.add_argument('--opdracht', required=True)
     ap.add_argument('--expressie', type=float, default=0.45, help='0.25-1.0: hoe levendig')
     ap.add_argument('--cfg', type=float, default=0.4, help='lager = rustiger tempo')
+    ap.add_argument('--doorgaan', action='store_true', help='bij een mislukt fragment verder met de rest')
     a = ap.parse_args()
     cpu_laden()
     import torch
@@ -131,6 +134,9 @@ def main():
             if not kort and score >= 3.8:
                 break
         if beste is None:
+            if a.doorgaan:
+                print(json.dumps({'uit': clip['uit'], 'mislukt': True}), flush=True)
+                continue
             sys.exit(f"Geen volledige uitspraak voor: {clip['tekst']}")
         os.replace(beste[0], clip['uit'])
         for poging in range(3):
