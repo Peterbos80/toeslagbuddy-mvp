@@ -49,16 +49,22 @@ if (form && raster) {
       toon();
     }),
   );
-  zoek.addEventListener('input', toon);
+  // Wie typt, zoekt in alle categorieën: anders vindt "koptelefoon" niets
+  // zolang de startcategorie (Parfum) nog aan staat.
+  const alleCategorieen = () => {
+    if (!zoek.value.trim() || !cat) return;
+    cat = '';
+    chips.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.cat === '')));
+  };
+  zoek.addEventListener('input', () => {
+    alleCategorieen();
+    toon();
+  });
   min.addEventListener('input', toon);
   sorteer.addEventListener('change', toon);
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    // Zoeken doet in alle categorieën (de startcategorie Parfum los laten)
-    if (zoek.value.trim() && cat) {
-      cat = '';
-      chips.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.cat === '')));
-    }
+    alleCategorieen();
     toon();
   });
 

@@ -53,7 +53,7 @@ export function csp(page) {
       connect.push(gc);
       img.push(gc);
     }
-    if (config.adsense.client) {
+    if (config.adsense.client && !zonderAdvertenties(page)) {
       const google = ['https://pagead2.googlesyndication.com', 'https://*.googlesyndication.com', 'https://*.doubleclick.net', 'https://*.google.com', 'https://*.gstatic.com', 'https://*.adtrafficquality.google', 'https://fundingchoicesmessages.google.com'];
       script.push(...google);
       connect.push(...google);
@@ -109,8 +109,12 @@ function analytics(page) {
   return s;
 }
 
+// Geen advertenties op Familie (het vertrouwen is het product) en niet op de
+// afgeschermde apps.
+export const zonderAdvertenties = (page) => afgeschermd(page) || sectieVan(page) === 'familie';
+
 function adsenseHead(page) {
-  if (!config.adsense.client || afgeschermd(page)) return '';
+  if (!config.adsense.client || zonderAdvertenties(page)) return '';
   // Het meta-tag is de verificatie van je site in AdSense; het script laadt de advertenties
   // (ook 'automatische advertenties' als je die in AdSense aanzet).
   return `<meta name="google-adsense-account" content="${esc(config.adsense.client)}">\n<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${esc(config.adsense.client)}" crossorigin="anonymous"></script>\n`;
@@ -118,7 +122,7 @@ function adsenseHead(page) {
 
 export function advertentie(slot, page = {}) {
   const id = config.adsense[slot];
-  if (!config.adsense.client || !id || afgeschermd(page)) return '';
+  if (!config.adsense.client || !id || zonderAdvertenties(page)) return '';
   return `<div class="advertentie"><ins class="adsbygoogle" style="display:block" data-ad-client="${esc(config.adsense.client)}" data-ad-slot="${esc(id)}" data-ad-format="auto" data-full-width-responsive="true"></ins></div>`;
 }
 
@@ -318,7 +322,7 @@ ${analytics(page)}${adsenseHead(page)}</head>
 <header class="site"><div class="wrap">
 ${logo}
 <button type="button" class="menu-knop" aria-expanded="false" aria-controls="hoofdmenu">${S.menu}</button>
-<nav class="hoofd" id="hoofdmenu" aria-label="${S.hoofdmenu}">${S.secties.map(([k, u, n]) => `<a href="${u}"${u === page.slug ? ' aria-current="page"' : k === sectie ? ' aria-current="true"' : ''}>${n}</a>`).join('')}</nav>
+<nav class="hoofd" id="hoofdmenu" aria-label="${S.hoofdmenu}">${S.secties.map(([k, u, n]) => `<a href="${u}"${u === page.slug ? ' aria-current="page"' : k === sectie ? ' aria-current="true"' : ''}>${n}</a>`).join('')}${sub.length ? `<div class="menu-sub"><p>${S.menuSub || 'Veel gebruikt'}</p>${sub.map(([u, n]) => `<a href="${u}"${u === page.slug ? ' aria-current="page"' : ''}>${n}</a>`).join('')}</div>` : ''}</nav>
 <a class="taalwissel" href="${wissel}" hreflang="${S.wissel.naar}" lang="${S.wissel.naar}"><span class="taal-lang">${S.wissel.tekst}</span><span class="taal-kort" aria-hidden="true">${S.wissel.naar.toUpperCase()}</span></a>
 ${actie && !page.zonderKopActie ? `<a class="kop-actie" href="${actie[0]}">${actie[1]}</a>` : ''}
 </div>${sub.length ? `

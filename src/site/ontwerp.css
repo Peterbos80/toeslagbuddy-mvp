@@ -158,7 +158,12 @@ nav.sub a[aria-current] { color: var(--tekst); background: var(--sectie-licht); 
   nav.hoofd { display: none; order: 3; flex-basis: 100%; flex-direction: column; gap: 4px; padding: 4px 0 14px; align-items: stretch; }
   nav.hoofd.open { display: flex; }
   nav.hoofd a { padding: 14px 16px; border-top: 0; border-radius: 14px; font-size: 1.1rem; background: var(--vlak); border: 1px solid var(--lijn); }
+  nav.hoofd .menu-sub { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 6px; margin-top: 10px; }
+  nav.hoofd .menu-sub p { grid-column: 1 / -1; margin: 0 0 2px; font-size: .9rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--zacht); }
+  nav.hoofd .menu-sub a { font-size: 1rem; padding: 12px 14px; background: var(--vlak-2); border-color: transparent; white-space: normal; }
+  nav.sub a { min-height: 44px; }
 }
+.menu-sub { display: none; }
 @media (min-width: 901px) {
   .menu-knop { display: none; }
   nav.hoofd { display: flex; font-size: 1rem; gap: 2px; }
@@ -409,3 +414,17 @@ main a[href^="http"] { overflow-wrap: anywhere; }
 .uitlegvideo details summary { cursor: pointer; color: var(--merk); font-weight: 600; }
 .uitlegvideo details p { margin: 8px 0 0; color: var(--tekst); max-width: 70ch; }
 .onderdelen .uitlegvideo { max-width: 860px; margin-left: auto; margin-right: auto; }
+
+/* Persona-test (Henk, 71, grote tekst): niets kleiner dan ± 15 px in de inhoud,
+   tik- en klikdoelen minstens 44 px hoog. */
+main small, main .hint, main .f-klein, main .subtiel, .kruimel, main figcaption, main .partner-label, main .bron, main .f-bronnen { font-size: max(.94rem, 15px); }
+main summary, .uitlegvideo summary { min-height: 44px; display: flex; align-items: center; }
+/* Grote tekst op een smalle telefoon: lange woorden ("Kinderopvangtoeslag")
+   mogen afbreken in plaats van de pagina breder te maken. */
+.kaarten { grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); }
+.kaarten a, .onderdeel { min-width: 0; }
+main h1, main h2, main h3, .kaarten strong, .onderdeel strong { overflow-wrap: break-word; hyphens: auto; }
+main .speler-titel, main .speler-label, main .voortgang-tekst, main .privacy-noot, main .deal-meta, main .deal-winkel, main .deal-gangbaar, main .nep-waarschuwing, main .disclosure, main details p, main ol li, main .f-etiket { font-size: max(.94rem, 15px); }
+.kruimel a { display: inline-block; padding: 12px 4px; margin: -12px -4px; }
+.chip, nav.hoofd a { min-height: 44px; }
+nav.hoofd a, .chip { display: inline-flex; align-items: center; }

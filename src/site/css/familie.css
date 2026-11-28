@@ -337,3 +337,8 @@ a.fa-tegel:hover { border-color: var(--lijn-sterk); transform: translateY(-2px);
 }
 @media (prefers-reduced-motion: reduce) { .fa-scan::after { display: none; } }
 @media (max-width: 1023px) { .fa-pagina nav.sub, .fa-pagina .kruimel { display: none; } }
+/* Smalle telefoon of grote tekst: het label onder de tekst in plaats van ernaast */
+@media (max-width: 440px) {
+  .f-regel { grid-template-columns: auto 1fr; }
+  .f-regel > .f-pil { grid-column: 2; justify-self: start; }
+}

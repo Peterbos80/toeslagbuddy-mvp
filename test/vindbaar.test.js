@@ -68,3 +68,10 @@ test('IndexNow: alleen gewijzigde pagina’s, met sleutel en host; niets doen zo
   assert.deepEqual(await meld({ cfg: { ...cfg, vindbaar: {} }, haalOp }), { gemeld: 0, reden: 'geen sleutel' });
   assert.equal((await meld({ cfg, haalOp: async () => ({ ok: false, status: 404 }) })).reden, 'inhoud.json niet bereikbaar');
 });
+
+test('advertenties: nooit op Familie of in de apps', async () => {
+  const { zonderAdvertenties } = await import('../src/site/layout.js');
+  assert.equal(zonderAdvertenties({ slug: '/familie/' }), true);
+  assert.equal(zonderAdvertenties({ slug: '/familie/rekenhulp/verpleeghuis/' }), true);
+  assert.equal(zonderAdvertenties({ slug: '/zorgtoeslag-berekenen/' }), false);
+});

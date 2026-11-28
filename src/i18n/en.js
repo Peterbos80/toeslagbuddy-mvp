@@ -15,6 +15,7 @@ export default {
   site: {
     naarInhoud: 'Skip to content',
     menu: 'Menu',
+    menuSub: 'Popular',
     hoofdmenu: 'Main menu',
     kruimelpad: 'Breadcrumb',
     home: 'Home',

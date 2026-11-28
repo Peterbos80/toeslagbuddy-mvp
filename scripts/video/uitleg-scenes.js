@@ -48,7 +48,7 @@ ${regel('klok', 'rood', 'Bezwaar vóór 15 december', '6 weken na de datum van d
       {
         tekst: 'Wie geld uitgeeft, legt het vast in het logboek. Elke regel blijft zichtbaar, ook als hij wordt verbeterd. Zo kan iedereen meekijken.',
         film: 'Close-up of hands tucking a small paper receipt into a notebook on a kitchen counter, a bag of groceries softly out of focus behind, warm light, slow motion.',
-        stock: ['bill paying', 'receipt', 'budget notebook', 'writing notebook'],
+        stock: ['receipt hand', 'paying bills', 'calculator bills', 'receipt'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Logboek</p><h2 class="in" style="animation-delay:.2s">Geld van je ouder, <em>open</em> voor iedereen</h2></div>
 ${kaart(`<p class="kop">November</p>
 ${[['Boodschappen', '42,50', 'Sanne'], ['Apotheek', '18,20', 'Mark'], ['Kapper', '24,00', 'Sanne'], ['Taxi naar ziekenhuis', '31,75', 'Joke']].map(([w, b, d], i) => `<div class="rij in" style="animation-delay:${0.5 + i * 0.35}s"><span>${w}<small>${d}</small></span><b>€ ${b}</b></div>`).join('')}
@@ -57,7 +57,7 @@ ${[['Boodschappen', '42,50', 'Sanne'], ['Apotheek', '18,20', 'Mark'], ['Kapper',
       {
         tekst: 'En als het moment komt, staat het stappenplan klaar. Met alle termijnen, en een opzegbrief voor elk contract.',
         film: 'A calm, sunlit Dutch living room with an empty armchair, a reading lamp and green plants, sheer curtains moving softly in a breeze, peaceful and respectful mood, very slow pan.',
-        stock: ['living room sunlight', 'armchair window', 'living room', 'curtain window'],
+        stock: ['cozy living room', 'living room plant', 'sofa living room', 'curtain window'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Na een overlijden</p><h2 class="in" style="animation-delay:.2s">Rust, als het <em>nodig</em> is</h2></div>
 ${kaart(`<p class="kop">Stappenplan</p>
 ${['Overlijden aangeven bij de gemeente', 'Uitvaart regelen', 'Contracten opzeggen of overzetten', 'Aangifte erfbelasting: 20 maanden'].map((t, i) => `<div class="vink in" style="animation-delay:${0.5 + i * 0.4}s"><span class="${i < 2 ? 'aan' : ''}">${i < 2 ? ico('vink') : ''}</span>${t}</div>`).join('')}`, 'rustig')}</div>`,
@@ -105,7 +105,7 @@ ${kaart(`<p class="kop">Koptelefoon met ruisonderdrukking</p>
       {
         tekst: 'Zoek je iets? Zet een jager aan. Die houdt de prijzen voor je in de gaten en zegt eerlijk: nu kopen, of wachten.',
         film: 'A cardboard parcel standing on the doorstep of a Dutch brick terraced house with a green front door, light drizzle, soft daylight, slow motion.',
-        stock: ['package delivery', 'parcel door', 'delivery box', 'parcel'],
+        stock: ['delivery man package', 'cardboard box delivery', 'package doorstep', 'parcel delivery'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Jager</p><h2 class="in" style="animation-delay:.2s">Nu kopen of <em>wachten</em>?</h2></div>
 ${kaart(`${regel('zoek', 'blauw', 'Robotstofzuiger met dweilfunctie', 'onder € 300', '', 0.4)}
 ${regel('grafiek', 'goud', 'Prijs zakt meestal in januari', 'op basis van 90 dagen', '', 0.9)}
@@ -200,7 +200,7 @@ ${regel('vink', 'groen', '46 cliënten in orde', 'Geen actie nodig', '', 1.3)}`)
       {
         tekst: 'Als zzp’er schommelt je winst. En daarmee je toeslag. Een te hoog voorschot merk je pas als je moet terugbetalen.',
         film: 'A freelance designer working at a home office desk by a window with a laptop and sketches, natural daylight, slow push-in, seen from the side.',
-        stock: ['freelancer laptop', 'home office laptop', 'man laptop home', 'man laptop'],
+        stock: ['freelancer laptop', 'home office man', 'man working laptop', 'man laptop home'],
         beeld: `<div class="titel smal"><p class="etiket in">Toeslagbewaker</p><h1 class="in" style="animation-delay:.3s">Wisselend inkomen, <em>zeker</em> van je toeslag</h1></div>`,
       },
       {
@@ -291,7 +291,7 @@ ${kaart(`<div class="rij in" style="animation-delay:.5s"><span>Minimaal</span><b
         tekst: 'De checklist zet alles op volgorde: van de uitvaart tot de aangifte erfbelasting. Die moet binnen twintig maanden na het overlijden.',
         ondertitel: 'De checklist zet alles op volgorde, tot en met de aangifte erfbelasting: binnen 20 maanden na het overlijden.',
         film: 'Close-up of a hand ticking items on a paper checklist with a pen at a wooden table, soft daylight, slow motion.',
-        stock: ['checklist', 'writing list', 'pen paper', 'writing paper'],
+        stock: ['to do list', 'writing paper pen', 'notepad pen', 'checklist paper'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Stappenplan</p><h2 class="in" style="animation-delay:.2s">Alles op <em>volgorde</em></h2></div>
 ${kaart(`${['Overlijden aangeven bij de gemeente', 'Uitvaart regelen', 'Contracten opzeggen of overzetten', 'Aangifte erfbelasting: 20 maanden'].map((t, i) => `<div class="vink in" style="animation-delay:${0.5 + i * 0.4}s"><span class="${i < 2 ? 'aan' : ''}">${i < 2 ? ico('vink') : ''}</span>${t}</div>`).join('')}`, 'rustig')}</div>`,
       },
