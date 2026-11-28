@@ -36,21 +36,34 @@ function duurVan(wav) {
   return Number.isFinite(d) ? d : null;
 }
 
+// Waar komt een clip vandaan? Pexels (met de maker) of AI (Veo, Kaggle, Flow)
+let beeldIndex = null;
+export function bronVan(naam, index = null) {
+  if (!index) {
+    if (beeldIndex === null) beeldIndex = existsSync(join(BEELDEN, 'index.json')) ? JSON.parse(readFileSync(join(BEELDEN, 'index.json'), 'utf8')) : {};
+    index = beeldIndex;
+  }
+  const r = index[naam];
+  if (r?.bron === 'pexels') return { soort: 'pexels', label: `Beelden: ${r.fotograaf} / Pexels`, credit: { fotograaf: r.fotograaf, fotograafUrl: r.fotograafUrl, url: r.url } };
+  return { soort: 'ai', label: 'Beelden gemaakt met AI' };
+}
+
 export function plan(video, stemMap) {
   return video.scenes.map((s, i) => {
     const wav = stemMap ? join(stemMap, `${sleutel(video, i)}.wav`) : null;
     const gesproken = wav && existsSync(wav) ? duurVan(wav) : null;
     const duur = Math.round(((gesproken ?? schatDuur(s.tekst)) + PAUZE) * 100) / 100;
-    return { ...s, wav: gesproken ? wav : null, clip: clipVoor(video, i), duur, ondertitels: ondertitels(s.ondertitel || s.tekst, duur - PAUZE / 2) };
+    const clip = clipVoor(video, i);
+    return { ...s, wav: gesproken ? wav : null, clip, bron: clip ? bronVan(`${video.id}-${i + 1}`) : null, duur, ondertitels: ondertitels(s.ondertitel || s.tekst, duur - PAUZE / 2) };
   });
 }
 
 const bestandHash = (p) => (p ? createHash('sha256').update(readFileSync(p)).digest('hex').slice(0, 12) : null);
-const vingerafdruk = (video, scenes) => createHash('sha256').update(JSON.stringify([STIJL, STIJL_FILM, video, scenes.map((s) => [s.duur, !!s.wav, bestandHash(s.clip)])])).digest('hex').slice(0, 12);
+const vingerafdruk = (video, scenes) => createHash('sha256').update(JSON.stringify([STIJL, STIJL_FILM, video, scenes.map((s) => [s.duur, !!s.wav, bestandHash(s.clip), s.bron?.label || ''])])).digest('hex').slice(0, 12);
 
 // AI-beeld bij een scène (scripts/video/ai-beelden.js), als het er is
 export function clipVoor(video, i, map = BEELDEN) {
-  if (!video.scenes[i].film) return null;
+  if (!video.scenes[i].film && !video.scenes[i].stock) return null;
   const c = join(map, `${video.id}-${i + 1}.mp4`);
   return existsSync(c) ? c : null;
 }
@@ -61,10 +74,11 @@ const MP4 = ['-c:v', 'libx264', '-preset', 'medium', '-crf', '23', '-pix_fmt', '
 // doorzichtige achtergrond vastgelegd (PNG) en over het beeld gelegd.
 async function renderScene(pagina, s, start, deel) {
   const film = !!s.clip;
-  await pagina.evaluate(([html, film]) => {
+  await pagina.evaluate(([html, film, label]) => {
     document.body.classList.toggle('film', film);
+    document.querySelector('.ai-label').textContent = label;
     document.getElementById('scene').innerHTML = `<div class="scene">${html}</div>`;
-  }, [s.beeld, film]);
+  }, [s.beeld, film, s.bron?.label || '']);
   const invoer = film
     ? ['-stream_loop', '-1', '-i', s.clip, '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'png', '-i', '-']
     : ['-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-'];
@@ -100,7 +114,7 @@ async function render(browser, basis, video, scenes, bestand) {
   await pagina.goto(basis + '/404.html');
   const kleurTekst = { familie: '#9c4a26', besparen: '#6f3a73', toeslagen: '#7a5a12' }[video.id] || '#1f6b5a';
   await pagina.setContent(`<!doctype html><html lang="nl"><head><meta charset="utf-8"><base href="${basis}/"><style>${STIJL}${STIJL_FILM}</style></head>
-<body style="--k:${video.kleur};--kt:${kleurTekst}"><div class="scrim"></div><div class="decor"></div><div class="decor twee"></div><div class="merk"><span>€</span>ToeslagBuddy</div><p class="ai-label">Beelden gemaakt met AI</p><main id="scene"></main><p class="ondertitel" id="ot" hidden></p></body></html>`);
+<body style="--k:${video.kleur};--kt:${kleurTekst}"><div class="scrim"></div><div class="decor"></div><div class="decor twee"></div><div class="merk"><span>€</span>ToeslagBuddy</div><p class="ai-label"></p><main id="scene"></main><p class="ondertitel" id="ot" hidden></p></body></html>`);
   await pagina.evaluate(() => document.fonts.ready);
   const tmp = join(tmpdir(), `uitleg-${video.id}-${process.pid}`);
   mkdirSync(tmp, { recursive: true });
@@ -197,7 +211,8 @@ async function main() {
         vtt: `/video/uitleg/${video.id}.vtt`,
         duur: Math.round(duur * 10) / 10,
         stem: metStem ? stem || 'piper' : null,
-        ai: scenes.some((x) => x.clip),
+        ai: scenes.some((x) => x.clip && x.bron?.soort === 'ai'),
+        credits: [...new Map(scenes.filter((x) => x.bron?.soort === 'pexels').map((x) => [x.bron.credit.url, x.bron.credit])).values()],
         transcript: video.scenes.map((x) => x.ondertitel || x.tekst).join(' '),
         hash,
       };

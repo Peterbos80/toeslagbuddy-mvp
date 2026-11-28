@@ -57,6 +57,13 @@ jobs:
       # daarna staat de clip in git. Zonder sleutel blijven de video's zoals ze zijn.
       - name: Met de hand toegevoegde beelden verkleinen
         run: node scripts/video/ai-beelden.js --verklein
+      # Echte stockvideo's van Pexels (gratis, commercieel toegestaan). Alleen
+      # met het geheim PEXELS_API_KEY; ontbrekende scènes worden daarna eventueel
+      # nog met AI gevuld.
+      - name: Stockbeelden (Pexels)
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        run: node scripts/video/stock-beelden.js
       - name: AI-beelden (Veo)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}

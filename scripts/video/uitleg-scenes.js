@@ -20,12 +20,14 @@ export const VIDEOS = [
       {
         tekst: 'Regel jij de zaken van je vader of moeder? Dan weet je hoe het gaat: brieven, termijnen en rekeningen, verspreid over de hele familie.',
         film: 'A wooden kitchen table in a cosy Dutch home covered with a messy pile of unopened envelopes and letters, a cup of tea beside them, soft morning light through the window, slow dolly-in.',
+        stock: ['letters on kitchen table', 'opening mail at home', 'pile of envelopes'],
         beeld: `<div class="titel smal"><p class="etiket in">ToeslagBuddy Familie</p><h1 class="in" style="animation-delay:.3s">Samen de zaken van je <em>ouders</em> regelen</h1></div>
 <div class="stapel">${['CAK', 'Belastingdienst', 'Zorgverzekeraar', 'Gemeente', 'Pensioenfonds'].map((a, i) => `<div class="brief val" style="--r:${(i - 2) * 6}deg;animation-delay:${0.8 + i * 0.35}s">${ico('brief')}<b>${a}</b><i></i><i></i><i class="kort"></i></div>`).join('')}</div>`,
       },
       {
         tekst: 'In de regelkamer zie je samen wat er speelt. Elke termijn staat in de kalender, met de bron erbij. Zo mist niemand iets.',
         film: 'Over-the-shoulder shot from behind of an adult daughter and her elderly father sitting side by side at a kitchen table, looking together at a tablet, their faces not visible, warm afternoon light, gentle slow push-in.',
+        stock: ['daughter elderly father tablet', 'senior man daughter laptop', 'elderly parent adult child home'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">De regelkamer</p><h2 class="in" style="animation-delay:.2s">Iedereen ziet <em>hetzelfde</em></h2>
 <div class="avatars in" style="animation-delay:.5s"><span style="background:#c2643a">S</span><span style="background:#2f5d8a">M</span><span style="background:#6f3a73">J</span></div></div>
 ${kaart(`<p class="kop">Deze week</p>
@@ -36,6 +38,7 @@ ${regel('taak', 'groen', 'Paspoort verlengen', 'Sanne pakt dit op', 'klaar', 1.4
       {
         tekst: 'Snap je een brief niet? Plak de tekst. Je ziet meteen wat er staat, wat je moet doen en vóór wanneer. Een burgerservicenummer halen we er direct uit.',
         film: 'Close-up of two hands holding a printed letter with blurred, unreadable lines next to a smartphone on a wooden table, shallow depth of field, slow gentle camera drift.',
+        stock: ['reading a letter worried', 'woman reading letter at home', 'reading mail kitchen'],
         beeld: `<div class="twee"><div class="papier in">${ico('brief')}<p><b>Betreft: eigen bijdrage Wlz</b></p><p>U betaalt een eigen bijdrage van <mark>€ 212,60 per maand</mark>.</p><p>Burgerservicenummer: <s class="lak">●●●●●●●●●</s></p><p>U kunt <mark>binnen 6 weken</mark> bezwaar maken.</p></div>
 ${kaart(`<p class="kop">Wat staat er?</p>
 ${regel('euro', 'goud', '€ 212,60 per maand', 'Eigen bijdrage verpleeghuis', '', 0.8)}
@@ -45,6 +48,7 @@ ${regel('klok', 'rood', 'Bezwaar vóór 15 december', '6 weken na de datum van d
       {
         tekst: 'Wie geld uitgeeft, legt het vast in het logboek. Elke regel blijft zichtbaar, ook als hij wordt verbeterd. Zo kan iedereen meekijken.',
         film: 'Close-up of hands tucking a small paper receipt into a notebook on a kitchen counter, a bag of groceries softly out of focus behind, warm light, slow motion.',
+        stock: ['paying bills at home', 'receipt notebook', 'writing in notebook kitchen'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Logboek</p><h2 class="in" style="animation-delay:.2s">Geld van je ouder, <em>open</em> voor iedereen</h2></div>
 ${kaart(`<p class="kop">November</p>
 ${[['Boodschappen', '42,50', 'Sanne'], ['Apotheek', '18,20', 'Mark'], ['Kapper', '24,00', 'Sanne'], ['Taxi naar ziekenhuis', '31,75', 'Joke']].map(([w, b, d], i) => `<div class="rij in" style="animation-delay:${0.5 + i * 0.35}s"><span>${w}<small>${d}</small></span><b>€ ${b}</b></div>`).join('')}
@@ -53,6 +57,7 @@ ${[['Boodschappen', '42,50', 'Sanne'], ['Apotheek', '18,20', 'Mark'], ['Kapper',
       {
         tekst: 'En als het moment komt, staat het stappenplan klaar. Met alle termijnen, en een opzegbrief voor elk contract.',
         film: 'A calm, sunlit Dutch living room with an empty armchair, a reading lamp and green plants, sheer curtains moving softly in a breeze, peaceful and respectful mood, very slow pan.',
+        stock: ['sunny living room', 'empty armchair window light', 'cozy living room curtains'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Na een overlijden</p><h2 class="in" style="animation-delay:.2s">Rust, als het <em>nodig</em> is</h2></div>
 ${kaart(`<p class="kop">Stappenplan</p>
 ${['Overlijden aangeven bij de gemeente', 'Uitvaart regelen', 'Contracten opzeggen of overzetten', 'Aangifte erfbelasting: 20 maanden'].map((t, i) => `<div class="vink in" style="animation-delay:${0.5 + i * 0.4}s"><span class="${i < 2 ? 'aan' : ''}">${i < 2 ? ico('vink') : ''}</span>${t}</div>`).join('')}`, 'rustig')}</div>`,
@@ -73,12 +78,14 @@ ${['Overlijden aangeven bij de gemeente', 'Uitvaart regelen', 'Contracten opzegg
       {
         tekst: 'Vijftig procent korting. Maar was de prijs ooit echt zo hoog?',
         film: 'A Dutch shopping street at dusk seen through a shop window, colourful abstract price tags and blurred city lights, bokeh, slow tracking shot.',
+        stock: ['shopping street evening', 'shop window lights', 'city shopping at dusk'],
         beeld: `<div class="titel"><p class="etiket in">ToeslagBuddy Besparen</p><h1 class="in" style="animation-delay:.3s">Is die korting <em>echt</em>?</h1>
 <div class="sticker in" style="animation-delay:1s"><s>€ 199</s><b>€ 99</b><span>−50%</span></div></div>`,
       },
       {
         tekst: 'Wij kijken naar de gangbare prijs: wat een product de afgelopen negentig dagen meestal kostte, bij meerdere winkels, inclusief verzendkosten.',
         film: 'Close-up of a person\'s hands on a sofa scrolling on a smartphone, the screen softly out of focus, cosy evening lamp light, slow push-in.',
+        stock: ['scrolling phone on sofa', 'woman using smartphone couch', 'online shopping phone'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">90 dagen</p><h2 class="in" style="animation-delay:.2s">De <em>gangbare</em> prijs</h2></div>
 ${kaart(`<p class="kop">Prijs per week</p><svg class="grafiek" viewBox="0 16 600 124" aria-hidden="true">
 <line x1="0" y1="96" x2="600" y2="96" class="gangbaar"/><text x="8" y="86" class="lab">gangbaar € 109</text>
@@ -98,6 +105,7 @@ ${kaart(`<p class="kop">Koptelefoon met ruisonderdrukking</p>
       {
         tekst: 'Zoek je iets? Zet een jager aan. Die houdt de prijzen voor je in de gaten en zegt eerlijk: nu kopen, of wachten.',
         film: 'A cardboard parcel standing on the doorstep of a Dutch brick terraced house with a green front door, light drizzle, soft daylight, slow motion.',
+        stock: ['package delivery doorstep', 'parcel at front door', 'delivery box door'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Jager</p><h2 class="in" style="animation-delay:.2s">Nu kopen of <em>wachten</em>?</h2></div>
 ${kaart(`${regel('zoek', 'blauw', 'Robotstofzuiger met dweilfunctie', 'onder € 300', '', 0.4)}
 ${regel('grafiek', 'goud', 'Prijs zakt meestal in januari', 'op basis van 90 dagen', '', 0.9)}
@@ -118,6 +126,7 @@ ${regel('grafiek', 'goud', 'Prijs zakt meestal in januari', 'op basis van 90 dag
       {
         tekst: 'Veel mensen krijgen geen toeslag, terwijl ze er wel recht op hebben. Jaar na jaar.',
         film: 'A Dutch woman in her thirties sits at a kitchen table in the evening with a laptop and a small pile of paper bills, she rubs her forehead and looks worried at the bills, warm lamp light, medium shot from the side, natural candid moment.',
+        stock: ['woman worried bills', 'stressed woman paperwork kitchen', 'woman calculating bills'],
         beeld: `<div class="titel"><p class="etiket in">ToeslagBuddy</p><h1 class="in" style="animation-delay:.3s">Mis je <em>geld</em> waar je recht op hebt?</h1></div>`,
       },
       {
@@ -127,11 +136,13 @@ ${regel('grafiek', 'goud', 'Prijs zakt meestal in januari', 'op basis van 90 dag
       {
         tekst: 'Binnen twee minuten zie je waar je recht op hebt. Soms is dat meer dan je dacht.',
         film: 'The same Dutch woman in her thirties types on her laptop at the kitchen table, reads the screen, then her face lights up with a relieved, genuinely happy smile, she leans back in her chair and lets out a breath of relief, medium shot from the side, natural candid moment, warm lamp light.',
+        stock: ['woman laptop happy relieved', 'woman smiling at laptop home', 'happy woman laptop kitchen'],
         beeld: `<div class="uitkomst-pil in" style="animation-delay:1.6s">${ico('vink')}<span><small>Zorgtoeslag en huurtoeslag</small><b>+ € 1.540 per jaar</b></span></div><p class="voorbeeld in" style="animation-delay:1.8s">Voorbeeld, verzonnen bedrag</p>`,
       },
       {
         tekst: 'Je ziet ook of je moet terugbetalen. Zo pas je je voorschot op tijd aan.',
         film: 'Top-down close-up of a hand ticking boxes on a paper checklist with a pen, next to a calculator and a cup of coffee, slow rotation.',
+        stock: ['paying bills calculator', 'checklist pen calculator', 'budget planning at table'],
         beeld: `<div class="twee"><div class="tekstblok"><p class="etiket in">Op tijd</p><h2 class="in" style="animation-delay:.2s">Geen <em>verrassing</em> achteraf</h2></div>
 ${kaart(`${regel('vink', 'groen', 'Zorgtoeslag', 'je voorschot klopt', '', 0.5)}
 ${regel('waarschuwing', 'rood', 'Huurtoeslag', 'voorschot te hoog: pas het aan', '', 1.0)}`)}</div>`,
@@ -238,7 +249,7 @@ body.film .merk { color: #fff; }
 body.film .avatars span { border-color: rgb(255 255 255 / 85%); }
 body.film .sticker, body.film .kaart, body.film .papier, body.film .tegel, body.film .brief { color: #1c2826; }
 body.film .ondertitel { background: rgb(0 0 0 / 62%); }
-body.film .ai-label { display: block; }
+body.film .ai-label:not(:empty) { display: block; }
 .ai-label { display: none; position: absolute; right: 28px; top: 34px; font-size: 13px; font-weight: 700; letter-spacing: .06em; color: rgb(255 255 255 / 88%); background: rgb(0 0 0 / 38%); border-radius: 99px; padding: 6px 12px; }
 body:not(.film) .scrim { display: none; }
 .uitkomst-pil { position: absolute; left: 80px; bottom: 150px; display: flex; gap: 14px; align-items: center; background: #fff; color: #1c2826; border-radius: 22px; padding: 16px 22px; box-shadow: 0 24px 50px -20px rgb(0 0 0 / 50%); }

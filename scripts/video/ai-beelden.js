@@ -36,9 +36,10 @@ export function wensen(videos = VIDEOS) {
 
 // Wat moet er nog gemaakt worden? Ontbreekt de clip, of veranderde de prompt
 // van een clip die wij maakten. Een clip zonder regel in index.json is met de
-// hand toegevoegd (bijv. gemaakt in Google Flow): die laten we altijd staan.
+// hand toegevoegd (bijv. gemaakt in Google Flow): die laten we altijd staan,
+// net als een gekozen stockvideo (bron 'pexels').
 export function nogTeMaken(lijst, index, bestaat = (naam) => existsSync(join(MAP, `${naam}.mp4`))) {
-  return lijst.filter((w) => !bestaat(w.naam) || (index[w.naam] && index[w.naam].hash !== w.hash));
+  return lijst.filter((w) => !bestaat(w.naam) || (index[w.naam] && index[w.naam].bron !== 'pexels' && index[w.naam].hash !== w.hash));
 }
 
 // Kies een videomodel uit de modellenlijst van de API. Voorkeur: stabiele
