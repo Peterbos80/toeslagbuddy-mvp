@@ -91,7 +91,7 @@ export const pages = [
     title: `Toeslagen berekenen ${JAAR} – check al je toeslagen in 2 minuten | ToeslagBuddy`,
     description: `Bereken gratis en anoniem al je toeslagen voor ${JAAR}: zorgtoeslag, huurtoeslag, kindgebonden budget, kinderopvangtoeslag en kinderbijslag. Met de nieuwste bedragen en regels.`,
     h1: `Op welke toeslagen heb jij recht in ${JAAR}?`,
-    intro: 'Beantwoord een paar eenvoudige vragen. Je ziet meteen hoeveel zorgtoeslag, huurtoeslag en geld voor je kinderen je kunt krijgen.',
+    intro: 'Tik drie antwoorden aan en zie meteen bij welke toeslagen je een kans maakt. Daarna reken je precies uit hoeveel je krijgt: zorgtoeslag, huurtoeslag en geld voor je kinderen.',
     calc: 'alles',
     anker: 'check',
     script: 'snelcheck.js',

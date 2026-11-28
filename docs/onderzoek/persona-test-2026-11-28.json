@@ -7,7 +7,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 4,
-    "seconden": 21.4,
+    "seconden": 21.2,
     "fouten": [],
     "paginas": {
      "/": {
@@ -15,15 +15,15 @@
       "kleineDoelen": [],
       "breedte": 320,
       "viewport": 320,
-      "kb": 397,
-      "leesbaarheid": 54
+      "kb": 408,
+      "leesbaarheid": 55
      },
      "/zorgtoeslag-berekenen/": {
       "kleinsteTekst": 18,
       "kleineDoelen": [],
       "breedte": 320,
       "viewport": 320,
-      "kb": 392,
+      "kb": 403,
       "leesbaarheid": 59
      }
     }
@@ -38,7 +38,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 10,
-    "seconden": 2,
+    "seconden": 2.2,
     "fouten": [],
     "paginas": {
      "/": {
@@ -52,8 +52,8 @@
       ],
       "breedte": 390,
       "viewport": 390,
-      "kb": 397,
-      "leesbaarheid": 54
+      "kb": 408,
+      "leesbaarheid": 55
      }
     }
    },
@@ -62,7 +62,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 2,
-    "seconden": 0.6,
+    "seconden": 0.7,
     "fouten": [],
     "paginas": {
      "/zorgtoeslag-berekenen/": {
@@ -70,7 +70,7 @@
       "kleineDoelen": [],
       "breedte": 390,
       "viewport": 390,
-      "kb": 392,
+      "kb": 402,
       "leesbaarheid": 59
      }
     }
@@ -93,7 +93,7 @@
       "kleineDoelen": [],
       "breedte": 390,
       "viewport": 390,
-      "kb": 329,
+      "kb": 340,
       "leesbaarheid": 68
      },
      "/huurtoeslag-berekenen/": {
@@ -101,7 +101,7 @@
       "kleineDoelen": [],
       "breedte": 390,
       "viewport": 390,
-      "kb": 334,
+      "kb": 345,
       "leesbaarheid": 67
      }
     }
@@ -119,7 +119,7 @@
       "kleineDoelen": [],
       "breedte": 390,
       "viewport": 390,
-      "kb": 392,
+      "kb": 403,
       "leesbaarheid": 59
      }
     }
@@ -134,7 +134,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 4,
-    "seconden": 1.3,
+    "seconden": 1.2,
     "fouten": [],
     "paginas": {
      "/": {
@@ -142,7 +142,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 397,
+      "kb": 408,
       "leesbaarheid": 56
      },
      "/familie/": {
@@ -150,7 +150,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 300,
+      "kb": 304,
       "leesbaarheid": 67
      },
      "/familie/rekenhulp/verpleeghuis/": {
@@ -158,7 +158,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 332,
+      "kb": 336,
       "leesbaarheid": 76
      }
     }
@@ -176,7 +176,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 300,
+      "kb": 304,
       "leesbaarheid": 67
      },
      "/familie/checklist/na-overlijden/": {
@@ -184,7 +184,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 289,
+      "kb": 293,
       "leesbaarheid": 61
      }
     }
@@ -207,7 +207,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 397,
+      "kb": 408,
       "leesbaarheid": 56
      },
      "/zzp-toeslagen/": {
@@ -215,7 +215,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 415,
+      "kb": 425,
       "leesbaarheid": 74
      }
     }
@@ -230,7 +230,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 3,
-    "seconden": 1,
+    "seconden": 0.9,
     "fouten": [],
     "paginas": {
      "/": {
@@ -244,8 +244,8 @@
       ],
       "breedte": 390,
       "viewport": 390,
-      "kb": 397,
-      "leesbaarheid": 54
+      "kb": 408,
+      "leesbaarheid": 55
      },
      "/deals/": {
       "kleinsteTekst": 15.04,
@@ -254,7 +254,7 @@
       ],
       "breedte": 390,
       "viewport": 390,
-      "kb": 436,
+      "kb": 440,
       "leesbaarheid": 68
      }
     }
@@ -277,7 +277,7 @@
       "kleineDoelen": [],
       "breedte": 1440,
       "viewport": 1440,
-      "kb": 397,
+      "kb": 408,
       "leesbaarheid": 56
      },
      "/pro/": {
@@ -285,7 +285,7 @@
       "kleineDoelen": [],
       "breedte": 1440,
       "viewport": 1440,
-      "kb": 345,
+      "kb": 351,
       "leesbaarheid": 52
      },
      "/pro/check/": {
@@ -293,7 +293,7 @@
       "kleineDoelen": [],
       "breedte": 1440,
       "viewport": 1440,
-      "kb": 289,
+      "kb": 295,
       "leesbaarheid": 53
      }
     }

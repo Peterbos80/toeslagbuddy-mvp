@@ -336,7 +336,7 @@ test('voorschotcheck: te hoog, klopt en te laag', async () => {
   await blok.waitFor();
   assert.ok(await blok.evaluate((e) => e.classList.contains('te-hoog')));
   assert.match(await tekst(blok), /€ 47 per maand te veel/);
-  assert.match(await tekst(blok), /€ 564 terugbetalen/);
+  assert.match(await tekst(blok), /Al \d+ maanden te veel gekregen: ongeveer € \d+/);
   await reken('103');
   assert.ok(await p.locator('.voorschot-check.klopt').count());
   await reken('50');

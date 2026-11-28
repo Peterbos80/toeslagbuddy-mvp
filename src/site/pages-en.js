@@ -38,7 +38,7 @@ export const pagesEn = [
     title: `Dutch benefits calculator ${JAAR}: check all allowances in 2 minutes | ToeslagBuddy`,
     description: `Free, anonymous calculator for Dutch allowances (toeslagen) in ${JAAR}: healthcare allowance, rent allowance, child budget, childcare allowance and child benefit. In English, for expats, students and workers from abroad.`,
     h1: `Which Dutch benefits can you get in ${JAAR}?`,
-    intro: 'Answer a few simple questions. You will see straight away how much healthcare allowance, rent allowance and money for your children you may be able to get in the Netherlands.',
+    intro: 'Tap three answers and see straight away which allowances you may get. Then work out exactly how much: healthcare allowance, rent allowance and money for your children in the Netherlands.',
     calc: 'alles',
     anker: 'check',
     script: 'snelcheck.js',

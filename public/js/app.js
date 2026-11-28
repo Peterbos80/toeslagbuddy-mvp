@@ -12,6 +12,7 @@ import { zzpCheck, herinneringIcs } from './zzp.js';
 import { uitlegBijResultaat } from './persona.js';
 import { CONFIG } from './config.js';
 import { valideer } from './validatie.js';
+import { jaarstrook } from './jaarstrook.js';
 import { teksten, paginaTaal } from './i18n.js';
 
 // Taal uit <html lang>; alle teksten van de uitkomst komen uit src/i18n (app)
@@ -200,6 +201,34 @@ export function vergelijkVoorschot(nu, verwacht) {
   const marge = Math.max(5, verwacht * 0.05);
   return { verschil, status: Math.abs(verschil) <= marge ? 'klopt' : verschil < 0 ? 'te-hoog' : 'te-laag' };
 }
+// De jaarstrook: 12 maanden, met wat al voorbij is en wat nog komt
+const LOCALE = TAAL === 'en' ? 'en-GB' : 'nl-NL';
+const maandNaam = (m, vorm) => new Intl.DateTimeFormat(LOCALE, { month: vorm }).format(new Date(JAAR, m, 15));
+function strookHtml(js, klasse = '') {
+  return `<ol class="jaarstrook ${klasse}" aria-hidden="true">${js.maanden
+    .map((x, i) => `<li class="js-${x.status}" style="--i:${i}" title="${maandNaam(x.m, 'long')}"><span class="js-balk"></span><span class="js-maand">${maandNaam(x.m, 'narrow')}</span>${x.status === 'nu' ? `<span class="js-nu-label">${T.strookNu}</span>` : ''}</li>`)
+    .join('')}</ol>`;
+}
+function datumTekst(iso) {
+  return new Date(`${iso}T12:00:00`).toLocaleDateString(LOCALE, { day: 'numeric', month: 'long', year: 'numeric' });
+}
+function jaarstrookBlok(calc, d) {
+  if (!MET_VOORSCHOT.includes(calc) || d.voorschot > 0) return '';
+  const r = RUW[calc](d);
+  if (!r || !r.recht) return '';
+  const js = jaarstrook({ soort: calc, perMaand: r.perMaand, jaar: JAAR });
+  const kop = js.terugMaanden ? T.strookTerug(js.terugMaanden, euro(js.terugBedrag, 0)) : T.strookOpTijd;
+  const legenda = [['terug', T.strookLegTerug], ['verloren', T.strookLegVerloren], ['nu', T.strookLegNu], ['komend', T.strookLegKomend]]
+    .filter(([s]) => js.maanden.some((x) => x.status === s))
+    .map(([s, t]) => `<li><i class="js-${s}"></i>${t}</li>`)
+    .join('');
+  return `<section class="strook-blok" aria-labelledby="strook-kop"><h3 id="strook-kop">${T.strookKop(JAAR)}</h3>
+<p class="strook-tekst">${kop}</p>
+${strookHtml(js)}
+<ul class="strook-legenda">${legenda}</ul>
+${js.deadline ? `<p class="strook-voet">${T.strookDeadline(JAAR, datumTekst(js.deadline))}</p>` : js.verlorenMaanden ? `<p class="strook-voet">${T.strookKot}</p>` : ''}</section>`;
+}
+
 function voorschotBlok(calc, d) {
   if (!MET_VOORSCHOT.includes(calc) || !(d.voorschot > 0)) return '';
   const r = RUW[calc](d);
@@ -211,9 +240,12 @@ function voorschotBlok(calc, d) {
   const jaar = euro(Math.abs(verschil) * 12, 0);
   const tekst = status === 'klopt' ? T.voorschotKlopt : status === 'te-hoog' ? T.voorschotTeHoog(mnd, jaar) : T.voorschotTeLaag(mnd, jaar);
   const actie = status === 'te-hoog' ? T.voorschotTeHoogActie : status === 'te-laag' ? T.voorschotTeLaagActie : '';
+  const js = jaarstrook({ soort: calc, perMaand: verwacht, jaar: JAAR, voorschot: d.voorschot });
+  const voorbij = js.maanden.filter((x) => x.status === 'voorbij').length;
+  const strook = status === 'klopt' ? '' : `${strookHtml(js, status)}${voorbij === 0 ? '' : `<p class="strook-tekst">${(status === 'te-hoog' ? T.strookTeHoog : T.strookTeLaag)(voorbij, euro(Math.abs(verschil) * voorbij, 0), js.resterend, euro(Math.abs(verschil) * js.resterend, 0))}</p>`}`;
   return `<section class="voorschot-check ${status}" aria-labelledby="vc-kop"><h3 id="vc-kop">${T.voorschotKop}</h3>
 ${balk(T.voorschotNu, d.voorschot, 'nu')}${balk(T.voorschotVerwacht, verwacht, 'verwacht')}
-<p class="vc-uitkomst">${tekst}</p>${actie ? `<p class="vc-actie">${actie} <a href="https://www.toeslagen.nl" rel="noopener" target="_blank">${T.voorschotLink}</a></p>` : ''}</section>`;
+<p class="vc-uitkomst">${tekst}</p>${strook}${actie ? `<p class="vc-actie">${actie} <a href="https://www.toeslagen.nl" rel="noopener" target="_blank">${T.voorschotLink}</a></p>` : ''}</section>`;
 }
 
 const reken = {
@@ -374,7 +406,7 @@ function render(form, { focus = false } = {}) {
     uit.innerHTML = `<p class="melding">${T.vulInkomen}</p>`;
     return false;
   }
-  uit.innerHTML = reken[calc](d) + voorschotBlok(calc, d) + partnerBlokken(calc) + (calc === 'toetsingsinkomen' ? '' : deelBlok());
+  uit.innerHTML = reken[calc](d) + jaarstrookBlok(calc, d) + voorschotBlok(calc, d) + partnerBlokken(calc) + (calc === 'toetsingsinkomen' ? '' : deelBlok());
   // Persoonlijke uitleg door een persona, direct onder de eerste uitkomst
   const eerste = uit.querySelector('.resultaat');
   if (eerste && RUW[calc]) {

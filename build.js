@@ -176,24 +176,24 @@ for (const page of pages) {
   const html = `
 <div class="hero">
 <div class="hero-deco" aria-hidden="true"><span class="munt"></span><span class="munt"></span><span class="munt"></span><span class="munt"></span></div>
-<div class="hero-grid"><div>
+<div class="hero-grid${home ? ' hero-home' : ''}"><div${home ? ' class="hero-tekst"' : ''}>
 ${page.calc ? `<span class="bijgewerkt">${S.bijgewerkt(params.JAAR)}</span>` : ''}
 <h1>${home ? esc(page.h1).replace(S.accent, `<span class="accent">${S.accent}</span>`) : esc(page.h1)}</h1>
 <p class="intro">${esc(page.intro)}</p>
+${home ? `</div>\n<div class="hero-check">${snelcheckHtml(page.taal)}</div>\n<div class="hero-meer">` : ''}
 ${page.calc ? `<ul class="vertrouwen" aria-label="${S.vertrouwenLabel}">
 ${S.vertrouwen(params.JAAR).map((v) => `<li>${v}</li>`).join('')}
 </ul>` : ''}
-${home ? `<p class="hero-knoppen"><a class="knop groot" href="#check">${S.startCheck}</a></p>
+${home ? `<p class="hero-knoppen"><a class="knop-licht" href="#check">${S.startCheck} ↓</a></p>
 <nav class="snel" aria-label="${S.snelLabel}"><span>${S.snelKies}</span> ${S.snel.map(([u, n]) => `<a href="${u}">${n}</a>`).join(' ')}</nav>` : ''}
 <button type="button" class="voorlees" hidden aria-pressed="false" data-stop="${S.stopLezen}">${S.leesVoor}</button>
 </div>
-${home ? '<div class="hero-buddy" data-intro></div>' : ''}
 </div>
 </div>
 <div class="raster">
 <div class="inhoud">
-${home ? snelcheckHtml(page.taal) : ''}
 ${page.calc ? `<section class="rekenkaart" id="${page.anker || 'rekenhulp'}" aria-label="${S.rekenhulp}">\n<noscript><p class="geen-js">${S.geenJs}</p></noscript>\n${forms[page.calc](page.taal)}\n</section>` : ''}
+${home ? '<div class="hero-buddy buddy-los" data-intro></div>' : ''}
 ${home && page.taal === 'nl' ? onderdelenHtml() : ''}
 ${advertentie('slotInhoud', page)}
 ${VIDEO_OP[page.slug] ? uitlegVideo(VIDEO_OP[page.slug]) : ''}

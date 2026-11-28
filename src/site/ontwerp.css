@@ -509,3 +509,55 @@ video:focus-visible, .tabel-scroll:focus-visible { outline: 3px solid var(--merk
   .sc-vragen, .sc-uitkomst { padding: 20px; }
   .sc-uitkomst { border-left: 0; border-top: 1px solid var(--lijn); }
 }
+
+/* Jaarstrook: het toeslagjaar als 12 maanden (signatuur van ToeslagBuddy) */
+.strook-blok { margin-top: 18px; padding: 22px; border-radius: var(--radius); background: var(--vlak); border: 1px solid var(--lijn); }
+.strook-blok h3 { margin: 0 0 6px; font-size: 1.2rem; }
+.strook-tekst { margin: 0 0 14px; font-size: 1.05rem; }
+.voorschot-check .strook-tekst { margin: 12px 0 0; }
+.jaarstrook { --js-h: 74px; list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(3px, 1vw, 8px); align-items: end; }
+.jaarstrook li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.js-balk { display: block; width: 100%; height: var(--js-h); border-radius: 8px; background: var(--merk-licht); border: 1.5px solid color-mix(in srgb, var(--merk) 35%, transparent); transform-origin: bottom; animation: js-groei .5s var(--ease) both; animation-delay: calc(var(--i) * 45ms); }
+.js-maand { font-size: .85rem; font-weight: 700; color: var(--zacht); text-transform: uppercase; }
+.js-nu-label { position: absolute; top: -24px; font-size: .75rem; font-weight: 800; color: var(--merk-donker); background: var(--goud-licht); border: 1px solid var(--goud); border-radius: 99px; padding: 0 6px; line-height: 18px; }
+.js-terug .js-balk { background: repeating-linear-gradient(135deg, var(--goed-licht) 0 6px, color-mix(in srgb, var(--goed) 22%, var(--goed-licht)) 6px 12px); border-color: var(--goed); }
+.js-verloren .js-balk { background: var(--vlak-2); border: 1.5px dashed var(--lijn-sterk); height: calc(var(--js-h) * .35); }
+.js-verloren .js-maand { opacity: .7; }
+li.js-nu .js-balk { background: var(--merk); border-color: var(--merk-donker); }
+li.js-nu .js-maand { color: var(--merk-donker); }
+.js-komend .js-balk { background: var(--merk-licht); }
+.jaarstrook.te-hoog .js-voorbij .js-balk { background: repeating-linear-gradient(135deg, var(--rood-licht) 0 6px, color-mix(in srgb, var(--rood) 20%, var(--rood-licht)) 6px 12px); border-color: var(--rood); }
+.jaarstrook.te-laag .js-voorbij .js-balk { background: repeating-linear-gradient(135deg, var(--goud-licht) 0 6px, color-mix(in srgb, var(--goud) 30%, var(--goud-licht)) 6px 12px); border-color: var(--goud); }
+.jaarstrook.te-hoog, .jaarstrook.te-laag { margin-top: 30px; }
+.strook-blok .jaarstrook { margin-top: 30px; }
+.strook-legenda { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .92rem; color: var(--zacht); }
+.strook-legenda li { display: inline-flex; align-items: center; gap: 7px; }
+.strook-legenda i { width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid; }
+.strook-legenda .js-terug { background: var(--goed-licht); border-color: var(--goed); }
+.strook-legenda .js-verloren { background: var(--vlak-2); border-style: dashed; border-color: var(--lijn-sterk); }
+.strook-legenda .js-nu { background: var(--merk); border-color: var(--merk-donker); }
+.strook-legenda .js-komend { background: var(--merk-licht); border-color: color-mix(in srgb, var(--merk) 35%, transparent); }
+.strook-voet { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--lijn); color: var(--zacht); font-size: .95rem; }
+@keyframes js-groei { from { transform: scaleY(0); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .js-balk { animation: none; } }
+@media (max-width: 420px) { .jaarstrook { --js-h: 56px; } .js-maand { font-size: .78rem; } }
+body.spiekbriefje .js-balk { animation: none; }
+
+/* Startpagina: de snelcheck ís de hero */
+.hero-home { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); grid-template-rows: auto 1fr; grid-template-areas: "tekst check" "meer check"; gap: 8px 48px; align-items: start; }
+.hero-home .hero-tekst { grid-area: tekst; }
+.hero-home .hero-check { grid-area: check; }
+.hero-home .hero-meer { grid-area: meer; }
+.hero-home h1 { font-size: clamp(2.3rem, 5.4vw, 4rem); line-height: 1.02; letter-spacing: -.025em; }
+.hero-check .snelcheck { grid-template-columns: 1fr; margin: 0; }
+.hero-check .sc-vragen { padding: 24px 26px 8px; }
+.hero-check .sc-uitkomst { border-left: 0; border-top: 1px solid var(--lijn); padding: 20px 26px 24px; }
+.hero-check .sc-leeg { font-size: .98rem; }
+.hero-check .sc-lijst { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.hero-home .hero-knoppen .knop-licht { font-weight: 700; }
+.buddy-los { max-width: 460px; margin: 0 0 32px; }
+@media (max-width: 900px) {
+  .hero-home { grid-template-columns: 1fr; grid-template-rows: none; grid-template-areas: "tekst" "check" "meer"; gap: 18px; }
+  .hero-check .sc-vragen { padding: 20px; }
+  .hero-check .sc-uitkomst { padding: 18px 20px 20px; }
+}
