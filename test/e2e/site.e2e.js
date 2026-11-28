@@ -371,6 +371,32 @@ test('snelcheck: drie vragen, kansen per toeslag en de check alvast ingevuld', a
   await ctx.close();
 });
 
+test('jaarstrook: bij de complete check en in het spiekbriefje', async () => {
+  const ctx = await s.browser.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: 'reduce' });
+  const p = await open(ctx, s.basis + '/', fouten);
+  const F = 'form[data-calc=alles]';
+  await p.locator(`${F} [name=leeftijd]`).fill('36');
+  await p.locator(`${F} [data-volgende]`).click();
+  await p.locator(`${F} [name=inkomen]`).fill('26000');
+  await p.locator(`${F} [data-volgende]`).click();
+  await p.locator(`${F} [name=kaleHuur]`).fill('700');
+  await p.locator(`${F} [data-volgende]`).click();
+  await p.locator(`${F} button[type=submit]`).click();
+  const strook = p.locator('.strook-blok');
+  await strook.waitFor();
+  assert.equal(await strook.locator('.jaarstrook li').count(), 12);
+  assert.equal(await strook.locator('.jaarstrook li.js-nu').count(), new Date().getFullYear() === 2026 ? 1 : 0);
+  assert.match(await tekst(strook), /Aanvragen over 2026 kan tot 1 september 2027/);
+  // Buddy staat als coach direct onder de uitkomst
+  await p.locator('.uitleg-blok .speler').waitFor();
+  assert.ok(await p.evaluate(() => document.querySelector('.resultaat.totaal').nextElementSibling.classList.contains('uitleg-blok')));
+  const [briefje] = await Promise.all([ctx.waitForEvent('page'), p.click('[data-spiek]')]);
+  await briefje.waitForLoadState();
+  assert.equal(await briefje.locator('.jaarstrook li').count(), 12);
+  assert.equal(await briefje.locator('.speler').count(), 0);
+  await ctx.close();
+});
+
 test('geen JavaScript-fouten tijdens de tests', () => {
   assert.deepEqual(fouten, []);
 });

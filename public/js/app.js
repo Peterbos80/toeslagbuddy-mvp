@@ -212,21 +212,41 @@ function strookHtml(js, klasse = '') {
 function datumTekst(iso) {
   return new Date(`${iso}T12:00:00`).toLocaleDateString(LOCALE, { day: 'numeric', month: 'long', year: 'numeric' });
 }
-function jaarstrookBlok(calc, d) {
-  if (!MET_VOORSCHOT.includes(calc) || d.voorschot > 0) return '';
-  const r = RUW[calc](d);
-  if (!r || !r.recht) return '';
-  const js = jaarstrook({ soort: calc, perMaand: r.perMaand, jaar: JAAR });
-  const kop = js.terugMaanden ? T.strookTerug(js.terugMaanden, euro(js.terugBedrag, 0)) : T.strookOpTijd;
+// Eén strook voor één of meer toeslagen: een maand telt als "nog te krijgen"
+// zodra één van de toeslagen die maand nog met terugwerkende kracht kan.
+function strookVoor(delen) {
+  const per = delen.map(([soort, perMaand]) => jaarstrook({ soort, perMaand, jaar: JAAR }));
+  const rang = { terug: 3, nu: 4, komend: 2, verloren: 1 };
+  const maanden = per[0].maanden.map((_, m) => ({ m, status: per.map((x) => x.maanden[m].status).sort((a, b) => rang[b] - rang[a])[0] }));
+  return {
+    maanden,
+    terugMaanden: maanden.filter((x) => x.status === 'terug').length,
+    terugBedrag: per.reduce((t, x) => t + x.terugBedrag, 0),
+    verlorenMaanden: maanden.filter((x) => x.status === 'verloren').length,
+    deadline: per.map((x) => x.deadline).find(Boolean) || null,
+    alleenKot: per.every((x) => !x.deadline),
+    metKot: delen.some(([s]) => s === 'kinderopvangtoeslag'),
+  };
+}
+function strookBlokHtml(delen, meer = false) {
+  if (!delen.length) return '';
+  const js = strookVoor(delen);
+  const kop = js.terugMaanden ? (meer ? T.strookTerugMeer : T.strookTerug)(js.terugMaanden, euro(js.terugBedrag, 0)) : T.strookOpTijd;
   const legenda = [['terug', T.strookLegTerug], ['verloren', T.strookLegVerloren], ['nu', T.strookLegNu], ['komend', T.strookLegKomend]]
     .filter(([s]) => js.maanden.some((x) => x.status === s))
     .map(([s, t]) => `<li><i class="js-${s}"></i>${t}</li>`)
     .join('');
+  const voet = [js.deadline ? T.strookDeadline(JAAR, datumTekst(js.deadline)) : '', js.metKot ? T.strookKot : ''].filter(Boolean).join(' ');
   return `<section class="strook-blok" aria-labelledby="strook-kop"><h3 id="strook-kop">${T.strookKop(JAAR)}</h3>
 <p class="strook-tekst">${kop}</p>
 ${strookHtml(js)}
 <ul class="strook-legenda">${legenda}</ul>
-${js.deadline ? `<p class="strook-voet">${T.strookDeadline(JAAR, datumTekst(js.deadline))}</p>` : js.verlorenMaanden ? `<p class="strook-voet">${T.strookKot}</p>` : ''}</section>`;
+${voet ? `<p class="strook-voet">${voet}</p>` : ''}</section>`;
+}
+function jaarstrookBlok(calc, d) {
+  if (!MET_VOORSCHOT.includes(calc) || d.voorschot > 0) return '';
+  const r = RUW[calc](d);
+  return r && r.recht ? strookBlokHtml([[calc, r.perMaand]]) : '';
 }
 
 function voorschotBlok(calc, d) {
@@ -315,6 +335,7 @@ ${balken(r)}
 <table class="overzicht"><tbody>${rijen}</tbody></table>
 ${r.totaalPerJaar > 0 ? aanvragen : ''}
 </div>
+${strookBlokHtml(MET_VOORSCHOT.filter((k) => r[k] && r[k].recht).map((k) => [k, r[k].perMaand]), true)}
 ${tips ? `<div class="resultaat tips"><h3>${T.ookKrijgen}</h3><ul>${tips}</ul></div>` : ''}`;
   },
   // De toeslagbewaker is (nog) alleen Nederlands; deze teksten staan daarom niet in src/i18n

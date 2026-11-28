@@ -340,6 +340,7 @@ export default {
     strookKop: (jaar) => `Jouw toeslagjaar ${jaar}`,
     strookNu: 'nu',
     strookTerug: (n, bedrag) => `Krijg je deze toeslag nog niet? Vraag hem nu aan. Dan krijg je ook de <strong>${n} maanden die al voorbij zijn: samen ongeveer ${bedrag}</strong>.`,
+    strookTerugMeer: (n, bedrag) => `Krijg je deze toeslagen nog niet? Vraag ze nu aan. Dan krijg je ook de <strong>${n} maanden die al voorbij zijn: samen ongeveer ${bedrag}</strong>.`,
     strookOpTijd: 'Vraag op tijd aan. Dan krijg je alle maanden van het jaar.',
     strookLegTerug: 'Al voorbij, kun je nog krijgen',
     strookLegVerloren: 'Te lang geleden',

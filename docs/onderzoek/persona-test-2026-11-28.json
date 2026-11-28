@@ -15,7 +15,7 @@
       "kleineDoelen": [],
       "breedte": 320,
       "viewport": 320,
-      "kb": 408,
+      "kb": 412,
       "leesbaarheid": 55
      },
      "/zorgtoeslag-berekenen/": {
@@ -23,7 +23,7 @@
       "kleineDoelen": [],
       "breedte": 320,
       "viewport": 320,
-      "kb": 403,
+      "kb": 407,
       "leesbaarheid": 59
      }
     }
@@ -38,7 +38,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 10,
-    "seconden": 2.2,
+    "seconden": 2.1,
     "fouten": [],
     "paginas": {
      "/": {
@@ -52,7 +52,7 @@
       ],
       "breedte": 390,
       "viewport": 390,
-      "kb": 408,
+      "kb": 412,
       "leesbaarheid": 55
      }
     }
@@ -62,7 +62,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 2,
-    "seconden": 0.7,
+    "seconden": 0.6,
     "fouten": [],
     "paginas": {
      "/zorgtoeslag-berekenen/": {
@@ -70,7 +70,7 @@
       "kleineDoelen": [],
       "breedte": 390,
       "viewport": 390,
-      "kb": 402,
+      "kb": 407,
       "leesbaarheid": 59
      }
     }
@@ -93,7 +93,7 @@
       "kleineDoelen": [],
       "breedte": 390,
       "viewport": 390,
-      "kb": 340,
+      "kb": 343,
       "leesbaarheid": 68
      },
      "/huurtoeslag-berekenen/": {
@@ -101,7 +101,7 @@
       "kleineDoelen": [],
       "breedte": 390,
       "viewport": 390,
-      "kb": 345,
+      "kb": 349,
       "leesbaarheid": 67
      }
     }
@@ -119,7 +119,7 @@
       "kleineDoelen": [],
       "breedte": 390,
       "viewport": 390,
-      "kb": 403,
+      "kb": 406,
       "leesbaarheid": 59
      }
     }
@@ -134,7 +134,7 @@
     "gelukt": true,
     "mislukt": null,
     "handelingen": 4,
-    "seconden": 1.2,
+    "seconden": 1.3,
     "fouten": [],
     "paginas": {
      "/": {
@@ -142,7 +142,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 408,
+      "kb": 412,
       "leesbaarheid": 56
      },
      "/familie/": {
@@ -150,7 +150,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 304,
+      "kb": 307,
       "leesbaarheid": 67
      },
      "/familie/rekenhulp/verpleeghuis/": {
@@ -158,7 +158,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 336,
+      "kb": 338,
       "leesbaarheid": 76
      }
     }
@@ -176,7 +176,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 304,
+      "kb": 306,
       "leesbaarheid": 67
      },
      "/familie/checklist/na-overlijden/": {
@@ -184,7 +184,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 293,
+      "kb": 296,
       "leesbaarheid": 61
      }
     }
@@ -207,7 +207,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 408,
+      "kb": 412,
       "leesbaarheid": 56
      },
      "/zzp-toeslagen/": {
@@ -215,7 +215,7 @@
       "kleineDoelen": [],
       "breedte": 1280,
       "viewport": 1280,
-      "kb": 425,
+      "kb": 430,
       "leesbaarheid": 74
      }
     }
@@ -244,7 +244,7 @@
       ],
       "breedte": 390,
       "viewport": 390,
-      "kb": 408,
+      "kb": 412,
       "leesbaarheid": 55
      },
      "/deals/": {
@@ -254,7 +254,7 @@
       ],
       "breedte": 390,
       "viewport": 390,
-      "kb": 440,
+      "kb": 442,
       "leesbaarheid": 68
      }
     }
@@ -277,7 +277,7 @@
       "kleineDoelen": [],
       "breedte": 1440,
       "viewport": 1440,
-      "kb": 408,
+      "kb": 412,
       "leesbaarheid": 56
      },
      "/pro/": {
@@ -285,7 +285,7 @@
       "kleineDoelen": [],
       "breedte": 1440,
       "viewport": 1440,
-      "kb": 351,
+      "kb": 354,
       "leesbaarheid": 52
      },
      "/pro/check/": {
@@ -293,7 +293,7 @@
       "kleineDoelen": [],
       "breedte": 1440,
       "viewport": 1440,
-      "kb": 295,
+      "kb": 298,
       "leesbaarheid": 53
      }
     }

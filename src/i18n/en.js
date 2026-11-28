@@ -275,6 +275,7 @@ export default {
     strookKop: (jaar) => `Your allowance year ${jaar}`,
     strookNu: 'now',
     strookTerug: (n, bedrag) => `Not getting this allowance yet? Apply now. You will also get the <strong>${n} months that have passed: about ${bedrag} in total</strong>.`,
+    strookTerugMeer: (n, bedrag) => `Not getting these allowances yet? Apply now. You will also get the <strong>${n} months that have passed: about ${bedrag} in total</strong>.`,
     strookOpTijd: 'Apply in time to get every month of the year.',
     strookLegTerug: 'Passed, you can still get it',
     strookLegVerloren: 'Too long ago',
