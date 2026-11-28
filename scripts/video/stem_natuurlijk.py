@@ -131,7 +131,8 @@ def main():
             print(json.dumps({'poging': poging + 1, 'duur': round(duur, 1), 'te_kort': kort, 'mos': score}), flush=True)
             if not kort and (beste is None or score > beste[1]):
                 beste = (tijdelijk, score)
-            if not kort and score >= 3.8:
+            # Zonder werkende meting: de eerste volledige opname is goed genoeg
+            if not kort and (beoordelaar is None or score >= 3.8):
                 break
         if beste is None:
             if a.doorgaan:

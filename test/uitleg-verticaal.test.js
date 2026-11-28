@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { VIDEOS, STIJL, STIJL_FILM, STIJL_VERTICAAL, ondertitels } from '../scripts/video/uitleg-scenes.js';
-import { FORMATEN, formaatUit, pixels, plan, vingerafdruk, filmFilter } from '../scripts/video/uitleg.js';
+import { FORMATEN, formaatUit, pixels, plan, vingerafdruk, filmFilter, MASTER } from '../scripts/video/uitleg.js';
 
 test('formaten: liggend 1280 × 720, verticaal 1080 × 1920 (9:16)', () => {
   assert.deepEqual(pixels(FORMATEN.liggend), { breedte: 1280, hoogte: 720 });
@@ -26,11 +26,11 @@ test('stijl: de verticale regels gelden alleen in de verticale opmaak', () => {
   for (const r of regels) for (const sel of r.split(',')) assert.match(sel.trim(), /^(html)?\.verticaal\b/, sel);
 });
 
-test('vingerafdruk: liggend precies zoals vroeger, verticaal apart', () => {
+test('vingerafdruk: liggend volgens vaste berekening, verticaal apart', () => {
   for (const v of VIDEOS) {
     const liggend = plan(v, null);
-    // Zelfde berekening als vóór de verticale versie (anders rendert CI alles opnieuw)
-    const oud = createHash('sha256').update(JSON.stringify([STIJL, STIJL_FILM, v, liggend.map((s) => [s.duur, !!s.wav, s.clip ? vingerafdrukClip(s.clip) : null, s.bron?.label || ''])])).digest('hex').slice(0, 12);
+    // Vaste berekening (een wijziging laat CI alles opnieuw renderen); de mastering hoort erbij
+    const oud = createHash('sha256').update(JSON.stringify([STIJL, STIJL_FILM, v, liggend.map((s) => [s.duur, !!s.wav, s.clip ? vingerafdrukClip(s.clip) : null, s.bron?.label || '']), MASTER])).digest('hex').slice(0, 12);
     assert.equal(vingerafdruk(v, liggend), oud, v.id);
     const verticaal = plan(v, null, FORMATEN.verticaal);
     const h = vingerafdruk(v, verticaal, FORMATEN.verticaal);

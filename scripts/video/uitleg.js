@@ -27,6 +27,9 @@ const UIT = join(ROOT, 'public/video/uitleg');
 const BEELDEN = join(ROOT, 'data/video/beelden');
 const FFMPEG = process.env.FFMPEG || 'ffmpeg';
 const FPS = 25;
+// Mastering van de stem: omroepnorm (EBU R128, −16 LUFS voor online), pieken
+// onder −1,5 dB, en een zacht hoogfilter tegen gebrom.
+export const MASTER = 'highpass=f=70,loudnorm=I=-16:TP=-1.5:LRA=11';
 const PAUZE = 0.7; // stilte na elke scène
 
 const arg = (naam) => {
@@ -80,7 +83,7 @@ const bestandHash = (p) => (p ? createHash('sha256').update(readFileSync(p)).dig
 // zoals altijd (anders zou alles opnieuw gerenderd worden); de verticale
 // telt daarbij haar eigen stijl en instellingen op.
 export function vingerafdruk(video, scenes, formaat = FORMATEN.liggend) {
-  const basis = [STIJL, STIJL_FILM, video, scenes.map((s) => [s.duur, !!s.wav, bestandHash(s.clip), s.bron?.label || ''])];
+  const basis = [STIJL, STIJL_FILM, video, scenes.map((s) => [s.duur, !!s.wav, bestandHash(s.clip), s.bron?.label || '']), MASTER];
   const invoer = formaat.naam === 'liggend' ? basis : [...basis, formaat.naam, formaat.stijl, formaat.breedte, formaat.hoogte, formaat.schaal, formaat.crf, formaat.ondertitelMax, formaat.band];
   return createHash('sha256').update(JSON.stringify(invoer)).digest('hex').slice(0, 12);
 }
@@ -271,7 +274,7 @@ function voegStemToe(beeld, scenes, uit) {
   });
   const lijst = join(tmp, 'lijst.txt');
   writeFileSync(lijst, delen.map((d) => `file '${d}'`).join('\n'));
-  const r = spawnSync(FFMPEG, ['-y', '-loglevel', 'error', '-i', beeld, '-f', 'concat', '-safe', '0', '-i', lijst, '-c:v', 'copy', '-c:a', 'aac', '-b:a', '96k', '-shortest', '-movflags', '+faststart', uit], { stdio: 'inherit' });
+  const r = spawnSync(FFMPEG, ['-y', '-loglevel', 'error', '-i', beeld, '-f', 'concat', '-safe', '0', '-i', lijst, '-c:v', 'copy', '-af', MASTER, '-c:a', 'aac', '-b:a', '128k', '-ar', '48000', '-shortest', '-movflags', '+faststart', uit], { stdio: 'inherit' });
   rmSync(tmp, { recursive: true, force: true });
   if (r.status !== 0) throw new Error('ffmpeg (samenvoegen) mislukt');
 }
