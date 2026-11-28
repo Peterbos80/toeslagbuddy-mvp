@@ -32,6 +32,7 @@ export default {
       ['nieuws', '/nieuws/', 'Nieuws'],
     ],
     sectiemenu: 'Menu van dit onderdeel',
+    groterLezen: 'Groter lezen',
     hulplijnen: 'Geen overheid. Gratis hulp: BelastingTelefoon <a href="tel:08000543">0800 0543</a> · Geldfit <a href="tel:08008115">0800 8115</a>',
     merkregel: 'Geld- en regelzaken, helder gemaakt. Onafhankelijk, in gewone taal.',
     // Knop rechts in de kop, per onderdeel: [url, tekst]
@@ -310,6 +311,9 @@ export default {
     deelKop: '<strong>Ken je iemand die dit ook moet weten?</strong> Veel mensen laten geld liggen.',
     deelWhatsapp: 'Deel via WhatsApp',
     kopieer: 'Kopieer link',
+    spiekbriefje: 'Print of bewaar als pdf',
+    spiekDatum: (datum, jaar) => `Uitkomst van ${datum}. Indicatie met de officiële regels van ${jaar}. Dienst Toeslagen stelt het echte bedrag vast.`,
+    spiekVoet: 'Aanvragen is gratis via toeslagen.nl met je DigiD. Betaal geen bureau om het voor je te doen. Hulp: BelastingTelefoon 0800 0543 (gratis). Berekend op toeslagbuddy.nl.',
     gekopieerd: 'Link gekopieerd ✓',
     perMaand: 'per maand',
     perJaarIndicatie: (bedrag, jaar) => `${bedrag} per jaar (indicatie ${jaar})`,

@@ -438,3 +438,18 @@ nav.hoofd a, .chip { display: inline-flex; align-items: center; }
 .volgende-let { color: var(--tekst); }
 .hulplijnen { margin-top: 10px; font-size: .95rem; color: var(--voet-tekst); } .hulplijnen a { color: var(--voet-tekst); font-weight: 700; }
 .knop:hover, .knop-licht:hover { transform: none; } /* niet verschuiven: voorkomt trillen als de muis op de rand staat */
+
+/* Groter lezen (knop "AA" in de kop) */
+html.groot { font-size: 125%; }
+.groter-knop { flex: 0 0 auto; display: inline-flex; align-items: baseline; justify-content: center; min-width: 44px; min-height: 44px; border-radius: 99px; border: 1px solid var(--lijn-sterk); background: transparent; color: var(--tekst); font-weight: 800; font-size: .95rem; cursor: pointer; padding: 0 10px; }
+.groter-knop span span { font-size: 1.3em; margin-left: 1px; }
+.groter-knop[aria-pressed='true'] { background: var(--tekst); color: var(--bg); border-color: var(--tekst); }
+@media (max-width: 900px) { .groter-knop { order: 1; } }
+.verborgen-tekst { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+body.spiekbriefje .resultaat { break-inside: avoid; }
+
+.groter-knop.in-menu { display: none; }
+@media (max-width: 520px) {
+  header.site > .wrap > .groter-knop { display: none; }
+  nav.hoofd .groter-knop.in-menu { display: flex; align-items: center; justify-content: flex-start; gap: 10px; margin-top: 10px; padding: 12px 14px; border-radius: 14px; font-size: 1rem; min-height: 48px; }
+}

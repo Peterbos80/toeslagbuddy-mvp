@@ -109,7 +109,32 @@ function deelBlok() {
   const tekst = T.deelTekst(url);
   return `<div class="delen"><p>${T.deelKop}</p>
 <a class="knop-licht" href="https://wa.me/?text=${encodeURIComponent(tekst)}" target="_blank" rel="noopener">${T.deelWhatsapp}</a>
-<button type="button" class="knop-licht" data-kopieer="${esc(url)}">${T.kopieer}</button></div>`;
+<button type="button" class="knop-licht" data-kopieer="${esc(url)}">${T.kopieer}</button>
+<button type="button" class="knop-licht" data-spiek>${T.spiekbriefje}</button></div>`;
+}
+
+// Spiekbriefje: de uitkomst op één A4 (printen of als pdf bewaren), zonder
+// account en zonder dat er iets naar een server gaat.
+function spiekbriefje(knop) {
+  const uit = knop.closest('[data-result]');
+  if (!uit) return;
+  const kopie = uit.cloneNode(true);
+  kopie.querySelectorAll('.delen, .partner, .speler, button, [data-ics], video, audio').forEach((e) => e.remove());
+  const datum = new Date().toLocaleDateString(teksten(TAAL).locale || 'nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+  const titel = document.querySelector('h1')?.textContent || 'ToeslagBuddy';
+  const css = document.querySelector('link[rel=stylesheet][href*="/css/site.css"]')?.href || '/css/site.css';
+  const w = window.open('', '_blank');
+  if (!w) return window.print();
+  w.document.write(`<!doctype html><html lang="${document.documentElement.lang}"><head><meta charset="utf-8"><title>${esc(titel)} – ${esc(datum)}</title><link rel="stylesheet" href="${esc(css)}"></head>
+<body class="spiekbriefje"><main class="wrap" style="max-width:720px;padding:32px 24px">
+<p style="font-weight:800;font-size:1.2rem">€ ToeslagBuddy</p>
+<h1 style="font-size:1.8rem;margin:8px 0 4px">${esc(titel)}</h1>
+<p class="subtiel">${esc(T.spiekDatum(datum, JAAR))}</p>
+${kopie.innerHTML}
+<p class="subtiel" style="margin-top:24px">${esc(T.spiekVoet)}</p>
+</main></body></html>`);
+  w.document.close();
+  w.addEventListener('load', () => w.print());
 }
 
 function kaart(naam, r, extra = '') {
@@ -520,6 +545,11 @@ document.querySelectorAll('form[data-calc]').forEach((form) => {
 });
 
 document.addEventListener('click', (e) => {
+  const spiek = e.target.closest('[data-spiek]');
+  if (spiek) {
+    spiekbriefje(spiek);
+    track('Spiekbriefje', { calc: spiek.closest('form, section')?.querySelector('form[data-calc]')?.dataset.calc || '' });
+  }
   const kopieer = e.target.closest('[data-kopieer]');
   if (kopieer) {
     navigator.clipboard?.writeText(kopieer.dataset.kopieer);

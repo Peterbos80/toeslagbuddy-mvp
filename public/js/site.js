@@ -7,6 +7,27 @@ window.plausible = window.plausible || function () { (window.plausible.q = windo
 // Advertentieblokken vullen (voorheen een inline script per blok)
 document.querySelectorAll('ins.adsbygoogle').forEach(() => (window.adsbygoogle = window.adsbygoogle || []).push({}));
 
+// Groter lezen: grotere letters op de hele site, onthouden op dit apparaat
+const groterKnoppen = [...document.querySelectorAll('.groter-knop')];
+const zetGroot = (aan) => {
+  document.documentElement.classList.toggle('groot', aan);
+  groterKnoppen.forEach((k) => k.setAttribute('aria-pressed', String(aan)));
+};
+try {
+  zetGroot(localStorage.getItem('tb-groot') === '1');
+} catch {
+  /* opslag uit */
+}
+groterKnoppen.forEach((k) => k.addEventListener('click', () => {
+  const aan = !document.documentElement.classList.contains('groot');
+  zetGroot(aan);
+  try {
+    localStorage.setItem('tb-groot', aan ? '1' : '0');
+  } catch {
+    /* opslag uit */
+  }
+}));
+
 // Mobiel menu
 const knop = document.querySelector('.menu-knop');
 const menu = document.getElementById('hoofdmenu');

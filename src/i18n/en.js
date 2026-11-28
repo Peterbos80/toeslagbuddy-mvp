@@ -27,6 +27,7 @@ export default {
       ['pro', '/en/pro/', 'Professionals'],
     ],
     sectiemenu: 'Menu of this section',
+    groterLezen: 'Larger text',
     hulplijnen: 'Not the government. Free help: BelastingTelefoon <a href="tel:08000543">0800 0543</a> · Geldfit <a href="tel:08008115">0800 8115</a>',
     merkregel: 'Money and paperwork in the Netherlands, made clear. Independent, in plain language.',
     kopActie: {
@@ -245,6 +246,9 @@ export default {
     deelKop: '<strong>Do you know someone who should know this too?</strong> Many people miss out on money.',
     deelWhatsapp: 'Share via WhatsApp',
     kopieer: 'Copy link',
+    spiekbriefje: 'Print or save as PDF',
+    spiekDatum: (datum, jaar) => `Result of ${datum}. Estimate with the official rules of ${jaar}. The Benefits Agency decides the actual amount.`,
+    spiekVoet: 'Applying is free on toeslagen.nl with your DigiD. Do not pay an agency. Help: BelastingTelefoon 0800 0543 (free). Calculated on toeslagbuddy.nl.',
     gekopieerd: 'Link copied ✓',
     perMaand: 'per month',
     perJaarIndicatie: (bedrag, jaar) => `${bedrag} per year (estimate for ${jaar})`,

@@ -331,7 +331,8 @@ ${analytics(page)}${adsenseHead(page)}</head>
 <header class="site"><div class="wrap">
 ${logo}
 <button type="button" class="menu-knop" aria-expanded="false" aria-controls="hoofdmenu">${S.menu}</button>
-<nav class="hoofd" id="hoofdmenu" aria-label="${S.hoofdmenu}">${S.secties.map(([k, u, n]) => `<a href="${u}"${u === page.slug ? ' aria-current="page"' : k === sectie ? ' aria-current="true"' : ''}>${n}</a>`).join('')}${sub.length ? `<div class="menu-sub"><p>${S.menuSub || 'Veel gebruikt'}</p>${sub.map(([u, n]) => `<a href="${u}"${u === page.slug ? ' aria-current="page"' : ''}>${n}</a>`).join('')}</div>` : ''}</nav>
+<nav class="hoofd" id="hoofdmenu" aria-label="${S.hoofdmenu}">${S.secties.map(([k, u, n]) => `<a href="${u}"${u === page.slug ? ' aria-current="page"' : k === sectie ? ' aria-current="true"' : ''}>${n}</a>`).join('')}${sub.length ? `<div class="menu-sub"><p>${S.menuSub || 'Veel gebruikt'}</p>${sub.map(([u, n]) => `<a href="${u}"${u === page.slug ? ' aria-current="page"' : ''}>${n}</a>`).join('')}</div>` : ''}<button type="button" class="groter-knop in-menu" aria-pressed="false"><span aria-hidden="true">A<span>A</span></span> ${S.groterLezen}</button></nav>
+<button type="button" class="groter-knop" aria-pressed="false" title="${S.groterLezen}"><span aria-hidden="true">A<span>A</span></span><span class="verborgen-tekst">${S.groterLezen}</span></button>
 <a class="taalwissel" href="${wissel}" hreflang="${S.wissel.naar}" lang="${S.wissel.naar}"><span class="taal-lang">${S.wissel.tekst}</span><span class="taal-kort" aria-hidden="true">${S.wissel.naar.toUpperCase()}</span></a>
 ${actie && !page.zonderKopActie ? `<a class="kop-actie" href="${actie[0]}">${actie[1]}</a>` : ''}
 </div>${sub.length ? `

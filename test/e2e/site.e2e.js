@@ -326,3 +326,22 @@ test('realistische AI-video: clips met persoonlijke ondertitels en AI-label', as
 test('geen JavaScript-fouten tijdens de tests', () => {
   assert.deepEqual(fouten, []);
 });
+
+test('groter lezen blijft aan en het spiekbriefje bevat uitkomst en volgende stap', async () => {
+  const ctx = await s.browser.newContext({ viewport: { width: 1280, height: 900 }, reducedMotion: 'reduce' });
+  const p = await open(ctx, s.basis + '/zorgtoeslag-berekenen/', fouten);
+  await p.click('header.site > .wrap > .groter-knop');
+  assert.equal(await p.evaluate(() => getComputedStyle(document.documentElement).fontSize), '20px');
+  await p.reload();
+  assert.equal(await p.getAttribute('header.site > .wrap > .groter-knop', 'aria-pressed'), 'true');
+  await p.locator('form[data-calc] [name=inkomen]').fill('32000');
+  await p.locator('form[data-calc] button[type=submit]').click();
+  const [briefje] = await Promise.all([ctx.waitForEvent('page'), p.click('[data-spiek]')]);
+  await briefje.waitForLoadState();
+  const t = (await briefje.locator('main').innerText()).replace(/\s+/g, ' ');
+  assert.match(t, /€ 103 per maand/);
+  assert.match(t, /gratis/);
+  assert.match(t, /Betaal geen bureau/);
+  assert.equal(await briefje.locator('button, .speler, .delen').count(), 0);
+  await ctx.close();
+});
