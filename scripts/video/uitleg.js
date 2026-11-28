@@ -41,7 +41,7 @@ const sleutel = (v, i) => `${v.id}-${i + 1}`;
 // CRF: de platforms comprimeren zelf nog eens.
 export const FORMATEN = {
   liggend: { naam: 'liggend', breedte: 1280, hoogte: 720, schaal: 1, achtervoegsel: '', manifest: 'manifest.json', crf: 23, ondertitelMax: 90 },
-  verticaal: { naam: 'verticaal', breedte: 720, hoogte: 1280, schaal: 1.5, achtervoegsel: '-verticaal', manifest: 'verticaal.json', crf: 20, ondertitelMax: 60, klasse: 'verticaal', stijl: STIJL_VERTICAAL, band: { y: 150, hoogte: 608 } },
+  verticaal: { naam: 'verticaal', breedte: 720, hoogte: 1280, schaal: 1.5, achtervoegsel: '-verticaal', manifest: 'verticaal.json', crf: 26, ondertitelMax: 60, klasse: 'verticaal', stijl: STIJL_VERTICAAL, band: { y: 150, hoogte: 608 } },
 };
 export const formaatUit = (argv = process.argv) => (argv.includes('--verticaal') ? FORMATEN.verticaal : FORMATEN.liggend);
 export const pixels = (f) => ({ breedte: Math.round(f.breedte * f.schaal), hoogte: Math.round(f.hoogte * f.schaal) });
